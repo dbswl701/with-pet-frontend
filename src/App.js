@@ -1,9 +1,8 @@
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        Hello
-      </header>
+      Hello
+      프론트 CICD 되는것인가
     </div>
   );
 }
