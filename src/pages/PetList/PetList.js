@@ -3,7 +3,6 @@ import Pet from './Pet';
 import './Pets.css';
 
 function PetList() {
-  const [toggle, setToggle] = useState(false);
   const [pets, setPets] = useState([
     {
       id: 0,

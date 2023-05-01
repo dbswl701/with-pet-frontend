@@ -4,7 +4,7 @@ import './Pets.css'
 function Pet({pet, onClick}) {
   const simple =       
   <>
-    <img className="pet-img" src={pet.img} />
+    <img className="pet-img" src={pet.img} alt="반려견 프로필 사진" />
     <p>{pet.name} / {pet.species} / {pet.birthday}</p>
   </>
 
@@ -12,7 +12,7 @@ function Pet({pet, onClick}) {
   <>
     <div className="pet-first">
       <div>
-        <img className="pet-img" src={pet.img} />
+        <img className="pet-img" src={pet.img} alt="반려견 프로필 사진" />
         <div className="pet-group">
           <button>그룹관리</button>
           <p>초대코드 : ABCD</p>
