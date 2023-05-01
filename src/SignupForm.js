@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './signup.css'
 
-function SignupForm() {
+function SignupPage() {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -21,6 +21,11 @@ function SignupForm() {
       setPasswordConfirm('');
       return;
     }
+    if (username === '' || password === '' || name === '' || phone === '' || address === '' || email === '') {
+      alert('빈 칸을 모두 입력해주세요.');
+      return;
+    }
+    
     axios.post('/api/signup', {
       username,
       password,
@@ -75,4 +80,4 @@ function SignupForm() {
   );
 }
 
-export default SignupForm;
+export default SignupPage;
