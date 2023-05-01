@@ -1,0 +1,219 @@
+/* header */
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  gap: 958px;
+  
+  position: fix;
+  width: 1920px;
+  height: 65px;
+  left: 0px;
+  top: 0px;
+  
+  background: #f9f1c5;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.05);
+}
+
+
+
+/* logo_profile */
+.logo_profile {
+  /* Auto layout */
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0px;
+  gap: 958px;
+
+  width: 1200px;
+  height: 25px;
+
+
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+
+
+/* logo */
+.logo {
+  /* Auto layout */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 5px;
+
+  width: 130px;
+  height: 25px;
+
+
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+
+/* PETPET */
+.petpet{
+  width: 67px;
+  height: 25px;
+  
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 100%;
+  /* identical to box height, or 25px */
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.05em;
+  
+  color: #CAA969;
+  
+  
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+
+
+/* material-symbols:pets */
+.material-symbols-pets {
+  width: 24px;
+  height: 24px;
+  
+  
+  /* Inside auto layout */
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+
+
+/* Vector (logo img)*/
+.vector{
+  position: absolute;
+  left: 8.33%;
+  right: 8.33%;
+  top: 13.02%;
+  bottom: 7.81%;
+  
+  background: #CAA969;
+}
+
+
+
+/* right */
+.right {
+  /* Auto layout */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 0px;
+  gap: 10px;
+
+  width: 112px;
+  height: 25px;
+
+
+  /* Inside auto layout */
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+
+
+/* 로그인/회원가입 */
+.sign{
+  /* Auto layout */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 10px;
+
+  display: none;
+  width: 107px;
+  height: 25px;
+
+
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+
+
+/* 프로필 */
+.profile{
+  /* Auto layout */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 10px;
+
+  width: 175px;
+  height: 25px;
+
+
+  /* Inside auto layout */
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+
+
+/* Group 21 */
+.user-info{
+  width: 89px;
+  height: 25px;
+  
+  
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+
+
+/* Mask group */
+.icon{
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  left: 0px;
+  top: 0px;  
+}
+
+
+
+/* Ellipse 56 */
+.petsitter-support{
+  box-sizing: border-box;
+
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  left: 0px;
+  top: 0px;
+  
+  /*background: url(image.png);*/
+  
+}
