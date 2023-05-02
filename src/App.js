@@ -1,12 +1,14 @@
 import React from 'react';
-import Nav from './components/Nav';
-import PetList from './pages/PetList/PetList';
+// import Nav from './components/Nav';
+// import PetList from './pages/PetList/PetList';
+import ApiTest from './ApiTest';
 
 function App() {
   return (
     <>
-      <Nav />
-      <PetList />
+      {/* <Nav />
+      <PetList /> */}
+      <ApiTest />
     </>
   );
 }
