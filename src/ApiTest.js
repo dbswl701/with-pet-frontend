@@ -6,11 +6,11 @@ function Apitest() {
 
   const onClick = () => {
     setData('로딩중');
-    axios.get('https://jsonplaceholder.typicode.com/users')
-      .then(function (res) {
+    axios.get('http://ec2-3-39-193-176.ap-northeast-2.compute.amazonaws.com:8080/api/v1/hello')
+      .then((res) => {
         setData(JSON.stringify(res.data));
       })
-      .catch(function (err) {
+      .catch((err) => {
         setData('에러', err);
       });
   };
