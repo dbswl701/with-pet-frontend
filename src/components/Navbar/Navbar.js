@@ -1,5 +1,6 @@
 import React from 'react';
-import './Nav.css';
+import { Outlet } from 'react-router-dom';
+import './Navbar.css';
 
 function Nav() {
   return (
@@ -7,6 +8,7 @@ function Nav() {
       <div className="header">
         <div className="logo_profile" />
       </div>
+      <Outlet />
     </>
   );
 }
