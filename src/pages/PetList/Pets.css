@@ -20,7 +20,7 @@
   background-color: antiquewhite;
   width: 700px;
   height: 100px;
-  padding: 20px 200px;
+  padding: 20px 150px;
   text-align: center;
   border-radius: 20px;
   box-sizing: border-box;
@@ -29,6 +29,25 @@
 .pet-block:hover {
   box-sizing: border-box;
   border: 2px solid gray;
+}
+
+.down-icon{
+  display: flex;
+  position: absolute;
+  right: 400px;
+  /* top: 900px; */
+  margin-left: 50px;
+  margin-top: 10px;
+}
+
+.up-icon {
+  display: flex;
+  position: absolute;
+  right: 400px;
+  /* top: 900px; */
+  margin-left: 50px;
+  margin-top: 10px;
+  transform: rotate( -180deg );
 }
 
 .pet-detail{
@@ -41,7 +60,7 @@
   text-align: center;
   border-radius: 20px;
   height: 500px;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .pet-img-group {
@@ -140,13 +159,13 @@
   margin: 40px auto;
   background-color: antiquewhite;
   width: 700px;
-  padding: 20px 100px;
+  padding: 40px 100px;
   text-align: center;
   border-radius: 20px;
   height: 500px;
-  /* flex-direction: row; */
+  flex-direction: column;
 }
-.asd {
+.pet-addinfo form {
   display: flex;
   flex-direction: row;
 }
@@ -168,6 +187,7 @@
 .pet-info-regist {
   display: flex;
   flex-direction: column;
+  margin: 0px auto;
 }
 
 .pet-img-regist img+label{
