@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Pet from './Pet';
 import './Pets.css';
+import PetAdd from './PetAdd';
 
 function PetList() {
   const [pets, setPets] = useState([
@@ -52,6 +53,7 @@ function PetList() {
         {pets.map((pet) => {
           return <Pet pet={pet} key={pet.id} onClick={onClick} />;
         })}
+        <PetAdd />
       </div>
     </>
   );

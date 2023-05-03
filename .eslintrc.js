@@ -28,5 +28,12 @@ module.exports = {
     'jsx-a11y/no-static-element-interactions': 0,
     'react/jsx-no-useless-fragment': 0,
     'import/no-extraneous-dependencies': 0,
+    'jsx-a11y/label-has-associated-control': [
+      2,
+      {
+        labelAttributes: ['htmlFor'],
+      },
+    ],
+    'jsx-a11y/control-has-associated-label': 0,
   },
 };
