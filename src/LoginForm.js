@@ -35,7 +35,7 @@ function LoginPage() {
             <button type="submit" className="btn btn-primary mr-2">
               Login
             </button>
-            <button type="submit" className="btn btn-secondary" onClick={()=>navigate(`/signup`)}>
+            <button type="submit" className="btn btn-secondary" onClick={() => navigate(`/signup`)}>
               Signup
             </button>
           </form>

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-function EditProfile({ username, password, name, phone, address, email }) {
+function EditProfile({ password, name, phone, address, email }) {
     // 회원정보를 수정하기 위해 입력받을 새로운 상태값
-    const [newUsername, setNewUsername] = useState(username);
     const [newPassword, setNewPassword] = useState(password);
     const [newName, setNewName] = useState(name);
     const [newPhone, setNewPhone] = useState(phone);
@@ -11,19 +10,17 @@ function EditProfile({ username, password, name, phone, address, email }) {
 
     // 현재 회원정보를 불러와 폼에 미리 채워놓는 기능
     useEffect(() => {
-        setNewUsername(username);
         setNewPassword(password);
         setNewName(name);
         setNewPhone(phone);
         setNewAddress(address);
         setNewEmail(email);
-    }, [username, password, name, phone, address, email]);
+    }, [password, name, phone, address, email]);
 
     // 입력한 회원정보를 서버로 보내어 수정하는 기능
     const handleSubmit = (event) => {
         event.preventDefault();
         const updatedProfile = {
-            username: newUsername,
             password: newPassword,
             name: newName,
             phone: newPhone,
@@ -34,17 +31,10 @@ function EditProfile({ username, password, name, phone, address, email }) {
     };
 
     return (
-        
+
         <form onSubmit={handleSubmit}>
-            <label>
-                Username:
-                <input
-                    type="text"
-                    value={newUsername}
-                    onChange={(event) => setNewUsername(event.target.value)}
-                />
-            </label>
-            <br />
+            <h2>Edit Profile</h2>
+
             <label>
                 Password:
                 <input
