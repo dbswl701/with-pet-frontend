@@ -35,5 +35,6 @@ module.exports = {
       },
     ],
     'jsx-a11y/control-has-associated-label': 0,
+    'jsx-a11y/no-noninteractive-element-interactions': 0,
   },
 };
