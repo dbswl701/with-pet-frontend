@@ -92,7 +92,7 @@ function PetList() {
       img: petInfo.img,
       isbn: petInfo.isbn,
     };
-    console.log(petInfo);
+    // console.log(petInfo);
     setPets(pets.concat(pet));
     setPetInfo({
       id: '',
@@ -105,7 +105,7 @@ function PetList() {
       img: '',
       isbn: '',
     });
-    console.log(pets);
+    // console.log(pets);
     nextId.current += 1;
     // 클릭했을 때 form 지우고 기존의 내용 보여줌
     // check 그거 해결
