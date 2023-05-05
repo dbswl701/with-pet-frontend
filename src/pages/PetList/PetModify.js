@@ -6,7 +6,7 @@ function PetModify({ onSubmit, petInfo, setIsModify }) {
     dog_id: petInfo.id,
     dog_name: petInfo.name,
     dog_breed: petInfo.breed,
-    dog_birthday: petInfo.birthday,
+    dog_birth: petInfo.birthday,
     dog_gender: petInfo.gender,
     neutralization: petInfo.neutralization,
     dog_weight: petInfo.weight,
