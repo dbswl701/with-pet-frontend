@@ -10,7 +10,7 @@ function Pet({ pet, onSubmitModify }) {
   const simple = (
     <>
       <img className="pet-img" src={pet.dog_img} alt="반려견 프로필 사진" />
-      <p>{pet.dog_name} / {pet.dog_breed} / {pet.dog_birthday}</p>
+      <p>{pet.dog_name} / {pet.dog_breed} / {pet.dog_birth}</p>
       <ExpandCircleDownIcon className="down-icon" fontSize="large" onClick={() => setToggle(!toggle)} />
     </>
   );

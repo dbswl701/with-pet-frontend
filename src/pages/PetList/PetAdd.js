@@ -30,7 +30,7 @@ function PetAdd({ onSubmit, onChange, petInfo }) {
         </datalist>
 
         <label htmlFor="birthday">생일</label>
-        <input type="date" name="dog_birthday" id="birthday" onChange={onChange} value={petInfo.dog_birthday} required />
+        <input type="date" name="dog_birth" id="birthday" onChange={onChange} value={petInfo.dog_birth} required />
 
         <div className="select">
           <p>성별 선택</p>

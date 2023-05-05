@@ -21,7 +21,7 @@ function PetDetail({ pet, onClick, onModify }) {
           <div className="pet-info">
             <h1>이름 {pet.dog_name}</h1>
             <p>견종 {pet.dog_breed}</p>
-            <p>생일 {pet.dog_birthday}</p>
+            <p>생일 {pet.dog_birth}</p>
             <p>성별 {pet.dog_gender}</p>
             <p>중성화 여부 {pet.neutralization}</p>
             <p>무게 {pet.dog_weight}</p>
