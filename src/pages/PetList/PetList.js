@@ -93,7 +93,7 @@ function PetList() {
     };
     setPets(pets.concat(pet));
     // nextId.current += 1;
-    axios.post('http://ec2-3-39-193-176.ap-northeast-2.compute.amazonaws.com:8080/api/v1/dogs/register-dog', petInfo)
+    axios.post('http://ec2-3-39-193-176.ap-northeast-2.compute.amazonaws.com:8080/api/v1/dogs/register-dog', pet)
       .then(() => {
       })
       .catch(() => {
