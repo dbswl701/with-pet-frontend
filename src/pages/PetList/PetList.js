@@ -6,41 +6,7 @@ import PetAdd from './PetAdd';
 import dogimgdefault from '../../assets/dogProfileImage.png';
 
 function PetList() {
-  const [pets, setPets] = useState([
-    {
-      dog_id: 0,
-      dog_name: '멍멍이',
-      dog_breed: '진돗개',
-      dog_birth: '2023-04-30',
-      dog_gender: 'male',
-      neutralization: 'true',
-      dog_weight: '2',
-      dog_isbn: '12345678',
-      dog_img: 'https://img.freepik.com/premium-photo/little-fluffy-puppy-of-pomeranian-spitz-lying-on-bright-yellow-background_253512-22.jpg',
-    },
-    {
-      dog_id: 1,
-      dog_name: '강아지',
-      dog_breed: '진돗개',
-      dog_birth: '2023-04-30',
-      dog_gender: 'female',
-      neutralization: 'true',
-      dog_weight: '3',
-      dog_isbn: '87654321',
-      dog_img: 'https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg',
-    },
-    {
-      dog_id: 2,
-      dog_name: '복실이',
-      dog_breed: '진돗개',
-      dog_birth: '2023-04-30',
-      dog_gender: 'male',
-      neutralization: 'true',
-      dog_weight: '4',
-      dog_isbn: '13572468',
-      dog_img: 'https://img1.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202105/25/holapet/20210525081724428qquq.jpg',
-    },
-  ]);
+  const [pets, setPets] = useState([]);
 
   const [petInfo, setPetInfo] = useState({
     dog_name: '',
@@ -93,6 +59,7 @@ function PetList() {
     };
     setPets(pets.concat(pet));
     // nextId.current += 1;
+    console.log(pet.dog_img);
     axios.post('http://ec2-3-39-193-176.ap-northeast-2.compute.amazonaws.com:8080/api/v1/dogs/register-dog', pet)
       .then(() => {
       })
@@ -121,7 +88,12 @@ function PetList() {
   }, []);
 
   const onSubmitModify = (id, modifyPetInfo) => {
-    setPets(pets.map((pet) => (pet.id === id ? modifyPetInfo : pet)));
+    // setPets(pets.map((pet) => (pet.id === id ? modifyPetInfo : pet)));
+    axios.put(`http://ec2-3-39-193-176.ap-northeast-2.compute.amazonaws.com:8080/api/v1/dogs/${id}`, modifyPetInfo)
+      .then(() => {
+      })
+      .catch(() => {
+      });
   };
 
   return (
