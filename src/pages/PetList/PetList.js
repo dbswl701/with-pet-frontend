@@ -112,11 +112,17 @@ function PetList() {
       });
   }, []);
 
+  const onSubmitModify = (id, modifyPetInfo) => {
+    setPets(pets.map((pet) => (pet.id === id ? modifyPetInfo : pet)));
+    console.log(modifyPetInfo);
+    // 이 id 번호를 가지고 있는 애의 정보를 이렇게 바꿔라
+  };
+
   return (
     <>
       <div className="list_container">
         {pets.map((pet) => {
-          return <Pet pet={pet} key={pet.id} />;
+          return <Pet pet={pet} key={pet.id} onSubmitModify={onSubmitModify} />;
         })}
         <PetAdd onSubmit={onSubmit} onChange={onChange} petInfo={petInfo} />
       </div>
