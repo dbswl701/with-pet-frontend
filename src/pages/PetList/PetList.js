@@ -107,7 +107,7 @@ function PetList() {
   };
 
   useEffect(() => {
-    axios.get('https://d45162fd-d516-4456-83d9-d3b784b62ec2.mock.pstmn.io/api/v1/dogs')
+    axios.get('http://ec2-3-39-193-176.ap-northeast-2.compute.amazonaws.com:8080/api/v1/dogs')
       .then((res) => {
         setPets(res.data);
       })
