@@ -9,7 +9,7 @@ function PetDetail({ pet, onClick, onModify }) {
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <div className="pet-first">
           <div className="pet-img-group">
-            <img className="pet-img" src={pet.img} alt="반려견 프로필 사진" />
+            <img className="pet-img" src={pet.dog_img} alt="반려견 프로필 사진" />
             <div className="pet-group">
               <button>그룹관리</button>
               <p>초대코드 : ABCD</p>
@@ -19,13 +19,13 @@ function PetDetail({ pet, onClick, onModify }) {
             </div>
           </div>
           <div className="pet-info">
-            <h1>이름 {pet.name}</h1>
-            <p>견종 {pet.breed}</p>
-            <p>생일 {pet.birthday}</p>
-            <p>성별 {pet.gender}</p>
+            <h1>이름 {pet.dog_name}</h1>
+            <p>견종 {pet.dog_breed}</p>
+            <p>생일 {pet.dog_birthday}</p>
+            <p>성별 {pet.dog_gender}</p>
             <p>중성화 여부 {pet.neutralization}</p>
-            <p>무게 {pet.weight}</p>
-            <p>등록코드 {pet.isbn}</p>
+            <p>무게 {pet.dog_weight}</p>
+            <p>등록코드 {pet.dog_isbn}</p>
           </div>
         </div>
         <div className="pet-second">

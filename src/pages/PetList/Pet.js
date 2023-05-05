@@ -7,11 +7,10 @@ import PetDetail from './PetDetail';
 function Pet({ pet, onSubmitModify }) {
   const [toggle, setToggle] = useState(false);
   const [isModify, setIsModify] = useState(false);
-  console.log('!', `${pet.id}`);
   const simple = (
     <>
-      <img className="pet-img" src={pet.img} alt="반려견 프로필 사진" />
-      <p>{pet.name} / {pet.breed} / {pet.birthday}</p>
+      <img className="pet-img" src={pet.dog_img} alt="반려견 프로필 사진" />
+      <p>{pet.dog_name} / {pet.dog_breed} / {pet.dog_birthday}</p>
       <ExpandCircleDownIcon className="down-icon" fontSize="large" onClick={() => setToggle(!toggle)} />
     </>
   );

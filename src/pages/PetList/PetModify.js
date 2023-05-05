@@ -2,22 +2,16 @@ import React, { useState } from 'react';
 import dogimgdefault from '../../assets/dogProfileImage.png';
 
 function PetModify({ onSubmit, petInfo, setIsModify }) {
-  // 1. form 필요
-  // 2. 내용 수정 시 핸들러
-  // 3. 내용 그대로 들어가도록
-  // 4. 사진
-  // 5. 취소 시 닫기
-  // const [isClick, setisClick] = useState(false);
   const [modifyPetInfo, setModifyPetInfo] = useState({
-    id: petInfo.id,
-    name: petInfo.name,
-    breed: petInfo.breed,
-    birthday: petInfo.birthday,
-    gender: petInfo.gender,
+    dog_id: petInfo.id,
+    dog_name: petInfo.name,
+    dog_breed: petInfo.breed,
+    dog_birthday: petInfo.birthday,
+    dog_gender: petInfo.gender,
     neutralization: petInfo.neutralization,
-    weight: petInfo.weight,
-    img: petInfo.img,
-    isbn: petInfo.isbn,
+    dog_weight: petInfo.weight,
+    dog_img: petInfo.img,
+    dog_isbn: petInfo.isbn,
   });
   const onChange = (e) => {
     const { value, name } = e.target;
