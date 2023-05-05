@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import axios from 'axios';
 import Pet from './Pet';
 import './Pets.css';
 import PetAdd from './PetAdd';
@@ -99,6 +100,17 @@ function PetList() {
     });
     nextId.current += 1;
   };
+
+  useEffect(() => {
+    axios.get('https://d45162fd-d516-4456-83d9-d3b784b62ec2.mock.pstmn.io/api/v1/users/login')
+      .then((res) => {
+        console.log(res.data);
+        setPets(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <>
