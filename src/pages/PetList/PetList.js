@@ -15,7 +15,6 @@ function PetList() {
       weight: '2',
       isbn: '12345678',
       img: 'https://img.freepik.com/premium-photo/little-fluffy-puppy-of-pomeranian-spitz-lying-on-bright-yellow-background_253512-22.jpg',
-      isClick: false,
     },
     {
       id: 1,
@@ -27,7 +26,6 @@ function PetList() {
       weight: '3',
       isbn: '87654321',
       img: 'https://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg',
-      isClick: false,
     },
     {
       id: 2,
@@ -39,7 +37,6 @@ function PetList() {
       weight: '4',
       isbn: '13572468',
       img: 'https://img1.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202105/25/holapet/20210525081724428qquq.jpg',
-      isClick: false,
     },
   ]);
 
@@ -54,10 +51,6 @@ function PetList() {
     isbn: '',
   });
   const nextId = useRef(3);
-
-  const onClick = (id) => {
-    setPets(pets.map((pet) => (pet.id === id ? { ...pet, isClick: !pet.isClick } : pet)));
-  };
 
   const onChange = (e) => {
     if (e.target.files) {
@@ -92,7 +85,6 @@ function PetList() {
       img: petInfo.img,
       isbn: petInfo.isbn,
     };
-    // console.log(petInfo);
     setPets(pets.concat(pet));
     setPetInfo({
       id: '',
@@ -105,17 +97,14 @@ function PetList() {
       img: '',
       isbn: '',
     });
-    // console.log(pets);
     nextId.current += 1;
-    // 클릭했을 때 form 지우고 기존의 내용 보여줌
-    // check 그거 해결
   };
 
   return (
     <>
       <div className="list_container">
         {pets.map((pet) => {
-          return <Pet pet={pet} key={pet.id} onClick={onClick} />;
+          return <Pet pet={pet} key={pet.id} />;
         })}
         <PetAdd onSubmit={onSubmit} onChange={onChange} petInfo={petInfo} />
       </div>

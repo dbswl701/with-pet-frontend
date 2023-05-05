@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Pets.css';
 import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
 
-function Pet({ pet, onClick }) {
+function Pet({ pet }) {
+  const [toggle, setToggle] = useState(false);
   const simple = (
     <>
       <img className="pet-img" src={pet.img} alt="반려견 프로필 사진" />
       <p>{pet.name} / {pet.breed} / {pet.birthday}</p>
-      <ExpandCircleDownIcon className="down-icon" fontSize="large" onClick={() => onClick(pet.id)} />
+      <ExpandCircleDownIcon className="down-icon" fontSize="large" onClick={() => setToggle(!toggle)} />
     </>
   );
   const detail = (
@@ -40,14 +41,14 @@ function Pet({ pet, onClick }) {
         </div>
       </div>
       <div>
-        <ExpandCircleDownIcon className="up-icon" fontSize="large" onClick={() => onClick(pet.id)} />
+        <ExpandCircleDownIcon className="up-icon" fontSize="large" onClick={() => setToggle(!toggle)} />
       </div>
     </>
   );
 
   return (
-    <div className={`${!pet.isClick ? 'pet-block' : 'pet-detail'}`}>
-      { !pet.isClick ? simple : detail }
+    <div className={`${!toggle ? 'pet-block' : 'pet-detail'}`}>
+      { !toggle ? simple : detail }
     </div>
   );
 }
