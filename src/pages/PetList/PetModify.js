@@ -5,7 +5,7 @@ function PetModify({ onSubmit, petInfo, setIsModify }) {
   const [modifyPetInfo, setModifyPetInfo] = useState({
     dog_name: petInfo.dog_name,
     dog_breed: petInfo.dog_breed,
-    dog_birth: petInfo.dog_birthday,
+    dog_birth: petInfo.dog_birth,
     dog_gender: petInfo.dog_gender,
     neutralization: petInfo.neutralization,
     dog_weight: petInfo.dog_weight,
@@ -58,9 +58,9 @@ function PetModify({ onSubmit, petInfo, setIsModify }) {
 
         <div className="select">
           <p>중성화 여부 선택</p>
-          <input type="radio" name="neutralization" id="O" value="true" onChange={onChange} checked={modifyPetInfo.neutralization === 'true'} />
+          <input type="radio" name="neutralization" id="O" value="true" onChange={onChange} checked={modifyPetInfo.neutralization === true} />
           <label htmlFor="O">O</label>
-          <input type="radio" name="neutralization" id="X" value="false" onChange={onChange} checked={modifyPetInfo.neutralization === 'false'} />
+          <input type="radio" name="neutralization" id="X" value="false" onChange={onChange} checked={modifyPetInfo.neutralization === false} />
           <label htmlFor="X">X</label>
         </div>
 
