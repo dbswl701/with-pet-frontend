@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Pet from './Pet';
 import './Pets.css';
@@ -52,7 +52,7 @@ function PetList() {
     dog_img: '',
     dog_isbn: '',
   });
-  const nextId = useRef(3);
+  // const nextId = useRef(3);
 
   const onChange = (e) => {
     if (e.target.files) {
@@ -81,7 +81,7 @@ function PetList() {
       img = dogimgdefault;
     }
     const pet = {
-      dog_id: nextId.current,
+      // dog_id: nextId.current,
       dog_name: petInfo.dog_name,
       dog_breed: petInfo.dog_breed,
       dog_birth: petInfo.dog_birth,
@@ -92,8 +92,14 @@ function PetList() {
       dog_isbn: petInfo.dog_isbn,
     };
     setPets(pets.concat(pet));
+    // nextId.current += 1;
+    axios.post('http://ec2-3-39-193-176.ap-northeast-2.compute.amazonaws.com:8080/api/v1/dogs/register-dog', petInfo)
+      .then(() => {
+      })
+      .catch(() => {
+      });
     setPetInfo({
-      dog_id: '',
+      // dog_id: '',
       dog_name: '',
       dog_breed: '',
       dog_birth: '',
@@ -103,7 +109,6 @@ function PetList() {
       dog_img: '',
       dog_isbn: '',
     });
-    nextId.current += 1;
   };
 
   useEffect(() => {
