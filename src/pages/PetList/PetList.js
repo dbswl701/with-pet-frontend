@@ -107,7 +107,7 @@ function PetList() {
   };
 
   useEffect(() => {
-    axios.get('https://d45162fd-d516-4456-83d9-d3b784b62ec2.mock.pstmn.io/api/v1/dogs/1')
+    axios.get('https://d45162fd-d516-4456-83d9-d3b784b62ec2.mock.pstmn.io/api/v1/dogs')
       .then((res) => {
         setPets(res.data);
       })
