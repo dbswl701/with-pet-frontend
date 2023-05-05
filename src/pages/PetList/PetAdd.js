@@ -60,7 +60,7 @@ function PetAdd({ onSubmit, onChange, petInfo }) {
   );
 
   return (
-    <div className={`${!isClick ? 'pet-add' : 'pet-addinfo'}`}>
+    <div className={`${!isClick ? 'pet-add' : 'pet-detail'}`}>
       {
         isClick !== true ? <AddCircleOutlineIcon fontSize="large" onClick={() => { setisClick(true); }} /> : addinfo
       }
