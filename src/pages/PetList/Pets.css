@@ -153,7 +153,7 @@
   font-size: 30px;
 }
 
-.pet-addinfo {
+/* .pet-addinfo {
   box-sizing: border-box;
   display:flex;
   margin: 40px auto;
@@ -164,8 +164,8 @@
   border-radius: 20px;
   height: 500px;
   flex-direction: column;
-}
-.pet-addinfo form {
+} */
+.pet-detail>form {
   display: flex;
   flex-direction: row;
 }
