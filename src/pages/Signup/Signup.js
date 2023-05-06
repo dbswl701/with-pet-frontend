@@ -48,8 +48,9 @@ function SignupForm() {
         navigate('/'); // 회원가입 성공 시 로그인 페이지로 이동
       })
       .catch((error) => {
-        /* eslint-disable-next-line no-console */
         alert('로그인에 실패했습니다.'); // eslint-disable-line no-alert
+
+        /* eslint-disable-next-line no-console */
         console.error(error);
         // navigate(`/`); //이거는 나중에 지워야함
         // 회원가입 실패 시 에러 메시지 표시
