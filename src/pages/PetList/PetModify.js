@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import dogimgdefault from '../../assets/dogProfileImage.png';
 
-function PetModify({ onSubmit, petInfo, setIsModify }) {
+function PetModify({ onSubmit, petInfo, onToggle }) {
   const [modifyPetInfo, setModifyPetInfo] = useState({
     dog_name: petInfo.dog_name,
     dog_breed: petInfo.dog_breed,
@@ -22,7 +22,7 @@ function PetModify({ onSubmit, petInfo, setIsModify }) {
 
   const onLocalSubmit = (e) => {
     e.preventDefault();
-    setIsModify((prev) => !prev);
+    onToggle('detail');
     onSubmit(petInfo.dog_id, modifyPetInfo);
   };
 
@@ -70,7 +70,7 @@ function PetModify({ onSubmit, petInfo, setIsModify }) {
         <label htmlFor="isbn">등록코드</label>
         <input type="text" name="dog_isbn" placeholder="등록코드를 입력하세요(-제외)." required value={modifyPetInfo.dog_isbn} onChange={onChange} />
         <input type="submit" value="submit" />
-        {/* <input type="button" value="cancel" onClick={() => { setisClick(false); }} /> */}
+        <input type="button" value="cancel" onClick={() => onToggle('detail')} />
       </div>
     </form>
   );

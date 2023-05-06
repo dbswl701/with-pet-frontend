@@ -3,7 +3,7 @@ import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
-function PetDetail({ pet, onClick, onModify }) {
+function PetDetail({ pet, onToggle }) {
   // const [isModify, setIsModify] = useState(false);
   const petSpec = [
     { name: '견종', value: pet.dog_breed },
@@ -45,7 +45,7 @@ function PetDetail({ pet, onClick, onModify }) {
                 ))}
               </Grid>
             </div>
-            <button onClick={onModify}>수정</button>
+            <button onClick={() => onToggle('modify')}>수정</button>
           </div>
         </div>
         <div className="pet-second">
@@ -54,7 +54,7 @@ function PetDetail({ pet, onClick, onModify }) {
         </div>
       </div>
       <div>
-        <ExpandCircleDownIcon className="up-icon" fontSize="large" onClick={onClick} />
+        <ExpandCircleDownIcon className="up-icon" fontSize="large" onClick={() => onToggle('simple')} />
       </div>
     </>
   );
