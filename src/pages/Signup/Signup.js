@@ -27,21 +27,29 @@ function SignupForm() {
       alert('빈 칸을 모두 입력해주세요.'); // eslint-disable-line no-alert
       return;
     }
-    axios.post('/api/signup', {
-      username,
-      password,
-      name,
-      phone,
-      addressRoad,
-      addressPost,
-      addressDtail,
-      email,
+    axios.post('http://ec2-3-39-193-176.ap-northeast-2.compute.amazonaws.com:8080/api/v1/users/signup', {
+      userId: username,
+      userPassword: password,
+      userName: name,
+      phoneNum: phone,
+      profileImg: '',
+      address: {
+        detailAdr: addressDtail,
+        streetAdr: addressRoad,
+        zipcode: addressPost,
+      },
+      userEmail: email,
+      userPasswordCheck: passwordConfirm,
     })
       .then((response) => {
+        /* eslint-disable-next-line no-console */
         console.log(response);
+        alert('로그인에 성공했습니다.'); // eslint-disable-line no-alert
         navigate('/'); // 회원가입 성공 시 로그인 페이지로 이동
       })
       .catch((error) => {
+        /* eslint-disable-next-line no-console */
+        alert('로그인에 실패했습니다.'); // eslint-disable-line no-alert
         console.error(error);
         // navigate(`/`); //이거는 나중에 지워야함
         // 회원가입 실패 시 에러 메시지 표시
