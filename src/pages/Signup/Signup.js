@@ -44,11 +44,11 @@ function SignupForm() {
       .then((response) => {
         /* eslint-disable-next-line no-console */
         console.log(response);
-        alert('로그인에 성공했습니다.'); // eslint-disable-line no-alert
+        alert('회원가입에 성공했습니다.'); // eslint-disable-line no-alert
         navigate('/'); // 회원가입 성공 시 로그인 페이지로 이동
       })
       .catch((error) => {
-        alert('로그인에 실패했습니다.'); // eslint-disable-line no-alert
+        alert('회원가입에 실패했습니다.'); // eslint-disable-line no-alert
 
         /* eslint-disable-next-line no-console */
         console.error(error);
