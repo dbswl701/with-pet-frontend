@@ -7,7 +7,8 @@ function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const onSubmit = () => {
+  const onSubmit = (e) => {
+    e.preventDefault();
     axios.post('http://ec2-3-39-193-176.ap-northeast-2.compute.amazonaws.com:8080/api/v1/users/login', {
       id: username,
       password,
