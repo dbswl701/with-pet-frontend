@@ -1,12 +1,9 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-// import Nav from './components/Nav';
-// import PetList from './pages/PetList/PetList';
-import ApiTest from './ApiTest';
 import Navbar from './components/Navbar/Navbar';
 import MainPage from './pages/MainPage/MainPage';
 import Login from './pages/Login/Login';
-import Signin from './pages/Signin/Signin';
+import Signup from './pages/Signup/Signup';
 import Calendar from './pages/Calendar/Calendar';
 import UserInfo from './pages/UserInfo/UserInfo';
 import UsageList from './pages/UsageList/UsageList';
@@ -21,20 +18,13 @@ import AdminMainPage from './pages/AdminMainPage/AdminMainPage';
 import AdminApplyInfo from './pages/AdminApplyInfo/AdminApplyInfo';
 
 function App() {
-  //임시 -> 나중에 서버에서 받아온 값으로 수정
-  const password = "qlalfqjsgh";//비밀번호
-  const name = "누구누구";//이름
-  const phone = "123-456-7890";//전화번호
-  const address = "어디어디";//주소
-  const email = "uhdi@naver.com";//이메일
-
   return (
     <>
       <Routes>
         <Route path="/" element={<Navbar />}>
           <Route index element={<MainPage />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/signin" element={<Signin />} />
+          <Route path="/signup" element={<Signup />} />
 
           {/* 반려인 페이지 */}
           <Route path="/calendar" element={<Calendar />} />
@@ -55,9 +45,6 @@ function App() {
           <Route path="/adminapplyInfo" element={<AdminApplyInfo />} />
         </Route>
       </Routes>
-      {/* <Nav />
-      <PetList /> */}
-      <ApiTest />
     </>
 
   );

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './signup.css'
+import './signup.css';
 
 function SignupForm() {
   const navigate = useNavigate();
@@ -17,14 +17,14 @@ function SignupForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    //회원가입 시 백엔드로 보내는 로직
+    // 회원가입 시 백엔드로 보내는 로직
     if (password !== passwordConfirm) {
-      alert('비밀번호가 일치하지 않습니다.');
+      alert('비밀번호가 일치하지 않습니다.'); // eslint-disable-line no-alert
       setPasswordConfirm('');
       return;
     }
     if (username === '' || password === '' || name === '' || phone === '' || addressRoad === '' || addressPost === '' || addressDtail === '' || email === '') {
-      alert('빈 칸을 모두 입력해주세요.');
+      alert('빈 칸을 모두 입력해주세요.'); // eslint-disable-line no-alert
       return;
     }
     axios.post('/api/signup', {
@@ -35,16 +35,15 @@ function SignupForm() {
       addressRoad,
       addressPost,
       addressDtail,
-      email
-    }
-    )
+      email,
+    })
       .then((response) => {
         console.log(response);
-        navigate(`/`); // 회원가입 성공 시 로그인 페이지로 이동
+        navigate('/'); // 회원가입 성공 시 로그인 페이지로 이동
       })
       .catch((error) => {
         console.error(error);
-        //navigate(`/`); //이거는 나중에 지워야함
+        // navigate(`/`); //이거는 나중에 지워야함
         // 회원가입 실패 시 에러 메시지 표시
       });
   };
@@ -70,7 +69,7 @@ function SignupForm() {
       </div>
       <div>
         <label htmlFor="profile">프로필 사진:</label>
-        <input type="file" accept="image/*"/>
+        <input type="file" accept="image/*" />
       </div>
       <div>
         <label htmlFor="phone">전화번호:</label>
