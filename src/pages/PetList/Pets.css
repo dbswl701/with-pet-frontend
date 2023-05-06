@@ -257,6 +257,8 @@
 #preview-image {
   display: flex;
   width: 100px;
+  height: 100px;
+  border-radius: 50%;
 }
 
 .pet-info-regist {
@@ -270,7 +272,9 @@
   color: #0095f6;
   cursor: pointer;
 }
-
+.select p {
+  margin: 10px 0px;
+}
 
 .select input[type=radio] {
   display: none
@@ -279,12 +283,38 @@
 .select input[type=radio]+label {
   display: inline-block;
   cursor: pointer;
-  height: 24px;
-  width: 90px;
-  border: 1px solid black;
+  height: 40px;
+  width: 130px;
+  border: 2px solid white;
+  border-radius: 5px;
   text-align: center;
+  vertical-align: center;
+  padding: 5px;
+  margin-left: 5px;
+  background-color: white;
+}
+
+.select input[type=radio]+label:hover {
+  background-color: rgb(212, 212, 212);
+  border: 2px solid rgb(212, 212, 212);
 }
 
 .select input[type=radio]:checked+label {
-  background-color: orange;
+  border: 2px solid rgb(153, 121, 85);
+  /* background-color: orange; */
+}
+
+.pet-add-btn {
+  height: 40px;
+  margin-bottom: 10px;
+  background-color: #CAA969;
+  color: white;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
+  border: none;
+  border-radius: 5px;
+}
+
+.pet-add-cancel-btn {
+  background-color: white;
+  color: black;
 }
