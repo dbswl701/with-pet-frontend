@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const url = '/api/v1/users/my-info';
+const url = 'https://withpet.site/api/v1/users/my-info';
 
 function ViewProfile() {
   const [userInfo, setUserInfo] = useState(null);

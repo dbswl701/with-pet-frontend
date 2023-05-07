@@ -27,7 +27,7 @@ function SignupForm() {
       alert('빈 칸을 모두 입력해주세요.'); // eslint-disable-line no-alert
       return;
     }
-    axios.post('/api/v1/users/signup', {
+    axios.post('https://withpet.site/api/v1/users/signup', {
       userId: username,
       userPassword: password,
       userName: name,
