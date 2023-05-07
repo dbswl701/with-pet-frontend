@@ -59,7 +59,7 @@ function PetList() {
     };
     setPets(pets.concat(pet));
     // nextId.current += 1;
-    axios.post('http://ec2-3-39-193-176.ap-northeast-2.compute.amazonaws.com:8080/api/v1/dogs/register-dog', pet)
+    axios.post('https://withpet.site/api/v1/dogs/register-dog', pet)
       .then(() => {
       })
       .catch(() => {
@@ -78,17 +78,17 @@ function PetList() {
   };
 
   useEffect(() => {
-    axios.get('http://ec2-3-39-193-176.ap-northeast-2.compute.amazonaws.com:8080/api/v1/dogs')
+    axios.get('https://withpet.site/api/v1/dogs')
       .then((res) => {
         setPets(res.data.result);
       })
       .catch(() => {
       });
-  }, []);
+  }, [pets]);
 
   const onSubmitModify = (id, modifyPetInfo) => {
     // setPets(pets.map((pet) => (pet.id === id ? modifyPetInfo : pet)));
-    axios.put(`http://ec2-3-39-193-176.ap-northeast-2.compute.amazonaws.com:8080/api/v1/dogs/${id}`, modifyPetInfo)
+    axios.put(`https://withpet.site/api/v1/dogs/${id}`, modifyPetInfo)
       .then(() => {
       })
       .catch(() => {

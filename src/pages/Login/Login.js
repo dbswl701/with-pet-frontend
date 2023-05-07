@@ -9,10 +9,10 @@ function Login() {
   const navigate = useNavigate();
   const onSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://ec2-3-39-193-176.ap-northeast-2.compute.amazonaws.com:8080/api/v1/users/login', {
+    axios.post('https://withpet.site/api/v1/users/login', {
       id: username,
       password,
-    })
+    }, { withCredentials: true })
       .then(() => {
         alert('로그인에 성공했습니다.'); // eslint-disable-line no-alert
       })
