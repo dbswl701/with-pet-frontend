@@ -4,13 +4,14 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import dayjs from 'dayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dogimgdefault from '../../assets/dogProfileImage.png';
 
-function PetAdd({ onSubmit, onChange, petInfo }) {
+function PetAdd({
+  onSubmit, onChange, petInfo, onCancle,
+}) {
   const [isClick, setisClick] = useState(false);
 
   const onLocalSubmit = (e) => {
@@ -19,6 +20,8 @@ function PetAdd({ onSubmit, onChange, petInfo }) {
   };
 
   const onChangeCalendar = (date) => {
+    console.log(date);
+    console.log(dayjs(date).format('YYYY-MM-DD'));
     const e = {
       target: {
         name: 'dog_birth',
@@ -26,6 +29,11 @@ function PetAdd({ onSubmit, onChange, petInfo }) {
       },
     };
     onChange(e);
+  };
+
+  const onLocalCancle = () => {
+    onCancle();
+    setisClick(false);
   };
 
   const addinfo = (
@@ -46,9 +54,7 @@ function PetAdd({ onSubmit, onChange, petInfo }) {
         </TextField>
 
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DemoContainer components={['DatePicker', 'DatePicker']}>
-            <DatePicker sx={{ m: 1 }} label="생일" value={petInfo.dog_birth} onChange={onChangeCalendar} name="dog_birth" format="YYYY/MM/DD" />
-          </DemoContainer>
+          <DatePicker sx={{ m: 1 }} label="생일" value={petInfo.dog_birth} onChange={onChangeCalendar} name="dog_birth" format="YYYY/MM/DD" />
         </LocalizationProvider>
 
         <div className="select">
@@ -72,7 +78,7 @@ function PetAdd({ onSubmit, onChange, petInfo }) {
         <TextField sx={{ m: 1 }} label="등록코드" type="number" variant="outlined" size="small" name="dog_isbn" onChange={onChange} value={petInfo.dog_isbn} required />
 
         <input className="pet-add-btn" type="submit" value="submit" />
-        <input className="pet-add-btn pet-add-cancel-btn" type="button" value="cancel" onClick={() => { setisClick(false); }} />
+        <input className="pet-add-btn pet-add-cancel-btn" type="button" value="cancel" onClick={onLocalCancle} />
       </div>
     </form>
   );

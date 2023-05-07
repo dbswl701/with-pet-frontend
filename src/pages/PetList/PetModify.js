@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import dayjs from 'dayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -60,9 +59,7 @@ function PetModify({ onSubmit, petInfo, onToggle }) {
         </TextField>
 
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DemoContainer components={['DatePicker', 'DatePicker']}>
-            <DatePicker sx={{ m: 1 }} label="생일" value={dayjs(modifyPetInfo.dog_birth)} onChange={onChangeCalendar} name="dog_birth" format="YYYY/MM/DD" />
-          </DemoContainer>
+          <DatePicker sx={{ m: 1 }} label="생일" value={dayjs(modifyPetInfo.dog_birth)} onChange={onChangeCalendar} name="dog_birth" format="YYYY/MM/DD" />
         </LocalizationProvider>
 
         {/* <label htmlFor="birthday">생일</label>
