@@ -5,7 +5,7 @@ import MainPage from './pages/MainPage/MainPage';
 import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
 import Calendar from './pages/Calendar/Calendar';
-import UserInfo from './pages/UserInfo/UserInfo';
+import ViewProfile from './pages/ViewProfile/ViewProfile';
 import UsageList from './pages/UsageList/UsageList';
 import PetList from './pages/PetList/PetList';
 import PetsitterDetial from './pages/PetsitterDetial/PetsitterDetial';
@@ -29,7 +29,7 @@ function App() {
 
           {/* 반려인 페이지 */}
           <Route path="/calendar" element={<Calendar />} />
-          <Route path="/userinfo" element={<UserInfo />} />
+          <Route path="/viewProfile" element={<ViewProfile />} />
           <Route path="/usageList" element={<UsageList />} />
           <Route path="/petList" element={<PetList />} />
           <Route path="/petsitterdetail" element={<PetsitterDetial />} />
