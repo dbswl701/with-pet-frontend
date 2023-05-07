@@ -12,9 +12,7 @@ function ViewProfile() {
         // 받아온 회원 정보를 state에 저장한다.
         setUserInfo(response.data.result);
       })
-      .catch((error) => {
-        console.log(error);
-        console.log('viewprofile error');
+      .catch(() => {
       });
   }, []); // 두 번째 인자에 빈 배열을 전달하여, 처음 한 번만 호출되도록 한다.
 
