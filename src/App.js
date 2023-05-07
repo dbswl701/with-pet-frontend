@@ -45,8 +45,8 @@ function App() {
           <Route path="/adminmainpage" element={<AdminMainPage />} />
           <Route path="/adminapplyInfo" element={<AdminApplyInfo />} />
         </Route>
-        <ApiTest />
       </Routes>
+      <ApiTest />
     </>
 
   );
