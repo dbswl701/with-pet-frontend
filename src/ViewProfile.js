@@ -30,7 +30,7 @@ function ViewProfile() {
           <p>도로명주소/상세주소 {userInfo.streetAdr} {userInfo.detailAdr}</p>
         </div>
         <button type="submit" className="btn" onClick={() => navigate('../editprofile')}>
-            Signup
+            수정하기
         </button>
         </>
       ) : (

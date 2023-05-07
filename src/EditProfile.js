@@ -36,7 +36,7 @@ function EditProfile() {
         setNewAddressRoad(newAddressRoad);
         setNewAddressDtail(newAddressDtail);
         setNewEmail(newEmail);
-    }, [userInfo]);
+    }, []);
 
     // 입력한 회원정보를 서버로 보내어 수정하는 기능
     const handleSubmit = (event) => {
