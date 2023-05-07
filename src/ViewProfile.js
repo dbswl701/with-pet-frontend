@@ -7,19 +7,21 @@ const url = 'http://ec2-3-39-193-176.ap-northeast-2.compute.amazonaws.com:8080/a
 function ViewProfile() {
   const [userInfo, setUserInfo] = useState(null);
 
-  axios.get(url)
-  .then((response) => {
-    // 받아온 회원 정보를 state에 저장한다.
-    setUserInfo(response.data);
-  })
-  .catch((error) => {
-    console.log(error);
-    console.log("viewprofile error");
-  });
+  useEffect(() => {
+    axios.get(url)
+      .then((response) => {
+        // 받아온 회원 정보를 state에 저장한다.
+        setUserInfo(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log("viewprofile error");
+      });
+  }, []); // 두 번째 인자에 빈 배열을 전달하여, 처음 한 번만 호출되도록 한다.
 
   return (
     <div>
-      {userInfo && (
+      {userInfo ? (
         <div>
           <p>{userInfo.name}</p>
           <p>전화번호: {userInfo.phone}</p>
@@ -27,10 +29,11 @@ function ViewProfile() {
           <p>우편번호: {userInfo.zipcode}</p>
           <p>도로명주소/상세주소 {userInfo.streetAdr} {userInfo.detailAdr}</p>
         </div>
+      ) : (
+        <div>로딩중...</div>
       )}
     </div>
   );
 }
 
 export default ViewProfile;
-
