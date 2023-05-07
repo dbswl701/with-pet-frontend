@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const url = 'https://d45162fd-d516-4456-83d9-d3b784b62ec2.mock.pstmn.io/api/v1/users/my-info';
+const url = '/api/v1/users/my-info';
 
 function ViewProfile() {
   const [userInfo, setUserInfo] = useState(null);

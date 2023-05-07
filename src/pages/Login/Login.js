@@ -9,7 +9,7 @@ function Login() {
   const navigate = useNavigate();
   const onSubmit = (e) => {
     e.preventDefault();
-    axios.post('https://withpet.site/api/v1/users/login', {
+    axios.post('/api/v1/users/login', {
       id: username,
       password,
     }, { withCredentials: true })
