@@ -67,14 +67,6 @@ function PetAdd({ onSubmit, onChange, petInfo }) {
           <label htmlFor="X">X</label>
         </div>
 
-        <div className="select2">
-          <p>중성화 여부 선택</p>
-          <input type="radio" name="neutralization" id="O" value="true" onChange={onChange} checked={petInfo.neutralization === 'true'} required />
-          <label htmlFor="O">O</label>
-          <input type="radio" name="neutralization" id="X" value="false" onChange={onChange} checked={petInfo.neutralization === 'false'} />
-          <label htmlFor="X">X</label>
-        </div>
-
         <TextField sx={{ m: 1 }} label="무게" type="number" variant="outlined" size="small" name="dog_weight" onChange={onChange} value={petInfo.dog_weight} required />
 
         <TextField sx={{ m: 1 }} label="등록코드" type="number" variant="outlined" size="small" name="dog_isbn" onChange={onChange} value={petInfo.dog_isbn} required />
