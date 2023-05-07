@@ -4,6 +4,10 @@
   font-family: Noto Sans KR;
 }
 
+#root {
+  height: 100%;
+}
+
 .list_container{
   display: flex;
   justify-content: center;
