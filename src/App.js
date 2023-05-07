@@ -5,7 +5,7 @@ import MainPage from './pages/MainPage/MainPage';
 import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
 import Calendar from './pages/Calendar/Calendar';
-import ViewProfile from './pages/ViewProfile/ViewProfile';
+// import ViewProfile from './pages/ViewProfile/ViewProfile';
 import UsageList from './pages/UsageList/UsageList';
 import PetList from './pages/PetList/PetList';
 import PetsitterDetial from './pages/PetsitterDetial/PetsitterDetial';
@@ -17,6 +17,7 @@ import Profit from './pages/Profit/Profit';
 import AdminMainPage from './pages/AdminMainPage/AdminMainPage';
 import AdminApplyInfo from './pages/AdminApplyInfo/AdminApplyInfo';
 import ApiTest from './pages/ApiTest';
+import ViewProfile from './ViewProfile';
 
 function App() {
   return (
