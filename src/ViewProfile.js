@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const username = 'myusername'; // username 변수가 myusername 값으로 설정됐을 경우 (임의로 설정)
 const url = 'http://ec2-3-39-193-176.ap-northeast-2.compute.amazonaws.com:8080/api/v1/users/my-info';
 
 function ViewProfile() {
@@ -22,13 +22,17 @@ function ViewProfile() {
   return (
     <div>
       {userInfo ? (
-        <div>
+        <><div>
           <p>{userInfo.name}</p>
           <p>전화번호: {userInfo.phone}</p>
           <p>이메일: {userInfo.email}</p>
           <p>우편번호: {userInfo.zipcode}</p>
           <p>도로명주소/상세주소 {userInfo.streetAdr} {userInfo.detailAdr}</p>
         </div>
+        <button type="submit" className="btn" onClick={() => navigate('../editprofile')}>
+            Signup
+        </button>
+        </>
       ) : (
         <div>로딩중...</div>
       )}
