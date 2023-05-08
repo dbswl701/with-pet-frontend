@@ -5,35 +5,37 @@ import PetModify from './PetModify';
 import PetDetail from './PetDetail';
 
 function Pet({ pet, onSubmitModify }) {
-  const [toggle, setToggle] = useState(false);
-  const [isModify, setIsModify] = useState(false);
+  const [toggle, setToggle] = useState('simple');
   const simple = (
     <>
       <img className="pet-img" src={pet.dog_img} alt="반려견 프로필 사진" />
       <p>{pet.dog_name} / {pet.dog_breed} / {pet.dog_birth}</p>
-      <ExpandCircleDownIcon className="down-icon" fontSize="large" onClick={() => setToggle(!toggle)} />
+      <ExpandCircleDownIcon className="down-icon" fontSize="large" onClick={() => setToggle('detail')} />
     </>
   );
 
-  const onToggle = () => {
-    setToggle(!toggle);
-  };
-
-  const onModify = () => {
-    setIsModify(!isModify);
+  const onToggle = (state) => {
+    setToggle(state);
   };
 
   let print = simple;
-  if (!toggle) {
-    print = simple;
-  } else if (!isModify) {
-    print = <PetDetail pet={pet} onClick={onToggle} onModify={onModify} />;
-  } else {
-    print = <PetModify petInfo={pet} onSubmit={onSubmitModify} setIsModify={setIsModify} />;
+
+  switch (toggle) {
+    case 'detail':
+      print = <PetDetail pet={pet} onToggle={onToggle} />;
+      break;
+    case 'modify':
+      print = <PetModify petInfo={pet} onSubmit={onSubmitModify} onToggle={onToggle} />;
+      break;
+    case 'simple':
+      print = simple;
+      break;
+    default:
+      print = simple;
+      break;
   }
   return (
-    <div className={`${!toggle ? 'pet-block' : 'pet-detail'}`}>
-      {/* { !toggle ? simple : detail } */}
+    <div className={`${toggle === 'simple' ? 'pet-block' : 'pet-detail'}`}>
       { print }
     </div>
   );

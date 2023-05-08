@@ -1,13 +1,38 @@
 import React, { useState } from 'react';
 import './Pets.css';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import dayjs from 'dayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dogimgdefault from '../../assets/dogProfileImage.png';
 
-function PetAdd({ onSubmit, onChange, petInfo }) {
+function PetAdd({
+  onSubmit, onChange, petInfo, onCancle,
+}) {
   const [isClick, setisClick] = useState(false);
 
   const onLocalSubmit = (e) => {
     onSubmit(e);
+    setisClick(false);
+  };
+
+  const onChangeCalendar = (date) => {
+    console.log(date);
+    console.log(dayjs(date).format('YYYY-MM-DD'));
+    const e = {
+      target: {
+        name: 'dog_birth',
+        value: dayjs(date).format('YYYY-MM-DD'),
+      },
+    };
+    onChange(e);
+  };
+
+  const onLocalCancle = () => {
+    onCancle();
     setisClick(false);
   };
 
@@ -19,25 +44,25 @@ function PetAdd({ onSubmit, onChange, petInfo }) {
         <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} onChange={onChange} />
       </div>
       <div className="pet-info-regist">
-        <input type="text" name="dog_name" placeholder="반려견 이름을 입력해주세요." onChange={onChange} value={petInfo.dog_name} required />
-        <label htmlFor="breeds">견종</label>
-        <input type="select" list="list" id="breeds" name="dog_breed" onChange={onChange} value={petInfo.dog_breed} />
-        <datalist id="list">
-          <option value="진돗개" />
-          <option value="삽살개" />
-          <option value="푸들" />
-          <option value="포메라니안" />
-        </datalist>
 
-        <label htmlFor="birthday">생일</label>
-        <input type="date" name="dog_birth" id="birthday" onChange={onChange} value={petInfo.dog_birth} required />
+        <TextField sx={{ m: 1 }} label="이름" variant="outlined" size="small" name="dog_name" onChange={onChange} value={petInfo.dog_name} required />
+
+        <TextField sx={{ m: 1 }} select label="견종" variant="outlined" name="dog_breed" onChange={onChange} value={petInfo.dog_breed} size="small" required>
+          <MenuItem value="진돗개">진돗개</MenuItem>
+          <MenuItem value="삽살개">삽살개</MenuItem>
+          <MenuItem value="리트리버">리트리버</MenuItem>
+        </TextField>
+
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker sx={{ m: 1 }} label="생일" value={petInfo.dog_birth} onChange={onChangeCalendar} name="dog_birth" format="YYYY/MM/DD" />
+        </LocalizationProvider>
 
         <div className="select">
           <p>성별 선택</p>
-          <input type="radio" name="dog_gender" id="male" value="male" onChange={onChange} checked={petInfo.dog_gender === 'male'} />
-          <label htmlFor="male">남자</label>
+          <input type="radio" name="dog_gender" id="male" value="male" onChange={onChange} checked={petInfo.dog_gender === 'male'} required />
+          <label htmlFor="male">수컷</label>
           <input type="radio" name="dog_gender" id="female" value="female" onChange={onChange} checked={petInfo.dog_gender === 'female'} />
-          <label htmlFor="female">여자</label>
+          <label htmlFor="female">암컷</label>
         </div>
 
         <div className="select">
@@ -48,13 +73,12 @@ function PetAdd({ onSubmit, onChange, petInfo }) {
           <label htmlFor="X">X</label>
         </div>
 
-        <label htmlFor="weight">무게</label>
-        <input type="number" name="dog_weight" id="weight" min="0" value={petInfo.dog_weight} onChange={onChange} />
+        <TextField sx={{ m: 1 }} label="무게" type="number" variant="outlined" size="small" name="dog_weight" onChange={onChange} value={petInfo.dog_weight} required />
 
-        <label htmlFor="isbn">등록코드</label>
-        <input type="text" name="dog_isbn" placeholder="등록코드를 입력하세요(-제외)." required value={petInfo.dog_isbn} onChange={onChange} />
-        <input type="submit" value="submit" />
-        <input type="button" value="cancel" onClick={() => { setisClick(false); }} />
+        <TextField sx={{ m: 1 }} label="등록코드" type="number" variant="outlined" size="small" name="dog_isbn" onChange={onChange} value={petInfo.dog_isbn} required />
+
+        <input className="pet-add-btn" type="submit" value="submit" />
+        <input className="pet-add-btn pet-add-cancel-btn" type="button" value="cancel" onClick={onLocalCancle} />
       </div>
     </form>
   );
