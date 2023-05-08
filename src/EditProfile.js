@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const url =
-  "https://d45162fd-d516-4456-83d9-d3b784b62ec2.mock.pstmn.io/api/v1/users/my-info";
+  "https://d45162fd-d516-4456-83d9-d3b784b62ec2.mock.pstmn.io/api/v1/users/my-info"; // 현재 목업 데이터를 사용하고 있습니다.
 
 function EditProfile() {
   const [userInfo, setUserInfo] = useState(null);
