@@ -1,4 +1,5 @@
 import React from 'react';
+// import axios from 'axios';
 // import './MediaCard.css'; // Import the CSS file that styles the media cards
 import styled from 'styled-components';
 
@@ -31,11 +32,14 @@ function MediaCard({ title, image, rate }) {
 
 function MediaCardGrid({ cards }) {
   return (
+    <div>
     <Grid>
-      {cards.map((card) => (
-        <MediaCard key={card.id} title={card.name} image={card.house} rate={card.rate} />
+      {cards && cards.map((card) => (
+        // eslint-disable-next-line max-len
+        <MediaCard key={card.petsitter_name} title={card.petsitter_name} image={card.house_img} rate={card.start_rate} />
       ))}
     </Grid>
+    </div>
   );
 }
 

@@ -16,7 +16,7 @@ import PetsitterNewDog from './pages/PetsitterNewDog/PetsitterNewDog';
 import Profit from './pages/Profit/Profit';
 import AdminMainPage from './pages/AdminMainPage/AdminMainPage';
 import AdminApplyInfo from './pages/AdminApplyInfo/AdminApplyInfo';
-import ApiTest from './pages/ApiTest';
+// import ApiTest from './pages/ApiTest';
 
 function App() {
   return (
@@ -46,7 +46,7 @@ function App() {
           <Route path="/adminapplyInfo" element={<AdminApplyInfo />} />
         </Route>
       </Routes>
-      <ApiTest />
+      {/* <ApiTest /> */}
     </>
 
   );
