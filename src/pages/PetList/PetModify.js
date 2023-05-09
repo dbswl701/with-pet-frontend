@@ -13,7 +13,7 @@ function PetModify({ onSubmit, petInfo, onToggle }) {
     dog_breed: petInfo.dog_breed,
     dog_birth: petInfo.dog_birth,
     dog_gender: petInfo.dog_gender,
-    neutralization: petInfo.neutralization,
+    neutralization: petInfo.neutralization ? 'true' : 'false',
     dog_weight: petInfo.dog_weight,
     dog_img: petInfo.dog_img,
     dog_isbn: petInfo.dog_isbn,
@@ -29,6 +29,10 @@ function PetModify({ onSubmit, petInfo, onToggle }) {
   const onLocalSubmit = (e) => {
     e.preventDefault();
     onToggle('detail');
+    setModifyPetInfo({
+      ...modifyPetInfo,
+      neutralization: modifyPetInfo.neutralization === 'true',
+    });
     onSubmit(petInfo.dog_id, modifyPetInfo);
   };
 
@@ -61,9 +65,6 @@ function PetModify({ onSubmit, petInfo, onToggle }) {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker sx={{ m: 1 }} label="생일" value={dayjs(modifyPetInfo.dog_birth)} onChange={onChangeCalendar} name="dog_birth" format="YYYY/MM/DD" />
         </LocalizationProvider>
-
-        {/* <label htmlFor="birthday">생일</label>
-        <input type="date" name="dog_birthday" id="birthday" onChange={onChange} value={modifyPetInfo.dog_birth} required /> */}
 
         <div className="select">
           <p>성별 선택</p>

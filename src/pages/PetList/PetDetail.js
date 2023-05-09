@@ -9,7 +9,7 @@ function PetDetail({ pet, onToggle }) {
     { name: '견종', value: pet.dog_breed },
     { name: '생일', value: pet.dog_birth },
     { name: '성별', value: pet.dog_gender },
-    { name: '중성화 여부', value: pet.neutralization },
+    { name: '중성화 여부', value: pet.neutralization ? 'O' : 'X' },
     { name: '몸무게', value: pet.dog_weight },
     { name: '등록코드', value: pet.dog_isbn },
   ];
@@ -36,10 +36,10 @@ function PetDetail({ pet, onToggle }) {
                 {petSpec.map((spec) => (
                   <React.Fragment key={spec.name}>
                     <Grid item xs={6}>
-                      <Typography gutterBottom>{spec.name}</Typography>
+                      <Typography>{spec.name}</Typography>
                     </Grid>
                     <Grid item xs={6}>
-                      <Typography gutterBottom>{spec.value}</Typography>
+                      <Typography>{spec.value}</Typography>
                     </Grid>
                   </React.Fragment>
                 ))}
