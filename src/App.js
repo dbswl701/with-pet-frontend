@@ -18,6 +18,7 @@ import AdminMainPage from './pages/AdminMainPage/AdminMainPage';
 import AdminApplyInfo from './pages/AdminApplyInfo/AdminApplyInfo';
 import ApiTest from './pages/ApiTest';
 import EditProfile from './pages/EditProfile/EditProfile';
+import AdminServicManage from './pages/AdminServicManage/AdminServicManage';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
 
           {/* 관리자 페이지 */}
           <Route path="/adminmainpage" element={<AdminMainPage />} />
+          <Route path="/servicemanage" element={<AdminServicManage />} />
           <Route path="/adminapplyInfo" element={<AdminApplyInfo />} />
         </Route>
       </Routes>
