@@ -69,7 +69,6 @@ export default function Asynchronous() {
             <TextField
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...params}
-              label="지역"
               InputProps={{
                 ...params.InputProps,
                 endAdornment: (
