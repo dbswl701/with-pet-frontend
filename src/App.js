@@ -16,6 +16,7 @@ import PetsitterNewDog from './pages/PetsitterNewDog/PetsitterNewDog';
 import Profit from './pages/Profit/Profit';
 import AdminMainPage from './pages/AdminMainPage/AdminMainPage';
 import AdminApplyInfo from './pages/AdminApplyInfo/AdminApplyInfo';
+import EditProfile from './pages/EditProfile/EditProfile';
 import ApiTest from './pages/ApiTest';
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
           {/* 반려인 페이지 */}
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/viewProfile" element={<ViewProfile />} />
+          <Route path="/editProfile" element={<EditProfile />} />
           <Route path="/usageList" element={<UsageList />} />
           <Route path="/petList" element={<PetList />} />
           <Route path="/petsitterdetail" element={<PetsitterDetial />} />
