@@ -1,15 +1,28 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './login.css';
+import axios from 'axios';
 
-function LoginPage() {
+function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const onSubmit = (e) => {
+    e.preventDefault();
+    axios.post('https://withpet.site/api/v1/users/login', {
+      id: username,
+      password,
+    })
+      .then(() => {
+        alert('로그인에 성공했습니다.'); // eslint-disable-line no-alert
+      })
+      .catch(() => {
+        alert('로그인에 실패했습니다.'); // eslint-disable-line no-alert
+      });
+  };
   return (
-    <div className="container mt-5">
-      <div className="card w-50 mx-auto">
+    <div className="container">
+      <div className="card">
         <div className="card-body">
           <form>
             <div className="form-group">
@@ -32,10 +45,10 @@ function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <button type="submit" className="btn btn-primary mr-2">
+            <button type="submit" className="btn" onClick={onSubmit}>
               Login
             </button>
-            <button type="submit" className="btn btn-secondary" onClick={()=>navigate(`/signup`)}>
+            <button type="submit" className="btn" onClick={() => navigate('../signup')}>
               Signup
             </button>
           </form>
@@ -45,4 +58,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default Login;
