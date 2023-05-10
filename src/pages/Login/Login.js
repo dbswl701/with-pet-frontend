@@ -17,7 +17,7 @@ function Login() {
         alert('로그인에 성공했습니다.'); // eslint-disable-line no-alert
       })
       .catch(() => {
-        alert('회원가입에 실패했습니다.'); // eslint-disable-line no-alert
+        alert('로그인에 실패했습니다.'); // eslint-disable-line no-alert
       });
   };
   return (

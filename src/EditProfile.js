@@ -81,7 +81,7 @@ function EditProfile() {
       <label>
         비밀번호:
         <input
-          type="password"
+          type="password" placeholder="비밀번호를 입력해주세요."
           // value (newPassword가 비어있을 때, userInfo 객체가 존재하고 그 안에 password 속성이 있으면 해당 값을 사용하도록 설정)
           value={newPassword || (userInfo && userInfo.password) || ""}
           onChange={(event) => setNewPassword(event.target.value)}
@@ -91,7 +91,7 @@ function EditProfile() {
       <label>
         이름:
         <input
-          type="text"
+          type="text" placeholder="ex) 홍길동"
           value={newName || (userInfo && userInfo.userName) || ""}
           onChange={(event) => setNewName(event.target.value)}
         />
@@ -100,7 +100,7 @@ function EditProfile() {
       <label>
         전화번호:
         <input
-          type="tel"
+          type="tel" placeholder="ex) 010-0000-0000"
           value={newPhone || (userInfo && userInfo.phoneNum) || ""}
           onChange={(event) => setNewPhone(event.target.value)}
         />
@@ -127,7 +127,7 @@ function EditProfile() {
       <label>
         상세주소:
         <input
-          type="text"
+          type="text" placeholder="ex) 건물명 / 동 / 호"
           value={newAddressDtail || (userInfo && userInfo.detailAdr) || ""}
           onChange={(event) => setNewAddressDtail(event.target.value)}
         />
@@ -136,7 +136,7 @@ function EditProfile() {
       <label>
         이메일:
         <input
-          type="email"
+          type="email" placeholder="ex) someone@mail.com"
           value={newEmail || (userInfo && userInfo.userEmail) || ""}
           onChange={(event) => setNewEmail(event.target.value)}
         />
