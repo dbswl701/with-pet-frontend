@@ -39,7 +39,7 @@ function App() {
 
           {/* 펫시터 페이지 */}
           <Route path="/petsitterapply" element={<PetsitterApply />} />
-          <Route path="/pesittercalendar" element={<PetsitterCalendar />} />
+          <Route path="/petsittercalendar" element={<PetsitterCalendar />} />
           <Route path="/petsittersdoginfo" element={<PetsittersDogInfo />} />
           <Route path="/petsitternewdog" element={<PetsitterNewDog />} />
           <Route path="/profit" element={<Profit />} />
