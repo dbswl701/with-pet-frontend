@@ -42,6 +42,11 @@ function PetAdd({
         <img id="preview-image" alt="이미지 미리보기" src={!petInfo.dog_img ? dogimgdefault : petInfo.dog_img} />
         <label htmlFor="image-select">프로필 이미지 선택</label>
         <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} onChange={onChange} />
+
+        <div style={{ backgroundColor: 'white', marginTop: '30px' }}>
+          <p>그룹에 참여하기</p>
+          <TextField sx={{ m: 1 }} label="코드 입력" type="number" variant="standard" size="small" name="inviteCode" />
+        </div>
       </div>
       <div className="pet-info-regist">
 
