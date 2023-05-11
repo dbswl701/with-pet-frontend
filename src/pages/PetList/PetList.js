@@ -62,7 +62,7 @@ function PetList() {
       dog_isbn: petInfo.dog_isbn,
     };
     // nextId.current += 1;
-    axios.post('https://withpet.site/api/v1/dogs/register-dog', pet)
+    axios.post('https://withpet.site/api/v1/dogs/register-dog', pet, { withCredentials: true })
       .then((res) => {
         setPets(pets.concat(res.data.result));
       })
@@ -82,10 +82,10 @@ function PetList() {
   };
 
   useEffect(() => {
-    axios.get('https://withpet.site/api/v1/dogs')
+    axios.get('https://withpet.site/api/v1/dogs', { withCredentials: true })
       .then((res) => {
-        setPets(res.data.result);
-        console.log(res.data.result);
+        setPets(res.data.result.content);
+        console.log(res.data.result.content);
       })
       .catch(() => {
       });
@@ -93,10 +93,10 @@ function PetList() {
 
   const onSubmitModify = (id, modifyPetInfo) => {
     // setPets(pets.map((pet) => (pet.id === id ? modifyPetInfo : pet)));
-    axios.put(`https://withpet.site/api/v1/dogs/${id}`, modifyPetInfo)
+    axios.put(`https://withpet.site/api/v1/dogs/${id}`, modifyPetInfo, { withCredentials: true })
       .then((res) => {
         const updatedPets = pets.map((pet) => {
-          if (pet.id === updatedPets.id) {
+          if (pet.id === modifyPetInfo.id) {
             return res.data.result;
           }
           return pet;
@@ -106,6 +106,7 @@ function PetList() {
       .catch(() => {
       });
   };
+  console.log(pets);
 
   const onCancle = () => {
     setPetInfo({

@@ -5,7 +5,6 @@ import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dogimgdefault from '../../assets/dogProfileImage.png';
 
 function PetModify({ onSubmit, petInfo, onToggle }) {
   const [modifyPetInfo, setModifyPetInfo] = useState({
@@ -19,11 +18,23 @@ function PetModify({ onSubmit, petInfo, onToggle }) {
     dog_isbn: petInfo.dog_isbn,
   });
   const onChange = (e) => {
-    const { value, name } = e.target;
-    setModifyPetInfo({
-      ...modifyPetInfo,
-      [name]: value,
-    });
+    if (e.target.files) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setModifyPetInfo({
+          ...modifyPetInfo,
+          dog_img: reader.result,
+        });
+      };
+    } else {
+      const { value, name } = e.target;
+      setModifyPetInfo({
+        ...modifyPetInfo,
+        [name]: value,
+      });
+    }
   };
 
   const onLocalSubmit = (e) => {
@@ -49,7 +60,7 @@ function PetModify({ onSubmit, petInfo, onToggle }) {
   const modify = (
     <form onSubmit={onLocalSubmit}>
       <div className="pet-img-regist">
-        <img id="preview-image" alt="이미지 미리보기" src={!modifyPetInfo.dog_img ? dogimgdefault : modifyPetInfo.dog_img} />
+        <img id="preview-image" alt="이미지 미리보기" src={modifyPetInfo.dog_img} />
         <label htmlFor="image-select">프로필 이미지 선택</label>
         <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} onChange={onChange} />
       </div>
