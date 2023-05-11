@@ -61,10 +61,10 @@ function PetList() {
       dog_img: img,
       dog_isbn: petInfo.dog_isbn,
     };
-    setPets(pets.concat(pet));
     // nextId.current += 1;
     axios.post('https://withpet.site/api/v1/dogs/register-dog', pet)
-      .then(() => {
+      .then((res) => {
+        setPets(pets.concat(res.data.result));
       })
       .catch(() => {
       });
@@ -85,15 +85,23 @@ function PetList() {
     axios.get('https://withpet.site/api/v1/dogs')
       .then((res) => {
         setPets(res.data.result);
+        console.log(res.data.result);
       })
       .catch(() => {
       });
-  }, [pets]);
+  }, []);
 
   const onSubmitModify = (id, modifyPetInfo) => {
     // setPets(pets.map((pet) => (pet.id === id ? modifyPetInfo : pet)));
     axios.put(`https://withpet.site/api/v1/dogs/${id}`, modifyPetInfo)
-      .then(() => {
+      .then((res) => {
+        const updatedPets = pets.map((pet) => {
+          if (pet.id === updatedPets.id) {
+            return res.data.result;
+          }
+          return pet;
+        });
+        setPets(updatedPets);
       })
       .catch(() => {
       });
