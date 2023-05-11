@@ -32,7 +32,7 @@ function Nav() {
           </div>
         </li>
         <li>
-          <Link to="/signin">펫시터 지원</Link>
+          <Link to="/petsitterapply">펫시터 지원</Link>
         </li>
       </ul>
     </div>
