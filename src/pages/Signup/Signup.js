@@ -55,6 +55,7 @@ function SignupForm() {
       <h1>회원가입</h1>
       <div>
         <label htmlFor="username">아이디:</label>
+        {/* // required 처리하면 됨 */}
         <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
       </div>
       <div>
