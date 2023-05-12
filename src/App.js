@@ -18,6 +18,7 @@ import AdminMainPage from './pages/AdminMainPage/AdminMainPage';
 import AdminApplyInfo from './pages/AdminApplyInfo/AdminApplyInfo';
 import EditProfile from './pages/EditProfile/EditProfile';
 import ApiTest from './pages/ApiTest';
+import UserDiary from './pages/UserDiary/UserDiary';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path="/usageList" element={<UsageList />} />
           <Route path="/petList" element={<PetList />} />
           <Route path="/petsitterdetail" element={<PetsitterDetial />} />
+          <Route path="/userdiary" element={<UserDiary />} />
 
           {/* 펫시터 페이지 */}
           <Route path="/petsitterapply" element={<PetsitterApply />} />
