@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const SideBar = styled.div`
   display: flex;
@@ -28,17 +29,8 @@ function Item({
 }
 
 function UserSideBar() {
-  const dogs = [
-    { id: '1', name: '멍멍이1' },
-    { id: '2', name: '멍멍이2' },
-    { id: '3', name: '멍멍이3' },
-  ];
-
-  const categories = [
-    { id: '1', name: '산책1' },
-    { id: '2', name: '산책2' },
-    { id: '3', name: '산책3' },
-  ];
+  const [dogs, setDogs] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const [filter, setFilter] = useState({
     dogId: '',
@@ -48,13 +40,38 @@ function UserSideBar() {
 
   const onChange = (e) => {
     const { name, value } = e.target;
-    setFilter({
+    const updatedFilter = {
       ...filter,
       [name]: value,
-    });
+    };
+    setFilter(updatedFilter);
+    axios.get(`https://d45162fd-d516-4456-83d9-d3b784b62ec2.mock.pstmn.io/api/v1/userdiaries?category=${updatedFilter.category}&dogId=${updatedFilter.dogId}&month=${updatedFilter.month}`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch(() => {
+
+      });
   };
 
-  console.log(filter);
+  useEffect(() => { // { withCredentials: true } 필요
+    axios.get('https://d45162fd-d516-4456-83d9-d3b784b62ec2.mock.pstmn.io/api/v1/userdiaries/doglist')
+      .then((res) => {
+        const updatedDogs = res.data.dogList.map((dog) => ({
+          id: dog.id.toString(),
+          name: dog.name,
+        }));
+        setDogs(updatedDogs);
+        const updatedCategories = res.data.categoryList.map((category) => ({
+          id: category.id.toString(),
+          name: category.name,
+        }));
+        setCategories(updatedCategories);
+      })
+      .catch(() => {
+      });
+  }, []);
+
   return (
     <>
       <SideBar>
@@ -62,7 +79,7 @@ function UserSideBar() {
           강아지 선택
           {dogs.map((dog) => <Item key={dog.id} name="dogId" item={dog} filter={filter} onChange={onChange} />)}
         </div>
-        <div style={{ backgroundColor: 'red' }}>
+        <div>
           작성자 선택
           <button>반려인</button>
           <button>펫시터</button>
