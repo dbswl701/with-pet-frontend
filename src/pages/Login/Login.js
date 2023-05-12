@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './login.css';
 import axios from 'axios';
 
-function Login() {
+function Login({ setState }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -14,7 +14,9 @@ function Login() {
       password,
     }, { withCredentials: true })
       .then(() => {
+        setState('login');
         alert('로그인에 성공했습니다.'); // eslint-disable-line no-alert
+        navigate('../');
       })
       .catch(() => {
         alert('회원가입에 실패했습니다.'); // eslint-disable-line no-alert
