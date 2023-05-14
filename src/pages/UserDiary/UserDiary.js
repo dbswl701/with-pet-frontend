@@ -1,13 +1,28 @@
-import React, { useState } from 'react';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import React, { useState, useEffect } from 'react';
 import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+import axios from 'axios';
+
+const url = 'http://localhost:8080/api/v1/userdiaries';
 
 function UserDiary() {
   const [open, setOpen] = useState(false);
-  const [diaryContent, setDiaryContent] = useState('');
+  const [title, setTitle] = useState('');
+  const [contentBody, setContentBody] = useState('');
+  const [createdAt, setCreatedAt] = useState('');
+
+  useEffect(() => {
+    axios.get(url)
+      .then((res) => {
+        setCreatedAt(res.data.createdAt);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
 
   const handleOpen = () => {
     setOpen(true);
@@ -17,47 +32,67 @@ function UserDiary() {
     setOpen(false);
   };
 
-  const handleSave = () => {
-    console.log(diaryContent);
-    handleClose();
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
   };
 
-  const handleDiaryContentChange = (event) => {
-    setDiaryContent(event.target.value);
+  const hendleContentBodyChange = (e) => {
+    setContentBody(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios.post(url, { title, contentBody })
+      .then((res) => {
+        console.log(res.data);
+        handleClose();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    // handleClose();
   };
 
   return (
     <div>
-      <Button onClick={handleOpen}>캘린더 뷰 특정 날짜</Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+      <Button variant="contained" color="primary" onClick={handleOpen}>
+        특정날짜
+      </Button>
+      <Modal open={open} onClose={handleClose}>
         <Box sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
+          width: 800,
+          height: 'flex',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
           bgcolor: 'background.paper',
           boxShadow: 24,
-          p: 20,
+          p: 2,
         }}
         >
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            (날짜)
+          <Typography variant="h5" gutterBottom>
+            {createdAt ? `Diary created on ${createdAt}` : 'Loading...'}
           </Typography>
-          <TextField
-            id="diary-content"
-            label="일지 작성"
-            multiline
-            rows={4}
-            value={diaryContent}
-            onChange={handleDiaryContentChange}
-            sx={{ mt: 2 }}
-          />
-          <Button onClick={handleSave} open sx={{ mt: 2 }}>저장</Button>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              label="제목"
+              value={title}
+              onChange={handleTitleChange}
+              sx={{ mb: 2 }}
+            /><br />
+            <TextField
+              label="내용"
+              multiline
+              rows={6}
+              value={contentBody}
+              onChange={hendleContentBodyChange}
+              sx={{ mb: 2 }}
+            /><br />
+            <Button type="submit" variant="contained" color="primary">
+              저장
+            </Button>
+          </form>
         </Box>
       </Modal>
     </div>
