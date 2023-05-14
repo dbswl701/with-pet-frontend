@@ -18,11 +18,13 @@ function UserDiary() {
   const [createdAt, setCreatedAt] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
   const [categoryID, setCategoryID] = useState('');
+  const [dogID, setDogID] = useState('');
 
   useEffect(() => {
     axios.get(url)
       .then((res) => {
         setCreatedAt(res.data.createdAt);
+        setDogID(res.data.dogId);
       })
       .catch((err) => {
         console.error(err);
@@ -56,10 +58,12 @@ function UserDiary() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
+    formData.append('createdAt', createdAt);
     formData.append('title', title);
     formData.append('contentBody', contentBody);
     formData.append('dogImgToday', selectedFile);
     formData.append('categoryID', categoryID);
+    formData.append('dogID', dogID);
     axios.post(url, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -94,6 +98,9 @@ function UserDiary() {
         >
           <Typography variant="h5" gutterBottom>
             {createdAt ? `Diary created on ${createdAt}` : '(선택 날짜)'}
+          </Typography>
+          <Typography variant="h6" gutterBottom>
+            반려견: {dogID}
           </Typography>
           <RadioGroup row aria-label="category" name="category" value={categoryID} onChange={handleCategoryChange}>
             <FormControlLabel value="1" control={<Radio />} label="배변" />
