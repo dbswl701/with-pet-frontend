@@ -23,8 +23,8 @@ function PetList() {
   // const nextId = useRef(3);
 
   const onChange = (e) => {
-    console.log(dateNow);
-    console.log(today);
+    // console.log(dateNow);
+    // console.log(today);
     if (e.target.files) {
       const file = e.target.files[0];
       const reader = new FileReader();
@@ -85,7 +85,7 @@ function PetList() {
     axios.get('https://withpet.site/api/v1/dogs', { withCredentials: true })
       .then((res) => {
         setPets(res.data.result.content);
-        console.log(res.data.result.content);
+        // console.log(res.data.result.content);
       })
       .catch(() => {
       });
@@ -106,7 +106,7 @@ function PetList() {
       .catch(() => {
       });
   };
-  console.log(pets);
+  // console.log(pets);
 
   const onCancle = () => {
     setPetInfo({

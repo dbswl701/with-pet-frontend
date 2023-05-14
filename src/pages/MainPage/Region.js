@@ -51,35 +51,35 @@ export default function Asynchronous() {
   }, [open]);
 
   return (
-        <Autocomplete
-          id="asynchronous-demo"
-          sx={{ width: 300 }}
-          open={open}
-          onOpen={() => {
-            setOpen(true);
+    <Autocomplete
+      id="asynchronous-demo"
+      sx={{ width: 300 }}
+      open={open}
+      onOpen={() => {
+        setOpen(true);
+      }}
+      onClose={() => {
+        setOpen(false);
+      }}
+      isOptionEqualToValue={(option, value) => option.region === value.region}
+      getOptionLabel={(option) => option.region}
+      options={options}
+      loading={loading}
+      renderInput={(params) => (
+        <TextField
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...params}
+          InputProps={{
+            ...params.InputProps,
+            endAdornment: (
+              <>
+                {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                {params.InputProps.endAdornment}
+              </>
+            ),
           }}
-          onClose={() => {
-            setOpen(false);
-          }}
-          isOptionEqualToValue={(option, value) => option.region === value.region}
-          getOptionLabel={(option) => option.region}
-          options={options}
-          loading={loading}
-          renderInput={(params) => (
-            <TextField
-              // eslint-disable-next-line react/jsx-props-no-spreading
-              {...params}
-              InputProps={{
-                ...params.InputProps,
-                endAdornment: (
-                  <>
-                    {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                    {params.InputProps.endAdornment}
-                  </>
-                ),
-              }}
-            />
-          )}
         />
+      )}
+    />
   );
 }

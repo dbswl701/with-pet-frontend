@@ -19,13 +19,13 @@ const Card = styled.div`
 function MediaCard({ title, image, rate }) {
   return (
     <Card>
-        <div>
-            <img src={image} alt={title} />
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <h3>{title}</h3>
-            <h4>({rate})</h4>
-        </div>
+      <div>
+        <img src={image} alt={title} />
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <h3>{title}</h3>
+        <h4>({rate})</h4>
+      </div>
     </Card>
   );
 }
@@ -33,12 +33,12 @@ function MediaCard({ title, image, rate }) {
 function MediaCardGrid({ cards }) {
   return (
     <div>
-    <Grid>
-      {cards && cards.map((card) => (
-        // eslint-disable-next-line max-len
-        <MediaCard key={card.id} title={card.name} image={card.house} rate={card.rate} />
-      ))}
-    </Grid>
+      <Grid>
+        {cards && cards.map((card) => (
+          // eslint-disable-next-line max-len
+          <MediaCard key={card.id} title={card.name} image={card.house} rate={card.rate} />
+        ))}
+      </Grid>
     </div>
   );
 }

@@ -49,8 +49,8 @@ axios({
   url: 'https://4a595605-a86b-482c-96a1-0196009f4a0e.mock.pstmn.io//api/v1/show-petsitter',
   responseType: 'json',
 })
-  .then((response) => {
-    console.log(response);
+  .then(() => {
+    // console.log(response);
   });
 
 const petSitterList = [
@@ -120,9 +120,9 @@ function MainPage() {
   return (
     <>
       <div className="img">
-      <BannerBox>
-      <img src={dogBanner} alt="dog_banner" />
-      </BannerBox>
+        <BannerBox>
+          <img src={dogBanner} alt="dog_banner" />
+        </BannerBox>
       </div>
       <SelectBox>
         <div className="petsize" />
