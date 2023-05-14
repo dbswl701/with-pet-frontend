@@ -4,12 +4,13 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 import axios from 'axios';
 
-const url = 'http://localhost:8080/api/v1/userdiaries';
+const url = 'https://withpet.site/api/v1/userdiaries';
 
 function UserDiary() {
   const [open, setOpen] = useState(false);
@@ -18,13 +19,15 @@ function UserDiary() {
   const [createdAt, setCreatedAt] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
   const [categoryID, setCategoryID] = useState('');
+  const [userDiaries, setUserDiaries] = useState([]);
   const [dogID, setDogID] = useState('');
 
   useEffect(() => {
-    axios.get(url)
+    axios.get(url, { withCredentials: true })
       .then((res) => {
-        setCreatedAt(res.data.createdAt);
+        setCreatedAt(res.data);
         setDogID(res.data.dogId);
+        setUserDiaries(res.data);
       })
       .catch((err) => {
         console.error(err);
@@ -62,13 +65,12 @@ function UserDiary() {
     formData.append('title', title);
     formData.append('contentBody', contentBody);
     formData.append('dogImgToday', selectedFile);
-    formData.append('categoryID', categoryID);
     formData.append('dogID', dogID);
     axios.post(url, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
-    })
+    }, { withCredentials: true })
       .then((res) => {
         console.log(res.data);
         handleClose();
@@ -97,19 +99,25 @@ function UserDiary() {
         }}
         >
           <Typography variant="h5" gutterBottom>
-            {createdAt ? `Diary created on ${createdAt}` : '(선택 날짜)'}
+            {createdAt ? `Diary created on ${createdAt}` : '(선택 날짜 안뜸)'}
           </Typography>
           <Typography variant="h6" gutterBottom>
             반려견: {dogID}
           </Typography>
-          <RadioGroup row aria-label="category" name="category" value={categoryID} onChange={handleCategoryChange}>
-            <FormControlLabel value="1" control={<Radio />} label="배변" />
-            <FormControlLabel value="2" control={<Radio />} label="산책" />
-            <FormControlLabel value="3" control={<Radio />} label="간식" />
-            <FormControlLabel value="4" control={<Radio />} label="병원" />
-            <FormControlLabel value="5" control={<Radio />} label="투약" />
-            <FormControlLabel value="6" control={<Radio />} label="기타" />
-          </RadioGroup>
+          <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+            <InputLabel id="demo-select-small-label">카테고리</InputLabel>
+            <Select
+              labelId="demo-select-small-label"
+              id="demo-select-small"
+              value={categoryID}
+              label="Category"
+              onChange={handleCategoryChange}
+            >
+              {userDiaries.map((diary) => (
+                <MenuItem key={diary.id} value={diary.id}>{diary.title}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <form onSubmit={handleSubmit}>
             <input type="file" onChange={handleFileChange} /><br /><br />
             {selectedFile && (

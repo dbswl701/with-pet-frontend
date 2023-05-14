@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 function ApiTest() {
   const [userName, setUserName] = useState(' ## 이름 ##');
   const onClick = () => {
-    axios.get('https://withpet.site/api/v1/users/my-info')
+    axios.get('https://withpet.site/api/v1/users/my-info', { withCredentials: true })
       .then((res) => {
         setUserName(res.data.result.userName);
       })
