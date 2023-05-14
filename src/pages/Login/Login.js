@@ -49,7 +49,7 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-function Login() {
+function Login({ setState }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -58,9 +58,11 @@ function Login() {
     axios.post('https://withpet.site/api/v1/users/login', {
       id: username,
       password,
-    })
+    }, { withCredentials: true })
       .then(() => {
+        setState('login');
         alert('로그인에 성공했습니다.'); // eslint-disable-line no-alert
+        navigate('../');
       })
       .catch(() => {
         alert('로그인에 실패했습니다.'); // eslint-disable-line no-alert

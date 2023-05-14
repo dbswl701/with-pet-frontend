@@ -1,9 +1,18 @@
 import React from 'react';
 import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
-function PetDetail({ pet, onClick, onModify }) {
+function PetDetail({ pet, onToggle }) {
   // const [isModify, setIsModify] = useState(false);
-
+  const petSpec = [
+    { name: '견종', value: pet.dog_breed },
+    { name: '생일', value: pet.dog_birth },
+    { name: '성별', value: pet.dog_gender },
+    { name: '중성화 여부', value: pet.neutralization ? 'O' : 'X' },
+    { name: '몸무게', value: pet.dog_weight },
+    { name: '등록코드', value: pet.dog_isbn },
+  ];
   const detail = (
     <>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -19,26 +28,33 @@ function PetDetail({ pet, onClick, onModify }) {
             </div>
           </div>
           <div className="pet-info">
-            <h1>이름 {pet.dog_name}</h1>
-            <p>견종 {pet.dog_breed}</p>
-            <p>생일 {pet.dog_birth}</p>
-            <p>성별 {pet.dog_gender}</p>
-            <p>중성화 여부 {pet.neutralization}</p>
-            <p>무게 {pet.dog_weight}</p>
-            <p>등록코드 {pet.dog_isbn}</p>
+            <div className="pet-name">
+              <h2>{pet.dog_name}</h2>
+            </div>
+            <div className="pet-spec">
+              <Grid container ml={2}>
+                {petSpec.map((spec) => (
+                  <React.Fragment key={spec.name}>
+                    <Grid item xs={6}>
+                      <Typography>{spec.name}</Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography>{spec.value}</Typography>
+                    </Grid>
+                  </React.Fragment>
+                ))}
+              </Grid>
+            </div>
+            <button onClick={() => onToggle('modify')}>수정</button>
           </div>
         </div>
         <div className="pet-second">
           <button>사회화</button>
           <button>건강수첩</button>
         </div>
-        <div>
-          <button onClick={onModify}>수정</button>
-          <button>삭제</button>
-        </div>
       </div>
       <div>
-        <ExpandCircleDownIcon className="up-icon" fontSize="large" onClick={onClick} />
+        <ExpandCircleDownIcon className="up-icon" fontSize="large" onClick={() => onToggle('simple')} />
       </div>
     </>
   );

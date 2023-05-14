@@ -1,6 +1,11 @@
 /* PetList.js */
 * {
-  box-sizing: border-box
+  box-sizing: border-box;
+  font-family: Noto Sans KR;
+}
+
+#root {
+  height: 100%;
 }
 
 .list_container{
@@ -24,6 +29,9 @@
   text-align: center;
   border-radius: 20px;
   box-sizing: border-box;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
+  position: relative;
+
 }
 
 .pet-block:hover {
@@ -34,7 +42,7 @@
 .down-icon{
   display: flex;
   position: absolute;
-  right: 400px;
+  right: 50px;
   /* top: 900px; */
   margin-left: 50px;
   margin-top: 10px;
@@ -43,7 +51,7 @@
 .up-icon {
   display: flex;
   position: absolute;
-  right: 400px;
+  right: 50px;
   /* top: 900px; */
   margin-left: 50px;
   margin-top: 10px;
@@ -59,8 +67,10 @@
   padding: 20px 100px;
   text-align: center;
   border-radius: 20px;
-  height: 500px;
+  /* height: 500px; */
   flex-direction: row;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
+  position: relative;
 }
 
 .pet-img-group {
@@ -85,12 +95,25 @@
   margin: 10px 0px;
 }
 
+
+.pet-info>button {
+  background-color: #CAA969;
+  border: none;
+  border-radius: 5px;
+  margin-top : 10px;
+  height: 30px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
+  cursor: pointer;
+  color: white;
+}
+
 .pet-group {
   margin-top: 30px;
   margin-left: 10px;
 
   /* background-color:aqua; */
-  border: 2px solid rgb(110, 60, 2);
+  border: 2px solid rgb(153, 121, 85);
+  background-color: white;
   border-radius: 10px;
   padding: 10px;
 }
@@ -100,6 +123,34 @@
   font-size: 18px;
 }
 
+.pet-group button:first-child {
+  background-color: #CAA969;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  width: 70px;
+  cursor: pointer;
+  border: 2px solid white;
+}
+
+.pet-group button:last-child {
+  background-color: white;
+  border: 2px solid #F36464;
+  color: #F36464;
+  cursor: pointer;
+}
+
+.pet-group button:first-child:hover {
+  background-color: white;
+  color: #CAA969;
+  border: 2px solid #CAA969;
+}
+
+.pet-group button:last-child:hover {
+  background-color: #F36464;
+  border: 2px solid white;
+  color: white;
+}
 .pet-block .pet-img {
   width: 60px;
   height: 60px;
@@ -116,6 +167,25 @@
   margin-left: 30px;
 }
 
+.pet-detail .pet-name {
+  background-color: white;
+  border-radius: 10px;
+  text-align: center;
+  color: #CAA969;
+}
+
+.pet-detail .pet-spec {
+  background-color: white;
+  border-radius: 10px;
+  margin-top: 15px;
+  color: #333333;
+}
+
+.pet-spec>p {
+  font-size: 20px;
+  margin: 15px 0px;
+}
+
 .pet-second {
   display: flex;
   flex-direction: column;
@@ -126,8 +196,16 @@
 
 .pet-second button {
   width: 400px;
-  height: 30px;
+  height: 40px;
   margin-bottom: 10px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
+  border: none;
+  border-radius: 5px;
+}
+
+.pet-second button:hover {
+  border: 1px solid rgb(153, 121, 85);
 }
 
 .pet-add {
@@ -142,6 +220,7 @@
   align-items: center;
   border-radius: 20px;
   box-sizing: border-box;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
 }
 
 .pet-add:hover {
@@ -182,6 +261,8 @@
 #preview-image {
   display: flex;
   width: 100px;
+  height: 100px;
+  border-radius: 50%;
 }
 
 .pet-info-regist {
@@ -195,7 +276,9 @@
   color: #0095f6;
   cursor: pointer;
 }
-
+.select p {
+  margin: 10px 0px;
+}
 
 .select input[type=radio] {
   display: none
@@ -204,12 +287,38 @@
 .select input[type=radio]+label {
   display: inline-block;
   cursor: pointer;
-  height: 24px;
-  width: 90px;
-  border: 1px solid black;
+  height: 40px;
+  width: 130px;
+  border: 2px solid white;
+  border-radius: 5px;
   text-align: center;
+  vertical-align: center;
+  padding: 5px;
+  margin-left: 5px;
+  background-color: white;
+}
+
+.select input[type=radio]+label:hover {
+  background-color: rgb(212, 212, 212);
+  border: 2px solid rgb(212, 212, 212);
 }
 
 .select input[type=radio]:checked+label {
-  background-color: orange;
+  border: 2px solid rgb(153, 121, 85);
+  /* background-color: orange; */
+}
+
+.pet-add-btn {
+  height: 40px;
+  margin-bottom: 10px;
+  background-color: #CAA969;
+  color: white;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
+  border: none;
+  border-radius: 5px;
+}
+
+.pet-add-cancel-btn {
+  background-color: white;
+  color: black;
 }
