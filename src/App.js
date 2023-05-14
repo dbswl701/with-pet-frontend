@@ -18,7 +18,6 @@ import AdminMainPage from './pages/AdminMainPage/AdminMainPage';
 import AdminApplyInfo from './pages/AdminApplyInfo/AdminApplyInfo';
 import EditProfile from './pages/EditProfile/EditProfile';
 import ApiTest from './pages/ApiTest';
-import EditProfile from './pages/EditProfile/EditProfile';
 import AdminServicManage from './pages/AdminServicManage/AdminServicManage';
 import UserDiary from './pages/UserDiary/UserDiary';
 
@@ -54,7 +53,7 @@ function App() {
           <Route path="/adminapplyInfo" element={<AdminApplyInfo />} />
         </Route>
       </Routes>
-      {/* <ApiTest /> */}
+      <ApiTest />
     </>
 
   );
