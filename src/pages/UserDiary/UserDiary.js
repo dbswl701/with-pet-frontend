@@ -19,15 +19,16 @@ function UserDiary() {
   const [createdAt, setCreatedAt] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
   const [categoryID, setCategoryID] = useState('');
-  const [userDiaries, setUserDiaries] = useState([]);
+  const [category, setCategory] = useState([]);
   const [dogID, setDogID] = useState('');
+  const [dog, setDog] = useState([]);// DB에 저장된 반려견 정보 변수에 맞게 수정 필요
 
   useEffect(() => {
     axios.get(url, { withCredentials: true })
       .then((res) => {
-        setCreatedAt(res.data);
         setDogID(res.data.dogId);
-        setUserDiaries(res.data);
+        setCategory(res.data);
+        setDog(res.data);
       })
       .catch((err) => {
         console.error(err);
@@ -101,9 +102,20 @@ function UserDiary() {
           <Typography variant="h5" gutterBottom>
             {createdAt ? `Diary created on ${createdAt}` : '(선택 날짜 안뜸)'}
           </Typography>
-          <Typography variant="h6" gutterBottom>
-            반려견: {dogID}
-          </Typography>
+          <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+            <InputLabel id="demo-select-small-label">반려견</InputLabel>
+            <Select
+              labelId="demo-select-small-label"
+              id="demo-select-small"
+              value={categoryID}
+              label="Dog"
+              onChange={handleCategoryChange}
+            >
+              {dog.map((diary) => (
+                <MenuItem key={diary.id} value={diary.id}>{diary.title}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
             <InputLabel id="demo-select-small-label">카테고리</InputLabel>
             <Select
@@ -113,7 +125,7 @@ function UserDiary() {
               label="Category"
               onChange={handleCategoryChange}
             >
-              {userDiaries.map((diary) => (
+              {category.map((diary) => (
                 <MenuItem key={diary.id} value={diary.id}>{diary.title}</MenuItem>
               ))}
             </Select>
