@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
 // import styled from 'styled-components';
+import axios from 'axios';
 import Orders from './Orders';
 import Orders2 from './Orders2';
 
@@ -10,6 +11,15 @@ function AdminMainPage() {
   // const Container = styled.div`
   //   background-color: #f5f5f5;
   // `;
+  const [applicantList, setApplicantList] = useState([]);
+  useEffect(() => {
+    axios.get('https://withpet.site/api/v1/show-applicants', { withCredentials: true })
+      .then((res) => {
+        setApplicantList(res.data.result);
+        console.log(res.data.result);
+        console.log(applicantList);
+      });
+  }, []);
   return (
     <>
       {/* <Container>관리자 페이지의 메인페이지</Container> */}
@@ -25,7 +35,7 @@ function AdminMainPage() {
           {/* Recent Deposits */}
           <Grid item xs={12}>
             <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-              <Orders />
+              <Orders rows={applicantList} />
             </Paper>
           </Grid>
         </Grid>
