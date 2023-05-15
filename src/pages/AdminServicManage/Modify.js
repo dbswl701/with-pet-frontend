@@ -7,7 +7,7 @@ function Modify({ item, onSubmit, onToggle }) {
   const [data, setData] = useState(item);
   const onModifyLocal = () => {
     onToggle(false);
-    onSubmit(item.id, data);
+    onSubmit(item.serviceId, data);
   };
 
   const onChange = (e) => {
@@ -18,7 +18,7 @@ function Modify({ item, onSubmit, onToggle }) {
       reader.onloadend = () => {
         setData({
           ...data,
-          img: reader.result,
+          serviceImg: reader.result,
         });
       };
     } else {
@@ -33,17 +33,17 @@ function Modify({ item, onSubmit, onToggle }) {
   return (
     <>
       <TableRow>
-        <TableCell>{item.id}</TableCell>
+        <TableCell>{item.serviceId}</TableCell>
         <TableCell>
-          <img id="preview-image" alt="이미지 미리보기" src={data.img} />
+          <img id="preview-image" alt="이미지 미리보기" src={data.serviceImg} />
           <label htmlFor="image-select">프로필 이미지 선택</label>
           <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} onChange={onChange} />
         </TableCell>
         <TableCell>
-          <TextField sx={{ m: 1 }} label="이름" variant="outlined" name="name" onChange={onChange} value={data.name} required />
+          <TextField sx={{ m: 1 }} label="이름" variant="outlined" name="serviceName" onChange={onChange} value={data.serviceName} required />
         </TableCell>
         <TableCell>
-          <TextField sx={{ m: 1 }} label="설명" variant="outlined" name="intro" onChange={onChange} value={data.intro} required />
+          <TextField sx={{ m: 1 }} label="설명" variant="outlined" name="serviceIntroduction" onChange={onChange} value={data.serviceIntroduction} required />
         </TableCell>
         <TableCell>
           <button onClick={onModifyLocal}>수정</button>
