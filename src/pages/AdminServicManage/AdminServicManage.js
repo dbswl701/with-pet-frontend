@@ -103,7 +103,7 @@ export default function Orders() {
     // setList(list.concat({ ...data, id: nextId.current }));
     nextId.current += 1;
     // console.log({ ...data, id: nextId.current });
-    data.serviceImg = '123';
+    // data.serviceImg = '123';
     console.log(data);
     axios.post('https://withpet.site/api/v1/admin/add-service', data, { withCredentials: true })
       .then((res) => {
@@ -119,7 +119,7 @@ export default function Orders() {
     });
   };
 
-  const onSubmitModify = (id, modifyPetInfo) => {
+  const onSubmitModify = (modifyPetInfo) => {
     // setList(list.map((pet) => (pet.id === id ? modifyPetInfo : pet)));
     console.log(modifyPetInfo);
     axios.put('https://withpet.site/api/v1/admin/service', modifyPetInfo, { withCredentials: true })
@@ -136,14 +136,14 @@ export default function Orders() {
       });
   };
 
-  const onDelete = (id) => {
-    console.log(id);
-    const deleteItem = list.find((item) => item.serviceId === id);
-    console.log(deleteItem);
-    setList(list.filter((item) => (item.serviceId !== id)));
-    axios.delete('https://withpet.site/api/v1/admin/service', deleteItem, { withCredentials: true })
+  const onDelete = (item) => {
+    console.log(item);
+    setList(list.filter((item2) => (item2.serviceId !== item.serviceId)));
+
+    axios.post('https://withpet.site/api/v1/admin/service', item, { withCredentials: true })
       .then(() => {
-        setList(list.filter((item) => (item.serviceId !== id)));
+        console.log(item);
+        setList(list.filter((item2) => (item2.serviceId !== item.serviceId)));
       });
   };
   console.log(list);

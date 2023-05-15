@@ -7,7 +7,7 @@ function Modify({ item, onSubmit, onToggle }) {
   const [data, setData] = useState(item);
   const onModifyLocal = () => {
     onToggle(false);
-    onSubmit(item.serviceId, data);
+    onSubmit(data);
   };
 
   const onChange = (e) => {

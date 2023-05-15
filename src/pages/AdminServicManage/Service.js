@@ -14,7 +14,7 @@ function Service({ item, onModify, onDelete }) {
       <TableCell>{item.serviceIntroduction}</TableCell>
       <TableCell>
         <button onClick={() => setToggle(!toggle)}>수정</button>
-        <button onClick={() => onDelete(item.serviceId)}>삭제</button>
+        <button onClick={() => onDelete(item)}>삭제</button>
       </TableCell>
     </TableRow>
   );
