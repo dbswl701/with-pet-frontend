@@ -82,8 +82,8 @@ export default function Orders({ rows, handleApprove, handleCancle }) {
               <TableCell>{row.applicant_user_phone}</TableCell>
               <TableCell>{row.applicant_status}</TableCell>
               <TableCell align="right">
-                <button onClick={handleApprove}>승낙</button>
-                <button onClick={handleCancle}>거절</button>
+                <button onClick={() => handleApprove(row)}>승낙</button>
+                <button onClick={() => handleCancle(row)}>거절</button>
               </TableCell>
             </TableRow>
           ))}
