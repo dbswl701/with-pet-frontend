@@ -21,7 +21,8 @@ function Item({
   return (
     <>
       <div>
-        <input type="radio" name={name} id={item.name} value={item.id} onChange={onChange} checked={filter[name] === item.id} required />
+        { console.log(item[name], typeof item[name]) }
+        <input type="radio" name={name} id={item.name} value={item[name]} onChange={onChange} checked={filter[name] === item[name]} required />
         <label htmlFor={item.name}>{item.name}</label>
       </div>
     </>
@@ -44,8 +45,9 @@ function UserSideBar() {
       ...filter,
       [name]: value,
     };
+    console.log(updatedFilter);
     setFilter(updatedFilter);
-    axios.get(`https://d45162fd-d516-4456-83d9-d3b784b62ec2.mock.pstmn.io/api/v1/userdiaries?category=${updatedFilter.category}&dogId=${updatedFilter.dogId}&month=${updatedFilter.month}`)
+    axios.get(`https://withpet.site/api/v1/userdiaries/month?categoryId=${updatedFilter.categoryId}&dogId=${updatedFilter.dogId}&month=${updatedFilter.month}`, { withCredentials: true })
       .then((res) => {
         console.log(res);
       })
@@ -54,16 +56,18 @@ function UserSideBar() {
       });
   };
 
-  useEffect(() => { // { withCredentials: true } 필요
-    axios.get('https://d45162fd-d516-4456-83d9-d3b784b62ec2.mock.pstmn.io/api/v1/userdiaries/doglist')
+  useEffect(() => {
+    axios.get('https://withpet.site/api/v1/calendar', { withCredentials: true })
       .then((res) => {
-        const updatedDogs = res.data.dogList.map((dog) => ({
-          id: dog.id.toString(),
+        console.log(res.data.result);
+        const updatedDogs = res.data.result.dogSimpleInfoResponses.map((dog) => ({
+          dogId: dog.dogId.toString(),
           name: dog.name,
         }));
         setDogs(updatedDogs);
-        const updatedCategories = res.data.categoryList.map((category) => ({
-          id: category.id.toString(),
+        console.log(res.data.result.dogSimpleInfoResponses);
+        const updatedCategories = res.data.result.categoryResponses.map((category) => ({
+          categoryId: category.categoryId.toString(),
           name: category.name,
         }));
         setCategories(updatedCategories);
@@ -71,13 +75,14 @@ function UserSideBar() {
       .catch(() => {
       });
   }, []);
-
+  console.log(dogs);
+  console.log(categories);
   return (
     <>
       <SideBar>
         <div style={{ backgroundColor: 'red' }}>
           강아지 선택
-          {dogs.map((dog) => <Item key={dog.id} name="dogId" item={dog} filter={filter} onChange={onChange} />)}
+          {dogs.map((dog) => <Item key={dog.dogId} name="dogId" item={dog} filter={filter} onChange={onChange} />)}
         </div>
         <div>
           작성자 선택
@@ -86,7 +91,7 @@ function UserSideBar() {
         </div>
         <div style={{ backgroundColor: 'red' }}>
           카테고리 선택
-          {categories.map((category) => <Item key={category.id} name="category" item={category} filter={filter} onChange={onChange} />)}
+          {categories.map((category) => <Item key={category.categoryId} name="categoryId" item={category} filter={filter} onChange={onChange} />)}
         </div>
       </SideBar>
     </>
