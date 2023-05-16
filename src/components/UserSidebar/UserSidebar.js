@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 import axios from 'axios';
+import { SideBar, Container } from '../../styles/SidebarStyle/SidebarStyle';
 
-const SideBar = styled.div`
-  display: flex;
-  background-color: white;
-  height: 100vh;
-  width: 256px;
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
-  border-radius: 5px;
-  margin-top: 50px;
-  margin-left: 40px;
-  flex-direction: column;
-`;
+// const SideBar = styled.div`
+//   display: flex;
+//   background-color: white;
+//   height: 100vh;
+//   width: 256px;
+//   box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
+//   border-radius: 5px;
+//   margin-top: 50px;
+//   margin-left: 40px;
+//   flex-direction: column;
+// `;
 
 function Item({
   item, name, filter, onChange,
@@ -75,19 +76,25 @@ function UserSideBar() {
   return (
     <>
       <SideBar>
-        <div style={{ backgroundColor: 'red' }}>
+        {/* <div style={{ backgroundColor: 'red' }}> */}
+        <Container>
           강아지 선택
           {dogs.map((dog) => <Item key={dog.id} name="dogId" item={dog} filter={filter} onChange={onChange} />)}
-        </div>
-        <div>
+          {/* </div> */}
+        </Container>
+        {/* <div> */}
+        <Container>
           작성자 선택
           <button>반려인</button>
           <button>펫시터</button>
-        </div>
-        <div style={{ backgroundColor: 'red' }}>
+        </Container>
+        {/* </div> */}
+        {/* <div style={{ backgroundColor: 'red' }}> */}
+        <Container>
           카테고리 선택
           {categories.map((category) => <Item key={category.id} name="category" item={category} filter={filter} onChange={onChange} />)}
-        </div>
+          {/* </div> */}
+        </Container>
       </SideBar>
     </>
   );

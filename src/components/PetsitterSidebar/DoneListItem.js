@@ -1,22 +1,23 @@
 import React from 'react';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 import social from '../../assets/social.png';
+import { Container, Button } from '../../styles/SidebarStyle/SidebarStyle';
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
-  border-radius:10px;
-  margin: 20px 0px;
-`;
+// const Container = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   margin-bottom: 10px;
+//   border-radius:10px;
+//   margin: 20px 0px;
+// `;
 
-const Button = styled.button`
-  width: 190px;
-  height: 40px;
-  background-color: white;
-  border: 1px solid #CAA969;
-  border-radius: 3px;
-`;
+// const Button = styled.button`
+//   width: 190px;
+//   height: 40px;
+//   background-color: white;
+//   border: 1px solid #CAA969;
+//   border-radius: 3px;
+// `;
 
 function DoneListItem({ item }) {
   console.log(item);
