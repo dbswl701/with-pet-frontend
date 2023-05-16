@@ -19,7 +19,7 @@ import AdminApplyInfo from './pages/AdminApplyInfo/AdminApplyInfo';
 // import ApiTest from './pages/ApiTest';
 import PetsitterInfoManage from './pages/PetsitterInfoManage/PetsitterInfoManage';
 import EditProfile from './pages/EditProfile/EditProfile';
-import AdminServicManage from './pages/AdminServicManage/AdminServicManage';
+import AdminServicManage from './pages/AdminServicManage/Main';
 import PetsitterShowInfo from './pages/PetsitterInfoManage/PetsitterShowInfo';
 
 function App() {

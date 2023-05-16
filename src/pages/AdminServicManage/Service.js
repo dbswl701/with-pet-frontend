@@ -4,7 +4,9 @@ import TableRow from '@mui/material/TableRow';
 // import Typography from '@mui/material/Typography';
 import Modify from './Modify';
 
-function Service({ item, onModify, onDelete }) {
+function Service({
+  listName, item, onModify, onDelete,
+}) {
   const [toggle, setToggle] = useState(false);
   const basic = (
     <TableRow>
@@ -21,7 +23,7 @@ function Service({ item, onModify, onDelete }) {
 
   return (
     <>
-      { toggle === false ? basic : <Modify item={item} onSubmit={onModify} onToggle={setToggle} onDelete={onDelete} /> }
+      { toggle === false ? basic : <Modify listName={listName} item={item} onSubmit={onModify} onToggle={setToggle} onDelete={onDelete} /> }
     </>
   );
 }

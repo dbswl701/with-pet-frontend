@@ -3,11 +3,13 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
 
-function Modify({ item, onSubmit, onToggle }) {
+function Modify({
+  listName, item, onSubmit, onToggle,
+}) {
   const [data, setData] = useState(item);
   const onModifyLocal = () => {
     onToggle(false);
-    onSubmit(data);
+    onSubmit(data, listName);
   };
 
   const onChange = (e) => {
@@ -46,7 +48,7 @@ function Modify({ item, onSubmit, onToggle }) {
           <TextField sx={{ m: 1 }} label="설명" variant="outlined" name="serviceIntroduction" onChange={onChange} value={data.serviceIntroduction} required />
         </TableCell>
         <TableCell>
-          <button onClick={onModifyLocal}>수정</button>
+          <button onClick={(e) => onModifyLocal(e, listName)}>수정</button>
           <button onClick={() => onToggle((prev) => !prev)}>취소</button>
         </TableCell>
       </TableRow>
