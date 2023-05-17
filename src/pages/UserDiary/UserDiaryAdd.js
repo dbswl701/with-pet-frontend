@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import TextField from '@mui/material/TextField';
-// import MenuItem from "@mui/material/MenuItem";
+import MenuItem from '@mui/material/MenuItem';
 import dayjs from 'dayjs';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
@@ -13,10 +13,14 @@ import axios from 'axios';
 // UserDiaryList에 추가해야됨.
 function UserDiaryAdd({ onSubmit, onChange, diaryInfo, onCancel }) {
   const [isClick, setisClick] = useState(false);
+  const [categories, setCategories] = useState([]);
   const [categoryId, setCategoryId] = useState('');
   const [categoryName, setCategoryName] = useState('');
+  const [dogs, setDogs] = useState([]);
+
   const [dogId, setDogId] = useState('');
   const [dogName, setDogName] = useState('');
+  const [temp, setTemp] = useState('');
 
   const onLocalSubmit = (e) => {
     onSubmit(e);
@@ -39,16 +43,37 @@ function UserDiaryAdd({ onSubmit, onChange, diaryInfo, onCancel }) {
     setisClick(false);
   };
 
+  const handleCategoryChange = (event) => {
+    setCategoryId(event.target.value);
+    // setCategoryName(event.target.name);
+  };
+
+  const handleDogChange = (event) => {
+    setDogId(event.target.value);
+  };
+
   useEffect(() => {
-    // 카테고리, 반려견 selectbox 불러오기
+    // 카테고리 selectbox 불러오기
     axios
-      .get(`https://withpet.site/api/v1/calendar`)
+      .get('https://withpet.site/api/v1/category', {
+        withCredentials: true,
+      })
       .then((res) => {
-        console.log(res.data);
-        setCategoryId(res.data.categoryResponses);
-        setCategoryName(res.data.categoryName);
-        setDogId(res.data.dogId);
-        setDogName(res.data.dogName);
+        setCategories(res.data.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    // 반려견 selectbox 불러오기
+    axios
+      .get('https://withpet.site/api/v1/calendar', {
+        withCredentials: true,
+      })
+      .then((res) => {
+        setDogs(res.data.result.dogSimpleInfoResponses);
       })
       .catch((err) => {
         console.log(err);
@@ -58,6 +83,7 @@ function UserDiaryAdd({ onSubmit, onChange, diaryInfo, onCancel }) {
   const addDiary = (
     <form onSubmit={onLocalSubmit}>
       <div className="select-diary-type">
+        {/* <div>{console.log('asdasdf', categoryId)}</div> */}
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             sx={{ m: 1 }}
@@ -72,30 +98,45 @@ function UserDiaryAdd({ onSubmit, onChange, diaryInfo, onCancel }) {
       </div>
       <div>
         {/* 카테고리, 반려견 불러오기 */}
-        <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-          <InputLabel id="demo-simple-select-label">카테고리</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="categoryId"
-            value={categoryId}
-            label="카테고리"
-          >
-            {/* {categoryId.map((categoryName) => (
-              <MenuItem key={categoryId} value={categoryName}></MenuItem>
-            ))} */}
-          </Select>
-        </FormControl>
+        {/* <InputLabel id="demo-simple-select-label">카테고리</InputLabel> */}
+        <Select
+          name="categoryId"
+          labelId="demo-simple-select-label"
+          id="categoryId"
+          value={categoryId}
+          label="카테고리"
+          onChange={handleCategoryChange}
+        >
+          {categories.map((item) => (
+            <MenuItem
+              key={item.categoryId}
+              value={item.categoryId}
+              name="categoryId"
+            >
+              {item.name}
+            </MenuItem>
+          ))}
+        </Select>
         <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
           <InputLabel id="demo-simple-select-label">반려견</InputLabel>
           <Select
+            name="dogId"
             labelId="demo-simple-select-label"
             id="dogId"
             value={dogId}
             label="반려견"
+            onChange={handleDogChange}
           >
-            {/* {categoryId.map((categoryName) => (
-              <MenuItem key={categoryId} value={categoryName}></MenuItem>
-            ))} */}
+            {dogs.map((item) => (
+              <MenuItem key={item.dogId} value={item.dogId}>
+                {item.name}
+              </MenuItem>
+            ))}
+            {/* {categories.map((category) => {
+              <MenuItem key={category.categoryId} value={category.categoryId}>
+                {category.name}
+              </MenuItem>;
+            })} */}
           </Select>
         </FormControl>
       </div>
@@ -123,17 +164,15 @@ function UserDiaryAdd({ onSubmit, onChange, diaryInfo, onCancel }) {
           name="title"
           onChange={onChange}
           // value={diaryInfo.title}
-          required
         />
         <TextField
           sx={{ m: 1 }}
           label="내용"
           variant="outlined"
           size="small"
-          name="content"
+          name="contentBody"
           onChange={onChange}
           // value={diaryInfo.contentBody}
-          required
         />
         <input className="diary-submit-button" type="submit" value="submit" />
         <input

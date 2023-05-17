@@ -64,17 +64,6 @@ function UserDiaryModify({ onSubmit, diaryInfo, onToggle }) {
   };
   const modify = (
     <form onSubmit={onLocalSubmit}>
-      <div className="select-diary-type">
-        <img id="preview-img" src={modifyDiaryInfo.todayImg} alt="preview" />
-        <label htmlFor="image-select">오늘의 사진 선택</label>
-        <input
-          type="file"
-          accept="image/*"
-          id="image-select"
-          style={{ display: 'none' }}
-          onChange={onChange}
-        />
-      </div>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
           sx={{ m: 1 }}
@@ -112,6 +101,17 @@ function UserDiaryModify({ onSubmit, diaryInfo, onToggle }) {
             ))} */}
         </Select>
       </FormControl>
+      <div className="select-diary-type">
+        <img id="preview-img" src={modifyDiaryInfo.todayImg} alt="preview" />
+        <label htmlFor="image-select">오늘의 사진 선택</label>
+        <input
+          type="file"
+          accept="image/*"
+          id="image-select"
+          style={{ display: 'none' }}
+          onChange={onChange}
+        />
+      </div>
       <div className="diary-contents-regist">
         {/* 카테고리 바꾸기 */}
         <TextField

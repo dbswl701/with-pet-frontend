@@ -13,15 +13,15 @@ function UserDiaryList() {
   const handleClose = () => setOpen(false);
   const [diaries, setDiaries] = useState([]);
   const [categoryId, setCategoryId] = useState('');
-  const [day, setDay] = useState('2023-05-16');
+  const [day, setDay] = useState('2023-05-17');
   const [dogId, setDogId] = useState('');
   const [diaryInfo, setDiaryInfo] = useState({
-    categoryId: 0,
-    contentBody: 'string',
-    createdAt: '',
-    dogId: 0,
+    categoryId: 1,
+    contentBody: 'stri1jhng',
+    createdAt: '2023-05-17',
+    dogId: 7,
     dogImgToday: 'string',
-    title: 'string',
+    title: 'strinhgg',
   });
 
   // setDay(props);
@@ -41,7 +41,26 @@ function UserDiaryList() {
         console.error(err);
       });
   }, []);
-  const onChangetemp = (e) => {}; // 임시로 만든 함수
+  const onChangetemp = (e) => {
+    if (e.target.files) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setDiaryInfo({
+          ...diaryInfo,
+          dogImgToday: reader.result,
+        });
+      };
+    } else {
+      const { value, name } = e.target;
+      setDiaryInfo({
+        ...diaryInfo,
+        [name]: value,
+      });
+    }
+  };
+  // 임시로 만든 함수
   const onSubmitModify = (id, modifyDiaryInfo) => {
     // setPets(pets.map((pet) => (pet.id === id ? modifyPetInfo : pet)));
     let diaryRequest = modifyDiaryInfo;
@@ -60,7 +79,56 @@ function UserDiaryList() {
       })
       .catch(() => {});
   };
+  const onSubmit = (addDiaryInfo) => {
+    axios
+      .post(`https://withpet.site/api/v1/userdiaries`, addDiaryInfo, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        const updatedDiaries = diaries.map((diary) => {
+          if (diary.id === addDiaryInfo.id) {
+            return res.data.result;
+          }
+          return diary;
+        });
+        setPets(updatedDiaries);
+      })
+      .catch(() => {});
+  };
 
+  const onSubmitAdd = (e) => {
+    e.preventDefault();
+    let img = diaryInfo.dogImgToday;
+    if (img === '') {
+      img = null;
+    }
+    const diary = {
+      categoryId: diaryInfo.categoryId,
+      contentBody: diaryInfo.contentBody,
+      createdAt: diaryInfo.createdAt,
+      dogId: diaryInfo.dogId,
+      dogImgToday: diaryInfo.dogImgToday,
+      title: diaryInfo.title,
+    };
+    axios
+      .post(`https://withpet.site/api/v1/userdiaries`, diary, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        setDiaries(diaries.concat(res.data.result));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    setDiaryInfo({
+      categoryId: '',
+      contentBody: '',
+      createdAt: '',
+      dogId: '',
+      dogImgToday: '',
+      title: '',
+    });
+  };
   return (
     <div>
       <Button variant="contained" onClick={handleOpen}>
@@ -91,7 +159,7 @@ function UserDiaryList() {
               );
             })}
             <UserDiaryAdd
-              onSubmit={onSubmitModify}
+              onSubmit={onSubmitAdd}
               onChange={onChangetemp}
               onCancel={handleClose}
             />
