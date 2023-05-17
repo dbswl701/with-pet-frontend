@@ -5,11 +5,12 @@ import axios from 'axios';
 function Item({ service }) {
   return (
     <>
-      <div style={{ backgroundColor: `${service.isIncluded === true ? 'pink' : 'gray'}` }}>
+      <div style={{ backgroundColor: `${service.isIncluded === true ? 'pink' : 'gray'}`, width: '300px', marginRight: '20px' }}>
         {/* 사진, 이름, 내용 */}
-        <img src={service.serviceImg} alt="서비스 이미지" />
+        <img src={service.serviceImg} alt="서비스 이미지" style={{ width: '100px', height: '100px' }} />
         <p>{service.serviceName}</p>
         <p>{service.serviceIntroduction}</p>
+        <p>가격: {service.price}</p>
       </div>
     </>
   );
@@ -40,9 +41,21 @@ function PetsitterShowInfo() {
   };
 
   const isServiceIdIncluded = info.withPetServices && info.withPetServices.map((service) => {
+    const selected = info.petSitterServices.find((sitterService) => sitterService.serviceId === service.serviceId);
     return {
       ...service,
       isIncluded: info.petSitterServices.some(
+        (sitterService) => sitterService.serviceId === service.serviceId,
+      ),
+      price: selected ? selected.price : null,
+    };
+  });
+  console.log(isServiceIdIncluded);
+
+  const isCriticalServiceIdIncluded = info.criticalServices && info.criticalServices.map((service) => {
+    return {
+      ...service,
+      isIncluded: info.petSitterCriticalServices.some(
         (sitterService) => sitterService.serviceId === service.serviceId,
       ),
     };
@@ -57,7 +70,7 @@ function PetsitterShowInfo() {
         <p>집사진</p>
         {
           info.petSitterHouses && info.petSitterHouses.map((img) => {
-            return <img key={img.houseId} src={img.houseImg} alt="집사진" />;
+            return <img key={img.houseId} src={img.houseImg} alt="집사진" style={{ width: '200px', height: '200px' }} />;
           })
         }
       </div>
@@ -82,17 +95,25 @@ function PetsitterShowInfo() {
 
       <div style={{ backgroundColor: 'blue' }}>
         <p>이용 가능 서비스</p>
-        {
-          // info.petSitterServices && info.petSitterServices.length === 0 ? { showNoSelect } : <p>와아</p>
-          // info.withPetServices && info.withPetServices.map((service) => <Item key={service.serviceId} service={service} />)
-          isServiceIdIncluded && isServiceIdIncluded.map((service) => {
-            // console.log(service);
-            // console.log(info.petSitterServices);
-            return <Item key={service.serviceId} service={service} />;
-          })
-        }
-        <button onClick={onModify}>수정하기</button>
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
+          {
+            isServiceIdIncluded && isServiceIdIncluded.map((service) => {
+              return <Item key={service.serviceId} service={service} />;
+            })
+          }
+        </div>
       </div>
+      <div style={{ backgroundColor: 'blue' }}>
+        <p>필수 서비스</p>
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
+          {
+            isCriticalServiceIdIncluded && isCriticalServiceIdIncluded.map((service) => {
+              return <Item key={service.serviceId} service={service} />;
+            })
+          }
+        </div>
+      </div>
+      <button onClick={onModify}>수정하기</button>
     </>
   );
 
