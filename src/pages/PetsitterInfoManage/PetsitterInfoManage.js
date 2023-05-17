@@ -147,7 +147,7 @@ function PetsitterInfoManage() {
 
     const houseList = houseImgList.map((houseImg, index) => {
       const representative = index === 0;
-      return { houseImg, representative };
+      return { ...houseImg, representative };
     });
 
     console.log(houseList);
