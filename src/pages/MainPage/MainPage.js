@@ -129,9 +129,9 @@ function MainPage() {
           <MultipleSelectChip />
           <RenderGroup />
         </SelectContainer>
-        <div>
-          <MediaCardGrid temp={temp} />
-        </div>
+        {/* <div> */}
+        <MediaCardGrid temp={temp} />
+        {/* </div> */}
       </Content>
     </Background>
   );

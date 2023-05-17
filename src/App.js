@@ -17,8 +17,10 @@ import Profit from './pages/Profit/Profit';
 import AdminMainPage from './pages/AdminMainPage/AdminMainPage';
 import AdminApplyInfo from './pages/AdminApplyInfo/AdminApplyInfo';
 // import ApiTest from './pages/ApiTest';
+import PetsitterInfoManage from './pages/PetsitterInfoManage/PetsitterInfoManage';
 import EditProfile from './pages/EditProfile/EditProfile';
-import AdminServicManage from './pages/AdminServicManage/AdminServicManage';
+import AdminServicManage from './pages/AdminServicManage/Main';
+import PetsitterShowInfo from './pages/PetsitterInfoManage/PetsitterShowInfo';
 
 function App() {
   const [state, setState] = useState('false');
@@ -44,6 +46,8 @@ function App() {
           <Route path="/petsittersdoginfo" element={<PetsittersDogInfo />} />
           <Route path="/petsitternewdog" element={<PetsitterNewDog />} />
           <Route path="/profit" element={<Profit />} />
+          <Route path="/petsitterInfoManage" element={<PetsitterInfoManage />} />
+          <Route path="/petsitterShowInfo" element={<PetsitterShowInfo />} />
 
           {/* 관리자 페이지 */}
           <Route path="/adminmainpage" element={<AdminMainPage />} />

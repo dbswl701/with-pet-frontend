@@ -24,7 +24,8 @@ function Item({
   return (
     <>
       <div>
-        <input type="radio" name={name} id={item.name} value={item.id} onChange={onChange} checked={filter[name] === item.id} required />
+        { console.log(item[name], typeof item[name]) }
+        <input type="radio" name={name} id={item.name} value={item[name]} onChange={onChange} checked={filter[name] === item[name]} required />
         <label htmlFor={item.name}>{item.name}</label>
       </div>
     </>
@@ -47,6 +48,7 @@ function UserSideBar() {
       ...filter,
       [name]: value,
     };
+    console.log(updatedFilter);
     setFilter(updatedFilter);
     axios.get(`https://4a595605-a86b-482c-96a1-0196009f4a0e.mock.pstmn.io/api/v1/userdiaries?category=${updatedFilter.category}&dogId=${updatedFilter.dogId}&month=${updatedFilter.month}`)
       .then((res) => {
@@ -60,13 +62,15 @@ function UserSideBar() {
   useEffect(() => { // { withCredentials: true } 필요
     axios.get('https://4a595605-a86b-482c-96a1-0196009f4a0e.mock.pstmn.io/api/v1/userdiaries/doglist')
       .then((res) => {
-        const updatedDogs = res.data.dogList.map((dog) => ({
-          id: dog.id.toString(),
+        console.log(res.data.result);
+        const updatedDogs = res.data.result.dogSimpleInfoResponses.map((dog) => ({
+          dogId: dog.dogId.toString(),
           name: dog.name,
         }));
         setDogs(updatedDogs);
-        const updatedCategories = res.data.categoryList.map((category) => ({
-          id: category.id.toString(),
+        console.log(res.data.result.dogSimpleInfoResponses);
+        const updatedCategories = res.data.result.categoryResponses.map((category) => ({
+          categoryId: category.categoryId.toString(),
           name: category.name,
         }));
         setCategories(updatedCategories);
@@ -74,7 +78,8 @@ function UserSideBar() {
       .catch(() => {
       });
   }, []);
-
+  console.log(dogs);
+  console.log(categories);
   return (
     <>
       <SideBar>

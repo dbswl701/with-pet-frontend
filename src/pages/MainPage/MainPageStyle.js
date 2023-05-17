@@ -9,8 +9,8 @@ export const Background = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     background-color: red;
 `;
 
@@ -24,7 +24,6 @@ export const Content = styled.div`
     background-color: yellow;
     align-items: center;
     flex-direction: column;
-    
 `;
 
 export const SelectContainer = styled.div`
@@ -46,14 +45,19 @@ export const SelectWrapper = styled.div`
 export const CardContainer = styled.div`
     display: grid;
     grid-template-columns: repeat(5, 1fr);
+    background-color: blue;
+    width: 80rem;
+    height: 30rem;
     justify-items: center;
-    padding: 20px;
+    align-items: center;
     gap: 20px;
     margin: 0 auto;
 `;
 
 export const CardWrapper = styled.div`
     background-color: pink;
+    height: 100%;
+    width: 100%;
 `;
 
 export const ImgWrapper = styled.img`
