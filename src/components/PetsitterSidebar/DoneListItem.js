@@ -2,7 +2,7 @@ import React from 'react';
 // import styled from 'styled-components';
 import social from '../../assets/social.png';
 import {
-  ItemContainer, Button, ProfileImg, IconImg,
+  ItemContainer, Button, ProfileImg, IconImg, InfoContainer, EvalContainer, ProfileContainer,
 } from '../../styles/sidebar/SidebarStyle';
 
 // const ItemContainer = styled.div`
@@ -26,25 +26,19 @@ function DoneListItem({ item }) {
   return (
     <>
       <ItemContainer>
-        <div className="1" style={{ display: 'flex', flexDirection: 'row', marginBottom: '15px' }}>
-          <ProfileImg
-            src={item.img}
-            alt="img"
-            // style={{
-            //   width: '53px', height: '53px', borderRadius: '50%', marginRight: '10px', textAlign: 'center',
-            // }}
-          />
-          <div style={{ display: 'flex', flexDirection: 'column', margin: '7.5px 0px 7.5px 10px' }}>
-            <p style={{ margin: '0px', marginBottom: '7px', fontSize: '13px' }}>
+        <ProfileContainer>
+          <ProfileImg src={item.img} alt="img" />
+          <InfoContainer>
+            <p className="info">
               {item.name} | {item.price}
             </p>
-            <p style={{ fontSize: '11px', margin: '0px' }}>{item.start_date} ~ {item.end_date}</p>
-          </div>
-        </div>
-        <div style={{ display: 'flex' }}>
-          <IconImg src={social} alt="heart" />
+            <p className="period">{item.start_date} ~ {item.end_date}</p>
+          </InfoContainer>
+        </ProfileContainer>
+        <EvalContainer>
+          <IconImg src={social} alt="social" />
           <Button>평가하기</Button>
-        </div>
+        </EvalContainer>
       </ItemContainer>
     </>
   );

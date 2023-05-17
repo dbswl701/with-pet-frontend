@@ -48,7 +48,9 @@ export default function MultipleSelectChip() {
   return (
     <SelectWrapper class="option">
       <FormControl sx={{ m: 1, width: 4 / 5, display: 'flex' }}>
+        <span>옵션</span>
         <Select
+          className="select"
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           multiple

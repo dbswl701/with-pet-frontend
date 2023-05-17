@@ -55,7 +55,9 @@ export default function Asynchronous() {
   return (
     <SelectWrapper>
       <FormControl sx={{ m: 1, width: 4 / 5, display: 'flex' }}>
+        <span>지역</span>
         <Autocomplete
+          className="select"
           id="asynchronous-demo"
           sx={{ width: 1 }}
           open={open}
@@ -71,6 +73,7 @@ export default function Asynchronous() {
           loading={loading}
           renderInput={(params) => (
             <TextField
+              className="select"
           // eslint-disable-next-line react/jsx-props-no-spreading
               {...params}
               InputProps={{

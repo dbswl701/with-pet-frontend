@@ -29,7 +29,7 @@ import { ListContainer, Content, ProfitButton } from '../../styles/sidebar/Sideb
 
 function Profit() {
   return (
-    <ListContainer>
+    <ListContainer className="admin">
       <Content>총 매출: 100.000</Content>
       <ProfitButton>수익관리</ProfitButton>
     </ListContainer>

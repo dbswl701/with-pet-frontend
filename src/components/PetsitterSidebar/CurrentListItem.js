@@ -3,7 +3,7 @@ import React from 'react';
 import social from '../../assets/social.png';
 import heart from '../../assets/heart.png';
 import {
-  ItemContainer, Dealt, Progress, ProfileImg, IconImg, StyledParagraph,
+  ItemContainer, Dealt, Progress, ProfileImg, IconImg, InfoContainer, ProfileContainer, EvalContainer,
 } from '../../styles/sidebar/SidebarStyle';
 
 // const Progress = styled.div`
@@ -34,35 +34,29 @@ function CurrentListItem({ item }) {
   return (
     <>
       <ItemContainer>
-        <div className="1" style={{ display: 'flex', flexDirection: 'row', marginBottom: '15px' }}>
-          <ProfileImg
-            src={item.img}
-            alt="img"
-            // style={{
-            //   width: '53px', height: '53px', borderRadius: '50%', marginRight: '10px', textAlign: 'center',
-            // }}
-          />
-          <div style={{ display: 'flex', flexDirection: 'column', margin: '7.5px 0px 7.5px 10px' }}>
-            <StyledParagraph className="profile">
+        <ProfileContainer>
+          <ProfileImg src={item.img} alt="img" />
+          <InfoContainer>
+            <p className="info">
               {item.name} | {item.price}
-            </StyledParagraph>
-            <StyledParagraph className="date" style={{ fontSize: '11px', margin: '0px' }}>{item.start_date} ~ {item.end_date}</StyledParagraph>
-          </div>
-        </div>
-        <div className="heart" style={{ display: 'flex' }}>
-          <IconImg src={heart} alt="heart" style={{ width: '16px', height: '16px' }} />
+            </p>
+            <p className="period">{item.start_date} ~ {item.end_date}</p>
+          </InfoContainer>
+        </ProfileContainer>
+        <EvalContainer>
+          <IconImg className="heart" src={heart} alt="heart" />
           <Progress>
             <Dealt className="heart" dealt={item.heart_degree} />
           </Progress>
-          <StyledParagraph className="heart">{item.heart_degree}%</StyledParagraph>
-        </div>
-        <div className="social" style={{ display: 'flex', marginTop: '5px' }}>
-          <IconImg src={social} alt="social" style={{ width: '16px', height: '16px' }} />
+          <p className="heart">{item.heart_degree}%</p>
+        </EvalContainer>
+        <EvalContainer>
+          <IconImg className="social" src={social} alt="social" />
           <Progress>
             <Dealt className="social" dealt={item.social_degree} />
           </Progress>
-          <StyledParagraph className="social">{item.social_degree}%</StyledParagraph>
-        </div>
+          <p className="social">{item.social_degree}%</p>
+        </EvalContainer>
       </ItemContainer>
     </>
   );

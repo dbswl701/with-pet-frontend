@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 // import styled from 'styled-components';
 import DoneListItem from './DoneListItem';
-import { Title, Items, ListContainer } from '../../styles/sidebar/SidebarStyle';
+import { Items, ListContainer } from '../../styles/sidebar/SidebarStyle';
 
-// const Title = styled.p`
+// const p = styled.p`
 //   display: flex;
 // `;
 
@@ -37,7 +37,7 @@ function DoneList() {
 
   return (
     <ListContainer>
-      <Title>이용 완료 목록</Title>
+      <p>이용 완료 목록</p>
       <Items>
         {currentList.map((currentItem) => {
           return <DoneListItem key={currentItem.id} item={currentItem} />;

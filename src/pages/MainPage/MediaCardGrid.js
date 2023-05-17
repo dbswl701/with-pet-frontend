@@ -33,6 +33,7 @@ function MediaCardGrid({ cards }) {
   return (
   // <div>
     <CardContainer id="grid">
+      <span>썸네일 및 정보</span>
       {cards && cards.map((card) => (
         // eslint-disable-next-line max-len
         <MediaCard key={card.petsitter_name} title={card.petsitter_name} image={card.house_image} rate={card.star_rate} />
