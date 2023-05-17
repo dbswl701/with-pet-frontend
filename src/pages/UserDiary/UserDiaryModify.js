@@ -5,6 +5,9 @@ import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 function UserDiaryModify({ onSubmit, diaryInfo, onToggle }) {
   const [modifyDiaryInfo, setModifyDiaryInfo] = useState({
@@ -83,6 +86,32 @@ function UserDiaryModify({ onSubmit, diaryInfo, onToggle }) {
           required
         />
       </LocalizationProvider>
+      <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+        <InputLabel id="demo-simple-select-label">카테고리</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="categoryId"
+          //   value={categoryId}
+          label="카테고리"
+        >
+          {/* {categoryId.map((categoryName) => (
+              <MenuItem key={categoryId} value={categoryName}></MenuItem>
+            ))} */}
+        </Select>
+      </FormControl>
+      <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+        <InputLabel id="demo-simple-select-label">반려견</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="dogId"
+          //   value={dogId}
+          label="반려견"
+        >
+          {/* {categoryId.map((categoryName) => (
+              <MenuItem key={categoryId} value={categoryName}></MenuItem>
+            ))} */}
+        </Select>
+      </FormControl>
       <div className="diary-contents-regist">
         {/* 카테고리 바꾸기 */}
         <TextField

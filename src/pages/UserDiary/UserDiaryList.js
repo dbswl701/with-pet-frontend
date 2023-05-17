@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import axios from 'axios';
 import UserDiary from './UserDiary';
+import UserDiaryAdd from './UserDiaryAdd';
 import './Diaries.css';
 // function UserDiaryList(props)
 function UserDiaryList() {
@@ -12,8 +13,16 @@ function UserDiaryList() {
   const handleClose = () => setOpen(false);
   const [diaries, setDiaries] = useState([]);
   const [categoryId, setCategoryId] = useState('');
-  const [dogId, setDogId] = useState('');
   const [day, setDay] = useState('2023-05-16');
+  const [dogId, setDogId] = useState('');
+  const [diaryInfo, setDiaryInfo] = useState({
+    categoryId: 0,
+    contentBody: 'string',
+    createdAt: '',
+    dogId: 0,
+    dogImgToday: 'string',
+    title: 'string',
+  });
 
   // setDay(props);
   // setDogId(props);
@@ -32,7 +41,7 @@ function UserDiaryList() {
         console.error(err);
       });
   }, []);
-
+  const onChangetemp = (e) => {}; // 임시로 만든 함수
   const onSubmitModify = (id, modifyDiaryInfo) => {
     // setPets(pets.map((pet) => (pet.id === id ? modifyPetInfo : pet)));
     let diaryRequest = modifyDiaryInfo;
@@ -41,13 +50,13 @@ function UserDiaryList() {
         withCredentials: true,
       })
       .then((res) => {
-        const updatedPets = diaries.map((diary) => {
+        const updatedDiaries = diaries.map((diary) => {
           if (diary.id === modifyDiaryInfo.id) {
             return res.data.result;
           }
           return diary;
         });
-        setPets(updatedPets);
+        setPets(updatedDiaries);
       })
       .catch(() => {});
   };
@@ -81,6 +90,11 @@ function UserDiaryList() {
                 </div>
               );
             })}
+            <UserDiaryAdd
+              onSubmit={onSubmitModify}
+              onChange={onChangetemp}
+              onCancel={handleClose}
+            />
             {/*여기에 UserDiaryAdd */}
           </div>
           <Button type="button" onClick={handleClose}>
