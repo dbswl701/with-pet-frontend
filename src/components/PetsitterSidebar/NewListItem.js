@@ -1,31 +1,30 @@
 import React from 'react';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 import social from '../../assets/social.png';
 import heart from '../../assets/heart.png';
-import { Progress, Dealt, Container } from '../../styles/SidebarStyle/SidebarStyle';
 
-// const Progress = styled.div`
-//   width: 148px;
-//   height: 10px;
-//   background-color: red;
-//   border-radius: 5px;
-//   margin: auto 10px;
-// `;
+const Progress = styled.div`
+  width: 148px;
+  height: 10px;
+  background-color: red;
+  border-radius: 5px;
+  margin: auto 10px;
+`;
 
-// const Dealt = styled.div`
-//   background-color: yellow;
-//   width: ${(props) => `${props.dealt}%`};
-//   height: 100%;
-//   border-radius: 5px;
-// `;
+const Dealt = styled.div`
+  background-color: yellow;
+  width: ${(props) => `${props.dealt}%`};
+  height: 100%;
+  border-radius: 5px;
+`;
 
-// const Container = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   margin-bottom: 10px;
-//   border-radius:10px;
-//   margin: 20px 0px;
-// `;
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  border-radius:10px;
+  margin: 20px 0px;
+`;
 
 function CurrentListItem({ item }) {
   console.log(item);

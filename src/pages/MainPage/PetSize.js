@@ -2,6 +2,7 @@ import * as React from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { SelectWrapper } from './MainPageStyle';
 
 export default function SelectLabels() {
   const [size, setSize] = React.useState('');
@@ -11,8 +12,8 @@ export default function SelectLabels() {
   };
 
   return (
-    <div>
-      <FormControl sx={{ m: 1, width: 300 }}>
+    <SelectWrapper id="petsize">
+      <FormControl sx={{ m: 1, width: 4 / 5, display: 'flex' }}>
         <Select
           value={size}
           onChange={handleChange}
@@ -24,6 +25,6 @@ export default function SelectLabels() {
           <MenuItem value={30}>대</MenuItem>
         </Select>
       </FormControl>
-    </div>
+    </SelectWrapper>
   );
 }

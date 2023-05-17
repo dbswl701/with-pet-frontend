@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 // import styled from 'styled-components';
 import axios from 'axios';
-import { SideBar, Container } from '../../styles/SidebarStyle/SidebarStyle';
+import {
+  SideBar, ListContainer, ItemContainer, Button, Items,
+} from '../../styles/sidebar/SidebarStyle';
 
 // const SideBar = styled.div`
 //   display: flex;
@@ -46,7 +48,7 @@ function UserSideBar() {
       [name]: value,
     };
     setFilter(updatedFilter);
-    axios.get(`https://d45162fd-d516-4456-83d9-d3b784b62ec2.mock.pstmn.io/api/v1/userdiaries?category=${updatedFilter.category}&dogId=${updatedFilter.dogId}&month=${updatedFilter.month}`)
+    axios.get(`https://4a595605-a86b-482c-96a1-0196009f4a0e.mock.pstmn.io/api/v1/userdiaries?category=${updatedFilter.category}&dogId=${updatedFilter.dogId}&month=${updatedFilter.month}`)
       .then((res) => {
         console.log(res);
       })
@@ -56,7 +58,7 @@ function UserSideBar() {
   };
 
   useEffect(() => { // { withCredentials: true } 필요
-    axios.get('https://d45162fd-d516-4456-83d9-d3b784b62ec2.mock.pstmn.io/api/v1/userdiaries/doglist')
+    axios.get('https://4a595605-a86b-482c-96a1-0196009f4a0e.mock.pstmn.io/api/v1/userdiaries/doglist')
       .then((res) => {
         const updatedDogs = res.data.dogList.map((dog) => ({
           id: dog.id.toString(),
@@ -76,25 +78,23 @@ function UserSideBar() {
   return (
     <>
       <SideBar>
-        {/* <div style={{ backgroundColor: 'red' }}> */}
-        <Container>
+        <ListContainer>
           강아지 선택
-          {dogs.map((dog) => <Item key={dog.id} name="dogId" item={dog} filter={filter} onChange={onChange} />)}
-          {/* </div> */}
-        </Container>
-        {/* <div> */}
-        <Container>
+          <Items>
+            {dogs.map((dog) => <Item key={dog.id} name="dogId" item={dog} filter={filter} onChange={onChange} />)}
+          </Items>
+        </ListContainer>
+        <ListContainer>
           작성자 선택
-          <button>반려인</button>
-          <button>펫시터</button>
-        </Container>
-        {/* </div> */}
-        {/* <div style={{ backgroundColor: 'red' }}> */}
-        <Container>
+          <ItemContainer>
+            <Button>반려인</Button>
+            <Button>펫시터</Button>
+          </ItemContainer>
+        </ListContainer>
+        <ListContainer>
           카테고리 선택
           {categories.map((category) => <Item key={category.id} name="category" item={category} filter={filter} onChange={onChange} />)}
-          {/* </div> */}
-        </Container>
+        </ListContainer>
       </SideBar>
     </>
   );

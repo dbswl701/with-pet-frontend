@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './login.css';
 import axios from 'axios';
+import {
+  FormWrapper, StyledButton, StyledInput, JustDiv,
+} from '../../styles/login/signup/style';
 
 function Login({ setState }) {
   const [username, setUsername] = useState('');
@@ -23,40 +26,44 @@ function Login({ setState }) {
       });
   };
   return (
-    <div className="container">
-      <div className="card">
-        <div className="card-body">
-          <form>
-            <div className="form-group">
-              <label htmlFor="username">Username</label>
-              <input
-                type="text"
-                className="form-control"
-                id="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                className="form-control"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <button type="submit" className="btn" onClick={onSubmit}>
-              Login
-            </button>
-            <button type="submit" className="btn" onClick={() => navigate('../signup')}>
-              Signup
-            </button>
-          </form>
-        </div>
+    // <div className="container">
+    //   <div className="card">
+    //     <div className="card-body">
+    <FormWrapper>
+      {/* <form> */}
+      <div className="form-group">
+        <label htmlFor="username" />
+        <StyledInput
+          type="text"
+          className="form-control"
+          id="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
       </div>
-    </div>
+      <div className="form-group">
+        <label htmlFor="password" />
+        <StyledInput
+          type="password"
+          className="form-control"
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </div>
+      <JustDiv>
+        <StyledButton type="submit" className="btn" onClick={onSubmit}>
+          Login
+        </StyledButton>
+        <StyledButton type="submit" className="btn" onClick={() => navigate('../signup')}>
+          Signup
+        </StyledButton>
+      </JustDiv>
+      {/* </form> */}
+      {/* </div>
+       </div>
+     </div> */}
+    </FormWrapper>
   );
 }
 

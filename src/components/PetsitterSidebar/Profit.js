@@ -1,6 +1,6 @@
 import React from 'react';
 // import styled from 'styled-components';
-import { Container, Content, ProfitButton } from '../../styles/SidebarStyle/SidebarStyle';
+import { ListContainer, Content, ProfitButton } from '../../styles/sidebar/SidebarStyle';
 
 // const Container = styled.div`
 //   display: flex;
@@ -29,10 +29,10 @@ import { Container, Content, ProfitButton } from '../../styles/SidebarStyle/Side
 
 function Profit() {
   return (
-    <Container>
+    <ListContainer>
       <Content>총 매출: 100.000</Content>
       <ProfitButton>수익관리</ProfitButton>
-    </Container>
+    </ListContainer>
   );
 }
 

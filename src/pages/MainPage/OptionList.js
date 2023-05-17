@@ -5,6 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
+import { SelectWrapper } from './MainPageStyle';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -45,8 +46,8 @@ export default function MultipleSelectChip() {
   };
 
   return (
-    <div>
-      <FormControl sx={{ m: 1, width: 300 }}>
+    <SelectWrapper class="option">
+      <FormControl sx={{ m: 1, width: 4 / 5, display: 'flex' }}>
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
@@ -73,6 +74,6 @@ export default function MultipleSelectChip() {
           ))}
         </Select>
       </FormControl>
-    </div>
+    </SelectWrapper>
   );
 }

@@ -4,7 +4,7 @@ import CurrentList from './CurrentList';
 import NewList from './NewList';
 import DoneList from './DoneList';
 import Profit from './Profit';
-import { SideBar } from '../../styles/SidebarStyle/SidebarStyle';
+import { SideBar } from '../../styles/sidebar/SidebarStyle';
 
 // const SideBar = styled.div`
 // display: flex;

@@ -2,6 +2,8 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
+import FormControl from '@mui/material/FormControl/FormControl';
+import { SelectWrapper } from './MainPageStyle';
 
 function sleep(delay = 0) {
   return new Promise((resolve) => {
@@ -51,35 +53,39 @@ export default function Asynchronous() {
   }, [open]);
 
   return (
-    <Autocomplete
-      id="asynchronous-demo"
-      sx={{ width: 300 }}
-      open={open}
-      onOpen={() => {
-        setOpen(true);
-      }}
-      onClose={() => {
-        setOpen(false);
-      }}
-      isOptionEqualToValue={(option, value) => option.region === value.region}
-      getOptionLabel={(option) => option.region}
-      options={options}
-      loading={loading}
-      renderInput={(params) => (
-        <TextField
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          {...params}
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: (
-              <>
-                {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                {params.InputProps.endAdornment}
-              </>
-            ),
+    <SelectWrapper>
+      <FormControl sx={{ m: 1, width: 4 / 5, display: 'flex' }}>
+        <Autocomplete
+          id="asynchronous-demo"
+          sx={{ width: 1 }}
+          open={open}
+          onOpen={() => {
+            setOpen(true);
           }}
+          onClose={() => {
+            setOpen(false);
+          }}
+          isOptionEqualToValue={(option, value) => option.region === value.region}
+          getOptionLabel={(option) => option.region}
+          options={options}
+          loading={loading}
+          renderInput={(params) => (
+            <TextField
+          // eslint-disable-next-line react/jsx-props-no-spreading
+              {...params}
+              InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <>
+                    {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                    {params.InputProps.endAdornment}
+                  </>
+                ),
+              }}
+            />
+          )}
         />
-      )}
-    />
+      </FormControl>
+    </SelectWrapper>
   );
 }
