@@ -3,12 +3,18 @@ import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
 import UserDiaryModify from './UserDiaryModify';
 import UserDiaryDetail from './UserDiaryDetail';
 
-function UserDiary({}) { diary, onSubmitModify } {
+function UserDiary({ diary, onSubmitModify }) {
   const [toggle, setToggle] = useState('simple');
   const simple = (
     <>
-      <p>{diary.date} / {diary.title} / {diary.content}</p>
-      <ExpandCircleDownIcon className="down-icon" fontSize="large" onClick={() => setToggle('detail')} />
+      <p>
+        {diary.categoryName} / {diary.createdAt} / {diary.content}
+      </p>
+      <ExpandCircleDownIcon
+        className="down-icon"
+        fontSize="large"
+        onClick={() => setToggle('detail')}
+      />
     </>
   );
 
@@ -23,7 +29,13 @@ function UserDiary({}) { diary, onSubmitModify } {
       print = <UserDiaryDetail diary={diary} onToggle={onToggle} />;
       break;
     case 'modify':
-      print = <UserDiaryModify diaryInfo={diary} onSubmit={onSubmitModify} onToggle={onToggle} />;
+      print = (
+        <UserDiaryModify
+          diaryInfo={diary}
+          onSubmit={onSubmitModify}
+          onToggle={onToggle}
+        />
+      );
       break;
     case 'simple':
       print = simple;
@@ -34,7 +46,7 @@ function UserDiary({}) { diary, onSubmitModify } {
   }
   return (
     <div className={`${toggle === 'simple' ? 'diary-block' : 'diary-detail'}`}>
-      { print }
+      {print}
     </div>
   );
 }
