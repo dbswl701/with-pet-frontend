@@ -21,7 +21,6 @@ function Item({
   return (
     <>
       <div>
-        { console.log(item[name], typeof item[name]) }
         <input type="radio" name={name} id={item.name} value={item[name]} onChange={onChange} checked={filter[name] === item[name]} required />
         <label htmlFor={item.name}>{item.name}</label>
       </div>
@@ -29,15 +28,16 @@ function Item({
   );
 }
 
-function UserSideBar() {
+function UserSideBar({ setFilteredDiaries }) {
   const [dogs, setDogs] = useState([]);
   const [categories, setCategories] = useState([]);
-
+  // const [filteredDiaries, setFilteredDiaries] = useState([]);
   const [filter, setFilter] = useState({
     dogId: '',
-    category: '',
+    categoryId: '',
     month: dayjs(new Date()).format('YYYY-MM'),
   });
+  const colorList = ['red', 'yellow', 'green', 'blue', 'orange', 'violet', 'gray'];
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -49,13 +49,24 @@ function UserSideBar() {
     setFilter(updatedFilter);
     axios.get(`https://withpet.site/api/v1/userdiaries/month?categoryId=${updatedFilter.categoryId}&dogId=${updatedFilter.dogId}&month=${updatedFilter.month}`, { withCredentials: true })
       .then((res) => {
-        console.log(res);
+        console.log(res.data.result);
+        const { result } = res.data;
+        // 이제 달력 보여줄거 업데이트 하자
+        console.log(dogs);
+        const temp = result.map((item) => ({
+          start: new Date(item.createdAt),
+          end: new Date(item.createdAt),
+          color: colorList[(item.userDiaryId % colorList.length) - 1],
+          title: '멍멍이~~!',
+        }));
+        setFilteredDiaries(temp);
+        console.log(temp);
       })
       .catch(() => {
 
       });
   };
-
+  // console.log(filteredDiaries);
   useEffect(() => {
     axios.get('https://withpet.site/api/v1/calendar', { withCredentials: true })
       .then((res) => {
@@ -74,9 +85,29 @@ function UserSideBar() {
       })
       .catch(() => {
       });
+
+    // 필터링 안했을 때 정보 불러옴
+    axios.get(`https://withpet.site/api/v1/userdiaries/month?categoryId=&dogId=&month=${filter.month}`, { withCredentials: true })
+      .then((res) => {
+        console.log(res.data.result);
+        const { result } = res.data;
+        // 이제 달력 보여줄거 업데이트 하자
+        console.log(dogs);
+        const temp = result.map((item) => ({
+          start: new Date(item.createdAt),
+          end: new Date(item.createdAt),
+          color: colorList[(item.userDiaryId % colorList.length) - 1],
+          title: '멍멍이~~!',
+        }));
+        setFilteredDiaries(temp);
+        console.log(temp);
+      })
+      .catch(() => {
+
+      });
   }, []);
-  console.log(dogs);
-  console.log(categories);
+  // console.log(dogs);
+  // console.log(categories);
   return (
     <>
       <SideBar>
