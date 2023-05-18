@@ -15,12 +15,12 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px;
-  width: 100%;
+  // width: 100%;
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
 `;
 
-function NewList({ newReservations }) {
+function NewList({ newReservations, handleRemoveNew, handleApprove }) {
   // const [currentList, setCurrentList] = useState([]);
 
   // useEffect(() => {
@@ -41,7 +41,7 @@ function NewList({ newReservations }) {
 
       <Item>
         {newReservations.map((currentItem) => {
-          return <NewListItem key={currentItem.reservationId} item={currentItem} />;
+          return <NewListItem key={currentItem.reservationId} item={currentItem} handleRemoveNew={handleRemoveNew} handleApprove={handleApprove} />;
         })}
       </Item>
 
