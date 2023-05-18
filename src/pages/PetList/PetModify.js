@@ -71,6 +71,11 @@ function PetModify({ onSubmit, petInfo, onToggle }) {
           <MenuItem value="진돗개">진돗개</MenuItem>
           <MenuItem value="삽살개">삽살개</MenuItem>
           <MenuItem value="리트리버">리트리버</MenuItem>
+          <MenuItem value="비글">비글</MenuItem>
+          <MenuItem value="포메라니안">포메라니안</MenuItem>
+          <MenuItem value="불독">불독</MenuItem>
+          <MenuItem value="보더콜리">보더콜리</MenuItem>
+
         </TextField>
 
         <LocalizationProvider dateAdapter={AdapterDayjs}>
