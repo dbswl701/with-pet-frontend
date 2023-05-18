@@ -50,7 +50,7 @@ function UserSideBar() {
     };
     console.log(updatedFilter);
     setFilter(updatedFilter);
-    axios.get(`https://4a595605-a86b-482c-96a1-0196009f4a0e.mock.pstmn.io/api/v1/userdiaries?category=${updatedFilter.category}&dogId=${updatedFilter.dogId}&month=${updatedFilter.month}`)
+    axios.get(`https://0a2a3de5-9803-4b7e-a4ed-2005928586d5.mock.pstmn.io/api/v1/userdiaries?category=${updatedFilter.category}&dogId=${updatedFilter.dogId}&month=${updatedFilter.month}`)
       .then((res) => {
         console.log(res);
       })
@@ -60,7 +60,7 @@ function UserSideBar() {
   };
 
   useEffect(() => { // { withCredentials: true } 필요
-    axios.get('https://4a595605-a86b-482c-96a1-0196009f4a0e.mock.pstmn.io/api/v1/userdiaries/doglist')
+    axios.get('https://0a2a3de5-9803-4b7e-a4ed-2005928586d5.mock.pstmn.io/api/v1/userdiaries/doglist')
       .then((res) => {
         console.log(res.data.result);
         const updatedDogs = res.data.result.dogSimpleInfoResponses.map((dog) => ({

@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import TextField from '@mui/material/TextField';
+import {
+  Container, Content, DivContainer, Button, CancelButton,
+} from './InfoStyle';
 
 function Item1({ service, onRemove }) {
   // 1. 활성화 (isInclude === true)
   const includeed = (
     <div style={{
-      cursor: 'pointer', backgroundColor: 'pink', width: '300px', marginRight: '20px',
+      cursor: 'pointer', backgroundColor: '#caa969', width: '300px', marginRight: '20px',
     }}
     >
       {/* 사진, 이름, 내용, 가격, 삭제 버튼 */}
@@ -250,62 +253,80 @@ function PetsitterInfoManage() {
     setCriticalServices([...criticalServices, { serviceId: id, price: parseInt(price, 10) }]);
   };
   const modify = (
-    <>
-      <p>펫시터 정보 수정 페이지</p>
-      <form onSubmit={onSubmit}>
-        <p>집사진</p>
-        <div>
-          {
+    <Container>
+      <Content>
+        <p>펫시터 정보 수정 페이지</p>
+        <form onSubmit={onSubmit}>
+          <DivContainer>
+            <p>집사진</p>
+            {/* <div> */}
+            {
             info.petSitterHouses && info.petSitterHouses.map((img, index) => (
               // eslint-disable-next-line react/no-array-index-key
               <div key={index}>
                 <img key={img.houseId} src={img.houseImg} alt="집사진" style={{ width: '200px', height: '200px' }} />
-                <input type="button" value="x" />
+                {/* <input type="button" value="x" /> */}
+                <CancelButton className="cancel" value="X">X</CancelButton>
                 { index === 0 ? <p>대표사진</p> : <p> </p>}
               </div>
             ))
           }
-        </div>
-        <input type="file" accept="image/*" multiple onChange={handleImageChange} />
-
-        <p>해시태그</p>
-        {hashTags && hashTags.map((tag) => (
-          <div key={tag.hashTagName} style={{ display: 'flex', flexDirection: 'row' }}>
-            <p>{tag.hashTagName}</p>
-            <input type="button" value="x" onClick={() => onRemoveHashtag(tag.petSitterHashTagId)} />
-          </div>
-        ))}
-
-        <TextField sx={{ m: 1 }} label="이름" variant="outlined" size="small" name="hashTagName" onChange={(e) => setHashTag(e.target.value)} value={hashTag} />
-        <input type="button" onClick={handleHashtag} value="추가" />
-
-        <p>소개글</p>
-        <TextField sx={{ m: 1 }} label="소개글" variant="outlined" size="small" name="introduction" onChange={(e) => setIntroduction(e.target.value)} value={introduction} required />
-
-        <p>자격증</p>
-        <img id="preview-image" alt="이미지 미리보기" src={info.petSitterLicenseImg} />
-
-        <p>이용 가능 서비스</p>
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
-          {isServiceIdIncluded && isServiceIdIncluded.map((service) => (service.isIncluded ? (
-            <Item1 key={service.serviceId} service={service} onRemove={onRemoveService} />
-          ) : (
-            <Item2 key={service.serviceId} service={service} onAdd={onAddService} />
-          )))}
-        </div>
-
-        <p>필수 서비스</p>
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
-          {isCriticalServiceIdIncluded && isCriticalServiceIdIncluded.map((service) => (service.isIncluded ? (
-            <Item1 key={service.serviceId} service={service} onRemove={onRemoveCriticalService} />
-          ) : (
-            <Item2 key={service.serviceId} service={service} onAdd={onAddCriticalService} />
-          )))}
-        </div>
-        <input className="pet-add-btn" type="submit" value="수정" />
-        <input className="pet-add-btn pet-add-cancel-btn" type="button" value="취소" onClick={() => navigate('../petsitterShowInfo')} />
-      </form>
-    </>
+            {/* </div> */}
+            <>
+              <input className="file" style={{ display: 'none' }} type="file" accept="image/*" />
+              <Button multiple onChange={handleImageChange}>집 사진 업로드</Button>
+            </>
+          </DivContainer>
+          <DivContainer>
+            <p>해시태그</p>
+            <div style={{ display: 'flex', flexDirection: 'start' }}>
+              {hashTags && hashTags.map((tag) => (
+                <div className="list" key={tag.hashTagName} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                  #{tag.hashTagName}&ensp;
+                  {/* <input type="button" value="x" onClick={() => onRemoveHashtag(tag.petSitterHashTagId)} /> */}
+                  <CancelButton className="cancel" value="X" onClick={() => onRemoveHashtag(tag.petSitterHashTagId)}>X</CancelButton>&ensp;
+                </div>
+              ))}
+            </div>
+            <TextField sx={{ m: 1 }} variant="outlined" size="small" name="hashTagName" onChange={(e) => setHashTag(e.target.value)} value={hashTag} />
+            {/* <input type="button" onClick={handleHashtag} value="추가" /> */}
+            <Button onClick={handleHashtag} value="추가">추가</Button>
+          </DivContainer>
+          <DivContainer>
+            <p>소개글</p>
+            <TextField sx={{ m: 1 }} variant="outlined" size="small" name="introduction" onChange={(e) => setIntroduction(e.target.value)} value={introduction} required />
+          </DivContainer>
+          <DivContainer>
+            <p>자격증</p>
+            <img id="preview-image" alt="이미지 미리보기" src={info.petSitterLicenseImg} />
+          </DivContainer>
+          <DivContainer>
+            <p>이용 가능 서비스</p>
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              {isServiceIdIncluded && isServiceIdIncluded.map((service) => (service.isIncluded ? (
+                <Item1 key={service.serviceId} service={service} onRemove={onRemoveService} />
+              ) : (
+                <Item2 key={service.serviceId} service={service} onAdd={onAddService} />
+              )))}
+            </div>
+          </DivContainer>
+          <DivContainer>
+            <p>필수 서비스</p>
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              {isCriticalServiceIdIncluded && isCriticalServiceIdIncluded.map((service) => (service.isIncluded ? (
+                <Item1 key={service.serviceId} service={service} onRemove={onRemoveCriticalService} />
+              ) : (
+                <Item2 key={service.serviceId} service={service} onAdd={onAddCriticalService} />
+              )))}
+            </div>
+          </DivContainer>
+          <DivContainer>
+            <Button value="수정">수정</Button>
+            <Button value="취소" onClick={() => navigate('../petsitterShowInfo')}>취소</Button>
+          </DivContainer>
+        </form>
+      </Content>
+    </Container>
   );
   return (
     <>

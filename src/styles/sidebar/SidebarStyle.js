@@ -11,7 +11,6 @@ export const SideBar = styled.div`
     margin-left: 40px;
     margin-bottom: 50px;
     flex-direction: column;
-    justify-content: space-evenly;
     align-items: center;
     padding: 10px 0px 10px 10px;
     margin-bottom: 20px;
@@ -168,6 +167,7 @@ export const Content = styled.div`
     justify-content: center;
     align-items: center;
     border-radius: 5px;
+    margin-bottom: 5px;
 `;
 
 export const ProfitButton = styled.button`

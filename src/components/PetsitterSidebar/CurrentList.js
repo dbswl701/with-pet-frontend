@@ -26,7 +26,7 @@ function CurrentList() {
   const [currentList, setCurrentList] = useState([]);
 
   useEffect(() => {
-    axios.get('https://4a595605-a86b-482c-96a1-0196009f4a0e.mock.pstmn.io/api/v1/reservation/1')
+    axios.get('https://d45162fd-d516-4456-83d9-d3b784b62ec2.mock.pstmn.io/api/v1/reservation/1')
       .then((res) => {
         setCurrentList(res.data);
         console.log(res.data);
