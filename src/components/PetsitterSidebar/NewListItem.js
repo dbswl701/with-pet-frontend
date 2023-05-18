@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import social from '../../assets/social.png';
 import heart from '../../assets/heart.png';
@@ -28,6 +29,17 @@ const Container = styled.div`
 
 function CurrentListItem({ item }) {
   console.log(item);
+  const onClick = (e) => {
+    const reservationStatus = {
+      reservationId: item.reservationId,
+      status: e.target.value,
+    };
+    console.log(reservationStatus);
+    axios.put('https://withpet.site/api/v1/reservation/reservation-status', reservationStatus, { withCredentials: true })
+      .then((res) => {
+        console.log(res);
+      });
+  };
   return (
     <>
       <Container>
@@ -41,24 +53,28 @@ function CurrentListItem({ item }) {
           />
           <div style={{ display: 'flex', flexDirection: 'column', margin: '7.5px 0px 7.5px 10px' }}>
             <p style={{ margin: '0px', marginBottom: '7px', fontSize: '13px' }}>
-              {item.name} | {item.price}
+              {item.dogName} | {item.cost}
             </p>
-            <p style={{ fontSize: '11px', margin: '0px' }}>{item.start_date} ~ {item.end_date}</p>
+            <p style={{ fontSize: '11px', margin: '0px' }}>{item.checkIn} ~ {item.checkOut}</p>
           </div>
         </div>
         <div style={{ display: 'flex' }}>
           <img src={heart} alt="heart" style={{ width: '16px', height: '16px' }} />
           <Progress>
-            <Dealt dealt={item.heart_degree} />
+            <Dealt dealt={item.affectionTemperature} />
           </Progress>
-          <p style={{ fontSize: '11px', margin: '0px', color: '#CAA969' }}>{item.heart_degree}%</p>
+          <p style={{ fontSize: '11px', margin: '0px', color: '#CAA969' }}>{item.affectionTemperature}%</p>
         </div>
         <div style={{ display: 'flex', marginTop: '5px' }}>
           <img src={social} alt="social" style={{ width: '16px', height: '16px' }} />
           <Progress>
-            <Dealt dealt={item.social_degree} />
+            <Dealt dealt={item.socializationTemperature} />
           </Progress>
-          <p style={{ fontSize: '11px', margin: '0px', color: '#CAA969' }}>{item.social_degree}%</p>
+          <p style={{ fontSize: '11px', margin: '0px', color: '#CAA969' }}>{item.socializationTemperature}%</p>
+        </div>
+        <div>
+          <button onClick={onClick} value="APPROVAL">승인</button>
+          <button onClick={onClick} value="CANCEL">거절</button>
         </div>
       </Container>
     </>

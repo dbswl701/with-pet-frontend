@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import CurrentList from './CurrentList';
 import NewList from './NewList';
 import DoneList from './DoneList';
@@ -18,12 +19,25 @@ flex-direction: column;
 `;
 
 function PetsitterSidebar() {
+  const [useReservations, setUseReservations] = useState([]);
+  const [newReservations, setNewReservations] = useState([]);
+  const [doneReservations, setDoneReservations] = useState([]);
+
+  useEffect(() => {
+    axios.get('https://withpet.site/api/v1/calendar/petsitter-calendar?month=2023-05', { withCredentials: true })
+      .then((res) => {
+        console.log(res.data.result);
+        setUseReservations(res.data.result.useReservations);
+        setNewReservations(res.data.result.newReservations);
+        setDoneReservations(res.data.result.doneReservations);
+      });
+  }, []);
   return (
     <>
       <SideBar>
-        <CurrentList />
-        <NewList />
-        <DoneList />
+        <CurrentList useReservations={useReservations} />
+        <NewList newReservations={newReservations} />
+        <DoneList doneReservations={doneReservations} />
         <Profit />
       </SideBar>
     </>
