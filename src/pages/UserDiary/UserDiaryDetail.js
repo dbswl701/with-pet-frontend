@@ -5,17 +5,17 @@ import Typography from '@mui/material/Typography';
 
 function UserDiaryDetail({ diary, onToggle }) {
   const diarySpec = [
+    { name: '이름', value: diary.dogName },
     { name: '날짜', value: diary.createdAt },
     { name: '카테고리', value: diary.categoryName },
     { name: '제목', value: diary.title },
     { name: '내용', value: diary.content },
-    { name: '이름', value: diary.dogName },
   ];
   const detail = (
     <>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <div className="diary-first">
-          <img className="todayImg" src={diary.todayImg} alt="오늘의 사진" />
+          <img className="today-img" src={diary.media} alt="오늘의 사진" />
         </div>
         <div className="diary-contents">
           <Grid container ml={2}>

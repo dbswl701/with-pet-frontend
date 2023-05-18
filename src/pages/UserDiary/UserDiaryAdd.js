@@ -9,18 +9,38 @@ import Select from '@mui/material/Select';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dogimgdefault from '../../assets/dogProfileImage.png';
 import axios from 'axios';
 // UserDiaryList에 추가해야됨.
-function UserDiaryAdd({ onSubmit, onChange, onCancel }) {
+function UserDiaryAdd({
+  onSubmit,
+  onChange,
+  diaryInfo,
+  onCancel,
+  setDiaryInfo,
+}) {
   const [isClick, setisClick] = useState(false);
   const [categories, setCategories] = useState([]);
   const [categoryId, setCategoryId] = useState('');
-  // const [categoryName, setCategoryName] = useState('');
   const [dogs, setDogs] = useState([]);
-
   const [dogId, setDogId] = useState('');
+  // const [categoryName, setCategoryName] = useState('');
   // const [dogName, setDogName] = useState('');
   // const [temp, setTemp] = useState('');
+  const styles = {
+    formControl: {
+      margin: '8px',
+      minWidth: '120px',
+    },
+    select: {
+      padding: '8px',
+      fontSize: '16px',
+      border: '1px solid #ccc',
+      borderRadius: '4px',
+      backgroundColor: '#fff',
+      outline: 'none',
+    },
+  };
 
   const onLocalSubmit = (e) => {
     onSubmit(e);
@@ -80,6 +100,14 @@ function UserDiaryAdd({ onSubmit, onChange, onCancel }) {
       });
   }, []);
 
+  // const onChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setDiaryInfo({
+  //     ...diaryInfo,
+  //     [name]: value,
+  //   });
+  // }; feat.윤지
+
   const addDiary = (
     <form onSubmit={onLocalSubmit}>
       <div className="select-diary-type">
@@ -105,54 +133,63 @@ function UserDiaryAdd({ onSubmit, onChange, onCancel }) {
           value={categoryId}
           onChange={onChange}
         >
-          <InputLabel id="demo-simple-select-label">카테고리</InputLabel>
-          <Select
+          {/* <InputLabel id="demo-simple-select-label">카테고리</InputLabel> */}
+          <select
             name="categoryId"
             labelId="demo-simple-select-label"
             id="categoryId"
             value={categoryId}
             label="카테고리"
+            style={styles.select}
             onChange={handleCategoryChange}
           >
             {categories.map((item) => (
-              <MenuItem
+              <option
                 key={item.categoryId}
                 value={item.categoryId}
                 name="categoryId"
               >
                 {item.name}
-              </MenuItem>
+              </option>
             ))}
-          </Select>
+          </select>
         </FormControl>
-        <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-          <InputLabel id="demo-simple-select-label">반려견</InputLabel>
-          <Select
+        <FormControl
+          sx={{ m: 1, minWidth: 120 }}
+          size="small"
+          name="dogId"
+          value={dogId}
+          onChange={onChange}
+        >
+          {/* <InputLabel id="demo-simple-select-label">반려견</InputLabel> */}
+          <select
             name="dogId"
             labelId="demo-simple-select-label"
             id="dogId"
             value={dogId}
             label="반려견"
+            style={styles.select}
             onChange={handleDogChange}
           >
             {dogs.map((item) => (
-              <MenuItem key={item.dogId} value={item.dogId}>
+              <option key={item.dogId} value={item.dogId} name="dogId">
                 {item.name}
-              </MenuItem>
+              </option>
             ))}
             {/* {categories.map((category) => {
               <MenuItem key={category.categoryId} value={category.categoryId}>
                 {category.name}
               </MenuItem>;
             })} */}
-          </Select>
+          </select>
         </FormControl>
       </div>
-      <div className="dogImgToday">
+
+      <div className="today-img-regist">
         <img
           id="preview-image"
           alt="이미지 미리보기"
-          // src={diaryInfo.dogImgToday}
+          src={!diaryInfo.media ? dogimgdefault : diaryInfo.media}
         />
         <label htmlFor="image-select">오늘의 사진 선택</label>
         <input
@@ -182,9 +219,9 @@ function UserDiaryAdd({ onSubmit, onChange, onCancel }) {
           onChange={onChange}
           // value={diaryInfo.contentBody}
         />
-        <input className="diary-submit-button" type="submit" value="submit" />
+        <input className="diary-add-btn" type="submit" value="submit" />
         <input
-          className="diary-cancel-button"
+          className="diary-add-btn diary-add-cancel-btn"
           type="button"
           value="cancel"
           onClick={onLocalCancle}

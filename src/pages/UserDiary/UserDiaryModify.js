@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 // import MenuItem from '@mui/material/MenuItem';
 import dayjs from 'dayjs';
@@ -8,16 +8,80 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import axios from 'axios';
 
 function UserDiaryModify({ onSubmit, diaryInfo, onToggle }) {
   const [modifyDiaryInfo, setModifyDiaryInfo] = useState({
     createdAt: diaryInfo.createdAt,
     categoryName: diaryInfo.categoryName,
+    categoryId: diaryInfo.categoryId,
     title: diaryInfo.title,
     content: diaryInfo.content,
-    diaryId: diaryInfo.userdiaryId,
+    media: diaryInfo.media,
+    diaryId: diaryInfo.userDiaryId,
   });
-  const [submitInfo, setSubmitInfo] = useState({});
+  const [categories, setCategories] = useState([]);
+  const [categoryId, setCategoryId] = useState('');
+  const [dogs, setDogs] = useState([]);
+  const [dogId, setDogId] = useState('');
+  const styles = {
+    formControl: {
+      margin: '8px',
+      minWidth: '120px',
+    },
+    select: {
+      padding: '8px',
+      fontSize: '16px',
+      border: '1px solid #ccc',
+      borderRadius: '4px',
+      backgroundColor: '#fff',
+      outline: 'none',
+    },
+  };
+
+  useEffect(() => {
+    // 카테고리 selectbox 불러오기
+    axios
+      .get('https://withpet.site/api/v1/category', {
+        withCredentials: true,
+      })
+      .then((res) => {
+        setCategories(res.data.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    // 반려견 selectbox 불러오기
+    axios
+      .get('https://withpet.site/api/v1/calendar', {
+        withCredentials: true,
+      })
+      .then((res) => {
+        setDogs(res.data.result.dogSimpleInfoResponses);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const handleCategoryChange = (event) => {
+    setCategoryId(event.target.value);
+  };
+
+  const handleDogChange = (event) => {
+    setDogId(event.target.value);
+  };
+
+  const [submitInfo, setSubmitInfo] = useState({
+    categoryId: 2,
+    contentBody: 'string',
+    createdAt: '2023-05-17',
+    dogId: 4,
+    title: 'string',
+  });
   const onChange = (e) => {
     if (e.target.files) {
       const file = e.target.files[0];
@@ -26,7 +90,7 @@ function UserDiaryModify({ onSubmit, diaryInfo, onToggle }) {
       reader.onloadend = () => {
         setModifyDiaryInfo({
           ...modifyDiaryInfo,
-          todayImg: reader.result,
+          media: reader.result,
         });
       };
     } else {
@@ -43,16 +107,17 @@ function UserDiaryModify({ onSubmit, diaryInfo, onToggle }) {
     setModifyDiaryInfo({
       ...modifyDiaryInfo,
     });
-    setSubmitInfo({
-      // 테스트용
-      //   categoryId: modifyDiaryInfo.categoryName,
+    const updatedSubmitInfo = {
+      categoryId: Number(modifyDiaryInfo.categoryId),
       contentBody: modifyDiaryInfo.content,
       createdAt: modifyDiaryInfo.createdAt,
-      dogId: modifyDiaryInfo.dogId,
+      dogId: Number(modifyDiaryInfo.dogId),
       title: modifyDiaryInfo.title,
-    });
-    onSubmit(diaryInfo.id, submitInfo);
+    };
+    setSubmitInfo(updatedSubmitInfo);
+    onSubmit(diaryInfo.userDiaryId, updatedSubmitInfo);
   };
+
   const onChangeCalendar = (date) => {
     const e = {
       target: {
@@ -72,37 +137,62 @@ function UserDiaryModify({ onSubmit, diaryInfo, onToggle }) {
           onChange={onChangeCalendar}
           name="createdAt"
           format="YYYY/MM/DD"
-          required
         />
       </LocalizationProvider>
-      <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-        <InputLabel id="demo-simple-select-label">카테고리</InputLabel>
-        <Select
+      <FormControl
+        sx={{ m: 1, minWidth: 120 }}
+        size="small"
+        name="categoryId"
+        value={categoryId}
+        onChange={onChange}
+      >
+        {/* <InputLabel id="demo-simple-select-label">카테고리</InputLabel> */}
+        <select
+          name="categoryId"
           labelId="demo-simple-select-label"
           id="categoryId"
-          //   value={categoryId}
+          value={categoryId}
           label="카테고리"
+          style={styles.select}
+          onChange={handleCategoryChange}
         >
-          {/* {categoryId.map((categoryName) => (
-              <MenuItem key={categoryId} value={categoryName}></MenuItem>
-            ))} */}
-        </Select>
+          {categories.map((item) => (
+            <option
+              key={item.categoryId}
+              value={item.categoryId}
+              name="categoryId"
+            >
+              {item.name}
+            </option>
+          ))}
+        </select>
       </FormControl>
-      <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-        <InputLabel id="demo-simple-select-label">반려견</InputLabel>
-        <Select
+      <FormControl
+        sx={{ m: 1, minWidth: 120 }}
+        size="small"
+        name="dogId"
+        value={dogId}
+        onChange={onChange}
+      >
+        {/* <InputLabel id="demo-simple-select-label">반려견</InputLabel> */}
+        <select
+          name="dogId"
           labelId="demo-simple-select-label"
           id="dogId"
-          //   value={dogId}
+          value={dogId}
           label="반려견"
+          style={styles.select}
+          onChange={handleDogChange}
         >
-          {/* {categoryId.map((categoryName) => (
-              <MenuItem key={categoryId} value={categoryName}></MenuItem>
-            ))} */}
-        </Select>
+          {dogs.map((item) => (
+            <option key={item.dogId} value={item.dogId} name="dogId">
+              {item.name}
+            </option>
+          ))}
+        </select>
       </FormControl>
       <div className="select-diary-type">
-        <img id="preview-img" src={modifyDiaryInfo.todayImg} alt="preview" />
+        <img id="preview-img" src={modifyDiaryInfo.media} alt="preview" />
         <label htmlFor="image-select">오늘의 사진 선택</label>
         <input
           type="file"
@@ -132,13 +222,9 @@ function UserDiaryModify({ onSubmit, diaryInfo, onToggle }) {
           onChange={onChange}
           value={modifyDiaryInfo.content}
         />
+        <input className="diary-add-btn" type="submit" value="수정" />
         <input
-          className="diary-contents-regist-btn"
-          type="submit"
-          value="수정"
-        />
-        <input
-          className="diary-contents-regist-btn-cancel"
+          className="diary-add-btn diary-add-cancel-btn"
           type="button"
           value="취소"
           onClick={() => onToggle('detail')}

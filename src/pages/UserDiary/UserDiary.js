@@ -7,8 +7,9 @@ function UserDiary({ diary, onSubmitModify }) {
   const [toggle, setToggle] = useState('simple');
   const simple = (
     <>
+      <img className="diary-img" src={diary.media} alt="오늘의 사진" />
       <p>
-        {diary.categoryName} / {diary.createdAt} / {diary.content}
+        {diary.createdAt} / {diary.categoryName} / {diary.title}
       </p>
       <ExpandCircleDownIcon
         className="down-icon"
@@ -40,6 +41,7 @@ function UserDiary({ diary, onSubmitModify }) {
     case 'simple':
       print = simple;
       break;
+      e;
     default:
       print = simple;
       break;
