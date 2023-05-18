@@ -9,6 +9,7 @@ function UserDiaryDetail({ diary, onToggle }) {
     { name: '카테고리', value: diary.categoryName },
     { name: '제목', value: diary.title },
     { name: '내용', value: diary.content },
+    { name: '이름', value: diary.dogName },
   ];
   const detail = (
     <>

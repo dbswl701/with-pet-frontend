@@ -11,16 +11,16 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import axios from 'axios';
 // UserDiaryList에 추가해야됨.
-function UserDiaryAdd({ onSubmit, onChange, diaryInfo, onCancel }) {
+function UserDiaryAdd({ onSubmit, onChange, onCancel }) {
   const [isClick, setisClick] = useState(false);
   const [categories, setCategories] = useState([]);
   const [categoryId, setCategoryId] = useState('');
-  const [categoryName, setCategoryName] = useState('');
+  // const [categoryName, setCategoryName] = useState('');
   const [dogs, setDogs] = useState([]);
 
   const [dogId, setDogId] = useState('');
-  const [dogName, setDogName] = useState('');
-  const [temp, setTemp] = useState('');
+  // const [dogName, setDogName] = useState('');
+  // const [temp, setTemp] = useState('');
 
   const onLocalSubmit = (e) => {
     onSubmit(e);
@@ -98,25 +98,33 @@ function UserDiaryAdd({ onSubmit, onChange, diaryInfo, onCancel }) {
       </div>
       <div>
         {/* 카테고리, 반려견 불러오기 */}
-        {/* <InputLabel id="demo-simple-select-label">카테고리</InputLabel> */}
-        <Select
+        <FormControl
+          sx={{ m: 1, minWidth: 120 }}
+          size="small"
           name="categoryId"
-          labelId="demo-simple-select-label"
-          id="categoryId"
           value={categoryId}
-          label="카테고리"
-          onChange={handleCategoryChange}
+          onChange={onChange}
         >
-          {categories.map((item) => (
-            <MenuItem
-              key={item.categoryId}
-              value={item.categoryId}
-              name="categoryId"
-            >
-              {item.name}
-            </MenuItem>
-          ))}
-        </Select>
+          <InputLabel id="demo-simple-select-label">카테고리</InputLabel>
+          <Select
+            name="categoryId"
+            labelId="demo-simple-select-label"
+            id="categoryId"
+            value={categoryId}
+            label="카테고리"
+            onChange={handleCategoryChange}
+          >
+            {categories.map((item) => (
+              <MenuItem
+                key={item.categoryId}
+                value={item.categoryId}
+                name="categoryId"
+              >
+                {item.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
           <InputLabel id="demo-simple-select-label">반려견</InputLabel>
           <Select

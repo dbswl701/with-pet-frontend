@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import dayjs from 'dayjs';
 import axios from 'axios';
 import UserDiary from './UserDiary';
 import UserDiaryAdd from './UserDiaryAdd';
@@ -12,16 +13,18 @@ function UserDiaryList() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [diaries, setDiaries] = useState([]);
+  const dateNow = new Date();
+  const today = dateNow.toISOString().substr(0, 10);
   const [categoryId, setCategoryId] = useState('');
   const [day, setDay] = useState('2023-05-17');
   const [dogId, setDogId] = useState('');
   const [diaryInfo, setDiaryInfo] = useState({
     categoryId: 1,
-    contentBody: 'stri1jhng',
-    createdAt: '2023-05-17',
-    dogId: 7,
-    dogImgToday: 'string',
-    title: 'strinhgg',
+    contentBody: '',
+    createdAt: dayjs(today),
+    dogId: 1,
+    dogImgToday: '',
+    title: '',
   });
 
   // setDay(props);
