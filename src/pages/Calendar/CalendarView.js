@@ -1,49 +1,20 @@
 import React from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
-// import axios from 'axios';
-// import events from './events';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 moment.locale('en-GB');
 const localizer = momentLocalizer(moment);
 
 function CalendarView({ filteredDiaries }) {
-  // const [eventsData, setEventsData] = useState([]);
-
-  // const colorList = ['red', 'yellow', 'green', 'blue', 'orange', 'violet', 'gray'];
-  // useEffect(() => {
-  //   axios.get('https://withpet.site/api/v1/reservation/petsitter/reservations?month=2023-05', { withCredentials: true })
-  //     .then((res) => {
-  //       // setEventsData(res.data.result);
-  //       const { result } = res.data;
-  //       const temp = result.map((item) => ({
-  //         start: new Date(item.checkIn),
-  //         end: new Date(item.checkOut),
-  //         color: colorList[(item.dogId % colorList.length) - 1],
-  //         title: item.dogName,
-  //       }));
-  //       console.log(res.data.result);
-  //       console.log(temp);
-  //       setEventsData(temp);
-  //     })
-  //     .catch(() => {});
-  // }, []);
-
-  // setEventsData([
-  //   ...eventsData,
-  //   {
-  //     start,
-  //     end,
-  //     title,
-  //   },
-  // ]);
+  const onDayClick = () => {
+    // 클릭 시 년월일(2023-05-17), 필터링된 dogid, categoryid를 건내준다.
+  };
 
   // 각 이벤트에 대한 스타일을 동적으로 지정하는 함수
   const eventStyleGetter = (event) => {
-  // const backgroundColor = "#ff0000"; // 바의 배경색
     // const borderColor = '#000000'; // 바의 테두리색
-    const backgroundColor = event.color; // 이벤트의 color 속성으로 색상 지정
+    const backgroundColor = event.color;
 
     const style = {
       backgroundColor,
@@ -58,6 +29,7 @@ function CalendarView({ filteredDiaries }) {
       style,
     };
   };
+
   return (
     <div className="App">
       <Calendar
@@ -67,6 +39,8 @@ function CalendarView({ filteredDiaries }) {
         defaultView="month"
         events={filteredDiaries}
         style={{ height: '700px', width: '1000px' }}
+        // 눌렀을 때, 해당 일의 필터링된 일지를 확인할 수 있다.
+        onSelectEvent={onDayClick}
         eventPropGetter={eventStyleGetter}
       />
     </div>
