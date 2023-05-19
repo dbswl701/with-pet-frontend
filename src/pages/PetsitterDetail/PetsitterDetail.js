@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import Content from './Content';
 import Reservation from './Reservation';
 
@@ -26,30 +27,31 @@ const ContentWrapper = styled.div`
 `;
 
 function PetsitterDetial() {
+  const { id } = useParams();
+  console.log(id);
   const [info, setInfo] = useState({});
+  const [dogList, setDogList] = useState([]);
   // const [info2, setInfo2] = useState({});
   const [houseImg, setHouseImg] = useState();
 
   useEffect(() => {
-    axios.get('https://withpet.site/api/v1/petsitter/2', { withCredentials: true })
+    axios.get(`https://withpet.site/api/v1/petsitter/${id}`, { withCredentials: true })
       .then((res) => {
         console.log(res.data.result);
         setInfo(res.data.result);
         setHouseImg(res.data.result.petSitterHouses.find((item) => item.representative === true).houseImg);
-        console.log(res.data.result.petSitterHouses.find((item) => item.representative === true).houseImg);
       })
       .catch(() => {
       });
-    // axios.get('https://withpet.site/api/v1/petsitte_user/1', { withCredentials: true })
-    //   .then((res) => {
-    //     console.log(res.data.result);
-    //     setInfo2(res.data.result);
-    //   })
-    //   .catch(() => {
-    //   });
+    axios.get(`https://withpet.site/api/v1/dogs/reservation-dogs?petSitterId=${id}`, { withCredentials: true })
+      .then((res) => {
+        console.log(res.data.result);
+        setDogList(res.data.result);
+      })
+      .catch(() => {
+      });
   }, []);
 
-  console.log(houseImg);
   return (
     <>
       <Container>
@@ -60,7 +62,7 @@ function PetsitterDetial() {
         </HouseImgWrapper>
         <ContentWrapper>
           <Content data={info} />
-          <Reservation data={info} sizeFee={info.sizeFee} />
+          <Reservation data={info} dogList={dogList} />
         </ContentWrapper>
       </Container>
     </>

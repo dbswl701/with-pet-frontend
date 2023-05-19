@@ -22,7 +22,7 @@ const Title = styled.div`
   margin-top: 30px;
 `;
 
-function Reservation({ sizeFee, data }) {
+function Reservation({ dogList, data }) {
   const [info, setInfo] = useState({
     startDate: '',
     endDate: '',
@@ -41,6 +41,7 @@ function Reservation({ sizeFee, data }) {
   };
   // console.log(data.dogs);
   console.log(data);
+  console.log(dogList);
   // 예약 불가능한 날짜 확인
   useEffect(() => {
     axios.get('https://withpet.site/api/v1/reservation?month=2023-05&petsitterId=2', { withCredentials: true })
@@ -114,11 +115,13 @@ function Reservation({ sizeFee, data }) {
                 <MenuItem value="23">오후 11:00</MenuItem>
               </TextField>
               <Title>반려동물 선택</Title>
-              {/* <TextField sx={{ m: 1 }} select label="반려견 선택" variant="outlined" name="dogId" onChange={onChange} value={info.dogId} required SelectProps={{ multiple: true, value: [] }} style={{ width: '285px' }} disabled={!data.dogs || data.dogs.length === 0}>
-                {data.dogs && data.dogs.map((dog) => { return <MenuItem key={dog.id} value={dog.id}>{dog.name}</MenuItem>; })}
-              </TextField> */}
+              <TextField sx={{ m: 1 }} select label="반려견 선택" variant="outlined" name="dogId" style={{ width: '300px' }} onChange={onChange} value={info.dogId} required>
+                {/* <MenuItem value="23">오후 11:00</MenuItem> */}
+                { dogList.map((dog) => <MenuItem key={dog.dogId} value={dog.dogId} disabled={!dog.petReservationAvailable}>{dog.name}</MenuItem>)}
+              </TextField>
               <Title>옵션 선택</Title>
-              <Options />
+              {/* 여기 서비스 넘겨줌 */}
+              <Options services={data.petSitterServices} />
             </div>
             <input
               type="submit"
@@ -131,7 +134,7 @@ function Reservation({ sizeFee, data }) {
         </div>
         <div>
           <p>이용 요금(데이케어)</p>
-          { sizeFee && sizeFee.map((item) => (
+          { data.petSitterCriticalServices && data.petSitterCriticalServices.map((item) => (
             <div key={item.petSitterServiceId}>
               <img src={item.img} alt={item.img} />
               <p>{item.name} / {item.content} / {item.price}원</p>
