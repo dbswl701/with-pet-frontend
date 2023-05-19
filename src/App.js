@@ -21,6 +21,9 @@ import PetsitterInfoManage from './pages/PetsitterInfoManage/PetsitterInfoManage
 import EditProfile from './pages/EditProfile/EditProfile';
 import AdminServicManage from './pages/AdminServicManage/Main';
 import PetsitterShowInfo from './pages/PetsitterInfoManage/PetsitterShowInfo';
+import ApiTest from './pages/ApiTest';
+import AdminServicManage from './pages/AdminServicManage/AdminServicManage';
+import UserDiaryList from './pages/UserDiary/UserDiaryList';
 
 function App() {
   const [state, setState] = useState('false');
@@ -38,7 +41,8 @@ function App() {
           <Route path="/editProfile" element={<EditProfile />} />
           <Route path="/usageList" element={<UsageList />} />
           <Route path="/petList" element={<PetList />} />
-          <Route path="/petsitterdetail" element={<PetsitterDetail />} />
+          <Route path="/petsitterdetail" element={<PetsitterDetial />} />
+          <Route path="/userdiaryList" element={<UserDiaryList />} />
 
           {/* 펫시터 페이지 */}
           <Route path="/petsitterapply" element={<PetsitterApply />} />
@@ -55,9 +59,8 @@ function App() {
           <Route path="/adminapplyInfo" element={<AdminApplyInfo />} />
         </Route>
       </Routes>
-      {/* <ApiTest /> */}
+      <ApiTest />
     </>
-
   );
 }
 
