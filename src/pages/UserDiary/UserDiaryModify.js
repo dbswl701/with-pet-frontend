@@ -5,9 +5,7 @@ import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import axios from 'axios';
 
 function UserDiaryModify({ onSubmit, diaryInfo, onToggle }) {
@@ -75,13 +73,6 @@ function UserDiaryModify({ onSubmit, diaryInfo, onToggle }) {
     setDogId(event.target.value);
   };
 
-  const [submitInfo, setSubmitInfo] = useState({
-    categoryId: 2,
-    contentBody: 'string',
-    createdAt: '2023-05-17',
-    dogId: 4,
-    title: 'string',
-  });
   const onChange = (e) => {
     if (e.target.files) {
       const file = e.target.files[0];
@@ -114,7 +105,6 @@ function UserDiaryModify({ onSubmit, diaryInfo, onToggle }) {
       dogId: Number(modifyDiaryInfo.dogId),
       title: modifyDiaryInfo.title,
     };
-    setSubmitInfo(updatedSubmitInfo);
     onSubmit(diaryInfo.userDiaryId, updatedSubmitInfo);
   };
 
@@ -149,7 +139,6 @@ function UserDiaryModify({ onSubmit, diaryInfo, onToggle }) {
         {/* <InputLabel id="demo-simple-select-label">카테고리</InputLabel> */}
         <select
           name="categoryId"
-          labelId="demo-simple-select-label"
           id="categoryId"
           value={categoryId}
           label="카테고리"
@@ -177,7 +166,6 @@ function UserDiaryModify({ onSubmit, diaryInfo, onToggle }) {
         {/* <InputLabel id="demo-simple-select-label">반려견</InputLabel> */}
         <select
           name="dogId"
-          labelId="demo-simple-select-label"
           id="dogId"
           value={dogId}
           label="반려견"

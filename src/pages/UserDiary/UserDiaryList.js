@@ -6,7 +6,6 @@ import dayjs from 'dayjs';
 import axios from 'axios';
 import UserDiary from './UserDiary';
 import UserDiaryAdd from './UserDiaryAdd';
-import dogimgdefault from '../../assets/dogProfileImage.png';
 import './Diaries.css';
 // function UserDiaryList(props)
 function UserDiaryList() {
@@ -16,9 +15,6 @@ function UserDiaryList() {
   const [diaries, setDiaries] = useState([]);
   const dateNow = new Date();
   const today = dateNow.toISOString().substr(0, 10);
-  const [categoryId, setCategoryId] = useState('');
-  const [day, setDay] = useState('2023-05-17'); //캘린더뷰에서 선택한 날짜 받아오기. 지금은 임시로 2023-05-17로 설정
-  const [dogId, setDogId] = useState('');
   const [diaryInfo, setDiaryInfo] = useState({
     categoryId: 1,
     contentBody: '',
@@ -53,21 +49,17 @@ function UserDiaryList() {
 
   const onSubmitAdd = (e) => {
     e.preventDefault();
-    let media = diaryInfo.media;
-    if (media === '') {
-      media = dogimgdefault;
-    }
     const diary = {
       categoryId: diaryInfo.categoryId,
       contentBody: diaryInfo.contentBody,
       createdAt: diaryInfo.createdAt,
       dogId: diaryInfo.dogId,
-      dogImgToday: media,
+      dogImgToday: diaryInfo.media,
       title: diaryInfo.title,
     };
     console.log(diary);
     axios
-      .post(`https://withpet.site/api/v1/userdiaries`, diary, {
+      .post('https://withpet.site/api/v1/userdiaries', diary, {
         withCredentials: true,
       })
       .then((res) => {
@@ -77,10 +69,10 @@ function UserDiaryList() {
         console.error(err);
       });
     setDiaryInfo({
-      categoryId: 0,
+      categoryId: 1,
       contentBody: '',
       createdAt: '',
-      dogId: 0,
+      dogId: 1,
       media: '',
       title: '',
     });
@@ -89,7 +81,7 @@ function UserDiaryList() {
   useEffect(() => {
     axios
       .get(
-        `https://withpet.site/api/v1/userdiaries/day?categoryId=${categoryId}&day=${day}&dogId=${dogId}`,
+        'https://withpet.site/api/v1/userdiaries/day?categoryId=&day=2023-05-17&dogId=',
         { withCredentials: true },
       )
       .then((res) => {
@@ -103,7 +95,7 @@ function UserDiaryList() {
 
   const onSubmitModify = (id, modifyDiaryInfo) => {
     // setPets(pets.map((pet) => (pet.id === id ? modifyPetInfo : pet)));
-    let diaryRequest = modifyDiaryInfo;
+    const diaryRequest = modifyDiaryInfo;
     axios
       .put(`https://withpet.site/api/v1/userdiaries/${id}`, diaryRequest, {
         withCredentials: true,
@@ -115,7 +107,7 @@ function UserDiaryList() {
           }
           return diary;
         });
-        setDiaries(updatedDiaries); //새로고침 없이 렌더링 됨
+        setDiaries(updatedDiaries); // 새로고침 없이 렌더링 됨
       })
       .catch(() => {});
   };
@@ -154,11 +146,7 @@ function UserDiaryList() {
         >
           <div className="diary_container">
             {diaries.map((diary) => {
-              return (
-                <div>
-                  <UserDiary diary={diary} onSubmitModify={onSubmitModify} />
-                </div>
-              );
+              return <UserDiary key={diary.userDiaryId} diary={diary} onSubmitModify={onSubmitModify} />;
             })}
             <UserDiaryAdd
               onSubmit={onSubmitAdd}
@@ -167,7 +155,7 @@ function UserDiaryList() {
               onCancel={onCancel}
               setDiaryInfo={setDiaryInfo}
             />
-            {/*여기에 UserDiaryAdd */}
+            {/* 여기에 UserDiaryAdd */}
           </div>
           <Button type="button" onClick={handleClose}>
             닫기

@@ -41,7 +41,6 @@ function UserDiary({ diary, onSubmitModify }) {
     case 'simple':
       print = simple;
       break;
-      e;
     default:
       print = simple;
       break;
