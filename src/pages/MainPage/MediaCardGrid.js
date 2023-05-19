@@ -36,7 +36,7 @@ function MediaCardGrid({ cards }) {
       <Grid>
         {cards && cards.map((card) => (
           // eslint-disable-next-line max-len
-          <MediaCard key={card.id} title={card.name} image={card.house} rate={card.rate} />
+          <MediaCard key={card.petSitterId} title={card.userName} image={card.petSitterRepresentativeHouse} rate={card.rate} />
         ))}
       </Grid>
     </div>
