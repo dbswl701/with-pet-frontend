@@ -15,7 +15,7 @@ function UserDiaryDetail({ diary, onToggle }) {
     <>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <div className="diary-first">
-          <img className="today-img" src={diary.media} alt="오늘의 사진" />
+          <img className="today-img" src={diary.media} alt="오늘의 사진" style={{ width: '100px', height: '100px' }} />
         </div>
         <div className="diary-contents">
           <Grid container ml={2}>

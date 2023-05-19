@@ -96,6 +96,8 @@ function UserDiaryList() {
   const onSubmitModify = (id, modifyDiaryInfo) => {
     // setPets(pets.map((pet) => (pet.id === id ? modifyPetInfo : pet)));
     const diaryRequest = modifyDiaryInfo;
+    console.log(id);
+    console.log(modifyDiaryInfo);
     axios
       .put(`https://withpet.site/api/v1/userdiaries/${id}`, diaryRequest, {
         withCredentials: true,

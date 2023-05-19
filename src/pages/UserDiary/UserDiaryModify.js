@@ -11,12 +11,12 @@ import axios from 'axios';
 function UserDiaryModify({ onSubmit, diaryInfo, onToggle }) {
   const [modifyDiaryInfo, setModifyDiaryInfo] = useState({
     createdAt: diaryInfo.createdAt,
-    categoryName: diaryInfo.categoryName,
     categoryId: diaryInfo.categoryId,
     title: diaryInfo.title,
-    content: diaryInfo.content,
-    media: diaryInfo.media,
-    diaryId: diaryInfo.userDiaryId,
+    contentBody: diaryInfo.content,
+    dogImgToday: diaryInfo.media,
+    dogId: diaryInfo.dogId,
+    // diaryId: diaryInfo.userDiaryId,
   });
   const [categories, setCategories] = useState([]);
   const [categoryId, setCategoryId] = useState('');
@@ -36,7 +36,6 @@ function UserDiaryModify({ onSubmit, diaryInfo, onToggle }) {
       outline: 'none',
     },
   };
-
   useEffect(() => {
     // 카테고리 selectbox 불러오기
     axios
@@ -105,6 +104,7 @@ function UserDiaryModify({ onSubmit, diaryInfo, onToggle }) {
       dogId: Number(modifyDiaryInfo.dogId),
       title: modifyDiaryInfo.title,
     };
+    console.log(updatedSubmitInfo);
     onSubmit(diaryInfo.userDiaryId, updatedSubmitInfo);
   };
 
@@ -180,7 +180,7 @@ function UserDiaryModify({ onSubmit, diaryInfo, onToggle }) {
         </select>
       </FormControl>
       <div className="select-diary-type">
-        <img id="preview-img" src={modifyDiaryInfo.media} alt="preview" />
+        <img id="preview-img" src={modifyDiaryInfo.media} alt="preview" style={{ width: '100px', height: '100px' }} />
         <label htmlFor="image-select">오늘의 사진 선택</label>
         <input
           type="file"
@@ -206,9 +206,9 @@ function UserDiaryModify({ onSubmit, diaryInfo, onToggle }) {
           label="내용"
           variant="outlined"
           size="medium"
-          name="content"
+          name="contentBody"
           onChange={onChange}
-          value={modifyDiaryInfo.content}
+          value={modifyDiaryInfo.contentBody}
         />
         <input className="diary-add-btn" type="submit" value="수정" />
         <input
