@@ -9,13 +9,13 @@ function UserDiaryDetail({ diary, onToggle }) {
     { name: '날짜', value: diary.createdAt },
     { name: '카테고리', value: diary.categoryName },
     { name: '제목', value: diary.title },
-    { name: '내용', value: diary.content },
+    { name: '내용', value: diary.contentBody },
   ];
   const detail = (
     <>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <div className="diary-first">
-          <img className="today-img" src={diary.media} alt="오늘의 사진" style={{ width: '100px', height: '100px' }} />
+          <img className="today-img" src={diary.dogImgToday} alt="오늘의 사진" style={{ width: '100px', height: '100px' }} />
         </div>
         <div className="diary-contents">
           <Grid container ml={2}>

@@ -20,7 +20,7 @@ function UserDiaryList() {
     contentBody: '',
     createdAt: dayjs(today),
     dogId: 1,
-    media: '',
+    dogImgToday: '',
     title: '',
   });
 
@@ -35,7 +35,7 @@ function UserDiaryList() {
       reader.onloadend = () => {
         setDiaryInfo({
           ...diaryInfo,
-          media: reader.result,
+          dogImgToday: reader.result,
         });
       };
     } else {
@@ -54,7 +54,7 @@ function UserDiaryList() {
       contentBody: diaryInfo.contentBody,
       createdAt: diaryInfo.createdAt,
       dogId: diaryInfo.dogId,
-      dogImgToday: diaryInfo.media,
+      dogImgToday: diaryInfo.dogImgToday,
       title: diaryInfo.title,
     };
     console.log(diary);
@@ -64,6 +64,7 @@ function UserDiaryList() {
       })
       .then((res) => {
         setDiaries(diaries.concat(res.data.result));
+        console.log(res.data.result);
       })
       .catch((err) => {
         console.error(err);
@@ -73,7 +74,7 @@ function UserDiaryList() {
       contentBody: '',
       createdAt: '',
       dogId: 1,
-      media: '',
+      dogImgToday: '',
       title: '',
     });
   };
@@ -81,7 +82,7 @@ function UserDiaryList() {
   useEffect(() => {
     axios
       .get(
-        'https://withpet.site/api/v1/userdiaries/day?categoryId=&day=2023-05-17&dogId=',
+        'https://withpet.site/api/v1/userdiaries/day?categoryId=&day=2023-05-19&dogId=',
         { withCredentials: true },
       )
       .then((res) => {
@@ -120,7 +121,7 @@ function UserDiaryList() {
       contentBody: '',
       createdAt: '',
       dogId: '',
-      media: '',
+      dogImgToday: '',
       title: '',
     });
   };

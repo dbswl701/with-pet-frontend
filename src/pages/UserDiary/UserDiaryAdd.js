@@ -176,7 +176,7 @@ function UserDiaryAdd({
         <img
           id="preview-image"
           alt="이미지 미리보기"
-          src={!diaryInfo.media ? dogimgdefault : diaryInfo.media}
+          src={!diaryInfo.dogImgToday ? dogimgdefault : diaryInfo.dogImgToday}
         />
         <label htmlFor="image-select">오늘의 사진 선택</label>
         <input
