@@ -22,14 +22,14 @@ const Title = styled.div`
   margin-top: 30px;
 `;
 
-function Reservation({ dogList, data }) {
+function Reservation({ dogList, data, petsitterId }) {
   const [info, setInfo] = useState({
     startDate: '',
     endDate: '',
     checkinTime: '',
     checkoutTime: '',
     dogId: '',
-    options: {},
+    optionId: [],
   });
   const [unavailable, setUnavailable] = useState([]);
   const onChange = (e) => {
@@ -37,6 +37,13 @@ function Reservation({ dogList, data }) {
     setInfo({
       ...info,
       [name]: value,
+    });
+  };
+
+  const onChangeOption = (list) => {
+    setInfo({
+      ...info,
+      optionId: list,
     });
   };
   // console.log(data.dogs);
@@ -51,26 +58,54 @@ function Reservation({ dogList, data }) {
       });
   }, []);
 
+  const onSubmit = (e) => {
+    // 예약 api
+    console.log(info);
+    e.preventDefault();
+    const temp = {
+      checkIn: `${info.startDate}T${info.checkinTime}:00:00`,
+      checkOut: `${info.endDate}T${info.checkoutTime}:00:00`,
+      dogId: info.dogId,
+      optionId: info.optionId,
+      petsitterId: Number(petsitterId),
+    };
+    console.log(temp);
+    axios.post('https://withpet.site/api/v1/reservation', temp, { withCredentials: true })
+      .then((res) => {
+        console.log(res.data.result);
+      });
+  };
+  console.log(info);
+  const onChangeCalender = (start, end) => {
+    if (start && end) {
+      setInfo({
+        ...info,
+        startDate: start.format('YYYY-MM-DD'),
+        endDate: end.format('YYYY-MM-DD'),
+      });
+    }
+  };
+
   return (
     <>
       <Container>
         <div> { /* 예약 정보 입력 */ }
           <Title>체크인 / 체크아웃 날짜</Title>
-          <CheckCalendar blockdays={unavailable} />
-          <form>
+          <CheckCalendar blockdays={unavailable} onChange={onChangeCalender} />
+          <form onSubmit={onSubmit}>
             <div>
               <Title>체크인 / 체크아웃 시간</Title>
               <TextField sx={{ m: 1 }} select label="체크인 시간" variant="outlined" name="checkinTime" style={{ width: '138px', height: '40px' }} onChange={onChange} value={info.checkinTime} required>
-                <MenuItem value="0">오전 12:00</MenuItem>
-                <MenuItem value="1">오전 01:00</MenuItem>
-                <MenuItem value="2">오전 02:00</MenuItem>
-                <MenuItem value="3">오전 03:00</MenuItem>
-                <MenuItem value="4">오전 04:00</MenuItem>
-                <MenuItem value="5">오전 05:00</MenuItem>
-                <MenuItem value="6">오전 06:00</MenuItem>
-                <MenuItem value="7">오전 07:00</MenuItem>
-                <MenuItem value="8">오전 08:00</MenuItem>
-                <MenuItem value="9">오전 09:00</MenuItem>
+                <MenuItem value="00">오전 12:00</MenuItem>
+                <MenuItem value="01">오전 01:00</MenuItem>
+                <MenuItem value="02">오전 02:00</MenuItem>
+                <MenuItem value="03">오전 03:00</MenuItem>
+                <MenuItem value="04">오전 04:00</MenuItem>
+                <MenuItem value="05">오전 05:00</MenuItem>
+                <MenuItem value="06">오전 06:00</MenuItem>
+                <MenuItem value="07">오전 07:00</MenuItem>
+                <MenuItem value="08">오전 08:00</MenuItem>
+                <MenuItem value="09">오전 09:00</MenuItem>
                 <MenuItem value="10">오전 10:00</MenuItem>
                 <MenuItem value="11">오전 11:00</MenuItem>
 
@@ -88,16 +123,16 @@ function Reservation({ dogList, data }) {
                 <MenuItem value="23">오후 11:00</MenuItem>
               </TextField>
               <TextField sx={{ m: 1 }} select label="체크아웃 시간" variant="outlined" name="checkoutTime" style={{ width: '138px', height: '40px' }} onChange={onChange} value={info.checkoutTime} required>
-                <MenuItem value="0">오전 12:00</MenuItem>
-                <MenuItem value="1">오전 01:00</MenuItem>
-                <MenuItem value="2">오전 02:00</MenuItem>
-                <MenuItem value="3">오전 03:00</MenuItem>
-                <MenuItem value="4">오전 04:00</MenuItem>
-                <MenuItem value="5">오전 05:00</MenuItem>
-                <MenuItem value="6">오전 06:00</MenuItem>
-                <MenuItem value="7">오전 07:00</MenuItem>
-                <MenuItem value="8">오전 08:00</MenuItem>
-                <MenuItem value="9">오전 09:00</MenuItem>
+                <MenuItem value="00">오전 12:00</MenuItem>
+                <MenuItem value="01">오전 01:00</MenuItem>
+                <MenuItem value="02">오전 02:00</MenuItem>
+                <MenuItem value="03">오전 03:00</MenuItem>
+                <MenuItem value="04">오전 04:00</MenuItem>
+                <MenuItem value="05">오전 05:00</MenuItem>
+                <MenuItem value="06">오전 06:00</MenuItem>
+                <MenuItem value="07">오전 07:00</MenuItem>
+                <MenuItem value="08">오전 08:00</MenuItem>
+                <MenuItem value="09">오전 09:00</MenuItem>
                 <MenuItem value="10">오전 10:00</MenuItem>
                 <MenuItem value="11">오전 11:00</MenuItem>
 
@@ -121,7 +156,7 @@ function Reservation({ dogList, data }) {
               </TextField>
               <Title>옵션 선택</Title>
               {/* 여기 서비스 넘겨줌 */}
-              <Options services={data.petSitterServices} />
+              <Options services={data.petSitterServices} onChange={onChangeOption} />
             </div>
             <input
               type="submit"

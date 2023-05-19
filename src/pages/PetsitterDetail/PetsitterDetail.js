@@ -62,7 +62,7 @@ function PetsitterDetial() {
         </HouseImgWrapper>
         <ContentWrapper>
           <Content data={info} />
-          <Reservation data={info} dogList={dogList} />
+          <Reservation data={info} dogList={dogList} petsitterId={id} />
         </ContentWrapper>
       </Container>
     </>

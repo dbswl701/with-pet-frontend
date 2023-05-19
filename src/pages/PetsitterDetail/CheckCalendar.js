@@ -4,7 +4,7 @@ import 'react-dates/lib/css/_datepicker.css';
 import 'react-dates/initialize';
 import moment from 'moment';
 
-function ReservationPage({ blockdays }) {
+function ReservationPage({ blockdays, onChange }) {
   const [checkInDate, setCheckInDate] = useState(null);
   const [checkOutDate, setCheckOutDate] = useState(null);
   const [focusedInputType, setFocusedInputType] = useState(null);
@@ -12,6 +12,7 @@ function ReservationPage({ blockdays }) {
   const handleDateChange = ({ startDate, endDate }) => {
     setCheckInDate(startDate);
     setCheckOutDate(endDate);
+    onChange(startDate, endDate);
   };
 
   const handleFocusChange = (focusedInput) => {
