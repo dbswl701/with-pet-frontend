@@ -40,7 +40,7 @@ function App() {
           <Route path="/editProfile" element={<EditProfile />} />
           <Route path="/usageList" element={<UsageList />} />
           <Route path="/petList" element={<PetList />} />
-          <Route path="/petsitterdetail" element={<PetsitterDetail />} />
+          <Route path="/petsitterdetail/:id" element={<PetsitterDetail />} />
           <Route path="/userdiaryList" element={<UserDiaryList />} />
 
           {/* 펫시터 페이지 */}
