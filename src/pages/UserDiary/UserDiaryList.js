@@ -96,16 +96,14 @@ function UserDiaryList() {
 
   const onSubmitModify = (id, modifyDiaryInfo) => {
     // setPets(pets.map((pet) => (pet.id === id ? modifyPetInfo : pet)));
-    const diaryRequest = modifyDiaryInfo;
-    console.log(id);
-    console.log(modifyDiaryInfo);
+    // const diaryRequest = modifyDiaryInfo;
     axios
-      .put(`https://withpet.site/api/v1/userdiaries/${id}`, diaryRequest, {
+      .put(`https://withpet.site/api/v1/userdiaries/${id}`, modifyDiaryInfo, {
         withCredentials: true,
       })
       .then((res) => {
         const updatedDiaries = diaries.map((diary) => {
-          if (diary.id === modifyDiaryInfo.id) {
+          if (diary.userDiaryId === id) {
             return res.data.result;
           }
           return diary;
