@@ -27,33 +27,40 @@ const ContentWrapper = styled.div`
 
 function PetsitterDetial() {
   const [info, setInfo] = useState({});
-  const [info2, setInfo2] = useState({});
+  // const [info2, setInfo2] = useState({});
+  const [houseImg, setHouseImg] = useState();
 
   useEffect(() => {
-    axios.get('https://d45162fd-d516-4456-83d9-d3b784b62ec2.mock.pstmn.io/api/v1/petsitterDetail/1')
+    axios.get('https://withpet.site/api/v1/petsitter/2', { withCredentials: true })
       .then((res) => {
-        // console.log(res.data.result);
+        console.log(res.data.result);
         setInfo(res.data.result);
+        setHouseImg(res.data.result.petSitterHouses.find((item) => item.representative === true).houseImg);
+        console.log(res.data.result.petSitterHouses.find((item) => item.representative === true).houseImg);
       })
       .catch(() => {
       });
-    axios.get('https://d45162fd-d516-4456-83d9-d3b784b62ec2.mock.pstmn.io/api/v1/petsitte_user/1')
-      .then((res) => {
-        // console.log(res.data.result);
-        setInfo2(res.data.result);
-      })
-      .catch(() => {
-      });
+    // axios.get('https://withpet.site/api/v1/petsitte_user/1', { withCredentials: true })
+    //   .then((res) => {
+    //     console.log(res.data.result);
+    //     setInfo2(res.data.result);
+    //   })
+    //   .catch(() => {
+    //   });
   }, []);
+
+  console.log(houseImg);
   return (
     <>
       <Container>
         <HouseImgWrapper>
-          {info.homeImg && info.homeImg.map((img) => <img src={img.url} alt="집사진" key={img.id} />)}
+          <img src={houseImg} alt="집사진" />
+          {/* {info.homeImg && info.homeImg.map((img) => <img src={img.url} alt="집사진" key={img.id} />)} */}
+          {/* { info.petSitterHouses && info.petSitterHouses.find((item) => item.representative === true)} */}
         </HouseImgWrapper>
         <ContentWrapper>
           <Content data={info} />
-          <Reservation data={info2} sizeFee={info.sizeFee} />
+          <Reservation data={info} sizeFee={info.sizeFee} />
         </ContentWrapper>
       </Container>
     </>
