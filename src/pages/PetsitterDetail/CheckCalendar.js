@@ -23,10 +23,10 @@ function ReservationPage({ blockdays }) {
   //   new Date(2023, 4, 26), // May 26, 2023
   //   new Date(2023, 4, 18), // May 18, 2023 (임의로 추가한 블록된 날짜)
   // ];
-  const blockedDates = blockdays && blockdays.map((date) => {
+  const blockedDates = blockdays ? blockdays.map((date) => {
     const [year, month, day] = date.split('-');
     return new Date(year, month - 1, day);
-  });
+  }) : [];
 
   const isSameDay = (date1, date2) => {
     return (
@@ -65,7 +65,6 @@ function ReservationPage({ blockdays }) {
 
   return (
     <div>
-      <h2>Reservation Page</h2>
       <div>
         <DateRangePicker
           startDate={checkInDate}

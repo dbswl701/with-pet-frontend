@@ -3,12 +3,11 @@ import { DayPickerRangeController } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 import 'react-dates/initialize';
 
-function ReservationPage() {
-  const blockedDates = [
-    new Date(2023, 4, 23), // May 13, 2023
-    new Date(2023, 4, 26), // May 26, 2023
-    new Date(2023, 4, 18), // May 18, 2023 (임의로 추가한 블록된 날짜)
-  ];
+function ReservationPage({ unavailable }) {
+  const blockedDates = unavailable ? unavailable.map((date) => {
+    const [year, month, day] = date.split('-');
+    return new Date(year, month - 1, day);
+  }) : [];
 
   const isSameDay = (date1, date2) => {
     return (
@@ -19,7 +18,10 @@ function ReservationPage() {
   };
 
   const isReservationDateBlocked = (day) => {
-    return blockedDates.some((date) => isSameDay(date, day));
+    const today = new Date(); // 오늘 날짜
+    return (
+      blockedDates.some((date) => isSameDay(date, day)) || day.isBefore(today, 'day') // 오늘 이전의 날짜
+    );
   };
 
   return (

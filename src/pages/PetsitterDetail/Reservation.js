@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
+import axios from 'axios';
 import Options from './Options';
 import CheckCalendar from './CheckCalendar';
 import AvailableCalendar from './AvailableCalendar';
@@ -9,9 +10,19 @@ import AvailableCalendar from './AvailableCalendar';
 const Container = styled.div`
   background-color: orange;
   width: 375px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
 `;
 
-function Reservation({ data, sizeFee }) {
+const Title = styled.div`
+  font-size: 20px;
+  font-weight: bold;
+  color: #CAA969;
+  margin-top: 30px;
+`;
+
+function Reservation({ sizeFee, data }) {
   const [info, setInfo] = useState({
     startDate: '',
     endDate: '',
@@ -20,6 +31,7 @@ function Reservation({ data, sizeFee }) {
     dogId: '',
     options: {},
   });
+  const [unavailable, setUnavailable] = useState([]);
   const onChange = (e) => {
     const { name, value } = e.target;
     setInfo({
@@ -28,14 +40,25 @@ function Reservation({ data, sizeFee }) {
     });
   };
   // console.log(data.dogs);
+  console.log(data);
+  // 예약 불가능한 날짜 확인
+  useEffect(() => {
+    axios.get('https://withpet.site/api/v1/reservation?month=2023-05&petsitterId=2', { withCredentials: true })
+      .then((res) => {
+        console.log(res.data.result);
+        setUnavailable(res.data.result);
+      });
+  }, []);
+
   return (
     <>
       <Container>
         <div> { /* 예약 정보 입력 */ }
-          <CheckCalendar blockdays={data.unavailable} />
+          <Title>체크인 / 체크아웃 날짜</Title>
+          <CheckCalendar blockdays={unavailable} />
           <form>
             <div>
-              <h2>체크인 / 체크아웃 시간</h2>
+              <Title>체크인 / 체크아웃 시간</Title>
               <TextField sx={{ m: 1 }} select label="체크인 시간" variant="outlined" name="checkinTime" style={{ width: '138px', height: '40px' }} onChange={onChange} value={info.checkinTime} required>
                 <MenuItem value="0">오전 12:00</MenuItem>
                 <MenuItem value="1">오전 01:00</MenuItem>
@@ -90,13 +113,20 @@ function Reservation({ data, sizeFee }) {
                 <MenuItem value="22">오후 10:00</MenuItem>
                 <MenuItem value="23">오후 11:00</MenuItem>
               </TextField>
-              <h2>반려동물 선택</h2>
-              <TextField sx={{ m: 1 }} select label="반려견 선택" variant="outlined" name="dogId" onChange={onChange} value={info.dogId} required SelectProps={{ multiple: true, value: [] }} style={{ width: '285px' }}>
+              <Title>반려동물 선택</Title>
+              {/* <TextField sx={{ m: 1 }} select label="반려견 선택" variant="outlined" name="dogId" onChange={onChange} value={info.dogId} required SelectProps={{ multiple: true, value: [] }} style={{ width: '285px' }} disabled={!data.dogs || data.dogs.length === 0}>
                 {data.dogs && data.dogs.map((dog) => { return <MenuItem key={dog.id} value={dog.id}>{dog.name}</MenuItem>; })}
-              </TextField>
+              </TextField> */}
+              <Title>옵션 선택</Title>
               <Options />
             </div>
-            <input type="submit" value="예약 하기" />
+            <input
+              type="submit"
+              value="예약 하기"
+              style={{
+                width: '285px', height: '50px', margin: 'auto', borderRadius: '10px', backgroundColor: '#CAA969', color: 'white',
+              }}
+            />
           </form>
         </div>
         <div>
@@ -108,7 +138,7 @@ function Reservation({ data, sizeFee }) {
             </div>
           ))}
         </div>
-        <AvailableCalendar />
+        <AvailableCalendar unavailable={unavailable} />
       </Container>
     </>
   );
