@@ -110,17 +110,21 @@ function SignupForm() {
       alert('빈 칸을 모두 입력해주세요.'); // eslint-disable-line no-alert
       return;
     }
-    axios.post('https://withpet.herokuapp.com/users/signup', {
-      username,
-      password,
-      name,
-      phone,
-      addressRoad,
-      addressPost,
-      addressDtail,
-      email,
-      image: imageSrc,
-    })
+    const data = {
+      address: {
+        detailAdr: addressDtail,
+        streetAdr: addressRoad,
+        zipcode: addressPost,
+      },
+      phoneNum: phone,
+      profileImg: imageSrc,
+      userEmail: email,
+      userId: username,
+      userName: name,
+      userPassword: password,
+      userPasswordCheck: passwordConfirm,
+    };
+    axios.post('https://withpet.site/api/v1/users/signup', data, { withCredentials: true })
       .then((res) => {
         console.log(res);
         navigate('/login');
