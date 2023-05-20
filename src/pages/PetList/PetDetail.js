@@ -2,9 +2,11 @@ import React from 'react';
 import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import { useNavigate } from 'react-router';
 
 function PetDetail({ pet, onToggle }) {
   // const [isModify, setIsModify] = useState(false);
+  const navigate = useNavigate();
   const petSpec = [
     { name: '견종', value: pet.dog_breed },
     { name: '생일', value: pet.dog_birth },
@@ -13,6 +15,9 @@ function PetDetail({ pet, onToggle }) {
     { name: '몸무게', value: pet.dog_weight },
     { name: '등록코드', value: pet.dog_isbn },
   ];
+  const onClickSocilization = () => {
+    navigate(`./userEvaluation/${pet.dog_id}`);
+  };
   const detail = (
     <>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -49,7 +54,7 @@ function PetDetail({ pet, onToggle }) {
           </div>
         </div>
         <div className="pet-second">
-          <button>사회화</button>
+          <button onClick={onClickSocilization}>사회화</button>
           <button>건강수첩</button>
         </div>
       </div>

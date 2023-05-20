@@ -23,6 +23,7 @@ import AdminServicManage from './pages/AdminServicManage/Main';
 import PetsitterShowInfo from './pages/PetsitterInfoManage/PetsitterShowInfo';
 import ApiTest from './pages/ApiTest';
 import UserDiaryList from './pages/UserDiary/UserDiaryList';
+import UserEvaluation from './pages/UserEvaluation/UserEvaluation';
 
 function App() {
   const [state, setState] = useState('false');
@@ -42,6 +43,7 @@ function App() {
           <Route path="/petList" element={<PetList />} />
           <Route path="/petsitterdetail/:id" element={<PetsitterDetail />} />
           <Route path="/userdiaryList" element={<UserDiaryList />} />
+          <Route path="/petList/userEvaluation/:id" element={<UserEvaluation />} />
 
           {/* 펫시터 페이지 */}
           <Route path="/petsitterapply" element={<PetsitterApply />} />
