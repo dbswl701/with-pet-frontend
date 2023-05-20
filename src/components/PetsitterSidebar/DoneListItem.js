@@ -19,7 +19,7 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-function DoneListItem({ item }) {
+function DoneListItem({ item, setPrintBody }) {
   console.log(item);
   const [showDiv, setShowDiv] = useState(false);
   const showButton = (
@@ -28,6 +28,10 @@ function DoneListItem({ item }) {
       <button>상세</button>
     </>
   );
+
+  const onClick = () => {
+    setPrintBody(['eval', item.reservationId]);
+  };
   return (
     <>
       <Container onMouseEnter={() => setShowDiv(true)} onMouseLeave={() => setShowDiv(false)}>
@@ -49,7 +53,7 @@ function DoneListItem({ item }) {
           </div>
           <div style={{ display: 'flex' }}>
             <img src={social} alt="heart" style={{ width: '16px', height: '16px' }} />
-            <Button>평가하기</Button>
+            <Button onClick={onClick}>평가하기</Button>
           </div>
         </div>
         <div>

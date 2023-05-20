@@ -18,7 +18,7 @@ margin-left: 40px;
 flex-direction: column;
 `;
 
-function PetsitterSidebar() {
+function PetsitterSidebar({ setPrintBody }) {
   const [useReservations, setUseReservations] = useState([]);
   const [newReservations, setNewReservations] = useState([]);
   const [doneReservations, setDoneReservations] = useState([]);
@@ -46,7 +46,7 @@ function PetsitterSidebar() {
       <SideBar>
         <CurrentList useReservations={useReservations} setUseReservations={setUseReservations} />
         <NewList newReservations={newReservations} handleRemoveNew={handleRemoveNew} handleApprove={handleApprove} />
-        <DoneList doneReservations={doneReservations} setDoneReservations={setDoneReservations} />
+        <DoneList doneReservations={doneReservations} setDoneReservations={setDoneReservations} setPrintBody={setPrintBody} />
         <Profit />
       </SideBar>
     </>
