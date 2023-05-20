@@ -6,20 +6,20 @@ import Content from './Content';
 import Reservation from './Reservation';
 
 const Container = styled.div`
-  background-color: blue;
+  // background-color: blue;
   display: flex;
   flex-direction: column;
 `;
 
 const HouseImgWrapper = styled.div`
-  background-color: yellow;
+  // background-color: yellow;
   text-align: center;
 `;
 
 const ContentWrapper = styled.div`
   display: flex;
   flex-direciton: row;
-  background-color: red;
+  // background-color: red;
   height: 100%;
   margin: 70px auto 0px auto;
   width: 1027px;
@@ -56,7 +56,7 @@ function PetsitterDetial() {
     <>
       <Container>
         <HouseImgWrapper>
-          <img src={houseImg} alt="집사진" />
+          <img src={houseImg} alt="집사진" style={{ width: '1200px', height: '500px' }} />
           {/* {info.homeImg && info.homeImg.map((img) => <img src={img.url} alt="집사진" key={img.id} />)} */}
           {/* { info.petSitterHouses && info.petSitterHouses.find((item) => item.representative === true)} */}
         </HouseImgWrapper>

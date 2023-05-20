@@ -56,30 +56,6 @@ function UserDiaryAdd({
     setisClick(false);
   };
 
-  // const handleCategoryChange = (event) => {
-  //   setCategoryId(event.target.value);
-  //   // setCategoryName(event.target.name);
-  // };
-
-  // const handleDogChange = (event) => {
-  //   setDogId(event.target.value);
-  // };
-
-  // useEffect(() => {
-  //   // 카테고리 selectbox 불러오기
-  //   axios
-  //     .get('https://withpet.site/api/v1/category', {
-  //       withCredentials: true,
-  //     })
-  //     .then((res) => {
-  //       setCategories(res.data.result);
-  //       console.log(res.data.result);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
-
   useEffect(() => {
     // 반려견 selectbox 불러오기
     axios
@@ -95,24 +71,13 @@ function UserDiaryAdd({
       });
   }, []);
 
-  // const onChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setDiaryInfo({
-  //     ...diaryInfo,
-  //     [name]: value,
-  //   });
-  // }; feat.윤지
-
   const addDiary = (
     <form onSubmit={onLocalSubmit}>
       <div className="select-diary-type">
-        {/* <div>{console.log('asdasdf', categoryId)}</div> */}
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             sx={{ m: 1 }}
             label="날짜"
-            // value={diaryInfo.createdAt}
-            // value={new Date()}
             onChange={onChangeCalendar}
             name="createdAt"
             format="YYYY/MM/DD"
@@ -120,12 +85,10 @@ function UserDiaryAdd({
         </LocalizationProvider>
       </div>
       <div>
-        {/* 카테고리, 반려견 불러오기 */}
         <FormControl
           sx={{ m: 1, minWidth: 120 }}
           size="small"
         >
-          {/* <InputLabel id="demo-simple-select-label">카테고리</InputLabel> */}
           <select
             name="categoryId"
             id="categoryId"
@@ -149,7 +112,6 @@ function UserDiaryAdd({
           sx={{ m: 1, minWidth: 120 }}
           size="small"
         >
-          {/* <InputLabel id="demo-simple-select-label">반려견</InputLabel> */}
           <select
             name="dogId"
             id="dogId"
@@ -163,11 +125,6 @@ function UserDiaryAdd({
                 {item.name}
               </option>
             ))}
-            {/* {categories.map((category) => {
-              <MenuItem key={category.categoryId} value={category.categoryId}>
-                {category.name}
-              </MenuItem>;
-            })} */}
           </select>
         </FormControl>
       </div>
@@ -195,7 +152,6 @@ function UserDiaryAdd({
           size="small"
           name="title"
           onChange={onChange}
-          // value={diaryInfo.title}
         />
         <TextField
           sx={{ m: 1 }}
@@ -204,7 +160,6 @@ function UserDiaryAdd({
           size="small"
           name="contentBody"
           onChange={onChange}
-          // value={diaryInfo.contentBody}
         />
         <input className="diary-add-btn" type="submit" value="submit" />
         <input
