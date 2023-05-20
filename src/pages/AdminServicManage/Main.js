@@ -12,7 +12,7 @@ export default function Orders() {
     // id: '',
     serviceName: '',
     serviceImg: '',
-    serviceIntro: '',
+    serviceIntroduction: '',
   });
   const [criticalList, setCriticalList] = useState([]);
 
@@ -71,7 +71,7 @@ export default function Orders() {
     setData({
       serviceName: '',
       serviceImg: '',
-      serviceIntro: '',
+      serviceIntroduction: '',
     });
   };
 

@@ -8,7 +8,7 @@ import CheckCalendar from './CheckCalendar';
 import AvailableCalendar from './AvailableCalendar';
 
 const Container = styled.div`
-  background-color: orange;
+  // background-color: orange;
   width: 375px;
   display: flex;
   flex-direction: column;
@@ -20,6 +20,11 @@ const Title = styled.div`
   font-weight: bold;
   color: #CAA969;
   margin-top: 30px;
+`;
+
+const Wrapper1 = styled.div`
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
+  border-radius: 10px;
 `;
 
 function Reservation({ dogList, data, petsitterId }) {
@@ -89,7 +94,7 @@ function Reservation({ dogList, data, petsitterId }) {
   return (
     <>
       <Container>
-        <div> { /* 예약 정보 입력 */ }
+        <Wrapper1> { /* 예약 정보 입력 */ }
           <Title>체크인 / 체크아웃 날짜</Title>
           <CheckCalendar blockdays={unavailable} onChange={onChangeCalender} />
           <form onSubmit={onSubmit}>
@@ -162,16 +167,24 @@ function Reservation({ dogList, data, petsitterId }) {
               type="submit"
               value="예약 하기"
               style={{
-                width: '285px', height: '50px', margin: 'auto', borderRadius: '10px', backgroundColor: '#CAA969', color: 'white',
+                width: '285px', height: '50px', margin: 'auto', borderRadius: '10px', backgroundColor: '#CAA969', color: 'white', marginBottom: '30px',
               }}
             />
           </form>
-        </div>
-        <div>
+        </Wrapper1>
+        <Wrapper1>
           <Title>이용 요금(데이케어)</Title>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{
+            display: 'flex', justifyContent: 'center', textAlign: 'center', flexDirection: 'column',
+          }}
+          >
             { data.petSitterCriticalServices && data.petSitterCriticalServices.map((item) => (
-              <div key={item.petSitterServiceId} style={{ display: 'flex', flexDirection: 'row' }}>
+              <div
+                key={item.petSitterServiceId}
+                style={{
+                  display: 'flex', flexDirection: 'row', justifyContent: 'center', textAlign: 'center',
+                }}
+              >
                 <div>
                   <img src={item.serviceImg} alt="서비스 이미지" style={{ width: '50px', height: '50px', marginRight: '10px' }} />
                 </div>
@@ -179,7 +192,7 @@ function Reservation({ dogList, data, petsitterId }) {
               </div>
             ))}
           </div>
-        </div>
+        </Wrapper1>
         <AvailableCalendar unavailable={unavailable} />
       </Container>
     </>
