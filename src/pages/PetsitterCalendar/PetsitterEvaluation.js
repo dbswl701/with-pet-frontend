@@ -68,6 +68,9 @@ function UserEvaluation({ id, setPrintBody }) {
       .then((res) => {
         console.log(res.data.result);
         // 캘린더뷰로 이동
+
+        // 모달창
+        alert('평가가 완료되었습니다. 해당 평가는 다른 펫시터가 반려견을 알아가는데 많은 도움을 줄 것입니다.');
         setPrintBody(['main', 0]);
       });
   };
