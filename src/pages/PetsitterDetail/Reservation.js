@@ -168,13 +168,17 @@ function Reservation({ dogList, data, petsitterId }) {
           </form>
         </div>
         <div>
-          <p>이용 요금(데이케어)</p>
-          { data.petSitterCriticalServices && data.petSitterCriticalServices.map((item) => (
-            <div key={item.petSitterServiceId}>
-              <img src={item.img} alt={item.img} />
-              <p>{item.name} / {item.content} / {item.price}원</p>
-            </div>
-          ))}
+          <Title>이용 요금(데이케어)</Title>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            { data.petSitterCriticalServices && data.petSitterCriticalServices.map((item) => (
+              <div key={item.petSitterServiceId} style={{ display: 'flex', flexDirection: 'row' }}>
+                <div>
+                  <img src={item.serviceImg} alt="서비스 이미지" style={{ width: '50px', height: '50px', marginRight: '10px' }} />
+                </div>
+                <p>{item.serviceName} / {item.serviceIntroduction} / {item.price}원</p>
+              </div>
+            ))}
+          </div>
         </div>
         <AvailableCalendar unavailable={unavailable} />
       </Container>
