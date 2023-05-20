@@ -44,7 +44,7 @@ function PetsitterSidebar({ setPrintBody }) {
   return (
     <>
       <SideBar>
-        <CurrentList useReservations={useReservations} setUseReservations={setUseReservations} />
+        <CurrentList useReservations={useReservations} setUseReservations={setUseReservations} setPrintBody={setPrintBody} />
         <NewList newReservations={newReservations} handleRemoveNew={handleRemoveNew} handleApprove={handleApprove} />
         <DoneList doneReservations={doneReservations} setDoneReservations={setDoneReservations} setPrintBody={setPrintBody} />
         <Profit />

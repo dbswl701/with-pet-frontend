@@ -67,7 +67,7 @@ function CurrentListItem({ item, handleRemoveNew, handleApprove }) {
         <div>
           <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '15px' }}>
             <img
-              src={item.img}
+              src={item.dogImg}
               alt="img"
               style={{
                 width: '53px', height: '53px', borderRadius: '50%', marginRight: '10px', textAlign: 'center',

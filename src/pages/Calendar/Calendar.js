@@ -13,10 +13,11 @@ function Calendar() {
     month: dayjs(new Date()).format('YYYY-MM'),
     petsitterCheck: '',
   });
+  console.log(filteredDiaries);
   return (
     <>
       <div style={{ display: 'flex' }}>
-        <UserSidebar open={openAdd} setOpen={setOpenAdd} setFilteredDiaries={setFilteredDiaries} filter={filter} setFilter={setFilter} />
+        <UserSidebar open={openAdd} setOpen={setOpenAdd} setFilteredDiaries={setFilteredDiaries} filteredDiaries={filteredDiaries} filter={filter} setFilter={setFilter} />
         {/* <div>반려인의 캘린더뷰 페이지</div> */}
         <CalendarView open={openDay} setOpen={setOpenDay} filteredDiaries={filteredDiaries} filter={filter} />
       </div>

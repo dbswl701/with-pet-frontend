@@ -75,13 +75,7 @@ function UserDiaryAdd({
     <form onSubmit={onLocalSubmit}>
       <div className="select-diary-type">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            sx={{ m: 1 }}
-            label="날짜"
-            onChange={onChangeCalendar}
-            name="createdAt"
-            format="YYYY/MM/DD"
-          />
+          <DatePicker sx={{ m: 1 }} label="날짜" onChange={onChangeCalendar} name="createdAt" format="YYYY/MM/DD" />
         </LocalizationProvider>
       </div>
       <div>
@@ -89,37 +83,16 @@ function UserDiaryAdd({
           sx={{ m: 1, minWidth: 120 }}
           size="small"
         >
-          <select
-            name="categoryId"
-            id="categoryId"
-            value={diaryInfo.categoryId}
-            label="카테고리"
-            style={styles.select}
-            onChange={onChange}
-          >
+          <select name="categoryId" id="categoryId" value={diaryInfo.categoryId} label="카테고리" style={styles.select} onChange={onChange}>
             {categories.map((item) => (
-              <option
-                key={item.categoryId}
-                value={item.categoryId}
-                name="categoryId"
-              >
+              <option key={item.categoryId} value={item.categoryId} name="categoryId">
                 {item.name}
               </option>
             ))}
           </select>
         </FormControl>
-        <FormControl
-          sx={{ m: 1, minWidth: 120 }}
-          size="small"
-        >
-          <select
-            name="dogId"
-            id="dogId"
-            value={diaryInfo.dogId}
-            label="반려견"
-            style={styles.select}
-            onChange={onChange}
-          >
+        <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+          <select name="dogId" id="dogId" value={diaryInfo.dogId} label="반려견" style={styles.select} onChange={onChange}>
             {dogs.map((item) => (
               <option key={item.dogId} value={item.dogId} name="dogId">
                 {item.name}
@@ -130,44 +103,15 @@ function UserDiaryAdd({
       </div>
 
       <div className="today-img-regist">
-        <img
-          id="preview-image"
-          alt="이미지 미리보기"
-          src={!diaryInfo.dogImgToday ? dogimgdefault : diaryInfo.dogImgToday}
-        />
+        <img id="preview-image" alt="이미지 미리보기" src={!diaryInfo.dogImgToday ? dogimgdefault : diaryInfo.dogImgToday} />
         <label htmlFor="image-select">오늘의 사진 선택</label>
-        <input
-          type="file"
-          accept="image/*"
-          id="image-select"
-          style={{ display: 'none' }}
-          onChange={onChange}
-        />
+        <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} onChange={onChange} />
       </div>
       <div className="diary-content">
-        <TextField
-          sx={{ m: 1 }}
-          label="제목"
-          variant="outlined"
-          size="small"
-          name="title"
-          onChange={onChange}
-        />
-        <TextField
-          sx={{ m: 1 }}
-          label="내용"
-          variant="outlined"
-          size="small"
-          name="contentBody"
-          onChange={onChange}
-        />
+        <TextField sx={{ m: 1 }} label="제목" variant="outlined" size="small" name="title" onChange={onChange} />
+        <TextField sx={{ m: 1 }} label="내용" variant="outlined" size="small" name="contentBody" onChange={onChange} />
         <input className="diary-add-btn" type="submit" value="submit" />
-        <input
-          className="diary-add-btn diary-add-cancel-btn"
-          type="button"
-          value="cancel"
-          onClick={onLocalCancle}
-        />
+        <input className="diary-add-btn diary-add-cancel-btn" type="button" value="cancel" onClick={onLocalCancle} />
       </div>
     </form>
   );
@@ -175,12 +119,7 @@ function UserDiaryAdd({
   return (
     <div className={`${!isClick ? 'diary-add' : 'diary-detail'}`}>
       {isClick !== true ? (
-        <AddCircleOutlineIcon
-          fontSize="large"
-          onClick={() => {
-            setisClick(true);
-          }}
-        />
+        <AddCircleOutlineIcon fontSize="large" onClick={() => { setisClick(true); }} />
       ) : (
         addDiary
       )}

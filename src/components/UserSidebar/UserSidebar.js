@@ -30,7 +30,7 @@ function Item({
 }
 
 function UserSideBar({
-  setFilteredDiaries, filter, setFilter, open, setOpen,
+  setFilteredDiaries, filter, setFilter, open, setOpen, filteredDiaries,
 }) {
   const [dogs, setDogs] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -118,7 +118,7 @@ function UserSideBar({
         <div>
           <button style={{ width: '256px' }} onClick={() => setOpen(true)}>일지 작성</button>
         </div>
-        <UserDiaryListAdd open={open} setOpen={setOpen} />
+        <UserDiaryListAdd open={open} setOpen={setOpen} setFilteredDiaries={setFilteredDiaries} filteredDiarie={filteredDiaries} />
         <div style={{ backgroundColor: 'red' }}>
           강아지 선택
           {dogs.map((dog) => <Item key={dog.dogId} name="dogId" item={dog} filter={filter} onChange={onChange} />)}

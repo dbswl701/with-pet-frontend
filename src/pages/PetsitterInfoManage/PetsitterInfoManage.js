@@ -108,10 +108,7 @@ function PetsitterInfoManage() {
     const updatedInfo = {
       introduction,
       petSitterCriticalServiceRequests: criticalServices,
-      petSitterHashTagRequests: [{
-        petSitterHashTagId: 1,
-        hashTagName: 'string',
-      }],
+      petSitterHashTagRequests: hashTags,
       petSitterHouseRequests: houseList,
       petSitterServiceRequests: serviceSelectList,
     };

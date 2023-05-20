@@ -28,11 +28,11 @@ const Container = styled.div`
   // padding: 20px;
 `;
 
-function CurrentListItem({ item }) {
+function CurrentListItem({ item, setPrintBody }) {
   const [showDiv, setShowDiv] = useState(false);
   const showButton = (
     <>
-      <button>일지</button>
+      <button onClick={() => setPrintBody(['diary', item.dogId])}>일지</button>
       <button>상세</button>
     </>
   );
