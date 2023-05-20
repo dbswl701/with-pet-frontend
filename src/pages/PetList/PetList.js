@@ -23,8 +23,8 @@ function PetList() {
   // const nextId = useRef(3);
 
   const onChange = (e) => {
-    console.log(dateNow);
-    console.log(today);
+    // console.log(dateNow);
+    // console.log(today);
     if (e.target.files) {
       const file = e.target.files[0];
       const reader = new FileReader();
@@ -85,7 +85,6 @@ function PetList() {
     axios.get('https://withpet.site/api/v1/dogs', { withCredentials: true })
       .then((res) => {
         setPets(res.data.result.content);
-        console.log(res.data.result.content);
       })
       .catch(() => {
       });
@@ -96,7 +95,7 @@ function PetList() {
     axios.put(`https://withpet.site/api/v1/dogs/${id}`, modifyPetInfo, { withCredentials: true })
       .then((res) => {
         const updatedPets = pets.map((pet) => {
-          if (pet.id === modifyPetInfo.id) {
+          if (pet.dog_id === res.data.result.dog_id) {
             return res.data.result;
           }
           return pet;
@@ -106,7 +105,6 @@ function PetList() {
       .catch(() => {
       });
   };
-  console.log(pets);
 
   const onCancle = () => {
     setPetInfo({
@@ -127,7 +125,7 @@ function PetList() {
         {pets.map((pet) => {
           return <Pet pet={pet} key={pet.dog_id} onSubmitModify={onSubmitModify} />;
         })}
-        <PetAdd onSubmit={onSubmit} onChange={onChange} petInfo={petInfo} onCancle={onCancle} />
+        <PetAdd pets={pets} setPets={setPets} onSubmit={onSubmit} onChange={onChange} petInfo={petInfo} onCancle={onCancle} />
       </div>
     </>
   );

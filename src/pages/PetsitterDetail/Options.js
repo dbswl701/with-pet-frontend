@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import OutlinedInput from '@mui/material/OutlinedInput';
-// import InputLabel from '@mui/material/InputLabel';
+import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -19,60 +19,60 @@ const MenuProps = {
   },
 };
 
-const optionlist = [
-  '오이', '돌쇠', '초코', '보리',
-];
-
-function getStyles(name, option, theme) {
+function getStyles(name, personName, theme) {
   return {
     fontWeight:
-      option.indexOf(name) === -1
+      personName.indexOf(name) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium,
   };
 }
 
-export default function MultipleSelectChip() {
+export default function MultipleSelectChip({ services, onChange }) {
   const theme = useTheme();
-  const [option, setoption] = React.useState([]);
+  const [personName, setPersonName] = React.useState([]);
 
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
-    setoption(
+    setPersonName(
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
+    onChange(typeof value === 'string' ? value.split(',') : value);
   };
 
   return (
     <div>
-      <FormControl>
-        {/* <InputLabel id="demo-multiple-chip-label" /> */}
+      <FormControl sx={{ m: 1, width: 300 }}>
+        <InputLabel id="demo-multiple-chip-label">옵션</InputLabel>
         <Select
-        //   labelId="demo-multiple-chip-label"
+          labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           multiple
-          value={option}
+          value={personName}
           onChange={handleChange}
-          input={<OutlinedInput id="select-multiple-chip" />}
+          input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-              {selected.map((value) => (
-                <Chip key={value} label={value} />
-              ))}
+              {selected.map((value) => {
+                const service = services.find((item) => item.petSitterServiceId === value);
+                return (
+                  <Chip key={value} label={service ? service.serviceName : ''} />
+                );
+              })}
             </Box>
           )}
           MenuProps={MenuProps}
         >
-          {optionlist.map((name) => (
+          {services && services.map((service) => (
             <MenuItem
-              key={name}
-              value={name}
-              style={getStyles(name, option, theme)}
+              key={service.petSitterServiceId}
+              value={service.petSitterServiceId}
+              style={getStyles(service, personName, theme)}
             >
-              {name}
+              {service.serviceName}({service.price} 원)
             </MenuItem>
           ))}
         </Select>

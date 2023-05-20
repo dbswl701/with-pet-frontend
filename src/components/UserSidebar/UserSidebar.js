@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
 import axios from 'axios';
+import UserDiaryListAdd from '../../pages/UserDiary/UserDiaryListAdd';
 
 const SideBar = styled.div`
   display: flex;
@@ -21,72 +22,118 @@ function Item({
   return (
     <>
       <div>
-        <input type="radio" name={name} id={item.name} value={item.id} onChange={onChange} checked={filter[name] === item.id} required />
+        <input type="radio" name={name} id={item.name} value={item[name]} onChange={onChange} checked={filter[name] === item[name]} required />
         <label htmlFor={item.name}>{item.name}</label>
       </div>
     </>
   );
 }
 
-function UserSideBar() {
+function UserSideBar({
+  setFilteredDiaries, filter, setFilter, open, setOpen, filteredDiaries,
+}) {
   const [dogs, setDogs] = useState([]);
   const [categories, setCategories] = useState([]);
-
-  const [filter, setFilter] = useState({
-    dogId: '',
-    category: '',
-    month: dayjs(new Date()).format('YYYY-MM'),
-  });
+  // const [filteredDiaries, setFilteredDiaries] = useState([]);
+  // const [filter, setFilter] = useState({
+  //   dogId: '',
+  //   categoryId: '',
+  //   month: dayjs(new Date()).format('YYYY-MM'),
+  // });
+  const colorList = ['red', 'yellow', 'green', 'blue', 'orange', 'violet', 'gray'];
 
   const onChange = (e) => {
     const { name, value } = e.target;
+    console.log(name, value);
     const updatedFilter = {
       ...filter,
       [name]: value,
     };
+    console.log(updatedFilter);
     setFilter(updatedFilter);
-    axios.get(`https://d45162fd-d516-4456-83d9-d3b784b62ec2.mock.pstmn.io/api/v1/userdiaries?category=${updatedFilter.category}&dogId=${updatedFilter.dogId}&month=${updatedFilter.month}`)
+    axios.get(`https://withpet.site/api/v1/userdiaries/month?categoryId=${updatedFilter.categoryId}&dogId=${updatedFilter.dogId}&month=${updatedFilter.month}&petsitterCheck=${updatedFilter.petsitterCheck}`, { withCredentials: true })
       .then((res) => {
-        console.log(res);
+        console.log(res.data.result);
+        const { result } = res.data;
+        // 이제 달력 보여줄거 업데이트 하자
+        console.log(dogs);
+        const temp = result.map((item) => ({
+          start: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
+          end: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
+          color: colorList[(item.dogId % colorList.length) - 1],
+          title: item.dogName,
+        }));
+        setFilteredDiaries(temp);
+        console.log(temp);
       })
       .catch(() => {
 
       });
   };
-
-  useEffect(() => { // { withCredentials: true } 필요
-    axios.get('https://d45162fd-d516-4456-83d9-d3b784b62ec2.mock.pstmn.io/api/v1/userdiaries/doglist')
+  // console.log(filteredDiaries);
+  useEffect(() => {
+    axios.get('https://withpet.site/api/v1/calendar', { withCredentials: true })
       .then((res) => {
-        const updatedDogs = res.data.dogList.map((dog) => ({
-          id: dog.id.toString(),
+        console.log(res.data.result);
+        const updatedDogs = res.data.result.dogSimpleInfoResponses.map((dog) => ({
+          dogId: dog.dogId.toString(),
           name: dog.name,
         }));
         setDogs(updatedDogs);
-        const updatedCategories = res.data.categoryList.map((category) => ({
-          id: category.id.toString(),
+        console.log(res.data.result.dogSimpleInfoResponses);
+        const updatedCategories = res.data.result.categoryResponses.map((category) => ({
+          categoryId: category.categoryId.toString(),
           name: category.name,
         }));
         setCategories(updatedCategories);
       })
       .catch(() => {
       });
-  }, []);
 
+    // 필터링 안했을 때 정보 불러옴
+    axios.get(`https://withpet.site/api/v1/userdiaries/month?categoryId=&dogId=&month=${filter.month}`, { withCredentials: true })
+      .then((res) => {
+        console.log(res.data.result);
+        const { result } = res.data;
+        // 이제 달력 보여줄거 업데이트 하자
+        console.log(dogs);
+        const temp = result.map((item) => ({
+          start: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
+          end: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
+          color: colorList[(item.dogId % colorList.length) - 1],
+          title: item.dogName,
+        }));
+        setFilteredDiaries(temp);
+        console.log(temp);
+      })
+      .catch(() => {
+
+      });
+  }, []);
+  // console.log(dogs);
+  // console.log(categories);
   return (
     <>
       <SideBar>
+        <div>
+          <button style={{ width: '256px' }} onClick={() => setOpen(true)}>일지 작성</button>
+        </div>
+        <UserDiaryListAdd open={open} setOpen={setOpen} setFilteredDiaries={setFilteredDiaries} filteredDiarie={filteredDiaries} />
         <div style={{ backgroundColor: 'red' }}>
           강아지 선택
-          {dogs.map((dog) => <Item key={dog.id} name="dogId" item={dog} filter={filter} onChange={onChange} />)}
+          {dogs.map((dog) => <Item key={dog.dogId} name="dogId" item={dog} filter={filter} onChange={onChange} />)}
         </div>
         <div>
           작성자 선택
-          <button>반려인</button>
-          <button>펫시터</button>
+          <input type="button" value="PETSITTER" name="petsitterCheck" onClick={onChange} />
+          <input type="button" value="USER" name="petsitterCheck" onClick={onChange} />
+
+          {/* <button>반려인</button>
+          <button>펫시터</button> */}
         </div>
         <div style={{ backgroundColor: 'red' }}>
           카테고리 선택
-          {categories.map((category) => <Item key={category.id} name="category" item={category} filter={filter} onChange={onChange} />)}
+          {categories.map((category) => <Item key={category.categoryId} name="categoryId" item={category} filter={filter} onChange={onChange} />)}
         </div>
       </SideBar>
     </>
