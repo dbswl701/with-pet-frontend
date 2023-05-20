@@ -64,9 +64,9 @@ export default function Orders({ rows }) {
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
-            <TableCell>이름</TableCell>
-            <TableCell>아이디</TableCell>
             <TableCell>사진</TableCell>
+            <TableCell>이름</TableCell>
+            <TableCell>계정</TableCell>
             <TableCell>전화번호</TableCell>
             <TableCell>신고 횟수</TableCell>
             <TableCell align="right">삭제</TableCell>
