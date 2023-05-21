@@ -23,8 +23,8 @@ function CalendarView() {
           color: colorList[(item.dogId % colorList.length) - 1],
           title: item.dogName,
         }));
-        console.log(res.data.result);
-        console.log(temp);
+        // console.log(res.data.result);
+        // console.log(temp);
         setEventsData(temp);
       })
       .catch(() => {});

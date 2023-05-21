@@ -49,14 +49,14 @@ function UserDiaryListAdd({
         ...diaryInfo,
         [name]: value,
       });
-      console.log(name, value);
+      // console.log(name, value);
     }
   };
-  console.log(dayjs(new Date()).format('YYYY-MM'));
+  // console.log(dayjs(new Date()).format('YYYY-MM'));
 
   const onSubmitAdd = (e) => {
     e.preventDefault();
-    console.log(diaryInfo);
+    // console.log(diaryInfo);
     axios.post('https://withpet.site/api/v1/userdiaries', diaryInfo, { withCredentials: true })
       .then(() => {
         // // setFilteredDiaries(filteredDiaries.concat(res.data.result)); // 바로 반영되도록
@@ -80,10 +80,10 @@ function UserDiaryListAdd({
 
     axios.get(`https://withpet.site/api/v1/userdiaries/month?categoryId=&dogId=&month=${dayjs(new Date()).format('YYYY-MM')}&petsitterCheck=`, { withCredentials: true })
       .then((res) => {
-        console.log(res.data.result);
+        // console.log(res.data.result);
         const { result } = res.data;
         // 이제 달력 보여줄거 업데이트 하자
-        console.log(dogs);
+        // console.log(dogs);
         const temp = result.map((item) => ({
           start: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
           end: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
@@ -91,7 +91,7 @@ function UserDiaryListAdd({
           title: item.dogName,
         }));
         setFilteredDiaries(temp);
-        console.log(temp);
+        // console.log(temp);
       })
       .catch(() => {
       });
@@ -107,8 +107,8 @@ function UserDiaryListAdd({
   };
 
   const onChangeCalendar = (date) => {
-    console.log(date);
-    console.log(dayjs(date).format('YYYY-MM-DD'));
+    // console.log(date);
+    // console.log(dayjs(date).format('YYYY-MM-DD'));
     const e = {
       target: {
         name: 'createdAt',
@@ -127,8 +127,8 @@ function UserDiaryListAdd({
         setDogs(res.data.result.dogSimpleInfoResponses);
         setCategories(res.data.result.categoryResponses);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        // console.log(err);
       });
   }, []);
 

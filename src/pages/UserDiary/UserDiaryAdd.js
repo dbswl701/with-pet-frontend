@@ -40,8 +40,8 @@ function UserDiaryAdd({
     setisClick(false);
   };
   const onChangeCalendar = (date) => {
-    console.log(date);
-    console.log(dayjs(date).format('YYYY-MM-DD'));
+    // console.log(date);
+    // console.log(dayjs(date).format('YYYY-MM-DD'));
     const e = {
       target: {
         name: 'createdAt',
@@ -66,8 +66,8 @@ function UserDiaryAdd({
         setDogs(res.data.result.dogSimpleInfoResponses);
         setCategories(res.data.result.categoryResponses);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        // console.log(err);
       });
   }, []);
 

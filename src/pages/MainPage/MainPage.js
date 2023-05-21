@@ -45,8 +45,8 @@ function MainPage() {
     axios.get('https://withpet.site/api/v1/show-petsitter', { withCredentials: true })
       .then((res) => {
         setTemp(res.data.result.content);
-        console.log(res.data.result.content);
-        console.log(temp);
+        // console.log(res.data.result.content);
+        // console.log(temp);
       });
   }, []);
   return (

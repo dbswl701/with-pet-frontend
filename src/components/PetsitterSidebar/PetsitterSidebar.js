@@ -26,7 +26,7 @@ function PetsitterSidebar({ setPrintBody }) {
   useEffect(() => {
     axios.get('https://withpet.site/api/v1/calendar/petsitter-calendar?month=2023-05', { withCredentials: true })
       .then((res) => {
-        console.log(res.data.result);
+        // console.log(res.data.result);
         setUseReservations(res.data.result.useReservations);
         setNewReservations(res.data.result.newReservations);
         setDoneReservations(res.data.result.doneReservations);

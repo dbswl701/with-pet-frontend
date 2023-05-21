@@ -48,7 +48,7 @@ function PetDetail({ pet, onToggle }) {
   const onClickSocilization = () => {
     navigate(`./userEvaluation/${pet.dog_id}`);
   };
-  console.log(pet);
+  // console.log(pet);
   const detail = (
     <>
       <div style={{ display: 'flex', flexDirection: 'column' }}>

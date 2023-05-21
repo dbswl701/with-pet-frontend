@@ -20,7 +20,7 @@ const Button = styled.button`
 `;
 
 function DoneListItem({ item, setPrintBody }) {
-  console.log(item);
+  // console.log(item);
   const [showDiv, setShowDiv] = useState(false);
   const showButton = (
     <>

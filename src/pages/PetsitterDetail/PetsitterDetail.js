@@ -28,7 +28,7 @@ const ContentWrapper = styled.div`
 
 function PetsitterDetial() {
   const { id } = useParams();
-  console.log(id);
+  // console.log(id);
   const [info, setInfo] = useState({});
   const [dogList, setDogList] = useState([]);
   // const [info2, setInfo2] = useState({});
@@ -37,7 +37,7 @@ function PetsitterDetial() {
   useEffect(() => {
     axios.get(`https://withpet.site/api/v1/petsitter/${id}`, { withCredentials: true })
       .then((res) => {
-        console.log(res.data.result);
+        // console.log(res.data.result);
         setInfo(res.data.result);
         setHouseImg(res.data.result.petSitterHouses.find((item) => item.representative === true).houseImg);
       })
@@ -45,7 +45,7 @@ function PetsitterDetial() {
       });
     axios.get(`https://withpet.site/api/v1/dogs/reservation-dogs?petSitterId=${id}`, { withCredentials: true })
       .then((res) => {
-        console.log(res.data.result);
+        // console.log(res.data.result);
         setDogList(res.data.result);
       })
       .catch(() => {

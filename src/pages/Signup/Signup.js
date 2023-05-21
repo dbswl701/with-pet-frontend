@@ -125,8 +125,8 @@ function SignupForm() {
       userPasswordCheck: passwordConfirm,
     };
     axios.post('https://withpet.site/api/v1/users/signup', data, { withCredentials: true })
-      .then((res) => {
-        console.log(res);
+      .then(() => {
+        // console.log(res);
         navigate('/login');
       })
       .catch((err) => {

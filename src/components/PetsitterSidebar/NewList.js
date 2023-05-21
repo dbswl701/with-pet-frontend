@@ -33,7 +33,7 @@ function NewList({ newReservations, handleRemoveNew, handleApprove }) {
   //     });
   // }, []);
 
-  console.log(newReservations);
+  // console.log(newReservations);
 
   return (
     <Container>

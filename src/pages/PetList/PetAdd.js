@@ -21,8 +21,8 @@ function PetAdd({
   };
 
   const onChangeCalendar = (date) => {
-    console.log(date);
-    console.log(dayjs(date).format('YYYY-MM-DD'));
+    // console.log(date);
+    // console.log(dayjs(date).format('YYYY-MM-DD'));
     const e = {
       target: {
         name: 'dog_birth',
@@ -40,19 +40,19 @@ function PetAdd({
   const onJoinParty = () => {
     axios.post('https://withpet.site/api/v1/groups/member', { partyIsbn: partyCode }, { withCredentials: true })
       .then((res) => {
-        console.log(res.data.result);
+        // console.log(res.data.result);
         setPets(pets.concat(res.data.result));
         // setPets(res.data.result);
         setisClick(false);
         setPartyCode('');
       })
-      .catch((res) => {
-        const temp = res.request.response;
+      .catch(() => {
+        // const temp = res.request.response;
         // const temp = { errorCode: 'DUPLICATED_GROUP_MEMBER', message: '해당 그룹에 존재하는 유저입니다.' };
 
-        console.log(temp);
+        // console.log(temp);
         // eslint-disable-next-line dot-notation
-        console.log(temp['message']);
+        // console.log(temp['message']);
       });
   };
 

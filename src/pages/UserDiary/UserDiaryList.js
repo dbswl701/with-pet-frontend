@@ -78,15 +78,15 @@ function UserDiaryList({ open, setOpen, dayInfo }) {
   //     title: '',
   //   });
   // };
-  console.log(dayInfo);
+  // console.log(dayInfo);
   useEffect(() => {
-    console.log(dayInfo);
-    console.log(dayInfo.day);
+    // console.log(dayInfo);
+    // console.log(dayInfo.day);
     axios.get(`https://withpet.site/api/v1/userdiaries/day?categoryId=${dayInfo.categoryId}&day=${dayInfo.day}&dogId=${dayInfo.dogId}&petsitterCheck=${dayInfo.petsitterCheck}`, { withCredentials: true })
     // axios.get('https://withpet.site/api/v1/userdiaries/day?categoryId=&day=2023-05-20&dogId=', { withCredentials: true })
       .then((res) => {
         setDiaries(res.data.result);
-        console.log(res.data.result);
+        // console.log(res.data.result);
       })
       .catch((err) => {
         console.error(err);

@@ -34,7 +34,7 @@ function CurrentList({ useReservations, setPrintBody }) {
   //     });
   // }, []);
 
-  console.log(useReservations);
+  // console.log(useReservations);
 
   return (
     <Container>

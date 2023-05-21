@@ -17,48 +17,48 @@ function AdminMainPage() {
     axios.get('https://withpet.site/api/v1/show-applicants', { withCredentials: true })
       .then((res) => {
         setApplicantList(res.data.result);
-        console.log(res.data.result);
-        console.log(applicantList);
+        // console.log(res.data.result);
+        // console.log(applicantList);
       });
     axios.get('https://withpet.site/api/v1/admin/show-petsitters', { withCredentials: true })
       .then((res) => {
         setPetsitterList(res.data.result);
-        console.log(res.data.result);
-        console.log(petsitterList);
+        // console.log(res.data.result);
+        // console.log(petsitterList);
       });
   }, []);
 
   const handleApprove = (row) => {
-    console.log(row);
+    // console.log(row);
     const temp = {
       applicantId: row.applicant_id,
       applicantStatus: 'APPROVE',
       applicant_userId: row.applicant_user_id,
     };
-    console.log(temp);
-    console.log(row.applicant_id);
+    // console.log(temp);
+    // console.log(row.applicant_id);
     // setList(list.filter((item2) => (item2.serviceId !== item.serviceId)));
 
     axios.post('https://withpet.site/api/v1/admin/accept-petsitter', temp, { withCredentials: true })
       .then((res) => {
-        console.log(res.data.result);
+        // console.log(res.data.result);
         setApplicantList(applicantList.filter((item2) => (item2.applicant_user_id !== row.applicant_user_id)));
         setPetsitterList(petsitterList.concat(res.data.result));
       })
       .catch(() => {});
   };
-  console.log(petsitterList);
+  // console.log(petsitterList);
   const handleCancle = (row) => {
     const temp = {
       applicantId: row.applicant_id,
       applicantStatus: 'APPROVE',
       applicant_userId: row.applicant_user_id,
     };
-    console.log(temp);
+    // console.log(temp);
     axios.post('https://withpet.site/api/v1/admin/refuse-applicant', temp, { withCredentials: true })
-      .then((res) => {
+      .then(() => {
         setApplicantList(applicantList.filter((item2) => (item2.applicant_user_id !== row.applicant_user_id)));
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch(() => {});
   };

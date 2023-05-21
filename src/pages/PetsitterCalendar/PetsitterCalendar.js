@@ -9,10 +9,10 @@ function PetsitterCalendar() {
   let print = <CalendarView />;
   if (printBody[0] === 'main') {
     print = <CalendarView />;
-    console.log('달력뷰');
+    // console.log('달력뷰');
   } else if (printBody[0] === 'eval') {
     print = <PetsitterEvaluation id={printBody[1]} setPrintBody={setPrintBody} />;
-    console.log('평가뷰');
+    // console.log('평가뷰');
   } else {
     print = <PetsitterDiary id={printBody[1]} setPrintBody={setPrintBody} />;
   }

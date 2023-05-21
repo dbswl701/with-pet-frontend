@@ -22,7 +22,7 @@ function MediaCard({ data }) {
 
   const onClick = (id) => {
     // 눌렀을 때, 페이지 이동, petSitterId와 함께!
-    console.log('!!');
+    // console.log('!!');
     navigate(`./petsitterdetail/${id}`);
   };
   return (

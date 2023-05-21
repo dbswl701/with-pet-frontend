@@ -44,19 +44,19 @@ function UserSideBar({
 
   const onChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
+    // console.log(name, value);
     const updatedFilter = {
       ...filter,
       [name]: value,
     };
-    console.log(updatedFilter);
+    // console.log(updatedFilter);
     setFilter(updatedFilter);
     axios.get(`https://withpet.site/api/v1/userdiaries/month?categoryId=${updatedFilter.categoryId}&dogId=${updatedFilter.dogId}&month=${updatedFilter.month}&petsitterCheck=${updatedFilter.petsitterCheck}`, { withCredentials: true })
       .then((res) => {
-        console.log(res.data.result);
+        // console.log(res.data.result);
         const { result } = res.data;
         // 이제 달력 보여줄거 업데이트 하자
-        console.log(dogs);
+        // console.log(dogs);
         const temp = result.map((item) => ({
           start: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
           end: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
@@ -64,7 +64,7 @@ function UserSideBar({
           title: item.dogName,
         }));
         setFilteredDiaries(temp);
-        console.log(temp);
+        // console.log(temp);
       })
       .catch(() => {
 
@@ -74,13 +74,13 @@ function UserSideBar({
   useEffect(() => {
     axios.get('https://withpet.site/api/v1/calendar', { withCredentials: true })
       .then((res) => {
-        console.log(res.data.result);
+        // console.log(res.data.result);
         const updatedDogs = res.data.result.dogSimpleInfoResponses.map((dog) => ({
           dogId: dog.dogId.toString(),
           name: dog.name,
         }));
         setDogs(updatedDogs);
-        console.log(res.data.result.dogSimpleInfoResponses);
+        // console.log(res.data.result.dogSimpleInfoResponses);
         const updatedCategories = res.data.result.categoryResponses.map((category) => ({
           categoryId: category.categoryId.toString(),
           name: category.name,
@@ -93,10 +93,10 @@ function UserSideBar({
     // 필터링 안했을 때 정보 불러옴
     axios.get(`https://withpet.site/api/v1/userdiaries/month?categoryId=&dogId=&month=${filter.month}`, { withCredentials: true })
       .then((res) => {
-        console.log(res.data.result);
+        // console.log(res.data.result);
         const { result } = res.data;
         // 이제 달력 보여줄거 업데이트 하자
-        console.log(dogs);
+        // console.log(dogs);
         const temp = result.map((item) => ({
           start: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
           end: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
@@ -104,7 +104,7 @@ function UserSideBar({
           title: item.dogName,
         }));
         setFilteredDiaries(temp);
-        console.log(temp);
+        // console.log(temp);
       })
       .catch(() => {
 

@@ -21,7 +21,7 @@ export default function Orders({
   //   serviceIntroduction: '',
   // });
 
-  console.log(list);
+  // console.log(list);
   return (
     <>
       <Typography component="h2" variant="h6" color="primary" gutterBottom>서비스 리스트</Typography>

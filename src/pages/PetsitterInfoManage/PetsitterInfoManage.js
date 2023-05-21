@@ -81,8 +81,8 @@ function PetsitterInfoManage() {
       .then((res) => {
         // console.log(res.data.result);
         setInfo(res.data.result);
-        console.log(res.data.result);
-        console.log(res.data.result.introduction === null);
+        // console.log(res.data.result);
+        // console.log(res.data.result.introduction === null);
         setInfo(res.data.result);
 
         setIntroduction(res.data.result.introduction);
@@ -95,8 +95,8 @@ function PetsitterInfoManage() {
       .catch(() => {
       });
   }, []);
-  console.log(info);
-  console.log(info.withPetServices);
+  // console.log(info);
+  // console.log(info.withPetServices);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -112,10 +112,10 @@ function PetsitterInfoManage() {
       petSitterHouseRequests: houseList,
       petSitterServiceRequests: serviceSelectList,
     };
-    console.log(updatedInfo);
+    // console.log(updatedInfo);
     axios.put('https://withpet.site/api/v1/petsitter/update-myinfo', updatedInfo, { withCredentials: true })
-      .then((res) => {
-        console.log(res.data.result);
+      .then(() => {
+        // console.log(res.data.result);
         navigate('../petsitterShowInfo');
       })
       .catch(() => {
@@ -126,15 +126,15 @@ function PetsitterInfoManage() {
 
   const handleHashtag = () => {
     if (hashTags.includes(hashTag)) {
-      console.log('중복된 값입니다.');
+      // console.log('중복된 값입니다.');
     } else {
       setHashTags([...hashTags, { petSitterHashTagId: 0, hashTagName: hashTag }]);
     }
     // nextId.current += 1;
-    console.log(hashTag);
+    // console.log(hashTag);
   };
-  console.log(hashTags);
-  console.log(introduction);
+  // console.log(hashTags);
+  // console.log(introduction);
   const onRemoveHashtag = (id) => {
     // 해시태그 하나 삭제
     setHashTags(hashTags.filter((tag) => (tag.petSitterHashTagId !== id)));
@@ -142,7 +142,7 @@ function PetsitterInfoManage() {
 
   const onRemoveHousImg = (id) => {
     // 집 이미지 하나 삭제
-    console.log(id);
+    // console.log(id);
     setHouseImgList(houseImgList.filter((img) => (img.houseId !== id)));
   };
 
@@ -157,7 +157,7 @@ function PetsitterInfoManage() {
       reader.readAsDataURL(file);
     });
   };
-  console.log(houseImgList);
+  // console.log(houseImgList);
 
   const [isServiceIdIncluded, setIsServiceIdIncluded] = useState([]);
   const [isCriticalServiceIdIncluded, setIsCriticalServiceIdIncluded] = useState([]);
@@ -184,33 +184,33 @@ function PetsitterInfoManage() {
     setIsCriticalServiceIdIncluded(includedServices);
   }, [criticalServices]);
 
-  console.log(serviceSelectList);
+  // console.log(serviceSelectList);
   // const [newList, setNewList] = useState(isServiceIdIncluded);
-  console.log(isServiceIdIncluded);
-  console.log(criticalServices);
+  // console.log(isServiceIdIncluded);
+  // console.log(criticalServices);
   // console.log(newList);
 
   const onRemoveService = (id) => { // sercieId 건너옴
     // 활성화된 서비스 삭제 눌렀을 경우
-    console.log(id);
+    // console.log(id);
     setServiceSelectList(serviceSelectList.filter((service) => service.serviceId !== id));
   };
 
   const onAddService = (id, price) => { // sercieId 건너옴
     // 활성화된 서비스 삭제 눌렀을 경우
-    console.log(id);
+    // console.log(id);
     setServiceSelectList([...serviceSelectList, { serviceId: id, price: parseInt(price, 10) }]);
   };
 
   const onRemoveCriticalService = (id) => { // sercieId 건너옴
     // 활성화된 서비스 삭제 눌렀을 경우
-    console.log(id);
+    // console.log(id);
     setCriticalServices(criticalServices.filter((service) => service.serviceId !== id));
   };
 
   const onAddCriticalService = (id, price) => { // sercieId 건너옴
     // 활성화된 서비스 삭제 눌렀을 경우
-    console.log(id);
+    // console.log(id);
     setCriticalServices([...criticalServices, { serviceId: id, price: parseInt(price, 10) }]);
   };
 
@@ -224,10 +224,8 @@ function PetsitterInfoManage() {
             houseImgList && houseImgList.map((img, index) => (
               // eslint-disable-next-line react/no-array-index-key
               <div key={index}>
-                { console.log(img) }
                 <img key={img} src={img} alt="집사진" style={{ width: '200px', height: '200px' }} />
                 <input type="button" value="x" onClick={() => onRemoveHousImg(img.houseId)} />
-
                 { index === 0 ? <p>대표사진</p> : <p> </p>}
               </div>
             ))

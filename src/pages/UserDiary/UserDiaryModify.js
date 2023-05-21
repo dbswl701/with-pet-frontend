@@ -45,8 +45,8 @@ function UserDiaryModify({ onSubmit, diaryInfo, onToggle }) {
         setDogs(res.data.result.dogSimpleInfoResponses);
         setCategories(res.data.result.categoryResponses);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        // console.log(err);
       });
   }, []);
 
@@ -91,7 +91,7 @@ function UserDiaryModify({ onSubmit, diaryInfo, onToggle }) {
       title: modifyDiaryInfo.title,
       dogImgToday: modifyDiaryInfo.dogImgToday,
     };
-    console.log(updatedSubmitInfo);
+    // console.log(updatedSubmitInfo);
     onSubmit(diaryInfo.userDiaryId, updatedSubmitInfo);
   };
 

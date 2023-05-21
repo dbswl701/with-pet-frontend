@@ -28,7 +28,7 @@ const Container = styled.div`
 `;
 
 function CurrentListItem({ item, handleRemoveNew, handleApprove }) {
-  console.log(item);
+  // console.log(item);
   const [showDiv, setShowDiv] = useState(false);
 
   const onClick = (e) => {
@@ -36,14 +36,14 @@ function CurrentListItem({ item, handleRemoveNew, handleApprove }) {
       reservationId: item.reservationId,
       status: e.target.value,
     };
-    console.log(reservationStatus);
+    // console.log(reservationStatus);
     axios.put('https://withpet.site/api/v1/reservation/reservation-status', reservationStatus, { withCredentials: true })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         // 이제 어쨌든 newlist에서 삭제하고, 승인이면 이용자 목록으로 올림!
         // 일단 삭제
-        console.log(res.data.result);
-        console.log(item);
+        // console.log(res.data.result);
+        // console.log(item);
         // setNewReservations(item.filter((temp) => (temp.reservationId !== res.data.result.reservationId)));
         handleRemoveNew(res.data.result.reservationId);
 

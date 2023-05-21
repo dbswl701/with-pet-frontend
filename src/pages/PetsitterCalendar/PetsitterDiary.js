@@ -34,14 +34,14 @@ function PetsitterDiary({ id, setPrintBody }) {
         ...diaryInfo,
         [name]: value,
       });
-      console.log(name, value);
+      // console.log(name, value);
     }
   };
-  console.log(dayjs(new Date()).format('YYYY-MM-DD'));
+  // console.log(dayjs(new Date()).format('YYYY-MM-DD'));
 
   const onSubmitAdd = (e) => {
     e.preventDefault();
-    console.log(diaryInfo);
+    // console.log(diaryInfo);
     axios.post('https://withpet.site/api/v1/petsitter-diaries', diaryInfo, { withCredentials: true })
       .then(() => {
         // 캘린더뷰로 이동
@@ -60,8 +60,8 @@ function PetsitterDiary({ id, setPrintBody }) {
       .then((res) => {
         setCategories(res.data.result);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        // console.log(err);
       });
   }, []);
 

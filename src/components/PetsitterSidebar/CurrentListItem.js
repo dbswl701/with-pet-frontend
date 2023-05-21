@@ -37,7 +37,7 @@ function CurrentListItem({ item, setPrintBody }) {
     </>
   );
 
-  console.log(item);
+  // console.log(item);
   return (
     <>
       <Container onMouseEnter={() => setShowDiv(true)} onMouseLeave={() => setShowDiv(false)}>

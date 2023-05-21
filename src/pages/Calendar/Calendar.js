@@ -13,7 +13,7 @@ function Calendar() {
     month: dayjs(new Date()).format('YYYY-MM'),
     petsitterCheck: '',
   });
-  console.log(filteredDiaries);
+  // console.log(filteredDiaries);
   return (
     <>
       <div style={{ display: 'flex' }}>

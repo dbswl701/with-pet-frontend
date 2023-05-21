@@ -52,20 +52,20 @@ function Reservation({ dogList, data, petsitterId }) {
     });
   };
   // console.log(data.dogs);
-  console.log(data);
-  console.log(dogList);
+  // console.log(data);
+  // console.log(dogList);
   // 예약 불가능한 날짜 확인
   useEffect(() => {
     axios.get('https://withpet.site/api/v1/reservation?month=2023-05&petsitterId=2', { withCredentials: true })
       .then((res) => {
-        console.log(res.data.result);
+        // console.log(res.data.result);
         setUnavailable(res.data.result);
       });
   }, []);
 
   const onSubmit = (e) => {
     // 예약 api
-    console.log(info);
+    // console.log(info);
     e.preventDefault();
     const temp = {
       checkIn: `${info.startDate}T${info.checkinTime}:00:00`,
@@ -74,13 +74,13 @@ function Reservation({ dogList, data, petsitterId }) {
       optionId: info.optionId,
       petsitterId: Number(petsitterId),
     };
-    console.log(temp);
+    // console.log(temp);
     axios.post('https://withpet.site/api/v1/reservation', temp, { withCredentials: true })
-      .then((res) => {
-        console.log(res.data.result);
+      .then(() => {
+        // console.log(res.data.result);
       });
   };
-  console.log(info);
+  // console.log(info);
   const onChangeCalender = (start, end) => {
     if (start && end) {
       setInfo({

@@ -25,17 +25,17 @@ function PetsitterShowInfo() {
       .then((res) => {
         // console.log(res.data.result);
         setInfo(res.data.result);
-        console.log(res.data.result);
-        console.log(res.data.result.introduction === null);
+        // console.log(res.data.result);
+        // console.log(res.data.result.introduction === null);
         setInfo(res.data.result);
       })
       .catch(() => {
       });
   }, []);
 
-  console.log(info);
-  console.log(info.withPetServices);
-  console.log(info.petSitterServices);
+  // console.log(info);
+  // console.log(info.withPetServices);
+  // console.log(info.petSitterServices);
   const onModify = () => {
     navigate('../petsitterInfoManage');
   };
@@ -50,7 +50,7 @@ function PetsitterShowInfo() {
       price: selected ? selected.price : null,
     };
   });
-  console.log(isServiceIdIncluded);
+  // console.log(isServiceIdIncluded);
 
   const isCriticalServiceIdIncluded = info.criticalServices && info.criticalServices.map((service) => {
     return {
@@ -61,7 +61,7 @@ function PetsitterShowInfo() {
     };
   });
 
-  console.log(isServiceIdIncluded);
+  // console.log(isServiceIdIncluded);
 
   const showInfo = (
     <>

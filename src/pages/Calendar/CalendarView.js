@@ -18,9 +18,9 @@ function CalendarView({
   });
   const onDayClick = (event) => {
     // 클릭 시 년월일(2023-05-17), 필터링된 dogid, categoryid를 건내준다.
-    console.log(event.start);
-    console.log(filter.categoryId);
-    console.log(filter.dogId);
+    // console.log(event.start);
+    // console.log(filter.categoryId);
+    // console.log(filter.dogId);
     setDayInfo({
       categoryId: filter.categoryId,
       day: event.start,
@@ -51,7 +51,7 @@ function CalendarView({
     };
   };
 
-  console.log(filteredDiaries);
+  // console.log(filteredDiaries);
   // filter.categoryId
   return (
     <div className="App">
