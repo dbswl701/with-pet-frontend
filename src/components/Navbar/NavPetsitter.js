@@ -20,19 +20,13 @@ function Nav({ name }) {
     >
       <ul>
         <li style={{ listStyle: 'none', height: '40px' }}>
-          <Link to="/calendar" style={{ textDecoration: 'none', color: 'black', fontSize: '15px' }}>일지</Link>
+          <Link to="/petsitterCalendar" style={{ textDecoration: 'none', color: 'black', fontSize: '15px' }}>캘린더뷰</Link>
         </li>
         <li style={{ listStyle: 'none', height: '40px' }}>
-          <Link to="/viewProfile" style={{ textDecoration: 'none', color: 'black', fontSize: '15px' }}>회원정보관리</Link>
-        </li>
-        <li style={{ listStyle: 'none', height: '40px' }}>
-          <Link to="/petlist" style={{ textDecoration: 'none', color: 'black', fontSize: '15px' }}>반려동물 정보관리</Link>
-        </li>
-        <li style={{ listStyle: 'none', height: '40px' }}>
-          <Link to="/" style={{ textDecoration: 'none', color: 'black', fontSize: '15px' }}>로그아웃</Link>
+          <Link to="/petsitterShowInfo" style={{ textDecoration: 'none', color: 'black', fontSize: '15px' }}>펫시터 정보 관리</Link>
         </li>
         <li style={{ listStyle: 'none', height: '40px', marginBottom: '20px' }}>
-          <Link to="/petsitterapply" style={{ textDecoration: 'none', color: 'black', fontSize: '15px' }}>펫시터 지원</Link>
+          <Link to="/" style={{ textDecoration: 'none', color: 'black', fontSize: '15px' }}>로그아웃</Link>
         </li>
       </ul>
     </div>

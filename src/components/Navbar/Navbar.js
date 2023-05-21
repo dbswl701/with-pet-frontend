@@ -4,14 +4,18 @@ import './Navbar.css';
 import NavNoLogin from './NavNoLogin';
 import NavAfterLogin from './NavAfterLogin';
 import AdminNavbar from './AdminNavbar';
+import NavPetsitter from './NavPetsitter';
 
-function Nav({ state }) {
+function Nav({ userInfo }) {
+  console.log(userInfo);
   let print = <NavNoLogin />;
-  if (state === 'logout') {
+  if (userInfo.userName === '') {
     print = <NavNoLogin />;
-  } else if (state === 'login') {
-    print = <NavAfterLogin />;
-  } else if (state === 'AdminNavbar') {
+  } else if (userInfo.role === 'ROLE_PETSITTER') {
+    print = <NavPetsitter name={userInfo.userName} />;
+  } else if (userInfo.role === 'ROLE_USER') {
+    print = <NavAfterLogin name={userInfo.userName} />;
+  } else if (userInfo.role === 'ROLE_ADMIN') {
     print = <AdminNavbar />;
   }
   return (
