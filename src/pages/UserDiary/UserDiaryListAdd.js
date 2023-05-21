@@ -74,8 +74,8 @@ function UserDiaryListAdd({
         // setFilteredDiaries(filteredDiaries.concat(temp));
         // console.log(temp);
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
+        // console.error(err);
       });
 
     axios.get(`https://withpet.site/api/v1/userdiaries/month?categoryId=&dogId=&month=${dayjs(new Date()).format('YYYY-MM')}&petsitterCheck=`, { withCredentials: true })

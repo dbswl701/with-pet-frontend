@@ -88,8 +88,8 @@ function UserDiaryList({ open, setOpen, dayInfo }) {
         setDiaries(res.data.result);
         // console.log(res.data.result);
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
+        // console.error(err);
       });
   }, [dayInfo]);
 

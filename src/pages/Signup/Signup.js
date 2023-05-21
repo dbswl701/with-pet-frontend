@@ -129,8 +129,8 @@ function SignupForm() {
         // console.log(res);
         navigate('/login');
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
+        // console.error(err);
         alert('회원가입에 실패했습니다. 다시 시도해주세요.'); // eslint-disable-line no-alert
       });
   };

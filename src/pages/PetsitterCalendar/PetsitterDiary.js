@@ -47,8 +47,8 @@ function PetsitterDiary({ id, setPrintBody }) {
         // 캘린더뷰로 이동
         setPrintBody(['main', 0]);
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
+        // console.error(err);
       });
   };
 
