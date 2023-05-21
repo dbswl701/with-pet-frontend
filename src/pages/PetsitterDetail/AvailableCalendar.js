@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { DayPickerRangeController } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 import 'react-dates/initialize';
+import dayjs from 'dayjs';
+import axios from 'axios';
 
-function ReservationPage({ unavailable }) {
+function ReservationPage({ petsitterId }) {
+  const [unavailable, setUnavailable] = useState([]);
+  const [selectedMonth, setSelectedMonth] = useState(dayjs(new Date()).format('YYYY-MM'));
+
   const blockedDates = unavailable ? unavailable.map((date) => {
     const [year, month, day] = date.split('-');
     return new Date(year, month - 1, day);
@@ -24,6 +29,17 @@ function ReservationPage({ unavailable }) {
     );
   };
 
+  const handleMonthChange = (item) => {
+    // console.log(dayjs(new Date(item)).format('YYYY-MM'));
+    setSelectedMonth(dayjs(new Date(item)).format('YYYY-MM'));
+  };
+  useEffect(() => {
+    axios.get(`https://withpet.site/api/v1/reservation?month=${selectedMonth}&petsitterId=${petsitterId}`, { withCredentials: true })
+      .then((res) => {
+        // console.log(res.data.result);
+        setUnavailable(res.data.result);
+      });
+  }, [selectedMonth]);
   return (
     <div>
       <h2>예약 가능한 날짜</h2>
@@ -31,6 +47,8 @@ function ReservationPage({ unavailable }) {
         <DayPickerRangeController
           numberOfMonths={1}
           isDayBlocked={(day) => isReservationDateBlocked(day)}
+          onPrevMonthClick={handleMonthChange} // 이전 달로 이동할 때 이벤트 발생
+          onNextMonthClick={handleMonthChange}
         />
       </div>
     </div>

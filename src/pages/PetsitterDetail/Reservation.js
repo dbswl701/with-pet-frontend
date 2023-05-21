@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
@@ -36,7 +36,8 @@ function Reservation({ dogList, data, petsitterId }) {
     dogId: '',
     optionId: [],
   });
-  const [unavailable, setUnavailable] = useState([]);
+  // const [unavailable, setUnavailable] = useState([]);
+  // const [unavailable2, setUnavailable2] = useState([]);
   const onChange = (e) => {
     const { name, value } = e.target;
     setInfo({
@@ -54,14 +55,14 @@ function Reservation({ dogList, data, petsitterId }) {
   // console.log(data.dogs);
   // console.log(data);
   // console.log(dogList);
-  // 예약 불가능한 날짜 확인
-  useEffect(() => {
-    axios.get('https://withpet.site/api/v1/reservation?month=2023-05&petsitterId=2', { withCredentials: true })
-      .then((res) => {
-        // console.log(res.data.result);
-        setUnavailable(res.data.result);
-      });
-  }, []);
+  // // 예약 불가능한 날짜 확인
+  // useEffect(() => {
+  //   axios.get(`https://withpet.site/api/v1/reservation?month=2023-05&petsitterId=${petsitterId}`, { withCredentials: true })
+  //     .then((res) => {
+  //       // console.log(res.data.result);
+  //       setUnavailable(res.data.result);
+  //     });
+  // }, []);
 
   const onSubmit = (e) => {
     // 예약 api
@@ -96,7 +97,7 @@ function Reservation({ dogList, data, petsitterId }) {
       <Container>
         <Wrapper1> { /* 예약 정보 입력 */ }
           <Title>체크인 / 체크아웃 날짜</Title>
-          <CheckCalendar blockdays={unavailable} onChange={onChangeCalender} />
+          <CheckCalendar onChange={onChangeCalender} petsitterId={petsitterId} />
           <form onSubmit={onSubmit}>
             <div>
               <Title>체크인 / 체크아웃 시간</Title>
@@ -193,7 +194,7 @@ function Reservation({ dogList, data, petsitterId }) {
             ))}
           </div>
         </Wrapper1>
-        <AvailableCalendar unavailable={unavailable} />
+        <AvailableCalendar petsitterId={petsitterId} />
       </Container>
     </>
   );

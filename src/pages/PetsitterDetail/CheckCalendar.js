@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DateRangePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 import 'react-dates/initialize';
 import moment from 'moment';
+import axios from 'axios';
+import dayjs from 'dayjs';
 
-function ReservationPage({ blockdays, onChange }) {
+function ReservationPage({ onChange, petsitterId }) {
   const [checkInDate, setCheckInDate] = useState(null);
   const [checkOutDate, setCheckOutDate] = useState(null);
   const [focusedInputType, setFocusedInputType] = useState(null);
+  const [unavailable, setUnavailable] = useState([]);
+  const [selectedMonth, setSelectedMonth] = useState(dayjs(new Date()).format('YYYY-MM'));
 
   const handleDateChange = ({ startDate, endDate }) => {
     setCheckInDate(startDate);
@@ -24,7 +28,7 @@ function ReservationPage({ blockdays, onChange }) {
   //   new Date(2023, 4, 26), // May 26, 2023
   //   new Date(2023, 4, 18), // May 18, 2023 (임의로 추가한 블록된 날짜)
   // ];
-  const blockedDates = blockdays ? blockdays.map((date) => {
+  const blockedDates = unavailable ? unavailable.map((date) => {
     const [year, month, day] = date.split('-');
     return new Date(year, month - 1, day);
   }) : [];
@@ -64,6 +68,24 @@ function ReservationPage({ blockdays, onChange }) {
     return false;
   };
 
+  // const handleMonthChange = (month) => {
+  //   console.log(month);
+  // };
+
+  // 예약 불가능한 날짜 확인
+  useEffect(() => {
+    axios.get(`https://withpet.site/api/v1/reservation?month=${selectedMonth}&petsitterId=${petsitterId}`, { withCredentials: true })
+      .then((res) => {
+        // console.log(res.data.result);
+        setUnavailable(res.data.result);
+      });
+  }, [selectedMonth]);
+
+  const handleMonthChange = (item) => {
+    // console.log(dayjs(new Date(item)).format('YYYY-MM'));
+    setSelectedMonth(dayjs(new Date(item)).format('YYYY-MM'));
+  };
+
   return (
     <div>
       <div>
@@ -78,6 +100,8 @@ function ReservationPage({ blockdays, onChange }) {
           numberOfMonths={1}
           startDatePlaceholderText="체크인 날짜"
           endDatePlaceholderText="체크아웃 날짜"
+          onPrevMonthClick={handleMonthChange} // 이전 달로 이동할 때 이벤트 발생
+          onNextMonthClick={handleMonthChange}
           isDayBlocked={(day) => isReservationDateBlocked(day)
             || blockBeforeStartDate(day)
             || blockAfterStartDate(day)}
