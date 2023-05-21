@@ -8,7 +8,7 @@ import Calendar from './pages/Calendar/Calendar';
 import ViewProfile from './pages/ViewProfile/ViewProfile';
 import UsageList from './pages/UsageList/UsageList';
 import PetList from './pages/PetList/PetList';
-import PetsitterDetial from './pages/PetsitterDetial/PetsitterDetial';
+import PetsitterDetail from './pages/PetsitterDetail/PetsitterDetail';
 import PetsitterApply from './pages/PetsitterApply/PetsitterApply';
 import PetsitterCalendar from './pages/PetsitterCalendar/PetsitterCalendar';
 import PetsittersDogInfo from './pages/PetsittersDogInfo/PetsittersDogInfo';
@@ -16,9 +16,14 @@ import PetsitterNewDog from './pages/PetsitterNewDog/PetsitterNewDog';
 import Profit from './pages/Profit/Profit';
 import AdminMainPage from './pages/AdminMainPage/AdminMainPage';
 import AdminApplyInfo from './pages/AdminApplyInfo/AdminApplyInfo';
-import ApiTest from './pages/ApiTest';
+// import ApiTest from './pages/ApiTest';
+import PetsitterInfoManage from './pages/PetsitterInfoManage/PetsitterInfoManage';
 import EditProfile from './pages/EditProfile/EditProfile';
-import AdminServicManage from './pages/AdminServicManage/AdminServicManage';
+import AdminServicManage from './pages/AdminServicManage/Main';
+import PetsitterShowInfo from './pages/PetsitterInfoManage/PetsitterShowInfo';
+import ApiTest from './pages/ApiTest';
+import UserDiaryList from './pages/UserDiary/UserDiaryList';
+import UserEvaluation from './pages/UserEvaluation/UserEvaluation';
 
 function App() {
   const [state, setState] = useState('false');
@@ -36,7 +41,9 @@ function App() {
           <Route path="/editProfile" element={<EditProfile />} />
           <Route path="/usageList" element={<UsageList />} />
           <Route path="/petList" element={<PetList />} />
-          <Route path="/petsitterdetail" element={<PetsitterDetial />} />
+          <Route path="/petsitterdetail/:id" element={<PetsitterDetail />} />
+          <Route path="/userdiaryList" element={<UserDiaryList />} />
+          <Route path="/petList/userEvaluation/:id" element={<UserEvaluation />} />
 
           {/* 펫시터 페이지 */}
           <Route path="/petsitterapply" element={<PetsitterApply />} />
@@ -44,6 +51,8 @@ function App() {
           <Route path="/petsittersdoginfo" element={<PetsittersDogInfo />} />
           <Route path="/petsitternewdog" element={<PetsitterNewDog />} />
           <Route path="/profit" element={<Profit />} />
+          <Route path="/petsitterInfoManage" element={<PetsitterInfoManage />} />
+          <Route path="/petsitterShowInfo" element={<PetsitterShowInfo />} />
 
           {/* 관리자 페이지 */}
           <Route path="/adminmainpage" element={<AdminMainPage />} />
@@ -51,9 +60,8 @@ function App() {
           <Route path="/adminapplyInfo" element={<AdminApplyInfo />} />
         </Route>
       </Routes>
-      {/* <ApiTest /> */}
+      <ApiTest />
     </>
-
   );
 }
 
