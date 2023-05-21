@@ -19,7 +19,8 @@ function UserDiaryListAdd({
   // const [diaries, setDiaries] = useState([]);
   const dateNow = new Date();
   const today = dateNow.toISOString().substr(0, 10);
-  const colorList = ['red', 'yellow', 'green', 'blue', 'orange', 'violet', 'gray'];
+  // const colorList = ['red', 'yellow', 'green', 'blue', 'orange', 'violet', 'gray'];
+  const colorList = ['#64C8F3', '#F36464', '#57DF86', '#DFDA57', '#CAA969', 'violet', 'gray'];
 
   const [diaryInfo, setDiaryInfo] = useState({
     categoryId: '',

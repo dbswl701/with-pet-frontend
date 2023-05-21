@@ -11,7 +11,9 @@ const localizer = momentLocalizer(moment);
 function CalendarView() {
   const [eventsData, setEventsData] = useState([]);
 
-  const colorList = ['red', 'yellow', 'green', 'blue', 'orange', 'violet', 'gray'];
+  // const colorList = ['red', 'yellow', 'green', 'blue', 'orange', 'violet', 'gray'];
+  const colorList = ['#64C8F3', '#F36464', '#57DF86', '#DFDA57', '#CAA969', 'violet', 'gray'];
+
   useEffect(() => {
     axios.get('https://withpet.site/api/v1/reservation/petsitter/reservations?month=2023-05', { withCredentials: true })
       .then((res) => {
