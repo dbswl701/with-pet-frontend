@@ -16,12 +16,10 @@ import PetsitterNewDog from './pages/PetsitterNewDog/PetsitterNewDog';
 import Profit from './pages/Profit/Profit';
 import AdminMainPage from './pages/AdminMainPage/AdminMainPage';
 import AdminApplyInfo from './pages/AdminApplyInfo/AdminApplyInfo';
-// import ApiTest from './pages/ApiTest';
 import PetsitterInfoManage from './pages/PetsitterInfoManage/PetsitterInfoManage';
 import EditProfile from './pages/EditProfile/EditProfile';
 import AdminServicManage from './pages/AdminServicManage/Main';
 import PetsitterShowInfo from './pages/PetsitterInfoManage/PetsitterShowInfo';
-import ApiTest from './pages/ApiTest';
 import UserDiaryList from './pages/UserDiary/UserDiaryList';
 import UserEvaluation from './pages/UserEvaluation/UserEvaluation';
 
@@ -60,7 +58,6 @@ function App() {
           <Route path="/adminapplyInfo" element={<AdminApplyInfo />} />
         </Route>
       </Routes>
-      <ApiTest />
     </>
   );
 }

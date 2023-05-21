@@ -119,6 +119,7 @@ function PetsitterInfoManage() {
         navigate('../petsitterShowInfo');
       })
       .catch(() => {
+        // eslint-disable-next-line no-alert
         alert('오류');
       });
   };
