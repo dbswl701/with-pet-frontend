@@ -211,7 +211,7 @@ function SignupForm() {
         </div>
         <div className="preview">
           {imageSrc && <img src={imageSrc} alt="프로필 사진 미리보기" />}
-          <input type="file" onChange={handleImageUpload} />
+          <input type="file" accept="image/*" onChange={handleImageUpload} />
         </div>
         <button type="submit">회원가입</button>
       </Form>
