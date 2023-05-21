@@ -57,7 +57,7 @@ function Login({ setState, setUserInfo }) {
     e.preventDefault();
     axios.post('https://withpet.site/api/v1/users/login', { id: username, password }, { withCredentials: true })
       .then((res) => {
-        console.log(res.data.result);
+        // console.log(res.data.result);
         setState('login');
         alert('로그인에 성공했습니다.'); // eslint-disable-line no-alert
         setUserInfo(res.data.result);
