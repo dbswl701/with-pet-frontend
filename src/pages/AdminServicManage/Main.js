@@ -12,7 +12,7 @@ export default function Orders() {
     // id: '',
     serviceName: '',
     serviceImg: '',
-    serviceIntro: '',
+    serviceIntroduction: '',
   });
   const [criticalList, setCriticalList] = useState([]);
 
@@ -20,12 +20,12 @@ export default function Orders() {
     axios.get('https://withpet.site/api/v1/show-services', { withCredentials: true })
       .then((res) => {
         setList(res.data.result);
-        console.log(res.data.result);
+        // console.log(res.data.result);
       });
     axios.get('https://withpet.site/api/v1/show-criticalservices', { withCredentials: true })
       .then((res) => {
         setCriticalList(res.data.result);
-        console.log(res.data.result);
+        // console.log(res.data.result);
       });
   }, []);
 
@@ -48,7 +48,7 @@ export default function Orders() {
       });
     }
   };
-  console.log(data);
+  // console.log(data);
 
   const onSubmit = (e, listName) => { // 하나 등록 시
     e.preventDefault();
@@ -56,10 +56,10 @@ export default function Orders() {
     nextId.current += 1;
     // console.log({ ...data, id: nextId.current });
     // data.serviceImg = '123';
-    console.log(data);
+    // console.log(data);
     axios.post(`https://withpet.site/api/v1/admin/add-${listName}`, data, { withCredentials: true })
       .then((res) => {
-        console.log(res.data.result);
+        // console.log(res.data.result);
         if (listName === 'service') {
           setList(list.concat(res.data.result));
         } else {
@@ -71,14 +71,14 @@ export default function Orders() {
     setData({
       serviceName: '',
       serviceImg: '',
-      serviceIntro: '',
+      serviceIntroduction: '',
     });
   };
 
   const onSubmitModify = (modifyPetInfo, listName) => {
     // setList(list.map((pet) => (pet.id === id ? modifyPetInfo : pet)));
-    console.log(modifyPetInfo);
-    console.log(`https://withpet.site/api/v1/admin/${listName}`);
+    // console.log(modifyPetInfo);
+    // console.log(`https://withpet.site/api/v1/admin/${listName}`);
     axios.put(`https://withpet.site/api/v1/admin/${listName}`, modifyPetInfo, { withCredentials: true })
       .then((res) => {
         if (listName === 'service') {
@@ -104,16 +104,16 @@ export default function Orders() {
   };
 
   const onDelete = (item) => {
-    console.log(item);
+    // console.log(item);
     setList(list.filter((item2) => (item2.serviceId !== item.serviceId)));
 
     axios.post('https://withpet.site/api/v1/admin/service', item, { withCredentials: true })
       .then(() => {
-        console.log(item);
+        // console.log(item);
         setList(list.filter((item2) => (item2.serviceId !== item.serviceId)));
       });
   };
-  console.log(list);
+  // console.log(list);
   return (
     <>
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>

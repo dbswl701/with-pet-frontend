@@ -53,9 +53,9 @@ body {
   cursor: pointer;
 }
 
-.user-profile:hover {
+/* .user-profile:hover {
   background-color: red;
-}
+} */
 
 .user-name {
   line-height: 65px;
@@ -69,6 +69,11 @@ body {
   font-weight: 700;
   font-size: 13px;
   color: #CAA969;
+}
+
+.user-name.active {
+  /* position: relative; */
+  z-index: 1;
 }
 
 .profile {

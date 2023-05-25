@@ -20,7 +20,7 @@ function EditProfile() {
     axios
       .get(url, { withCredentials: true })
       .then((response) => {
-        console.log(response.data.result.address.zipcode);
+        // console.log(response.data.result.address.zipcode);
         const info = response.data.result;
         setModifyInfo({
           detailAdr: info.address.detailAdr,
@@ -33,9 +33,9 @@ function EditProfile() {
           userName: info.userName,
         });
       })
-      .catch((error) => {
-        console.log(error);
-        console.log('Editprofile error');
+      .catch(() => {
+        // console.log(error);
+        // console.log('Editprofile error');
       });
   }, []);
 
@@ -74,15 +74,15 @@ function EditProfile() {
       userName: modifyInfo.userName,
       userPassword: 'ajounice1234!',
     };
-    console.log(info);
+    // console.log(info);
 
     axios
       .put(url, info, { withCredentials: true })
-      .then((response) => {
-        console.log(response);
+      .then(() => {
+        // console.log(response);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        // console.log(error);
       });
   };
 

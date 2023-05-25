@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FormContainer, StyledInput } from './ApplyStyle';
 
@@ -39,7 +39,7 @@ function BasicInfo({ info, onChange, onSubmit }) {
 }
 
 function PetsitterApply() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [info, setInfo] = useState({
     applicant_animal_career: '',
     applicant_care_experience: '',
@@ -53,7 +53,7 @@ function PetsitterApply() {
 
   const onChange = (e) => {
     if (e.target.files) {
-      console.log('img change');
+      // console.log('img change');
       const file = e.target.files[0];
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -64,21 +64,23 @@ function PetsitterApply() {
         });
       };
     } else {
-      console.log(info);
+      // console.log(info);
       const { value, name } = e.target;
       setInfo({
         ...info,
         [name]: value,
       });
     }
-    console.log(info);
+    // console.log(info);
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(info);
+    // console.log(info);
     axios.post('https://withpet.site/api/v1/users/applicate-petsitter', info, { withCredentials: true })
       .then(() => {
+        // 성공했다고 알려주고
+        navigate('../');
       })
       .catch(() => {
       });

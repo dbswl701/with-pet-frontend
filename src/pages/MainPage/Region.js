@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import FormControl from '@mui/material/FormControl/FormControl';
-import { SelectWrapper } from './MainPageStyle';
+import { SelectWrapper } from '../../styles/main/MainPageStyle';
 
 function sleep(delay = 0) {
   return new Promise((resolve) => {

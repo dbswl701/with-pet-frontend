@@ -19,17 +19,6 @@ const MenuProps = {
   },
 };
 
-const names = [
-  '산책1',
-  '산책2',
-  '산책3',
-  '산책4',
-  '산책5',
-  '산책6',
-  '산책7',
-  '산책8',
-];
-
 function getStyles(name, personName, theme) {
   return {
     fontWeight:
@@ -39,7 +28,7 @@ function getStyles(name, personName, theme) {
   };
 }
 
-export default function MultipleSelectChip() {
+export default function MultipleSelectChip({ services, onChange }) {
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
 
@@ -51,6 +40,7 @@ export default function MultipleSelectChip() {
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
+    onChange(typeof value === 'string' ? value.split(',') : value);
   };
 
   return (
@@ -66,20 +56,23 @@ export default function MultipleSelectChip() {
           input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-              {selected.map((value) => (
-                <Chip key={value} label={value} />
-              ))}
+              {selected.map((value) => {
+                const service = services.find((item) => item.petSitterServiceId === value);
+                return (
+                  <Chip key={value} label={service ? service.serviceName : ''} />
+                );
+              })}
             </Box>
           )}
           MenuProps={MenuProps}
         >
-          {names.map((name) => (
+          {services && services.map((service) => (
             <MenuItem
-              key={name}
-              value={name}
-              style={getStyles(name, personName, theme)}
+              key={service.petSitterServiceId}
+              value={service.petSitterServiceId}
+              style={getStyles(service, personName, theme)}
             >
-              {name}
+              {service.serviceName}({service.price} 원)
             </MenuItem>
           ))}
         </Select>

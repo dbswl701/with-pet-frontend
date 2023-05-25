@@ -10,7 +10,8 @@ function Item1({ service, onRemove }) {
   // 1. 활성화 (isInclude === true)
   const includeed = (
     <div style={{
-      cursor: 'pointer', backgroundColor: '#caa969', width: '300px', marginRight: '20px',
+      // cursor: 'pointer', backgroundColor: '#caa969', width: '300px', marginRight: '20px',
+      backgroundColor: `${service.isIncluded === true ? '#FAEBD7' : 'gray'}`, width: '300px', marginRight: '20px', borderRadius: '20px',
     }}
     >
       {/* 사진, 이름, 내용, 가격, 삭제 버튼 */}
@@ -35,7 +36,7 @@ function Item2({ service, onAdd }) {
   const notIncluded = (
     <div
       style={{
-        cursor: 'pointer', backgroundColor: 'gray', width: '300px', marginRight: '20px',
+        cursor: 'pointer', backgroundColor: 'gray', width: '300px', marginRight: '20px', borderRadius: '20px',
       }}
     >
       {/* 사진, 이름, 내용, 가격, 삭제 버튼 */}
@@ -55,8 +56,8 @@ function Item2({ service, onAdd }) {
 }
 
 function PetsitterInfoManage() {
-  const [info, setInfo] = useState({});
   const navigate = useNavigate();
+  const [info, setInfo] = useState({});
 
   // 해시태그(petSitterHashTags)
   const [hashTags, setHashTags] = useState([]);
@@ -76,85 +77,38 @@ function PetsitterInfoManage() {
 
   // 필수 서비스
   const [criticalServices, setCriticalServices] = useState([]);
+
+  // 자격증 사진
+  const [petSitterLicenseImg, setPetSitterLicenseImg] = useState('');
   useEffect(() => {
     axios.get('https://withpet.site/api/v1/petsitter/show-myinfo', { withCredentials: true })
       .then((res) => {
         // console.log(res.data.result);
         setInfo(res.data.result);
-        console.log(res.data.result);
-        console.log(res.data.result.introduction === null);
-        if (res.data.result.introduction === null) {
-          setInfo({
-            criticalServices: [
-              {
-                serviceId: 0,
-                serviceImg: '',
-                serviceIntroduction: '',
-                serviceName: '',
-              },
-            ],
-            introduction: '',
-            petSitterCriticalServices: [
-              {
-                petSitterServiceId: 0,
-                price: 0,
-                serviceId: 0,
-                serviceImg: '',
-                serviceIntro: '',
-                serviceName: '',
-              },
-            ],
-            petSitterHashTags: [
-              {
-                hashTagName: '',
-                petSitterHashTagId: 0,
-              },
-            ],
-            petSitterHouses: [
-              {
-                houseId: 0,
-                houseImg: '',
-                representative: true,
-              },
-            ],
-            petSitterLicenseImg: res.data.result.petSitterLicenseImg,
-            petSitterServices: [
-              {
-                petSitterServiceId: 0,
-                price: 0,
-                serviceId: 0,
-                serviceImg: '',
-                serviceIntro: '',
-                serviceName: '',
-              },
-            ],
-            withPetServices: res.data.result.withPetServices,
-          });
-        } else {
-          setInfo(res.data.result);
-        }
+        // console.log(res.data.result);
+        // console.log(res.data.result.introduction === null);
+        setInfo(res.data.result);
+
         setIntroduction(res.data.result.introduction);
         setHashTags(res.data.result.petSitterHashTags);
         setHouseImgList(res.data.result.petSitterHouses);
         setCriticalServices(res.data.result.petSitterCriticalServices);
         setServiceSelectList(res.data.result.petSitterServices);
+        setPetSitterLicenseImg(res.data.result.petSitterLicenseImg);
       })
       .catch(() => {
       });
   }, []);
-  console.log(info);
-  console.log(info.withPetServices);
+  // console.log(info);
+  // console.log(info.withPetServices);
 
   const onSubmit = (e) => {
     e.preventDefault();
 
     const houseList = houseImgList.map((houseImg, index) => {
       const representative = index === 0;
-      return { ...houseImg, representative };
+      return { houseImg: houseImg.trim(), representative };
     });
-
-    console.log(houseList);
-    console.log(hashTags);
     const updatedInfo = {
       introduction,
       petSitterCriticalServiceRequests: criticalServices,
@@ -162,28 +116,38 @@ function PetsitterInfoManage() {
       petSitterHouseRequests: houseList,
       petSitterServiceRequests: serviceSelectList,
     };
-    console.log(updatedInfo);
+    // console.log(updatedInfo);
     axios.put('https://withpet.site/api/v1/petsitter/update-myinfo', updatedInfo, { withCredentials: true })
-      .then((res) => {
-        console.log(res.data.result);
+      .then(() => {
+        // console.log(res.data.result);
+        navigate('../petsitterShowInfo');
       })
-      .catch(() => {});
+      .catch(() => {
+        // eslint-disable-next-line no-alert
+        alert('오류');
+      });
   };
 
   const handleHashtag = () => {
     if (hashTags.includes(hashTag)) {
-      console.log('중복된 값입니다.');
+      // console.log('중복된 값입니다.');
     } else {
-      setHashTags([...hashTags, { hashTagId: 0, hashTagName: hashTag }]);
+      setHashTags([...hashTags, { petSitterHashTagId: 0, hashTagName: hashTag }]);
     }
     // nextId.current += 1;
-    console.log(hashTag);
+    // console.log(hashTag);
   };
-  console.log(hashTags);
-  console.log(introduction);
+  // console.log(hashTags);
+  // console.log(introduction);
   const onRemoveHashtag = (id) => {
     // 해시태그 하나 삭제
     setHashTags(hashTags.filter((tag) => (tag.petSitterHashTagId !== id)));
+  };
+
+  const onRemoveHousImg = (id) => {
+    // 집 이미지 하나 삭제
+    // console.log(id);
+    setHouseImgList(houseImgList.filter((img) => (img.houseId !== id)));
   };
 
   const handleImageChange = (e) => {
@@ -197,7 +161,7 @@ function PetsitterInfoManage() {
       reader.readAsDataURL(file);
     });
   };
-  console.log(houseImgList);
+  // console.log(houseImgList);
 
   const [isServiceIdIncluded, setIsServiceIdIncluded] = useState([]);
   const [isCriticalServiceIdIncluded, setIsCriticalServiceIdIncluded] = useState([]);
@@ -223,35 +187,37 @@ function PetsitterInfoManage() {
     });
     setIsCriticalServiceIdIncluded(includedServices);
   }, [criticalServices]);
-  console.log(serviceSelectList);
-  // const [newList, setNewList] = useState(isServiceIdIncluded);
 
-  console.log(isServiceIdIncluded);
+  // console.log(serviceSelectList);
+  // const [newList, setNewList] = useState(isServiceIdIncluded);
+  // console.log(isServiceIdIncluded);
+  // console.log(criticalServices);
   // console.log(newList);
 
   const onRemoveService = (id) => { // sercieId 건너옴
     // 활성화된 서비스 삭제 눌렀을 경우
-    console.log(id);
+    // console.log(id);
     setServiceSelectList(serviceSelectList.filter((service) => service.serviceId !== id));
   };
 
   const onAddService = (id, price) => { // sercieId 건너옴
     // 활성화된 서비스 삭제 눌렀을 경우
-    console.log(id);
+    // console.log(id);
     setServiceSelectList([...serviceSelectList, { serviceId: id, price: parseInt(price, 10) }]);
   };
 
   const onRemoveCriticalService = (id) => { // sercieId 건너옴
     // 활성화된 서비스 삭제 눌렀을 경우
-    console.log(id);
+    // console.log(id);
     setCriticalServices(criticalServices.filter((service) => service.serviceId !== id));
   };
 
   const onAddCriticalService = (id, price) => { // sercieId 건너옴
     // 활성화된 서비스 삭제 눌렀을 경우
-    console.log(id);
+    // console.log(id);
     setCriticalServices([...criticalServices, { serviceId: id, price: parseInt(price, 10) }]);
   };
+
   const modify = (
     <Container>
       <Content>
@@ -261,12 +227,12 @@ function PetsitterInfoManage() {
             <p>집사진</p>
             {/* <div> */}
             {
-            info.petSitterHouses && info.petSitterHouses.map((img, index) => (
+            houseImgList && houseImgList.map((img, index) => (
               // eslint-disable-next-line react/no-array-index-key
               <div key={index}>
-                <img key={img.houseId} src={img.houseImg} alt="집사진" style={{ width: '200px', height: '200px' }} />
+                <img key={img} src={img} alt="집사진" style={{ width: '200px', height: '200px' }} />
                 {/* <input type="button" value="x" /> */}
-                <CancelButton className="cancel" value="X">X</CancelButton>
+                <CancelButton className="cancel" value="X" onClick={() => onRemoveHousImg(img.houseId)}>X</CancelButton>
                 { index === 0 ? <p>대표사진</p> : <p> </p>}
               </div>
             ))
@@ -283,22 +249,24 @@ function PetsitterInfoManage() {
               {hashTags && hashTags.map((tag) => (
                 <div className="list" key={tag.hashTagName} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}>
                   #{tag.hashTagName}&ensp;
+                  {/* <span># {tag.hashTagName}</span> */}
                   {/* <input type="button" value="x" onClick={() => onRemoveHashtag(tag.petSitterHashTagId)} /> */}
                   <CancelButton className="cancel" value="X" onClick={() => onRemoveHashtag(tag.petSitterHashTagId)}>X</CancelButton>&ensp;
                 </div>
               ))}
             </div>
             <TextField sx={{ m: 1 }} variant="outlined" size="small" name="hashTagName" onChange={(e) => setHashTag(e.target.value)} value={hashTag} />
+            {/* <TextField sx={{ m: 1 }} label="해시태그" variant="outlined" size="small" name="hashTagName" onChange={(e) => setHashTag(e.target.value)} value={hashTag} /> */}
             {/* <input type="button" onClick={handleHashtag} value="추가" /> */}
             <Button onClick={handleHashtag} value="추가">추가</Button>
           </DivContainer>
           <DivContainer>
             <p>소개글</p>
-            <TextField sx={{ m: 1 }} variant="outlined" size="small" name="introduction" onChange={(e) => setIntroduction(e.target.value)} value={introduction} required />
+            <TextField multiline sx={{ m: 1 }} variant="outlined" size="small" name="introduction" onChange={(e) => setIntroduction(e.target.value)} value={introduction} required />
           </DivContainer>
           <DivContainer>
             <p>자격증</p>
-            <img id="preview-image" alt="이미지 미리보기" src={info.petSitterLicenseImg} />
+            <img id="preview-image" alt="이미지 미리보기" src={petSitterLicenseImg} />
           </DivContainer>
           <DivContainer>
             <p>이용 가능 서비스</p>

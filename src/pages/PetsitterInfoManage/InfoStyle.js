@@ -23,6 +23,7 @@ export const Content = styled.div`
     align-items: center;
     flex-direction: column;
     background-color: #green;
+    // text-align: center;
 `;
 
 export const DivContainer = styled.div`
@@ -34,6 +35,7 @@ export const DivContainer = styled.div`
     .list {
         flex-direction: row;
     }
+    // boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px'
 `;
 
 export const Input = styled.input`

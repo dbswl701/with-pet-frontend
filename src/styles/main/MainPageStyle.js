@@ -82,4 +82,6 @@ export const ImgWrapper = styled.img`
     width: 90%;
     height: 70%;
     background-color: orange;
+    // width: 224px;
+    // height: 150px;
 `;

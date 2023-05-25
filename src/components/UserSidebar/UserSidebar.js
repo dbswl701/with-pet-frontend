@@ -2,9 +2,13 @@ import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 // import styled from 'styled-components';
 import axios from 'axios';
+<<<<<<< HEAD
 import {
   SideBar, ListContainer, ItemContainer, Button, Items,
 } from '../../styles/sidebar/SidebarStyle';
+=======
+import UserDiaryListAdd from '../../pages/UserDiary/UserDiaryListAdd';
+>>>>>>> develop
 
 // const SideBar = styled.div`
 //   display: flex;
@@ -24,7 +28,6 @@ function Item({
   return (
     <>
       <div>
-        { console.log(item[name], typeof item[name]) }
         <input type="radio" name={name} id={item.name} value={item[name]} onChange={onChange} checked={filter[name] === item[name]} required />
         <label htmlFor={item.name}>{item.name}</label>
       </div>
@@ -32,43 +35,69 @@ function Item({
   );
 }
 
-function UserSideBar() {
+function UserSideBar({
+  setFilteredDiaries, filter, setFilter, open, setOpen, filteredDiaries,
+}) {
   const [dogs, setDogs] = useState([]);
   const [categories, setCategories] = useState([]);
-
-  const [filter, setFilter] = useState({
-    dogId: '',
-    category: '',
-    month: dayjs(new Date()).format('YYYY-MM'),
-  });
+  // const [filteredDiaries, setFilteredDiaries] = useState([]);
+  // const [filter, setFilter] = useState({
+  //   dogId: '',
+  //   categoryId: '',
+  //   month: dayjs(new Date()).format('YYYY-MM'),
+  // });
+  // const colorList = ['red', 'yellow', 'green', 'blue', 'orange', 'violet', 'gray'];
+  const colorList = ['#64C8F3', '#F36464', '#57DF86', '#DFDA57', '#CAA969', 'violet', 'gray'];
 
   const onChange = (e) => {
     const { name, value } = e.target;
+    // console.log(name, value);
     const updatedFilter = {
       ...filter,
       [name]: value,
     };
-    console.log(updatedFilter);
+    // console.log(updatedFilter);
     setFilter(updatedFilter);
+<<<<<<< HEAD
     axios.get(`https://0a2a3de5-9803-4b7e-a4ed-2005928586d5.mock.pstmn.io/api/v1/userdiaries?category=${updatedFilter.category}&dogId=${updatedFilter.dogId}&month=${updatedFilter.month}`)
+=======
+    axios.get(`https://withpet.site/api/v1/userdiaries/month?categoryId=${updatedFilter.categoryId}&dogId=${updatedFilter.dogId}&month=${updatedFilter.month}&petsitterCheck=${updatedFilter.petsitterCheck}`, { withCredentials: true })
+>>>>>>> develop
       .then((res) => {
-        console.log(res);
+        // console.log(res.data.result);
+        const { result } = res.data;
+        // 이제 달력 보여줄거 업데이트 하자
+        // console.log(dogs);
+        const temp = result.map((item) => ({
+          start: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
+          end: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
+          color: colorList[(item.dogId % colorList.length) - 1],
+          title: item.dogName,
+        }));
+        setFilteredDiaries(temp);
+        // console.log(temp);
       })
       .catch(() => {
 
       });
   };
+<<<<<<< HEAD
 
   useEffect(() => { // { withCredentials: true } 필요
     axios.get('https://0a2a3de5-9803-4b7e-a4ed-2005928586d5.mock.pstmn.io/api/v1/userdiaries/doglist')
+=======
+  // console.log(filteredDiaries);
+  useEffect(() => {
+    axios.get('https://withpet.site/api/v1/calendar', { withCredentials: true })
+>>>>>>> develop
       .then((res) => {
-        console.log(res.data.result);
+        // console.log(res.data.result);
         const updatedDogs = res.data.result.dogSimpleInfoResponses.map((dog) => ({
           dogId: dog.dogId.toString(),
           name: dog.name,
         }));
         setDogs(updatedDogs);
-        console.log(res.data.result.dogSimpleInfoResponses);
+        // console.log(res.data.result.dogSimpleInfoResponses);
         const updatedCategories = res.data.result.categoryResponses.map((category) => ({
           categoryId: category.categoryId.toString(),
           name: category.name,
@@ -77,12 +106,33 @@ function UserSideBar() {
       })
       .catch(() => {
       });
+
+    // 필터링 안했을 때 정보 불러옴
+    axios.get(`https://withpet.site/api/v1/userdiaries/month?categoryId=&dogId=&month=${filter.month}`, { withCredentials: true })
+      .then((res) => {
+        // console.log(res.data.result);
+        const { result } = res.data;
+        // 이제 달력 보여줄거 업데이트 하자
+        // console.log(dogs);
+        const temp = result.map((item) => ({
+          start: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
+          end: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
+          color: colorList[(item.dogId % colorList.length) - 1],
+          title: item.dogName,
+        }));
+        setFilteredDiaries(temp);
+        // console.log(temp);
+      })
+      .catch(() => {
+
+      });
   }, []);
-  console.log(dogs);
-  console.log(categories);
+  // console.log(dogs);
+  // console.log(categories);
   return (
     <>
       <SideBar>
+<<<<<<< HEAD
         <ListContainer>
           강아지 선택
           <Items>
@@ -97,6 +147,27 @@ function UserSideBar() {
           </ItemContainer>
         </ListContainer>
         <ListContainer>
+=======
+        <div>
+          <button style={{ width: '256px' }} onClick={() => setOpen(true)}>일지 작성</button>
+        </div>
+        <UserDiaryListAdd open={open} setOpen={setOpen} setFilteredDiaries={setFilteredDiaries} filteredDiarie={filteredDiaries} />
+        <div style={{ margin: '20px 10px', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px' }}>
+          강아지 선택
+          {dogs.map((dog) => <Item key={dog.dogId} name="dogId" item={dog} filter={filter} onChange={onChange} />)}
+        </div>
+        <div style={{
+          display: 'flex', flexDirection: 'column', margin: '20px 10px', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px',
+        }}
+        >
+          작성자 선택
+          <input type="button" value="PETSITTER" name="petsitterCheck" onClick={onChange} />
+          <input type="button" value="USER" name="petsitterCheck" onClick={onChange} />
+          {/* <button>반려인</button>
+          <button>펫시터</button> */}
+        </div>
+        <div style={{ margin: '20px 10px', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px' }}>
+>>>>>>> develop
           카테고리 선택
           {categories.map((category) => <Item key={category.id} name="category" item={category} filter={filter} onChange={onChange} />)}
         </ListContainer>
