@@ -49,19 +49,18 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-function Login({ setState }) {
+function Login({ setState, setUserInfo }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const onSubmit = (e) => {
     e.preventDefault();
-    axios.post('https://withpet.site/api/v1/users/login', {
-      id: username,
-      password,
-    }, { withCredentials: true })
-      .then(() => {
+    axios.post('https://withpet.site/api/v1/users/login', { id: username, password }, { withCredentials: true })
+      .then((res) => {
+        // console.log(res.data.result);
         setState('login');
         alert('로그인에 성공했습니다.'); // eslint-disable-line no-alert
+        setUserInfo(res.data.result);
         navigate('../');
       })
       .catch(() => {

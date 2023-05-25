@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import logo from '../../assets/logo_withpet.png';
 
 function Nav() {
+  // console.log('관리자');
   const before = (
     <div className="nav-bar">
       <Link to="/">

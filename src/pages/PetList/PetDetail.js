@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import heart from '../../assets/heart.png';
+import social from '../../assets/social.png';
 
 const Progress = styled.div`
   width: 148px;
@@ -65,6 +66,16 @@ function PetDetail({ pet, onToggle }) {
               </div>
               <Button onClick={() => navigate('../calendar')}>애정도 올리러 가기</Button>
             </div>
+            <div style={{ display: 'flex', flexDirection: 'column', marginTop: '20px' }}>
+              <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <img src={social} alt="social" style={{ width: '16px', height: '16px' }} />
+                <Progress>
+                  <Dealt dealt={pet.socializationDegree} />
+                </Progress>
+                <p style={{ fontSize: '11px', margin: '0px', color: '#CAA969' }}>{pet.socializationDegree}%</p>
+              </div>
+              <Button onClick={onClickSocilization}>반려견 사회성 등록</Button>
+            </div>
             <div className="pet-group">
               <button>그룹관리</button>
               <p>초대코드 : {pet.partyIsbn}</p>
@@ -96,7 +107,7 @@ function PetDetail({ pet, onToggle }) {
           </div>
         </div>
         <div className="pet-second">
-          <button onClick={onClickSocilization}>사회화</button>
+          {/* <button onClick={onClickSocilization}>사회화</button> */}
           <button>건강수첩</button>
         </div>
       </div>

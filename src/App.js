@@ -25,12 +25,16 @@ import UserEvaluation from './pages/UserEvaluation/UserEvaluation';
 
 function App() {
   const [state, setState] = useState('false');
+  const [userInfo, setUserInfo] = useState({
+    role: '',
+    userName: '',
+  });
   return (
     <>
       <Routes>
-        <Route path="/" element={<Navbar state={state} />}>
+        <Route path="/" element={<Navbar state={state} userInfo={userInfo} />}>
           <Route index element={<MainPage />} />
-          <Route path="/login" element={<Login setState={setState} />} />
+          <Route path="/login" element={<Login setState={setState} setUserInfo={setUserInfo} />} />
           <Route path="/signup" element={<Signup />} />
 
           {/* 반려인 페이지 */}

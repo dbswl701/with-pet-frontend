@@ -40,7 +40,8 @@ function UserSideBar({
   //   categoryId: '',
   //   month: dayjs(new Date()).format('YYYY-MM'),
   // });
-  const colorList = ['red', 'yellow', 'green', 'blue', 'orange', 'violet', 'gray'];
+  // const colorList = ['red', 'yellow', 'green', 'blue', 'orange', 'violet', 'gray'];
+  const colorList = ['#64C8F3', '#F36464', '#57DF86', '#DFDA57', '#CAA969', 'violet', 'gray'];
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -119,19 +120,21 @@ function UserSideBar({
           <button style={{ width: '256px' }} onClick={() => setOpen(true)}>일지 작성</button>
         </div>
         <UserDiaryListAdd open={open} setOpen={setOpen} setFilteredDiaries={setFilteredDiaries} filteredDiarie={filteredDiaries} />
-        <div style={{ backgroundColor: 'red' }}>
+        <div style={{ margin: '20px 10px', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px' }}>
           강아지 선택
           {dogs.map((dog) => <Item key={dog.dogId} name="dogId" item={dog} filter={filter} onChange={onChange} />)}
         </div>
-        <div>
+        <div style={{
+          display: 'flex', flexDirection: 'column', margin: '20px 10px', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px',
+        }}
+        >
           작성자 선택
           <input type="button" value="PETSITTER" name="petsitterCheck" onClick={onChange} />
           <input type="button" value="USER" name="petsitterCheck" onClick={onChange} />
-
           {/* <button>반려인</button>
           <button>펫시터</button> */}
         </div>
-        <div style={{ backgroundColor: 'red' }}>
+        <div style={{ margin: '20px 10px', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px' }}>
           카테고리 선택
           {categories.map((category) => <Item key={category.categoryId} name="categoryId" item={category} filter={filter} onChange={onChange} />)}
         </div>
