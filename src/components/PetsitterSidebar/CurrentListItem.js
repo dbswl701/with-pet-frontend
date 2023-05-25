@@ -1,7 +1,7 @@
 // import React from 'react';
 // import styled from 'styled-components';
 import React, { useState } from 'react';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 import social from '../../assets/social.png';
 import heart from '../../assets/heart.png';
 import {
@@ -71,7 +71,7 @@ function CurrentListItem({ item, setPrintBody }) {
           {showDiv && showButton}
         </div>
       </ItemContainer>
-{/* 
+      {/*
       <Container onMouseEnter={() => setShowDiv(true)} onMouseLeave={() => setShowDiv(false)}>
         <div>
           <div className="1" style={{ display: 'flex', flexDirection: 'row', marginBottom: '15px' }}>
