@@ -1,18 +1,12 @@
-<<<<<<< HEAD
-import React from 'react';
-// import styled from 'styled-components';
-=======
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 import axios from 'axios';
->>>>>>> develop
 import CurrentList from './CurrentList';
 import NewList from './NewList';
 import DoneList from './DoneList';
 import Profit from './Profit';
 import { SideBar } from '../../styles/sidebar/SidebarStyle';
 
-<<<<<<< HEAD
 // const SideBar = styled.div`
 // display: flex;
 // background-color: white;
@@ -24,19 +18,6 @@ import { SideBar } from '../../styles/sidebar/SidebarStyle';
 // margin-left: 40px;
 // flex-direction: column;
 // `;
-=======
-const SideBar = styled.div`
-display: flex;
-background-color: white;
-height: 100vh;
-width: 256px;
-// box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
-border-radius: 5px;
-margin-top: 50px;
-margin-left: 40px;
-flex-direction: column;
-`;
->>>>>>> develop
 
 function PetsitterSidebar({ setPrintBody }) {
   const [useReservations, setUseReservations] = useState([]);
