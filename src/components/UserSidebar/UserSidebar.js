@@ -2,13 +2,10 @@ import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 // import styled from 'styled-components';
 import axios from 'axios';
-<<<<<<< HEAD
 import {
   SideBar, ListContainer, ItemContainer, Button, Items,
 } from '../../styles/sidebar/SidebarStyle';
-=======
 import UserDiaryListAdd from '../../pages/UserDiary/UserDiaryListAdd';
->>>>>>> develop
 
 // const SideBar = styled.div`
 //   display: flex;
@@ -58,11 +55,7 @@ function UserSideBar({
     };
     // console.log(updatedFilter);
     setFilter(updatedFilter);
-<<<<<<< HEAD
-    axios.get(`https://0a2a3de5-9803-4b7e-a4ed-2005928586d5.mock.pstmn.io/api/v1/userdiaries?category=${updatedFilter.category}&dogId=${updatedFilter.dogId}&month=${updatedFilter.month}`)
-=======
     axios.get(`https://withpet.site/api/v1/userdiaries/month?categoryId=${updatedFilter.categoryId}&dogId=${updatedFilter.dogId}&month=${updatedFilter.month}&petsitterCheck=${updatedFilter.petsitterCheck}`, { withCredentials: true })
->>>>>>> develop
       .then((res) => {
         // console.log(res.data.result);
         const { result } = res.data;
@@ -81,15 +74,9 @@ function UserSideBar({
 
       });
   };
-<<<<<<< HEAD
-
-  useEffect(() => { // { withCredentials: true } 필요
-    axios.get('https://0a2a3de5-9803-4b7e-a4ed-2005928586d5.mock.pstmn.io/api/v1/userdiaries/doglist')
-=======
   // console.log(filteredDiaries);
   useEffect(() => {
     axios.get('https://withpet.site/api/v1/calendar', { withCredentials: true })
->>>>>>> develop
       .then((res) => {
         // console.log(res.data.result);
         const updatedDogs = res.data.result.dogSimpleInfoResponses.map((dog) => ({
@@ -132,7 +119,10 @@ function UserSideBar({
   return (
     <>
       <SideBar>
-<<<<<<< HEAD
+        <div>
+          <button style={{ width: '256px' }} onClick={() => setOpen(true)}>일지 작성</button>
+        </div>
+        <UserDiaryListAdd open={open} setOpen={setOpen} setFilteredDiaries={setFilteredDiaries} filteredDiarie={filteredDiaries} />
         <ListContainer>
           강아지 선택
           <Items>
@@ -142,16 +132,15 @@ function UserSideBar({
         <ListContainer>
           작성자 선택
           <ItemContainer>
-            <Button>반려인</Button>
-            <Button>펫시터</Button>
+            <Button value="PETSITTER" name="petsitterCheck" onClick={onChange}>반려인</Button>
+            <Button value="USER" name="petsitterCheck" onClick={onChange}>펫시터</Button>
           </ItemContainer>
         </ListContainer>
-        <ListContainer>
-=======
-        <div>
+        <ListContainer>ß
+          {/* <div>
           <button style={{ width: '256px' }} onClick={() => setOpen(true)}>일지 작성</button>
-        </div>
-        <UserDiaryListAdd open={open} setOpen={setOpen} setFilteredDiaries={setFilteredDiaries} filteredDiarie={filteredDiaries} />
+        </div> */}
+          {/* <UserDiaryListAdd open={open} setOpen={setOpen} setFilteredDiaries={setFilteredDiaries} filteredDiarie={filteredDiaries} />
         <div style={{ margin: '20px 10px', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px' }}>
           강아지 선택
           {dogs.map((dog) => <Item key={dog.dogId} name="dogId" item={dog} filter={filter} onChange={onChange} />)}
@@ -162,12 +151,11 @@ function UserSideBar({
         >
           작성자 선택
           <input type="button" value="PETSITTER" name="petsitterCheck" onClick={onChange} />
-          <input type="button" value="USER" name="petsitterCheck" onClick={onChange} />
+          <input type="button" value="USER" name="petsitterCheck" onClick={onChange} /> */}
           {/* <button>반려인</button>
           <button>펫시터</button> */}
-        </div>
-        <div style={{ margin: '20px 10px', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px' }}>
->>>>>>> develop
+          {/* </div> */}
+          {/* <div style={{ margin: '20px 10px', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px' }}> */}
           카테고리 선택
           {categories.map((category) => <Item key={category.id} name="category" item={category} filter={filter} onChange={onChange} />)}
         </ListContainer>

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-// import styled from 'styled-components';
 import React from 'react';
 // import axios from 'axios';
-import styled from 'styled-components';
+// import styled from 'styled-components';
+// import React from 'react';
+// import axios from 'axios';
+// import styled from 'styled-components';
 import CurrentListItem from './CurrentListItem';
 import { ListContainer, Items } from '../../styles/sidebar/SidebarStyle';
 
@@ -45,11 +45,11 @@ function CurrentList({ useReservations, setPrintBody }) {
       <p>현재 이용자 목록</p>
       <Items>
         {/* {currentList.map((currentItem) => { */}
-          {/* return <CurrentListItem key={currentItem.id} item={currentItem} />; */}
-    {/* // <Container> */}
-      {/* <Title>현재 이용자 목록</Title> */}
+        {/* return <CurrentListItem key={currentItem.id} item={currentItem} />; */}
+        {/* // <Container> */}
+        {/* <Title>현재 이용자 목록</Title> */}
 
-      {/* // <Item> */}
+        {/* // <Item> */}
         {useReservations.map((currentItem) => {
           return <CurrentListItem key={currentItem.reservationId} item={currentItem} setPrintBody={setPrintBody} />;
         })}
