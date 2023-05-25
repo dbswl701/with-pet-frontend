@@ -49,7 +49,7 @@ jobs:
         # https://fe-developers.kakaoent.com/2022/220106-github-actions/
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm install --force
 
       - name: Build
         run: npm run build

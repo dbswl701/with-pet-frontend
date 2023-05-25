@@ -16,20 +16,25 @@ import PetsitterNewDog from './pages/PetsitterNewDog/PetsitterNewDog';
 import Profit from './pages/Profit/Profit';
 import AdminMainPage from './pages/AdminMainPage/AdminMainPage';
 import AdminApplyInfo from './pages/AdminApplyInfo/AdminApplyInfo';
-// import ApiTest from './pages/ApiTest';
 import PetsitterInfoManage from './pages/PetsitterInfoManage/PetsitterInfoManage';
 import EditProfile from './pages/EditProfile/EditProfile';
 import AdminServicManage from './pages/AdminServicManage/Main';
 import PetsitterShowInfo from './pages/PetsitterInfoManage/PetsitterShowInfo';
+import UserDiaryList from './pages/UserDiary/UserDiaryList';
+import UserEvaluation from './pages/UserEvaluation/UserEvaluation';
 
 function App() {
   const [state, setState] = useState('false');
+  const [userInfo, setUserInfo] = useState({
+    role: '',
+    userName: '',
+  });
   return (
     <>
       <Routes>
-        <Route path="/" element={<Navbar state={state} />}>
+        <Route path="/" element={<Navbar state={state} userInfo={userInfo} />}>
           <Route index element={<MainPage />} />
-          <Route path="/login" element={<Login setState={setState} />} />
+          <Route path="/login" element={<Login setState={setState} setUserInfo={setUserInfo} />} />
           <Route path="/signup" element={<Signup />} />
 
           {/* 반려인 페이지 */}
@@ -38,7 +43,9 @@ function App() {
           <Route path="/editProfile" element={<EditProfile />} />
           <Route path="/usageList" element={<UsageList />} />
           <Route path="/petList" element={<PetList />} />
-          <Route path="/petsitterdetail" element={<PetsitterDetail />} />
+          <Route path="/petsitterdetail/:id" element={<PetsitterDetail />} />
+          <Route path="/userdiaryList" element={<UserDiaryList />} />
+          <Route path="/petList/userEvaluation/:id" element={<UserEvaluation />} />
 
           {/* 펫시터 페이지 */}
           <Route path="/petsitterapply" element={<PetsitterApply />} />
@@ -55,9 +62,7 @@ function App() {
           <Route path="/adminapplyInfo" element={<AdminApplyInfo />} />
         </Route>
       </Routes>
-      {/* <ApiTest /> */}
     </>
-
   );
 }
 
