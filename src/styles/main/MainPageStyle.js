@@ -64,6 +64,8 @@ export const CardContainer = styled.div`
     width: 80vw;
     height: 60vh;
     justify-items: center;
+    align-content: center;
+    justify-content: space-evenly;
     align-items: center;
     gap: 3px;
 `;

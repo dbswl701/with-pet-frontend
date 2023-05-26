@@ -15,8 +15,10 @@ import RenderGroup from './Region';
 import MediaCardGrid from './MediaCardGrid';
 import PetSize from './PetSize';
 import {
-  Background, Content, SelectContainer,
+  Background, Content, SelectContainer, CardContainer,
 } from '../../styles/main/MainPageStyle';
+// import dogBanner from '../../assets/dog_banner.png';
+
 
 // const BannerBox = styled.div`
 // display: flex;
@@ -60,9 +62,9 @@ function MainPage() {
           <MultipleSelectChip />
           <RenderGroup />
         </SelectContainer>
-        <div className="petsitterlist">
+        <CardContainer className="petsitterlist">
           <MediaCardGrid cards={temp} />
-        </div>
+        </CardContainer>
       </Content>
     </Background>
   );
