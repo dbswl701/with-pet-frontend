@@ -1,21 +1,23 @@
 import React from 'react';
 // import axios from 'axios';
 // import './MediaCard.css'; // Import the CSS file that styles the media cards
-import styled from 'styled-components';
+// import styled from 'styled-components';
+// import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { ImgWrapper, CardContainer, CardWrapper } from '../../styles/main/MainPageStyle';
 
-const Grid = styled.div`
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    justify-items: center;
-    padding: 20px;
-    gap: 20px;
-    margin: 0 auto;
-`;
+// const Grid = styled.div`
+//     display: grid;
+//     grid-template-columns: repeat(5, 1fr);
+//     justify-items: center;
+//     padding: 20px;
+//     gap: 20px;
+//     margin: 0 auto;
+// `;
 
-const Card = styled.div`
-    background-color: #fff;
-`;
+// const Card = styled.div`
+//     background-color: #fff;
+// `;
 
 function MediaCard({ data }) {
   const navigate = useNavigate();
@@ -26,28 +28,38 @@ function MediaCard({ data }) {
     navigate(`./petsitterdetail/${id}`);
   };
   return (
-    <Card onClick={() => onClick(data.petSitterId)}>
-      <div>
-        <img src={data.petSitterRepresentativeHouse} alt={data.userName} style={{ width: '224px', height: '150px' }} />
-      </div>
+    <CardWrapper onClick={() => onClick(data.petSitterId)}>
+      <ImgWrapper src={data.petSitterRepresentativeHouse} alt={data.userName} style={{ width: '224px', height: '150px' }} />
+      {/* // <div> */}
+      {/* <img src={data.petSitterRepresentativeHouse} alt={data.userName} style={{ width: '224px', height: '150px' }} /> */}
+      {/* // </div> */}
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <h3>{data.userName}</h3>
         <h4>({data.review_count})</h4>
       </div>
-    </Card>
+    </CardWrapper>
   );
 }
 
 function MediaCardGrid({ cards }) {
   return (
-    <div>
-      <Grid>
-        {cards && cards.map((card) => (
-          // eslint-disable-next-line max-len
-          <MediaCard key={card.petSitterId} data={card} />
-        ))}
-      </Grid>
-    </div>
+  // <div>
+    <CardContainer id="grid">
+      {/* <span>썸네일 및 정보</span> */}
+      {/* {cards && cards.map((card) => ( */}
+      {/* // eslint-disable-next-line max-len */}
+      {/* <MediaCard key={card.petsitter_name} title={card.petsitter_name} image={card.house_image} rate={card.star_rate} /> */}
+      {/* ))} */}
+      {/* </CardContainer> */}
+      {/* // </div> */}
+      {/* // <div> */}
+      {/* <Grid> */}
+      {cards && cards.map((card) => (
+        // eslint-disable-next-line max-len
+        <MediaCard key={card.petSitterId} data={card} />
+      ))}
+    </CardContainer>
+  // </div>
   );
 }
 

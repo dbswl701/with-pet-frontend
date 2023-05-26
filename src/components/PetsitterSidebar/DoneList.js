@@ -1,24 +1,26 @@
 import React from 'react';
-import styled from 'styled-components';
+// import styled from 'styled-components';
+// import styled from 'styled-components';
 import DoneListItem from './DoneListItem';
+import { Items, ListContainer } from '../../styles/sidebar/SidebarStyle';
 
-const Title = styled.p`
-  display: flex;
-`;
+// const p = styled.p`
+//   display: flex;
+// `;
 
-const Item = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
+// const Item = styled.div`
+//   display: flex;
+//   flex-direction: column;
+// `;
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  // width: 100%;
-  border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
-`;
+// const ListContainer = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   padding: 20px;
+//   width: 100%;
+//   border-radius: 5px;
+//   box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
+// `;
 
 function DoneList({ doneReservations, setPrintBody }) {
   // const [currentList, setCurrentList] = useState([]);
@@ -34,16 +36,14 @@ function DoneList({ doneReservations, setPrintBody }) {
   // }, []);
 
   return (
-    <Container>
-      <Title>이용 완료 목록</Title>
-
-      <Item>
+    <ListContainer>
+      <p>이용 완료 목록</p>
+      <Items>
         {doneReservations.map((currentItem) => {
           return <DoneListItem key={currentItem.reservationId} item={currentItem} setPrintBody={setPrintBody} />;
         })}
-      </Item>
-
-    </Container>
+      </Items>
+    </ListContainer>
   );
 }
 
