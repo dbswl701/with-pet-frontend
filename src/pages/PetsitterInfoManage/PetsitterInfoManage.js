@@ -2,10 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import TextField from '@mui/material/TextField';
+import styled from 'styled-components';
 import {
   Container, Content, DivContainer, Button, CancelButton,
 } from './InfoStyle';
 
+const Label = styled.label`
+height: 40px;
+width: 100px;
+margin-bottom: 10px;
+background-color: #CAA969;
+color: white;
+box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
+border: none;
+border-radius: 5px;
+`;
 function Item1({ service, onRemove }) {
   // 1. 활성화 (isInclude === true)
   const includeed = (
@@ -107,7 +118,7 @@ function PetsitterInfoManage() {
 
     const houseList = houseImgList.map((houseImg, index) => {
       const representative = index === 0;
-      return { houseImg: houseImg.trim(), representative };
+      return { houseImg, representative };
     });
     const updatedInfo = {
       introduction,
@@ -239,8 +250,9 @@ function PetsitterInfoManage() {
           }
             {/* </div> */}
             <>
-              <input className="file" style={{ display: 'none' }} type="file" accept="image/*" />
-              <Button multiple onChange={handleImageChange}>집 사진 업로드</Button>
+              <input id="file" style={{ visibility: 'hidden' }} type="file" accept="image/*" onChange={handleImageChange} />
+              {/* <Button multiple onChange={handleImageChange}>집 사진 업로드</Button> */}
+              <Label htmlFor="file">이미지 변경</Label>
             </>
           </DivContainer>
           <DivContainer>
