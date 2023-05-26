@@ -14,7 +14,7 @@ import RenderGroup from './Region';
 import MediaCardGrid from './MediaCardGrid';
 import PetSize from './PetSize';
 import {
-  Background, Content, SelectContainer,
+  Background, Content, SelectContainer, CardContainer,
 } from '../../styles/main/MainPageStyle';
 // import dogBanner from '../../assets/dog_banner.png';
 
@@ -54,16 +54,15 @@ function MainPage() {
   }, []);
   return (
     <Background>
-      {/* <img id="dog" src={dogBanner} alt="dog" /> */}
       <Content>
         <SelectContainer>
           <PetSize />
           <MultipleSelectChip />
           <RenderGroup />
         </SelectContainer>
-        {/* <div> */}
-        <MediaCardGrid temp={temp} />
-        {/* </div> */}
+        <CardContainer className="petsitterlist">
+          <MediaCardGrid cards={temp} />
+        </CardContainer>
       </Content>
     </Background>
   );
