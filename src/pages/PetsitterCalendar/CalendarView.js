@@ -2,20 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import axios from 'axios';
+import dayjs from 'dayjs';
 // import events from './events';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 moment.locale('en-GB');
 const localizer = momentLocalizer(moment);
 
-function CalendarView() {
+function CalendarView({ setSelectedMonth, selectedMonth }) {
   const [eventsData, setEventsData] = useState([]);
 
   // const colorList = ['red', 'yellow', 'green', 'blue', 'orange', 'violet', 'gray'];
   const colorList = ['#64C8F3', '#F36464', '#57DF86', '#DFDA57', '#CAA969', 'violet', 'gray'];
 
   useEffect(() => {
-    axios.get('https://withpet.site/api/v1/reservation/petsitter/reservations?month=2023-05', { withCredentials: true })
+    axios.get(`https://withpet.site/api/v1/reservation/petsitter/reservations?month=${selectedMonth}`, { withCredentials: true })
       .then((res) => {
         // setEventsData(res.data.result);
         const { result } = res.data;
@@ -60,6 +61,11 @@ function CalendarView() {
       style,
     };
   };
+
+  const handleNavigate = (date) => {
+    setSelectedMonth(dayjs(date).format('YYYY-MM'));
+  };
+
   return (
     <div className="App">
       <Calendar
@@ -70,6 +76,7 @@ function CalendarView() {
         events={eventsData}
         style={{ height: '700px', width: '1000px' }}
         eventPropGetter={eventStyleGetter}
+        onNavigate={handleNavigate}
       />
     </div>
   );

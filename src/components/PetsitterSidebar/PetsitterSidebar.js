@@ -18,15 +18,14 @@ margin-left: 40px;
 flex-direction: column;
 `;
 
-function PetsitterSidebar({ setPrintBody }) {
+function PetsitterSidebar({ setPrintBody, selectedMonth }) {
   const [useReservations, setUseReservations] = useState([]);
   const [newReservations, setNewReservations] = useState([]);
   const [doneReservations, setDoneReservations] = useState([]);
-
-  useEffect(() => {
-    axios.get('https://withpet.site/api/v1/calendar/petsitter-calendar?month=2023-05', { withCredentials: true })
+  useEffect(() => { // 여기 달 고정 바꿔야함.
+    axios.get(`https://withpet.site/api/v1/calendar/petsitter-calendar?month=${selectedMonth}`, { withCredentials: true })
       .then((res) => {
-        // console.log(res.data.result);
+        console.log(res.data.result);
         setUseReservations(res.data.result.useReservations);
         setNewReservations(res.data.result.newReservations);
         setDoneReservations(res.data.result.doneReservations);
