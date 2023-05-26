@@ -8,36 +8,41 @@ import axios from 'axios';
 // import FormControl from '@mui/material/FormControl';
 // import Select from '@mui/material/Select';
 // import Chip from '@mui/material/Chip';
-import styled from 'styled-components';
-import dogBanner from '../../assets/dog_banner.png';
+// import styled from 'styled-components';
+// import dogBanner from '../../assets/dog_banner.png';
 import MultipleSelectChip from './OptionList';
 import RenderGroup from './Region';
 import MediaCardGrid from './MediaCardGrid';
 import PetSize from './PetSize';
+import {
+  Background, Content, SelectContainer, CardContainer,
+} from '../../styles/main/MainPageStyle';
+// import dogBanner from '../../assets/dog_banner.png';
 
-const BannerBox = styled.div`
-display: flex;
-flex-wrap: wrap;
-justify-content: center;
-width: 100%;
-height: auto;
-position: relative;
-`;
-const SelectBox = styled.div`
-display: flex;
-background-color: #ffffff;
-width: 70%;
-height: 122px;
-margin: 0 auto;
-justify-content: center;
-align-items: center;
-padding: 24px 30px;
-gap: 20px;
-position: relative;
-box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.04);
-border-radius: 5px;
-top: -50px
-`;
+
+// const BannerBox = styled.div`
+// display: flex;
+// flex-wrap: wrap;
+// justify-content: center;
+// width: 100%;
+// height: auto;
+// position: relative;
+// `;
+// const SelectBox = styled.div`
+// display: flex;
+// background-color: #ffffff;
+// width: 70%;
+// height: 122px;
+// margin: 0 auto;
+// justify-content: center;
+// align-items: center;
+// padding: 24px 30px;
+// gap: 20px;
+// position: relative;
+// box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.04);
+// border-radius: 5px;
+// top: -50px
+// `;
 
 function MainPage() {
   const [temp, setTemp] = useState([]);
@@ -50,24 +55,18 @@ function MainPage() {
       });
   }, []);
   return (
-    <>
-      <div className="img">
-        <BannerBox>
-          <img src={dogBanner} alt="dog_banner" />
-        </BannerBox>
-      </div>
-      <SelectBox>
-        <div className="petsize" />
-        <PetSize />
-        <div className="optionlist" />
-        <MultipleSelectChip />
-        <div className="region" />
-        <RenderGroup />
-      </SelectBox>
-      <div className="petsitterlist">
-        <MediaCardGrid cards={temp} />
-      </div>
-    </>
+    <Background>
+      <Content>
+        <SelectContainer>
+          <PetSize />
+          <MultipleSelectChip />
+          <RenderGroup />
+        </SelectContainer>
+        <CardContainer className="petsitterlist">
+          <MediaCardGrid cards={temp} />
+        </CardContainer>
+      </Content>
+    </Background>
   );
 }
 

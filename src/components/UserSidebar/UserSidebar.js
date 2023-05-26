@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 import axios from 'axios';
+import {
+  SideBar, ListContainer, ItemContainer, Button, Items,
+} from '../../styles/sidebar/SidebarStyle';
 import UserDiaryListAdd from '../../pages/UserDiary/UserDiaryListAdd';
 
-const SideBar = styled.div`
-  display: flex;
-  background-color: white;
-  height: 100vh;
-  width: 256px;
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
-  border-radius: 5px;
-  margin-top: 50px;
-  margin-left: 40px;
-  flex-direction: column;
-`;
+// const SideBar = styled.div`
+//   display: flex;
+//   background-color: white;
+//   height: 100vh;
+//   width: 256px;
+//   box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
+//   border-radius: 5px;
+//   margin-top: 50px;
+//   margin-left: 40px;
+//   flex-direction: column;
+// `;
 
 function Item({
   item, name, filter, onChange,
@@ -120,6 +123,24 @@ function UserSideBar({
           <button style={{ width: '256px' }} onClick={() => setOpen(true)}>일지 작성</button>
         </div>
         <UserDiaryListAdd open={open} setOpen={setOpen} setFilteredDiaries={setFilteredDiaries} filteredDiarie={filteredDiaries} />
+        <ListContainer>
+          강아지 선택
+          <Items>
+            {dogs.map((dog) => <Item key={dog.id} name="dogId" item={dog} filter={filter} onChange={onChange} />)}
+          </Items>
+        </ListContainer>
+        <ListContainer>
+          작성자 선택
+          <ItemContainer>
+            <Button value="PETSITTER" name="petsitterCheck" onClick={onChange}>반려인</Button>
+            <Button value="USER" name="petsitterCheck" onClick={onChange}>펫시터</Button>
+          </ItemContainer>
+        </ListContainer>
+        <ListContainer>ß
+          {/* <div>
+          <button style={{ width: '256px' }} onClick={() => setOpen(true)}>일지 작성</button>
+        </div> */}
+          {/* <UserDiaryListAdd open={open} setOpen={setOpen} setFilteredDiaries={setFilteredDiaries} filteredDiarie={filteredDiaries} />
         <div style={{ margin: '20px 10px', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px' }}>
           강아지 선택
           {dogs.map((dog) => <Item key={dog.dogId} name="dogId" item={dog} filter={filter} onChange={onChange} />)}
@@ -130,14 +151,14 @@ function UserSideBar({
         >
           작성자 선택
           <input type="button" value="PETSITTER" name="petsitterCheck" onClick={onChange} />
-          <input type="button" value="USER" name="petsitterCheck" onClick={onChange} />
+          <input type="button" value="USER" name="petsitterCheck" onClick={onChange} /> */}
           {/* <button>반려인</button>
           <button>펫시터</button> */}
-        </div>
-        <div style={{ margin: '20px 10px', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px' }}>
+          {/* </div> */}
+          {/* <div style={{ margin: '20px 10px', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px' }}> */}
           카테고리 선택
-          {categories.map((category) => <Item key={category.categoryId} name="categoryId" item={category} filter={filter} onChange={onChange} />)}
-        </div>
+          {categories.map((category) => <Item key={category.id} name="category" item={category} filter={filter} onChange={onChange} />)}
+        </ListContainer>
       </SideBar>
     </>
   );
