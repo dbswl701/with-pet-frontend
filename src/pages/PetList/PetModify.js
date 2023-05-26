@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import dayjs from 'dayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import React, { useState } from "react";
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
+import dayjs from "dayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 function PetModify({ onSubmit, petInfo, onToggle }) {
   const [modifyPetInfo, setModifyPetInfo] = useState({
@@ -12,7 +12,7 @@ function PetModify({ onSubmit, petInfo, onToggle }) {
     dog_breed: petInfo.dog_breed,
     dog_birth: petInfo.dog_birth,
     dog_gender: petInfo.dog_gender,
-    neutralization: petInfo.neutralization ? 'true' : 'false',
+    neutralization: petInfo.neutralization ? "true" : "false",
     dog_weight: petInfo.dog_weight,
     dog_img: petInfo.dog_img,
     dog_isbn: petInfo.dog_isbn,
@@ -39,10 +39,10 @@ function PetModify({ onSubmit, petInfo, onToggle }) {
 
   const onLocalSubmit = (e) => {
     e.preventDefault();
-    onToggle('detail');
+    onToggle("detail");
     setModifyPetInfo({
       ...modifyPetInfo,
-      neutralization: modifyPetInfo.neutralization === 'true',
+      neutralization: modifyPetInfo.neutralization === "true",
     });
     onSubmit(petInfo.dog_id, modifyPetInfo);
   };
@@ -50,8 +50,8 @@ function PetModify({ onSubmit, petInfo, onToggle }) {
   const onChangeCalendar = (date) => {
     const e = {
       target: {
-        name: 'dog_birth',
-        value: dayjs(date).format('YYYY-MM-DD'),
+        name: "dog_birth",
+        value: dayjs(date).format("YYYY-MM-DD"),
       },
     };
     onChange(e);
@@ -70,7 +70,7 @@ function PetModify({ onSubmit, petInfo, onToggle }) {
           type="file"
           accept="image/*"
           id="image-select"
-          style={{ display: 'none' }}
+          style={{ display: "none" }}
           onChange={onChange}
         />
       </div>
@@ -100,6 +100,15 @@ function PetModify({ onSubmit, petInfo, onToggle }) {
           <MenuItem value="진돗개">진돗개</MenuItem>
           <MenuItem value="삽살개">삽살개</MenuItem>
           <MenuItem value="리트리버">리트리버</MenuItem>
+          <MenuItem value="요크셔테리어">요크셔테리어</MenuItem>
+          <MenuItem value="말티즈">말티즈</MenuItem>
+          <MenuItem value="푸들">푸들</MenuItem>
+          <MenuItem value="시바견">시바견</MenuItem>
+          <MenuItem value="불독">불독</MenuItem>
+          <MenuItem value="비글">비글</MenuItem>
+          <MenuItem value="포메라니안">포메라니안</MenuItem>
+          <MenuItem value="치와와">치와와</MenuItem>
+          <MenuItem value="보더콜리">보더콜리</MenuItem>
         </TextField>
 
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -121,7 +130,7 @@ function PetModify({ onSubmit, petInfo, onToggle }) {
             id="male"
             value="male"
             onChange={onChange}
-            checked={modifyPetInfo.dog_gender === 'male'}
+            checked={modifyPetInfo.dog_gender === "male"}
           />
           <label htmlFor="male">남자</label>
           <input
@@ -130,7 +139,7 @@ function PetModify({ onSubmit, petInfo, onToggle }) {
             id="female"
             value="female"
             onChange={onChange}
-            checked={modifyPetInfo.dog_gender === 'female'}
+            checked={modifyPetInfo.dog_gender === "female"}
           />
           <label htmlFor="female">여자</label>
         </div>
@@ -143,7 +152,7 @@ function PetModify({ onSubmit, petInfo, onToggle }) {
             id="O"
             value="true"
             onChange={onChange}
-            checked={modifyPetInfo.neutralization === 'true'}
+            checked={modifyPetInfo.neutralization === "true"}
           />
           <label htmlFor="O">O</label>
           <input
@@ -152,7 +161,7 @@ function PetModify({ onSubmit, petInfo, onToggle }) {
             id="X"
             value="false"
             onChange={onChange}
-            checked={modifyPetInfo.neutralization === 'false'}
+            checked={modifyPetInfo.neutralization === "false"}
           />
           <label htmlFor="X">X</label>
         </div>
@@ -184,7 +193,7 @@ function PetModify({ onSubmit, petInfo, onToggle }) {
           className="pet-add-btn pet-add-cancel-btn"
           type="button"
           value="취소"
-          onClick={() => onToggle('detail')}
+          onClick={() => onToggle("detail")}
         />
       </div>
     </form>
