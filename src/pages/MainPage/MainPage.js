@@ -9,6 +9,7 @@ import axios from 'axios';
 // import Select from '@mui/material/Select';
 // import Chip from '@mui/material/Chip';
 // import styled from 'styled-components';
+// import dogBanner from '../../assets/dog_banner.png';
 import MultipleSelectChip from './OptionList';
 import RenderGroup from './Region';
 import MediaCardGrid from './MediaCardGrid';
@@ -17,6 +18,7 @@ import {
   Background, Content, SelectContainer, CardContainer,
 } from '../../styles/main/MainPageStyle';
 // import dogBanner from '../../assets/dog_banner.png';
+
 
 // const BannerBox = styled.div`
 // display: flex;
