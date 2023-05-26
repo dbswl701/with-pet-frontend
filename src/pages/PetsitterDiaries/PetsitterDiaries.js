@@ -35,6 +35,11 @@ function PetsitterDiaries() {
     },
   ];
 
+  switch (toggle) {
+    case 'simple':
+      print = <
+  }
+
   return (
     <>
       {/* 강아지 A 에 대한 리스트 보여줌 */}
