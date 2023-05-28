@@ -134,15 +134,18 @@ function SignupForm() {
     }
     axios
       .post('https://withpet.site/api/v1/users/signup', {
-        username,
-        password,
-        name,
-        phone,
-        addressRoad,
-        addressPost,
-        addressDtail,
-        email,
+        userId: username,
+        userPassword: password,
+        userName: name,
+        phoneNum: phone,
+        address: {
+          streetAdr: addressRoad,
+          zipcode: addressPost,
+          detailAdr: addressDtail,
+        },
+        userEmail: email,
         image: imageSrc,
+        userPasswordCheck: passwordConfirm,
       })
       .then(() => {
         // console.log(res);
