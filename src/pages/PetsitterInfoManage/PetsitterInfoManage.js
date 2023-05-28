@@ -232,7 +232,7 @@ function PetsitterInfoManage() {
   const modify = (
     <Container>
       <Content>
-        <p>펫시터 정보 수정 페이지</p>
+        <div className="title">펫시터 정보 수정 페이지</div>
         <form onSubmit={onSubmit}>
           <DivContainer>
             <p>집사진</p>

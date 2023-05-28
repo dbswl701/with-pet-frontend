@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 // import styled from 'styled-components';
 import axios from 'axios';
 import {
-  SideBar, ListContainer, ItemContainer, Button, Items,
+  SideBar, Button, ListContainer, ItemContainer, Items,
 } from '../../styles/sidebar/SidebarStyle';
 import UserDiaryListAdd from '../../pages/UserDiary/UserDiaryListAdd';
 
@@ -120,7 +120,7 @@ function UserSideBar({
     <>
       <SideBar>
         <div>
-          <button style={{ width: '256px' }} onClick={() => setOpen(true)}>일지 작성</button>
+          <Button onClick={() => setOpen(true)}>일지 작성</Button>
         </div>
         <UserDiaryListAdd open={open} setOpen={setOpen} setFilteredDiaries={setFilteredDiaries} filteredDiarie={filteredDiaries} />
         <ListContainer>
@@ -136,7 +136,7 @@ function UserSideBar({
             <Button value="USER" name="petsitterCheck" onClick={onChange}>펫시터</Button>
           </ItemContainer>
         </ListContainer>
-        <ListContainer>ß
+        <ListContainer>
           {/* <div>
           <button style={{ width: '256px' }} onClick={() => setOpen(true)}>일지 작성</button>
         </div> */}

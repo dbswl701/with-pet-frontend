@@ -55,19 +55,19 @@ function CurrentListItem({ item, setPrintBody }) {
         </ProfileContainer>
         <EvalContainer>
           <IconImg className="heart" src={heart} alt="heart" />
-          <Progress>
+          <Progress className="heart">
             <Dealt className="heart" dealt={item.affectionTemperature} />
           </Progress>
           <p className="heart">{item.affectionTemperature}%</p>
         </EvalContainer>
         <EvalContainer>
           <IconImg className="social" src={social} alt="social" />
-          <Progress>
+          <Progress className="social">
             <Dealt className="social" dealt={item.socializationTemperature} />
           </Progress>
           <p className="social">{item.socializationTemperature}%</p>
         </EvalContainer>
-        <div>
+        <div className="sidebutton">
           {showDiv && showButton}
         </div>
       </ItemContainer>
