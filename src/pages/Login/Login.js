@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import styled from "styled-components";
-import TextField from "@mui/material/TextField";
-import dogBanner from "../../assets/dog_banner.png";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import styled from 'styled-components';
+import TextField from '@mui/material/TextField';
+import dogBanner from '../../assets/dog_banner.png';
 
 const Container = styled.div`
   display: flex;
@@ -71,27 +71,27 @@ const ButtonSignUp = styled.button`
 `;
 
 function Login({ setState }) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const onSubmit = (e) => {
     e.preventDefault();
     axios
       .post(
-        "https://withpet.site/api/v1/users/login",
+        'https://withpet.site/api/v1/users/login',
         {
           id: username,
           password,
         },
-        { withCredentials: true }
+        { withCredentials: true },
       )
       .then(() => {
-        setState("login");
-        alert("로그인에 성공했습니다."); // eslint-disable-line no-alert
-        navigate("../");
+        setState('login');
+        alert('로그인에 성공했습니다.'); // eslint-disable-line no-alert
+        navigate('../');
       })
       .catch(() => {
-        alert("로그인에 실패했습니다."); // eslint-disable-line no-alert
+        alert('로그인에 실패했습니다.'); // eslint-disable-line no-alert
       });
   };
 
@@ -107,7 +107,7 @@ function Login({ setState }) {
           <Card>
             <FormTitle>로그인</FormTitle>
             <Form>
-              <div style={{ textAlign: "center" }}>
+              <div style={{ textAlign: 'center' }}>
                 <FormGroup>
                   <TextField
                     label="ID 입력"
@@ -134,7 +134,7 @@ function Login({ setState }) {
               <Button type="submit" onClick={onSubmit}>
                 로그인
               </Button>
-              <ButtonSignUp type="submit" onClick={() => navigate("../signup")}>
+              <ButtonSignUp type="submit" onClick={() => navigate('../signup')}>
                 회원가입
               </ButtonSignUp>
             </Form>

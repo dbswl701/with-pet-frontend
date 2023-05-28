@@ -20,7 +20,7 @@ function PetsitterInfoModifyHashTag({ hashTags, setHashTags }) {
   const onSubmit = () => {
     axios.put('https://withpet.site/api/v1/petsitter/update-hashtags', { petSitterHashTagRequests: hashTags }, { withCredentials: true })
       .then((res) => {
-        console.log(res.data.result);
+        // console.log(res.data.result);
         // eslint-disable-next-line no-alert
         alert(res.data.result);
       })

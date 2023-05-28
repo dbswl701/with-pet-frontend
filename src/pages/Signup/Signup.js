@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 const Container = styled.div`
   width: 500px;
@@ -89,16 +89,16 @@ const Form = styled.form`
 
 function SignupForm() {
   const navigate = useNavigate();
-  const [imageSrc, setImageSrc] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [addressRoad, setAddressRoad] = useState("");
-  const [addressPost, setAddressPost] = useState("");
-  const [addressDtail, setAddressDtail] = useState("");
-  const [email, setEmail] = useState("");
+  const [imageSrc, setImageSrc] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [addressRoad, setAddressRoad] = useState('');
+  const [addressPost, setAddressPost] = useState('');
+  const [addressDtail, setAddressDtail] = useState('');
+  const [email, setEmail] = useState('');
 
   const encodeFileToBase64 = (fileBlob) => {
     const reader = new FileReader();
@@ -115,25 +115,25 @@ function SignupForm() {
     e.preventDefault();
     // 회원가입 시 백엔드로 보내는 로직
     if (password !== passwordConfirm) {
-      alert("비밀번호가 일치하지 않습니다."); // eslint-disable-line no-alert
-      setPasswordConfirm("");
+      alert('비밀번호가 일치하지 않습니다.'); // eslint-disable-line no-alert
+      setPasswordConfirm('');
       return;
     }
     if (
-      username === "" ||
-      password === "" ||
-      name === "" ||
-      phone === "" ||
-      addressRoad === "" ||
-      addressPost === "" ||
-      addressDtail === "" ||
-      email === ""
+      username === ''
+      || password === ''
+      || name === ''
+      || phone === ''
+      || addressRoad === ''
+      || addressPost === ''
+      || addressDtail === ''
+      || email === ''
     ) {
-      alert("빈 칸을 모두 입력해주세요."); // eslint-disable-line no-alert
+      alert('빈 칸을 모두 입력해주세요.'); // eslint-disable-line no-alert
       return;
     }
     axios
-      .post("https://withpet.herokuapp.com/users/signup", {
+      .post('https://withpet.herokuapp.com/users/signup', {
         username,
         password,
         name,
@@ -144,13 +144,13 @@ function SignupForm() {
         email,
         image: imageSrc,
       })
-      .then((res) => {
-        console.log(res);
-        navigate("/login");
+      .then(() => {
+        // console.log(res);
+        navigate('/login');
       })
-      .catch((err) => {
-        console.error(err);
-        alert("회원가입에 실패했습니다. 다시 시도해주세요."); // eslint-disable-line no-alert
+      .catch(() => {
+        // console.error(err);
+        alert('회원가입에 실패했습니다. 다시 시도해주세요.'); // eslint-disable-line no-alert
       });
   };
 

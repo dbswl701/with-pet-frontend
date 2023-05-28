@@ -85,7 +85,7 @@ function PetList() {
     axios.get('https://withpet.site/api/v1/dogs', { withCredentials: true })
       .then((res) => {
         setPets(res.data.result);
-        console.log(res.data.result);
+        // console.log(res.data.result);
       })
       .catch(() => {
       });
@@ -124,7 +124,7 @@ function PetList() {
     <>
       <div className="list_container">
         {pets && pets.map((pet) => {
-          console.log(pet);
+          // console.log(pet);
           return <Pet pet={pet} key={pet.dog_id} onSubmitModify={onSubmitModify} />;
         })}
         <PetAdd pets={pets} setPets={setPets} onSubmit={onSubmit} onChange={onChange} petInfo={petInfo} onCancle={onCancle} />

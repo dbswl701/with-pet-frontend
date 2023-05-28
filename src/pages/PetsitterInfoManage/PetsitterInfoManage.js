@@ -157,7 +157,7 @@ function PetsitterInfoManage() {
 
   const onRemoveHousImg = (id) => {
     // 집 이미지 하나 삭제
-    console.log(id);
+    // console.log(id);
     setHouseImgList(houseImgList.filter((img) => (img !== id)));
   };
 

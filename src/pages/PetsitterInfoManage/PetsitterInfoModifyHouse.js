@@ -30,14 +30,14 @@ function PetsitterInfoModifyHouse({ houseImgList, setHouseImgList }) {
 
   const onRemoveHousImg = (id) => {
     // 집 이미지 하나 삭제
-    console.log(id);
+    // console.log(id);
     setHouseImgList(houseImgList.filter((img) => (img.houseImg !== id)));
   };
 
   const onSubmit = () => {
     axios.put('https://withpet.site/api/v1/petsitter/update-houses', { petSitterHousesRequests: houseImgList }, { withCredentials: true })
       .then((res) => {
-        console.log(res.data.result);
+        // console.log(res.data.result);
         // eslint-disable-next-line no-alert
         alert(res.data.result);
       })
