@@ -3,44 +3,40 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { FormContainer, StyledInput } from './ApplyStyle';
 
 function BasicInfo({ info, onChange, onSubmit }) {
   return (
-    <form onSubmit={onSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
-      <Typography component="h2" variant="h6" color="primary" gutterBottom>기본 정보</Typography>
-      <TextField sx={{ m: 1 }} label="1. 강아지 반려 경험 " variant="outlined" name="applicant_animal_career" onChange={onChange} value={info.applicant_animal_career} required />
-      <TextField sx={{ m: 1 }} label="3. 현재 반려견와 같이 지내는지" variant="outlined" name="applicant_having_with_pet" onChange={onChange} value={info.applicant_having_with_pet} required />
-      <TextField sx={{ m: 1 }} label="4. 주민등록번호" variant="outlined" name="applicant_identification" maxlength="6" onChange={onChange} value={info.applicant_identification} required />
-      <div className="select2">
-        <p>5. 흡연 여부</p>
-        <input type="radio" name="applicant_is_smoking" id="true" value="true" onChange={onChange} checked={info.applicant_is_smoking === 'true'} required />
-        <label htmlFor="male">수컷</label>
-        <input type="radio" name="applicant_is_smoking" id="false" value="false" onChange={onChange} checked={info.applicant_is_smoking === 'false'} />
-        <label htmlFor="female">암컷</label>
-      </div>
-      <img id="preview-image" alt="이미지 미리보기" src={info.applicant_license_img} />
-      <label htmlFor="image-select">6. 자격증 등록</label>
-      <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} onChange={onChange} />
-      <TextField sx={{ m: 1 }} label="7. 지원 동기" variant="outlined" name="applicant_motivate" onChange={onChange} value={info.applicant_motivate} required />
-      <TextField sx={{ m: 1 }} label="2. 타인의 반려동물을 돌봐준 경험" variant="outlined" name="applicant_care_experience" onChange={onChange} value={info.applicant_care_experience} required />
-      <TextField sx={{ m: 1 }} label="8. 펫시터 경력" variant="outlined" name="applicant_petsitter_career" onChange={onChange} value={info.applicant_petsitter_career} required />
-      <input type="submit" value="제출" />
-    </form>
+    <>
+      <FormContainer onSubmit={onSubmit}>
+        <Typography component="h2" variant="h6" color="primary" gutterBottom sx={{ color: '#caa969' }} align="left">기본 정보</Typography>
+        <TextField sx={{ m: 1, width: 1 / 2 }} label="1. 지원 동기" variant="outlined" name="applicant_motivate" onChange={onChange} value={info.applicant_motivate} required />
+        <TextField sx={{ m: 1, width: 1 / 2 }} label="2. 펫시터 경력" variant="outlined" name="applicant_petsitter_career" onChange={onChange} value={info.applicant_petsitter_career} required />
+        <TextField sx={{ m: 1, width: 1 / 2 }} label="3. 주민등록번호" variant="outlined" name="applicant_identification" maxLength="6" onChange={onChange} value={info.applicant_identification} required />
+        <div className="select2">
+          <p>4. 흡연 여부</p>
+          <input type="radio" name="applicant_is_smoking" id="true" value="true" onChange={onChange} checked={info.applicant_is_smoking === 'true'} required />
+          <label htmlFor="male">O</label>
+          <input type="radio" name="applicant_is_smoking" id="false" value="false" onChange={onChange} checked={info.applicant_is_smoking === 'false'} />
+          <label htmlFor="female">X</label>
+        </div>
+        <div className="select2">
+          <p>5. 강아지 반려 경험 여부</p>
+          <input className="radio" type="radio" name="applicant_having_with_pet" id="true" value="true" onChange={onChange} checked={info.applicant_having_with_pet === 'true'} required />
+          <label htmlFor="male">O</label>
+          <input className="radio" type="radio" name="applicant_having_with_pet" id="false" value="false" onChange={onChange} checked={info.applicant_having_with_pet === 'false'} />
+          <label htmlFor="female">X</label>
+        </div>
+        <TextField sx={{ m: 1, width: 1 / 2 }} label="6. 타인의 반려 동물을 돌봐준 경험" variant="outlined" name="applicant_care_experience" onChange={onChange} value={info.applicant_care_experience} required />
+        <img id="preview-image" alt="이미지 미리보기" src={info.applicant_license_img} />
+        <label className="radio" htmlFor="image-select">6. 자격증 등록</label>
+        <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} onChange={onChange} />
+        <TextField sx={{ m: 1, width: 1 / 2 }} label="7. applicant_having_with_pet " variant="outlined" name="applicant_animal_career" onChange={onChange} value={info.applicant_animal_career} required />
+        <StyledInput type="submit" value="제출" />
+      </FormContainer>
+    </>
   );
 }
-
-// function Career({ info, onChange }) {
-//   return (
-//     <div style={{ display: 'flex', flexDirection: 'column' }}>
-//       <TextField sx={{ m: 1 }} label="1. 자격증" variant="outlined" size="small" name="cert_img" onChange={onChange} value={info.cert_img} required />
-//       <Typography component="h2" variant="h6" color="primary" gutterBottom>2. 반려 경험 및 경력</Typography>
-//       <TextField sx={{ m: 1 }} label="1. 이름" variant="outlined" size="small" name="name" onChange={onChange} value={info.name} required />
-//       <TextField sx={{ m: 1 }} label="2. 주민등록번호" variant="outlined" size="small" name="identification" onChange={onChange} value={info.identification} required />
-//       <TextField sx={{ m: 1 }} label="3. 흡연 여부" variant="outlined" size="small" name="is_smoking" onChange={onChange} value={info.is_smoking} required />
-//       <TextField sx={{ m: 1 }} label="4. 자격증" variant="outlined" size="small" name="cert_img" onChange={onChange} value={info.cert_img} required />
-//     </div>
-//   );
-// }
 
 function PetsitterApply() {
   const navigate = useNavigate();
@@ -57,7 +53,7 @@ function PetsitterApply() {
 
   const onChange = (e) => {
     if (e.target.files) {
-      console.log('img change');
+      // console.log('img change');
       const file = e.target.files[0];
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -67,42 +63,37 @@ function PetsitterApply() {
           applicant_license_img: reader.result,
         });
       };
-    } else if (e.target.name === 'applicant_identification') {
-      const value = Number(e.target.value);
-      if (Number.isNaN(value)) return;
-      if (value === 0) return;
-      setInfo({
-        ...info,
-        applicant_identification: value,
-      });
     } else {
-      console.log(info);
+      // console.log(info);
       const { value, name } = e.target;
       setInfo({
         ...info,
         [name]: value,
       });
     }
-    console.log(info);
+    // console.log(info);
   };
 
-  const onSubmit = () => {
-    axios.post('/api/v1/users/applicate-petsitter', info)
+  const onSubmit = (e) => {
+    e.preventDefault();
+    // console.log(info);
+    axios.post('https://withpet.site/api/v1/users/applicate-petsitter', info, { withCredentials: true })
       .then(() => {
+        // 성공했다고 알려주고
+        navigate('../');
       })
       .catch(() => {
       });
-    navigate('../');
+    // navigate('../');
   };
 
   return (
     <>
-      <div style={{ margin: '0px 400px' }}>
+      <>
         <BasicInfo info={info} onChange={onChange} onSubmit={onSubmit} />
-        {/* <Career /> */}
-        {/* <Other /> */}
-      </div>
+      </>
     </>
   );
 }
+
 export default PetsitterApply;

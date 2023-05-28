@@ -7,7 +7,7 @@ function UserDiary({ diary, onSubmitModify }) {
   const [toggle, setToggle] = useState("simple");
   const simple = (
     <>
-      <img className="diary-img" src={diary.media} alt="오늘의 사진" />
+      <img className="diary-img" src={diary.dogImgToday} alt="오늘의 사진" />
       <p>
         {diary.createdAt} / {diary.categoryName} / {diary.title}
       </p>
