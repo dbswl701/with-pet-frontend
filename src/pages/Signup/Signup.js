@@ -133,7 +133,7 @@ function SignupForm() {
       return;
     }
     axios
-      .post('https://withpet.herokuapp.com/api/v1/users/signup', {
+      .post('https://withpet.site/api/v1/users/signup', {
         username,
         password,
         name,
