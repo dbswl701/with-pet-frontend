@@ -26,21 +26,15 @@ function PetsitterShowInfo() {
   useEffect(() => {
     axios.get('https://withpet.site/api/v1/petsitter/show-myinfo', { withCredentials: true })
       .then((res) => {
-        // console.log(res.data.result);
         setInfo(res.data.result);
-        // console.log(res.data.result);
-        // console.log(res.data.result.introduction === null);
-        setInfo(res.data.result);
+        console.log(res.data.result);
       })
       .catch(() => {
       });
   }, []);
 
-  // console.log(info);
-  // console.log(info.withPetServices);
-  // console.log(info.petSitterServices);
   const onModify = () => {
-    navigate('../petsitterInfoManage');
+    navigate('../petsitterInfoModify');
   };
 
   const isServiceIdIncluded = info.withPetServices && info.withPetServices.map((service) => {
@@ -53,7 +47,6 @@ function PetsitterShowInfo() {
       price: selected ? selected.price : null,
     };
   });
-  // console.log(isServiceIdIncluded);
 
   const isCriticalServiceIdIncluded = info.criticalServices && info.criticalServices.map((service) => {
     const selected = info.petSitterServices.find((sitterService) => sitterService.serviceId === service.serviceId);
@@ -65,8 +58,6 @@ function PetsitterShowInfo() {
       price: selected ? selected.price : null,
     };
   });
-
-  // console.log(isServiceIdIncluded);
 
   const showInfo = (
     <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
@@ -122,9 +113,23 @@ function PetsitterShowInfo() {
     </div>
   );
 
+  const initPrint = (
+    <div>
+      <button onClick={() => navigate('../petsitterInfoManage')}>등록하기</button>
+    </div>
+  );
+
+  // 만약 펫시터의 정보가 하나도 없다면
+  let print = '';
+  if (info.introduction === null) {
+    print = initPrint;
+  } else {
+    print = showInfo;
+  }
+
   return (
     <>
-      { showInfo }
+      { print }
       {/* {info} */}
     </>
   );

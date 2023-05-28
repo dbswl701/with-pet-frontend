@@ -5,7 +5,7 @@ import React from 'react';
 // import axios from 'axios';
 // import styled from 'styled-components';
 import CurrentListItem from './CurrentListItem';
-import { ListContainer, Items } from '../../styles/sidebar/SidebarStyle';
+import { ListContainer, Items, Title } from '../../styles/sidebar/SidebarStyle';
 
 // const Title = styled.p`
 //   display: flex;
@@ -42,7 +42,7 @@ function CurrentList({ useReservations, setPrintBody }) {
 
   return (
     <ListContainer>
-      <p>현재 이용자 목록</p>
+      <Title>현재 이용자 목록</Title>
       <Items>
         {/* {currentList.map((currentItem) => { */}
         {/* return <CurrentListItem key={currentItem.id} item={currentItem} />; */}

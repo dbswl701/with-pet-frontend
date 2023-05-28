@@ -2,10 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import TextField from '@mui/material/TextField';
+import styled from 'styled-components';
 import {
   Container, Content, DivContainer, Button, CancelButton,
 } from './InfoStyle';
 
+const Label = styled.label`
+height: 40px;
+width: 100px;
+margin-bottom: 10px;
+background-color: #CAA969;
+color: white;
+box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
+border: none;
+border-radius: 5px;
+`;
 function Item1({ service, onRemove }) {
   // 1. 활성화 (isInclude === true)
   const includeed = (
@@ -80,18 +91,19 @@ function PetsitterInfoManage() {
 
   // 자격증 사진
   const [petSitterLicenseImg, setPetSitterLicenseImg] = useState('');
+
   useEffect(() => {
     axios.get('https://withpet.site/api/v1/petsitter/show-myinfo', { withCredentials: true })
       .then((res) => {
         // console.log(res.data.result);
         setInfo(res.data.result);
-        // console.log(res.data.result);
-        // console.log(res.data.result.introduction === null);
-        setInfo(res.data.result);
+        // // console.log(res.data.result);
+        // // console.log(res.data.result.introduction === null);
+        // setInfo(res.data.result);
 
-        setIntroduction(res.data.result.introduction);
-        setHashTags(res.data.result.petSitterHashTags);
-        setHouseImgList(res.data.result.petSitterHouses);
+        // setIntroduction(res.data.result.introduction);
+        // setHashTags(res.data.result.petSitterHashTags);
+        // setHouseImgList(res.data.result.petSitterHouses);
         setCriticalServices(res.data.result.petSitterCriticalServices);
         setServiceSelectList(res.data.result.petSitterServices);
         setPetSitterLicenseImg(res.data.result.petSitterLicenseImg);
@@ -107,7 +119,7 @@ function PetsitterInfoManage() {
 
     const houseList = houseImgList.map((houseImg, index) => {
       const representative = index === 0;
-      return { houseImg: houseImg.trim(), representative };
+      return { houseImg, representative };
     });
     const updatedInfo = {
       introduction,
@@ -117,7 +129,7 @@ function PetsitterInfoManage() {
       petSitterServiceRequests: serviceSelectList,
     };
     // console.log(updatedInfo);
-    axios.put('https://withpet.site/api/v1/petsitter/update-myinfo', updatedInfo, { withCredentials: true })
+    axios.post('https://withpet.site/api/v1/petsitter/register-myinfo', updatedInfo, { withCredentials: true })
       .then(() => {
         // console.log(res.data.result);
         navigate('../petsitterShowInfo');
@@ -134,20 +146,19 @@ function PetsitterInfoManage() {
     } else {
       setHashTags([...hashTags, { petSitterHashTagId: 0, hashTagName: hashTag }]);
     }
-    // nextId.current += 1;
-    // console.log(hashTag);
+    setHashTag('');
   };
   // console.log(hashTags);
   // console.log(introduction);
   const onRemoveHashtag = (id) => {
     // 해시태그 하나 삭제
-    setHashTags(hashTags.filter((tag) => (tag.petSitterHashTagId !== id)));
+    setHashTags(hashTags.filter((tag) => (tag !== id)));
   };
 
   const onRemoveHousImg = (id) => {
     // 집 이미지 하나 삭제
-    // console.log(id);
-    setHouseImgList(houseImgList.filter((img) => (img.houseId !== id)));
+    console.log(id);
+    setHouseImgList(houseImgList.filter((img) => (img !== id)));
   };
 
   const handleImageChange = (e) => {
@@ -188,12 +199,6 @@ function PetsitterInfoManage() {
     setIsCriticalServiceIdIncluded(includedServices);
   }, [criticalServices]);
 
-  // console.log(serviceSelectList);
-  // const [newList, setNewList] = useState(isServiceIdIncluded);
-  // console.log(isServiceIdIncluded);
-  // console.log(criticalServices);
-  // console.log(newList);
-
   const onRemoveService = (id) => { // sercieId 건너옴
     // 활성화된 서비스 삭제 눌렀을 경우
     // console.log(id);
@@ -221,7 +226,7 @@ function PetsitterInfoManage() {
   const modify = (
     <Container>
       <Content>
-        <p>펫시터 정보 수정 페이지</p>
+        <div className="title">펫시터 정보 수정 페이지</div>
         <form onSubmit={onSubmit}>
           <DivContainer>
             <p>집사진</p>
@@ -232,15 +237,16 @@ function PetsitterInfoManage() {
               <div key={index}>
                 <img key={img} src={img} alt="집사진" style={{ width: '200px', height: '200px' }} />
                 {/* <input type="button" value="x" /> */}
-                <CancelButton className="cancel" value="X" onClick={() => onRemoveHousImg(img.houseId)}>X</CancelButton>
+                <CancelButton className="cancel" value="X" onClick={() => onRemoveHousImg(img)}>X</CancelButton>
                 { index === 0 ? <p>대표사진</p> : <p> </p>}
               </div>
             ))
           }
             {/* </div> */}
             <>
-              <input className="file" style={{ display: 'none' }} type="file" accept="image/*" />
-              <Button multiple onChange={handleImageChange}>집 사진 업로드</Button>
+              <input id="file" multiple style={{ visibility: 'hidden' }} type="file" accept="image/*" onChange={handleImageChange} />
+              {/* <Button multiple onChange={handleImageChange}>집 사진 업로드</Button> */}
+              <Label htmlFor="file">이미지 추가</Label>
             </>
           </DivContainer>
           <DivContainer>
@@ -251,14 +257,14 @@ function PetsitterInfoManage() {
                   #{tag.hashTagName}&ensp;
                   {/* <span># {tag.hashTagName}</span> */}
                   {/* <input type="button" value="x" onClick={() => onRemoveHashtag(tag.petSitterHashTagId)} /> */}
-                  <CancelButton className="cancel" value="X" onClick={() => onRemoveHashtag(tag.petSitterHashTagId)}>X</CancelButton>&ensp;
+                  <CancelButton className="cancel" value="X" onClick={() => onRemoveHashtag(tag)}>X</CancelButton>&ensp;
                 </div>
               ))}
             </div>
             <TextField sx={{ m: 1 }} variant="outlined" size="small" name="hashTagName" onChange={(e) => setHashTag(e.target.value)} value={hashTag} />
             {/* <TextField sx={{ m: 1 }} label="해시태그" variant="outlined" size="small" name="hashTagName" onChange={(e) => setHashTag(e.target.value)} value={hashTag} /> */}
-            {/* <input type="button" onClick={handleHashtag} value="추가" /> */}
-            <Button onClick={handleHashtag} value="추가">추가</Button>
+            <input type="button" onClick={handleHashtag} value="추가" />
+            {/* <Button onClick={handleHashtag} value="추가">추가</Button> */}
           </DivContainer>
           <DivContainer>
             <p>소개글</p>

@@ -19,7 +19,6 @@ import {
 } from '../../styles/main/MainPageStyle';
 // import dogBanner from '../../assets/dog_banner.png';
 
-
 // const BannerBox = styled.div`
 // display: flex;
 // flex-wrap: wrap;
@@ -63,7 +62,9 @@ function MainPage() {
           <RenderGroup />
         </SelectContainer>
         <CardContainer className="petsitterlist">
+          {/* <CardWrapper> */}
           <MediaCardGrid cards={temp} />
+          {/* </CardWrapper> */}
         </CardContainer>
       </Content>
     </Background>

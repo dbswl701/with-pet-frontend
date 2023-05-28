@@ -1,26 +1,51 @@
 import React, { useState } from 'react';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
-// import axios from 'axios';
 import Typography from '@mui/material/Typography';
 import dogimgdefault from '../../assets/dogProfileImage.png';
 
-function DiaryAdd({
-  onSubmit, onChange, petInfo, onCancle,
-}) {
-  const [isClick, setisClick] = useState(false);
+function PetModify({ onSubmit, petInfo, onToggle }) {
+  const [modifyPetInfo, setModifyPetInfo] = useState({
+    dog_name: petInfo.dog_name,
+    dog_breed: petInfo.dog_breed,
+    dog_birth: petInfo.dog_birth,
+    dog_gender: petInfo.dog_gender,
+    neutralization: petInfo.neutralization ? 'true' : 'false',
+    dog_weight: petInfo.dog_weight,
+    dog_img: petInfo.dog_img,
+    dog_isbn: petInfo.dog_isbn,
+  });
+  const onChange = (e) => {
+    if (e.target.files) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setModifyPetInfo({
+          ...modifyPetInfo,
+          dog_img: reader.result,
+        });
+      };
+    } else {
+      const { value, name } = e.target;
+      setModifyPetInfo({
+        ...modifyPetInfo,
+        [name]: value,
+      });
+    }
+  };
+
   const onLocalSubmit = (e) => {
-    onSubmit(e);
-    setisClick(false);
+    e.preventDefault();
+    onToggle('detail');
+    setModifyPetInfo({
+      ...modifyPetInfo,
+      neutralization: modifyPetInfo.neutralization === 'true',
+    });
+    onSubmit(petInfo.dog_id, modifyPetInfo);
   };
 
-  const onLocalCancle = () => {
-    onCancle();
-    setisClick(false);
-  };
-
-  const addinfo = (
+  const modify = (
     <form onSubmit={onLocalSubmit}>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
@@ -83,32 +108,18 @@ function DiaryAdd({
         </div>
 
         <div>
-          <input className="pet-add-btn" type="submit" value="submit" />
+          <input className="pet-add-btn" type="submit" value="수정" />
           <input
             className="pet-add-btn pet-add-cancel-btn"
             type="button"
-            value="cancel"
-            onClick={onLocalCancle}
+            value="취소"
+            onClick={() => onToggle('detail')}
           />
         </div>
       </div>
     </form>
   );
-
-  return (
-    <div className={`${!isClick ? 'pet-add' : 'pet-detail'}`}>
-      {isClick !== true ? (
-        <AddCircleOutlineIcon
-          fontSize="large"
-          onClick={() => {
-            setisClick(true);
-          }}
-        />
-      ) : (
-        addinfo
-      )}
-    </div>
-  );
+  return <>{modify}</>;
 }
 
-export default DiaryAdd;
+export default PetModify;
