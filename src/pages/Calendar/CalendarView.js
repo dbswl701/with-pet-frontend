@@ -61,7 +61,7 @@ function CalendarView({
         defaultDate={new Date()}
         defaultView="month"
         events={filteredDiaries}
-        style={{ height: '700px', width: '1000px' }}
+        style={{ height: '700px', width: '1000px', marginTop: '30px' }}
         // 눌렀을 때, 해당 일의 필터링된 일지를 확인할 수 있다.
         onSelectEvent={(event) => onDayClick(event)}
         // onSelectEvent={() => alert(filter.categoryId)}

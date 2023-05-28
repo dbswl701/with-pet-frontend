@@ -68,16 +68,25 @@ function CalendarView({ setSelectedMonth, selectedMonth }) {
 
   return (
     <div className="App">
-      <Calendar
-        views={['month']}
-        localizer={localizer}
-        defaultDate={new Date()}
-        defaultView="month"
-        events={eventsData}
-        style={{ height: '700px', width: '1000px' }}
-        eventPropGetter={eventStyleGetter}
-        onNavigate={handleNavigate}
-      />
+      {/* <div style={{
+        position: 'relative', width: '1000px', height: '700px', paddingBottom: '100%', marginTop: '25px',
+      }} */}
+      <div>
+        <Calendar
+          classsName="calendar"
+          views={['month']}
+          localizer={localizer}
+          defaultDate={new Date()}
+          defaultView="month"
+          events={eventsData}
+          style={{ height: '700px', width: '1000px', marginTop: '30px' }}
+          eventPropGetter={eventStyleGetter}
+          onNavigate={handleNavigate}
+          // style={{
+          //   position: 'absolute', width: '100%', height: '100%', top: '0', left: '0',
+          // }}
+        />
+      </div>
     </div>
   );
 }

@@ -62,7 +62,9 @@ function MainPage() {
           <RenderGroup />
         </SelectContainer>
         <CardContainer className="petsitterlist">
+          {/* <CardWrapper> */}
           <MediaCardGrid cards={temp} />
+          {/* </CardWrapper> */}
         </CardContainer>
       </Content>
     </Background>
