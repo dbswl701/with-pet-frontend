@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar = styled.div`
 display: flex;
@@ -22,16 +23,17 @@ const Button = styled.button`
   height: 40px;
   margin-bottom: 20px;
 `;
-function PetsitterInfoModifySidebar() {
+function PetsitterInfoModifySidebar({ setMenu }) {
+  const navigate = useNavigate();
   return (
     <Sidebar>
-      <Button>집사진</Button>
-      <Button>해시태그</Button>
-      <Button>소개글</Button>
-      <Button>자격증</Button>
-      <Button>이용가능서비스</Button>
-      <Button>필수서비스</Button>
-
+      <Button onClick={() => setMenu('house')}>집사진</Button>
+      <Button onClick={() => setMenu('hashtag')}>해시태그</Button>
+      <Button onClick={() => setMenu('intro')}>소개글</Button>
+      <Button onClick={() => setMenu('license')}>자격증</Button>
+      <Button onClick={() => setMenu('service')}>이용가능서비스</Button>
+      <Button onClick={() => setMenu('criticalService')}>필수서비스</Button>
+      <Button onClick={() => navigate('../petsitterShowInfo')}>돌아가기</Button>
     </Sidebar>
   );
 }
