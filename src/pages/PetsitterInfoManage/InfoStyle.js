@@ -31,7 +31,7 @@ export const DivContainer = styled.div`
     flex-direction: column;
     text-align: left;
     width: 50vw;
-    background-color: purple;
+    // background-color: purple;
     .list {
         flex-direction: row;
     }
