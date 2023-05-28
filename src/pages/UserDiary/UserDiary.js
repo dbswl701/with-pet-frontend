@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
-import UserDiaryModify from './UserDiaryModify';
-import UserDiaryDetail from './UserDiaryDetail';
+import React, { useState } from "react";
+import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
+import UserDiaryModify from "./UserDiaryModify";
+import UserDiaryDetail from "./UserDiaryDetail";
 
 function UserDiary({ diary, onSubmitModify }) {
-  const [toggle, setToggle] = useState('simple');
+  const [toggle, setToggle] = useState("simple");
   const simple = (
     <>
       <img className="diary-img" src={diary.media} alt="오늘의 사진" />
@@ -14,7 +14,7 @@ function UserDiary({ diary, onSubmitModify }) {
       <ExpandCircleDownIcon
         className="down-icon"
         fontSize="large"
-        onClick={() => setToggle('detail')}
+        onClick={() => setToggle("detail")}
       />
     </>
   );
@@ -26,10 +26,10 @@ function UserDiary({ diary, onSubmitModify }) {
   let print = simple;
 
   switch (toggle) {
-    case 'detail':
+    case "detail":
       print = <UserDiaryDetail diary={diary} onToggle={onToggle} />;
       break;
-    case 'modify':
+    case "modify":
       print = (
         <UserDiaryModify
           diaryInfo={diary}
@@ -38,16 +38,15 @@ function UserDiary({ diary, onSubmitModify }) {
         />
       );
       break;
-    case 'simple':
+    case "simple":
       print = simple;
       break;
-      e;
     default:
       print = simple;
       break;
   }
   return (
-    <div className={`${toggle === 'simple' ? 'diary-block' : 'diary-detail'}`}>
+    <div className={`${toggle === "simple" ? "diary-block" : "diary-detail"}`}>
       {print}
     </div>
   );
