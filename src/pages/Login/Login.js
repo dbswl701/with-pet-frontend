@@ -61,7 +61,7 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const Button_signUp = styled.button`
+const ButtonSignUp = styled.button`
   color: #000;
   background-color: #fff;
   padding: 10px;
@@ -122,7 +122,7 @@ function Login({ setState }) {
                 <FormGroup>
                   <TextField
                     label="PW 입력"
-                    type="text"
+                    type="password"
                     id="password"
                     size="small"
                     value={password}
@@ -134,12 +134,9 @@ function Login({ setState }) {
               <Button type="submit" onClick={onSubmit}>
                 로그인
               </Button>
-              <Button_signUp
-                type="submit"
-                onClick={() => navigate("../signup")}
-              >
+              <ButtonSignUp type="submit" onClick={() => navigate("../signup")}>
                 회원가입
-              </Button_signUp>
+              </ButtonSignUp>
             </Form>
           </Card>
         </Container>
