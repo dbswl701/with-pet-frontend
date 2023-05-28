@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
-import './Pets.css';
-import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
-import PetModify from './PetModify';
-import PetDetail from './PetDetail';
+import React, { useState } from "react";
+import "./Pets.css";
+import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
+import PetModify from "./PetModify";
+import PetDetail from "./PetDetail";
 
 function Pet({ pet, onSubmitModify }) {
-  const [toggle, setToggle] = useState('simple');
+  const [toggle, setToggle] = useState("simple");
   const simple = (
     <>
       <img className="pet-img" src={pet.dog_img} alt="반려견 프로필 사진" />
-      <p>{pet.dog_name} / {pet.dog_breed} / {pet.dog_birth}</p>
-      <ExpandCircleDownIcon className="down-icon" fontSize="large" onClick={() => setToggle('detail')} />
+      <p>
+        {pet.dog_name} / {pet.dog_breed} / {pet.dog_birth}
+      </p>
+      <ExpandCircleDownIcon
+        className="down-icon"
+        fontSize="large"
+        onClick={() => setToggle("detail")}
+      />
     </>
   );
 
@@ -21,13 +27,19 @@ function Pet({ pet, onSubmitModify }) {
   let print = simple;
 
   switch (toggle) {
-    case 'detail':
+    case "detail":
       print = <PetDetail pet={pet} onToggle={onToggle} />;
       break;
-    case 'modify':
-      print = <PetModify petInfo={pet} onSubmit={onSubmitModify} onToggle={onToggle} />;
+    case "modify":
+      print = (
+        <PetModify
+          petInfo={pet}
+          onSubmit={onSubmitModify}
+          onToggle={onToggle}
+        />
+      );
       break;
-    case 'simple':
+    case "simple":
       print = simple;
       break;
     default:
@@ -35,8 +47,8 @@ function Pet({ pet, onSubmitModify }) {
       break;
   }
   return (
-    <div className={`${toggle === 'simple' ? 'pet-block' : 'pet-detail'}`}>
-      { print }
+    <div className={`${toggle === "simple" ? "pet-block" : "pet-detail"}`}>
+      {print}
     </div>
   );
 }
