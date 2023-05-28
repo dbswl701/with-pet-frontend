@@ -133,7 +133,7 @@ function SignupForm() {
       return;
     }
     axios
-      .post('https://withpet.herokuapp.com/users/signup', {
+      .post('https://withpet.herokuapp.com/api/v1/users/signup', {
         username,
         password,
         name,
@@ -195,7 +195,7 @@ function SignupForm() {
             />
             <label htmlFor="image">프로필 사진</label>
             {imageSrc && <img src={imageSrc} alt="프로필 사진 미리보기" />}
-            <input type="file" onChange={handleImageUpload} />
+            <input type="file" accept="image/*" onChange={handleImageUpload} />
           </div>
           <div>
             <label htmlFor="phone">전화번호</label>
