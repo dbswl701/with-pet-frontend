@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
-import axios from 'axios';
+// import axios from 'axios';
 import Typography from '@mui/material/Typography';
 import dogimgdefault from '../../assets/dogProfileImage.png';
 
 function DiaryAdd({
-  onSubmit, onChange, petInfo, onCancle,
+  onSubmit, onChange, petInfo, onCancle, categories,
 }) {
   const [isClick, setisClick] = useState(false);
-  const [categories, setCategories] = useState([]);
+  // const [categories, setCategories] = useState([]);
   const onLocalSubmit = (e) => {
     onSubmit(e);
     setisClick(false);
@@ -21,12 +21,12 @@ function DiaryAdd({
     setisClick(false);
   };
 
-  useEffect(() => {
-    axios.get('https://withpet.site/api/v1/category', { withCredentials: true })
-      .then((res) => {
-        setCategories(res.data.result);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios.get('https://withpet.site/api/v1/category', { withCredentials: true })
+  //     .then((res) => {
+  //       setCategories(res.data.result);
+  //     });
+  // }, []);
 
   const addinfo = (
     <form onSubmit={onLocalSubmit}>
@@ -45,7 +45,7 @@ function DiaryAdd({
               size="small"
               required
             >
-              { categories.map((category) => <MenuItem key={category.categoryId} value={category.categoryId}>{category.name}</MenuItem>)}
+              { categories && categories.map((category) => <MenuItem key={category.categoryId} value={category.categoryId}>{category.name}</MenuItem>)}
             </TextField>
 
             <TextField

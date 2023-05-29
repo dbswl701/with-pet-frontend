@@ -70,7 +70,7 @@ const ButtonSignUp = styled.button`
   cursor: pointer;
 `;
 
-function Login({ setState }) {
+function Login({ setState, setUserInfo }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -85,9 +85,10 @@ function Login({ setState }) {
         },
         { withCredentials: true },
       )
-      .then(() => {
+      .then((res) => {
         setState('login');
         alert('로그인에 성공했습니다.'); // eslint-disable-line no-alert
+        setUserInfo(res.data.result);
         navigate('../');
       })
       .catch(() => {

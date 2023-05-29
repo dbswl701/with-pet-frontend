@@ -12,6 +12,8 @@ function PetList({ id }) {
   const [diaries, setDiaries] = useState([]);
   // const dateNow = new Date();
   // const today = dateNow.toISOString().slice(0, 10);
+  const [categories, setCategories] = useState([]);
+
   const [petInfo, setPetInfo] = useState({
     categoryId: '',
     contentBody: '',
@@ -71,6 +73,13 @@ function PetList({ id }) {
       });
   }, []);
 
+  useEffect(() => {
+    axios.get('https://withpet.site/api/v1/category', { withCredentials: true })
+      .then((res) => {
+        setCategories(res.data.result);
+      });
+  }, []);
+
   const onSubmitModify = (id2, modifyPetInfo) => {
     // setPets(pets.map((pet) => (pet.id === id ? modifyPetInfo : pet)));
     axios.put(`https://withpet.site/api/v1/dogs/${id2}`, modifyPetInfo, { withCredentials: true })
@@ -96,16 +105,16 @@ function PetList({ id }) {
       title: '',
     });
   };
-
+  console.log(diaries);
   return (
     <>
       <div style={{
         margin: '0px auto',
       }}
       >
-        <DiaryAdd pets={diaries} setPets={setDiaries} onSubmit={onSubmit} onChange={onChange} petInfo={petInfo} onCancle={onCancle} />
+        <DiaryAdd pets={diaries} setPets={setDiaries} onSubmit={onSubmit} onChange={onChange} petInfo={petInfo} onCancle={onCancle} categorie={categories} />
         {diaries && diaries.map((pet) => {
-          return <Diary pet={pet} key={pet.petSitterDiaryId} onSubmitModify={onSubmitModify} />;
+          return <Diary pet={pet} key={pet.petSitterDiaryId} onSubmitModify={onSubmitModify} categories={categories} />;
         })}
       </div>
     </>
