@@ -144,7 +144,7 @@ function SignupForm() {
           detailAdr: addressDtail,
         },
         userEmail: email,
-        image: imageSrc,
+        profileImg: imageSrc[0],
         userPasswordCheck: passwordConfirm,
       })
       .then(() => {
@@ -180,6 +180,7 @@ function SignupForm() {
     axios.post('https://withpet.site/api/v1/file/upload', formData, config)
       .then((res) => {
         setImageSrc(res.data.result);
+        console.log(res.data.result);
       });
   };
 

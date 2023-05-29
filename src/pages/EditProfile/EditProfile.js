@@ -5,16 +5,16 @@ const url = 'https://withpet.site/api/v1/users/my-info';
 
 function EditProfile() {
   const [imageSrc, setImageSrc] = useState('');
-  const encodeFileToBase64 = (fileBlob) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(fileBlob);
-    return new Promise((resolve) => {
-      reader.onload = () => {
-        setImageSrc(reader.result);
-        resolve();
-      };
-    });
-  };
+  // const encodeFileToBase64 = (fileBlob) => {
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(fileBlob);
+  //   return new Promise((resolve) => {
+  //     reader.onload = () => {
+  //       setImageSrc(reader.result);
+  //       resolve();
+  //     };
+  //   });
+  // };
   const [modifyInfo, setModifyInfo] = useState({});
   useEffect(() => {
     axios
@@ -32,6 +32,7 @@ function EditProfile() {
           userId: info.userId,
           userName: info.userName,
         });
+        setImageSrc(info.profileImg);
       })
       .catch(() => {
         // console.log(error);
@@ -95,7 +96,7 @@ function EditProfile() {
       <input
         type="file"
         onChange={(e) => {
-          encodeFileToBase64(e.target.files[0]);
+          setImageSrc(e.target.files[0]);
         }}
       />
       <br />
