@@ -5,28 +5,23 @@ import DiaryAdd from './DiaryAdd';
 import Diary from './Diary';
 // import Pet from './Pet';
 // import PetAdd from './PetAdd';
-import dogimgdefault from '../../assets/dogProfileImage.png';
-import dogdiaryimgsample from '../../assets/dogdiaryimgsample.png';
+// import dogimgdefault from '../../assets/dogProfileImage.png';
+// import dogdiaryimgsample from '../../assets/dogdiaryimgsample.png';
 
-function PetList() {
+function PetList({ id }) {
   const [diaries, setDiaries] = useState([]);
-  const dateNow = new Date();
-  const today = dateNow.toISOString().slice(0, 10);
+  // const dateNow = new Date();
+  // const today = dateNow.toISOString().slice(0, 10);
   const [petInfo, setPetInfo] = useState({
-    dog_name: '',
-    dog_breed: '',
-    dog_birth: dayjs(today),
-    dog_gender: '',
-    neutralization: '',
-    dog_weight: '',
-    dog_img: '',
-    dog_isbn: '',
+    categoryId: '',
+    contentBody: '',
+    createdAt: dayjs(new Date()).format('YYYY-MM-DD'),
+    dogImgToday: '',
+    title: '',
   });
   // const nextId = useRef(3);
 
   const onChange = (e) => {
-    // console.log(dateNow);
-    // console.log(today);
     if (e.target.files) {
       const file = e.target.files[0];
       const reader = new FileReader();
@@ -34,7 +29,7 @@ function PetList() {
       reader.onloadend = () => {
         setPetInfo({
           ...petInfo,
-          dog_img: reader.result,
+          dogImgToday: reader.result,
         });
       };
     } else {
@@ -48,82 +43,37 @@ function PetList() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    let img = petInfo.dog_img;
-    if (img === '') {
-      img = dogimgdefault;
-    }
+    // let img = petInfo.dog_img;
+    // if (img === '') {
+    //   img = dogimgdefault;
+    // }
     const pet = {
-      // dog_id: nextId.current,
-      dog_name: petInfo.dog_name,
-      dog_breed: petInfo.dog_breed,
-      dog_birth: petInfo.dog_birth,
-      dog_gender: petInfo.dog_gender,
-      neutralization: petInfo.neutralization,
-      dog_weight: petInfo.dog_weight,
-      dog_img: img,
-      dog_isbn: petInfo.dog_isbn,
+      ...petInfo,
+      dogId: id,
     };
     // nextId.current += 1;
-    axios.post('https://withpet.site/api/v1/dogs/register-dog', pet, { withCredentials: true })
+    console.log(pet);
+    axios.post('https://withpet.site/api/v1/petsitter-diaries', pet, { withCredentials: true })
       .then((res) => {
         setDiaries(diaries.concat(res.data.result));
       })
       .catch(() => {
       });
-    setPetInfo({
-      // dog_id: '',
-      dog_name: '',
-      dog_breed: '',
-      dog_birth: '',
-      dog_gender: '',
-      neutralization: '',
-      dog_weight: '',
-      dog_img: '',
-      dog_isbn: '',
-    });
   };
 
   useEffect(() => {
-    axios.get('https://withpet.site/api/v1/dogs', { withCredentials: true })
-      .then(() => {
-        // setDiaries(res.data.result.content);
-        setDiaries([
-          {
-            id: 1,
-            name: '강아지',
-            title: '산책갔어요~~',
-            img: dogdiaryimgsample,
-            category: '산책',
-            content: '오늘 날씨가 좋아서 친구랑 같이 산책을 나갔어요',
-            date: '2023-05-23',
-          },
-          {
-            id: 2,
-            name: '강아지',
-            title: '산책갔어요~~',
-            img: dogdiaryimgsample,
-            category: '산책',
-            content: '오늘 날씨가 좋아서 친구랑 같이 산책을 나갔어요',
-            date: '2023-05-23',
-          },
-          {
-            id: 3,
-            name: '강아지',
-            title: '산책갔어요~~',
-            img: dogdiaryimgsample,
-            category: '산책',
-            content: '오늘 날씨가 좋아서 친구랑 같이 산책을 나갔어요',
-            date: '2023-05-23',
-          },
-        ]);
+    axios.get(`https://withpet.site/api/v1/petsitter-diaries?dogId=${id}`, { withCredentials: true })
+      .then((res) => {
+        setDiaries(res.data.result);
+        console.log(res.data.result);
       })
       .catch(() => {
       });
   }, []);
 
-  const onSubmitModify = (id, modifyPetInfo) => {
+  const onSubmitModify = (id2, modifyPetInfo) => {
     // setPets(pets.map((pet) => (pet.id === id ? modifyPetInfo : pet)));
-    axios.put(`https://withpet.site/api/v1/dogs/${id}`, modifyPetInfo, { withCredentials: true })
+    axios.put(`https://withpet.site/api/v1/dogs/${id2}`, modifyPetInfo, { withCredentials: true })
       .then((res) => {
         const updatedPets = diaries.map((pet) => {
           if (pet.dog_id === res.data.result.dog_id) {
@@ -139,23 +89,23 @@ function PetList() {
 
   const onCancle = () => {
     setPetInfo({
-      dog_name: '',
-      dog_breed: '',
-      dog_birth: '',
-      dog_gender: '',
-      neutralization: '',
-      dog_weight: '',
-      dog_img: '',
-      dog_isbn: '',
+      categoryId: '',
+      contentBody: '',
+      createdAt: dayjs(new Date()).format('YYYY-MM-DD'),
+      dogImgToday: '',
+      title: '',
     });
   };
 
   return (
     <>
-      <div className="list_container">
+      <div style={{
+        margin: '0px auto',
+      }}
+      >
         <DiaryAdd pets={diaries} setPets={setDiaries} onSubmit={onSubmit} onChange={onChange} petInfo={petInfo} onCancle={onCancle} />
-        {diaries.map((pet) => {
-          return <Diary pet={pet} key={pet.dog_id} onSubmitModify={onSubmitModify} />;
+        {diaries && diaries.map((pet) => {
+          return <Diary pet={pet} key={pet.petSitterDiaryId} onSubmitModify={onSubmitModify} />;
         })}
       </div>
     </>
