@@ -27,7 +27,7 @@ function PetsitterShowInfo() {
     axios.get('https://withpet.site/api/v1/petsitter/show-myinfo', { withCredentials: true })
       .then((res) => {
         setInfo(res.data.result);
-        console.log(res.data.result);
+        // console.log(res.data.result);
       })
       .catch(() => {
       });

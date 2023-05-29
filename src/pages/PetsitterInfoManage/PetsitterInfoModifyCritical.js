@@ -71,11 +71,11 @@ function PetsitterInfoModifyCritical({ criticalServices, criticalSelectList, set
     // 활성화된 서비스 삭제 눌렀을 경우
     setCriticalSelectList([...criticalSelectList, { serviceId: id, price: parseInt(price, 10) }]);
   };
-  console.log(criticalSelectList);
+  // console.log(criticalSelectList);
   const onSubmit = () => {
     axios.put('https://withpet.site/api/v1/petsitter/update-criticalservice', { petSitterCriticalServiceRequests: criticalSelectList }, { withCredentials: true })
       .then((res) => {
-        console.log(res.data.result);
+        // console.log(res.data.result);
         // eslint-disable-next-line no-alert
         alert(res.data.result);
       })

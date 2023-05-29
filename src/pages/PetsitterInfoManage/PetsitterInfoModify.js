@@ -48,7 +48,7 @@ function PetsitterInfoModify() {
         setCriticalServices(res.data.result.criticalServices);
         setCriticalSelectList(res.data.result.petSitterCriticalServices);
 
-        console.log(res.data.result.petSitterCriticalServices);
+        // console.log(res.data.result.petSitterCriticalServices);
       })
       .catch(() => {
       });

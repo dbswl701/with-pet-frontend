@@ -11,7 +11,7 @@ function PetsitterCalendar() {
   const [selectedMonth, setSelectedMonth] = useState(dayjs(new Date()).format('YYYY-MM'));
 
   let print = <CalendarView />;
-  console.log(selectedMonth);
+  // console.log(selectedMonth);
   if (printBody[0] === 'main') {
     print = <CalendarView setSelectedMonth={setSelectedMonth} selectedMonth={selectedMonth} />;
   } else if (printBody[0] === 'eval') {

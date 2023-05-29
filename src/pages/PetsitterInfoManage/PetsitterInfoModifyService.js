@@ -75,7 +75,7 @@ function PetsitterInfoModifyService({ serviceSelectList, setServiceSelectList, w
   const onSubmit = () => {
     axios.put('https://withpet.site/api/v1/petsitter/update-service', { petSitterServiceRequests: serviceSelectList }, { withCredentials: true })
       .then((res) => {
-        console.log(res.data.result);
+        // console.log(res.data.result);
         // eslint-disable-next-line no-alert
         alert(res.data.result);
       })

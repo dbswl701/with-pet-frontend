@@ -76,7 +76,7 @@ function ReservationPage({ onChange, petsitterId }) {
   useEffect(() => {
     axios.get(`https://withpet.site/api/v1/reservation?month=${selectedMonth}&petsitterId=${petsitterId}`, { withCredentials: true })
       .then((res) => {
-        console.log(res.data.result);
+        // console.log(res.data.result);
         setUnavailable(res.data.result);
       });
   }, [selectedMonth]);
