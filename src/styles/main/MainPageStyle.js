@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-// import { Select } from '@mui/material';
 import dogBanner from '../../assets/dog_banner.png';
 
 export const Background = styled.div`
@@ -57,17 +56,18 @@ export const SelectWrapper = styled.div`
 `;
 
 export const CardContainer = styled.div`
+    margin: 5% 3% 0 3%;
     display: grid;
-    grid-template-rows: repeat(auto-fill, minmax(20%, auto)));
+    grid-template-rows: repeat(4, 1fr);
     grid-template-columns: repeat(5, 1fr);
-    // background-opacity: 100;
+    grid-gap: 15px;
     width: 80vw;
     height: 60vh;
     // align-content: center;
-    // justify-content: space-evenly;
-    background-color: red;
-    // align-items: center;
-    // gap: 3px;
+    justify-content: space-evenly;
+    // background-color: red;
+    align-items: center;
+    gap: 3px;
     justify-items: center;
     align-items: center;
     justify-content: space-evenly;
@@ -75,7 +75,7 @@ export const CardContainer = styled.div`
 `;
 
 export const CardWrapper = styled.div`
-    background-color: pink;
+    // background-color: pink;
     height: 100%;
     display: flex;
     flex-direction: column;
