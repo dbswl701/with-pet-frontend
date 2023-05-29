@@ -6,10 +6,10 @@ import Typography from '@mui/material/Typography';
 function PetDetail({ pet, onToggle }) {
   // const [isModify, setIsModify] = useState(false);
   const petSpec = [
-    { name: '작성날짜', value: pet.date },
-    { name: '카테고리', value: pet.category },
+    { name: '작성날짜', value: pet.createdAt },
+    { name: '카테고리', value: pet.categoryName },
     { name: '제목', value: pet.title },
-    { name: '내용', value: pet.content },
+    { name: '내용', value: pet.contentBody },
 
   ];
   // console.log(pet);
@@ -32,7 +32,7 @@ function PetDetail({ pet, onToggle }) {
             </Grid>
           </div>
           <div className="pet-img-group">
-            <img src={pet.img} alt="일지 사진" />
+            <img src={pet.dogImgToday} alt="일지 사진" />
           </div>
         </div>
         <div>

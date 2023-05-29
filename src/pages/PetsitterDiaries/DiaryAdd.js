@@ -7,9 +7,10 @@ import Typography from '@mui/material/Typography';
 import dogimgdefault from '../../assets/dogProfileImage.png';
 
 function DiaryAdd({
-  onSubmit, onChange, petInfo, onCancle,
+  onSubmit, onChange, petInfo, onCancle, categories,
 }) {
   const [isClick, setisClick] = useState(false);
+  // const [categories, setCategories] = useState([]);
   const onLocalSubmit = (e) => {
     onSubmit(e);
     setisClick(false);
@@ -20,27 +21,33 @@ function DiaryAdd({
     setisClick(false);
   };
 
+  // useEffect(() => {
+  //   axios.get('https://withpet.site/api/v1/category', { withCredentials: true })
+  //     .then((res) => {
+  //       setCategories(res.data.result);
+  //     });
+  // }, []);
+  console.log(categories);
   const addinfo = (
     <form onSubmit={onLocalSubmit}>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <div className="pet-info-regist">
-            <Typography>2023-05-12</Typography>
+            <Typography>{petInfo.createdAt}</Typography>
             <TextField
               sx={{ m: 1 }}
               select
               label="카테고리"
               variant="outlined"
-              name="category"
+              name="categoryId"
               onChange={onChange}
-              value={petInfo.category}
+              value={petInfo.categoryId}
               size="small"
               required
             >
-              <MenuItem value="산책1">산책1</MenuItem>
-              <MenuItem value="산책2">산책2</MenuItem>
-              <MenuItem value="산책3">산책3</MenuItem>
-              <MenuItem value="산책4">산책4</MenuItem>
+              { categories && categories.map((category) => (
+                <MenuItem key={category.categoryId} value={category.categoryId}>{category.name}</MenuItem>
+              ))}
             </TextField>
 
             <TextField
@@ -60,16 +67,16 @@ function DiaryAdd({
               multiline
               variant="outlined"
               size="small"
-              name="content"
+              name="contentBody"
               onChange={onChange}
-              value={petInfo.content}
+              value={petInfo.contentBody}
               required
             />
           </div>
           <div className="pet-img-regist">
             <img
               alt="이미지 미리보기"
-              src={!petInfo.dog_img ? dogimgdefault : petInfo.dog_img}
+              src={!petInfo.dogImgToday ? dogimgdefault : petInfo.dogImgToday}
             />
             <label htmlFor="image-select">사진 선택</label>
             <input

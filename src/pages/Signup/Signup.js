@@ -100,16 +100,16 @@ function SignupForm() {
   const [addressDtail, setAddressDtail] = useState('');
   const [email, setEmail] = useState('');
 
-  const encodeFileToBase64 = (fileBlob) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(fileBlob);
-    return new Promise((resolve) => {
-      reader.onload = () => {
-        setImageSrc(reader.result);
-        resolve();
-      };
-    });
-  };
+  // const encodeFileToBase64 = (fileBlob) => {
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(fileBlob);
+  //   return new Promise((resolve) => {
+  //     reader.onload = () => {
+  //       setImageSrc(reader.result);
+  //       resolve();
+  //     };
+  //   });
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -144,7 +144,7 @@ function SignupForm() {
           detailAdr: addressDtail,
         },
         userEmail: email,
-        image: imageSrc,
+        profileImg: imageSrc[0],
         userPasswordCheck: passwordConfirm,
       })
       .then(() => {
@@ -158,8 +158,30 @@ function SignupForm() {
   };
 
   const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
-    await encodeFileToBase64(file);
+    const img = e.target.files[0];
+    const formData = new FormData();
+    console.log(formData);
+    formData.append('file', img);
+
+    console.log(img);
+    console.log(formData.file);
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const entry of formData.entries()) {
+      console.log(entry);
+    }
+    // await encodeFileToBase64(file);
+
+    axios.post('https://withpet.site/api/v1/file/upload', formData, config)
+      .then((res) => {
+        setImageSrc(res.data.result);
+        console.log(res.data.result);
+      });
   };
 
   return (

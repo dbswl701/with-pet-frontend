@@ -3,7 +3,8 @@ import dayjs from 'dayjs';
 import CalendarView from './CalendarView';
 import PetsitterSidebar from '../../components/PetsitterSidebar/PetsitterSidebar';
 import PetsitterEvaluation from './PetsitterEvaluation';
-import PetsitterDiary from './PetsitterDiary';
+// import PetsitterDiary from './PetsitterDiary';
+import PetsitterDiaries from '../PetsitterDiaries/PetsitterDiaries';
 
 function PetsitterCalendar() {
   const [printBody, setPrintBody] = useState(['main', 0]);
@@ -16,7 +17,7 @@ function PetsitterCalendar() {
   } else if (printBody[0] === 'eval') {
     print = <PetsitterEvaluation id={printBody[1]} setPrintBody={setPrintBody} />;
   } else {
-    print = <PetsitterDiary id={printBody[1]} setPrintBody={setPrintBody} />;
+    print = <PetsitterDiaries id={printBody[1]} setPrintBody={setPrintBody} />;
   }
   return (
     <>

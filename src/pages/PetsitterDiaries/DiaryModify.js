@@ -4,16 +4,15 @@ import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import dogimgdefault from '../../assets/dogProfileImage.png';
 
-function PetModify({ onSubmit, petInfo, onToggle }) {
+function PetModify({
+  onSubmit, petInfo, onToggle, categories,
+}) {
   const [modifyPetInfo, setModifyPetInfo] = useState({
-    dog_name: petInfo.dog_name,
-    dog_breed: petInfo.dog_breed,
-    dog_birth: petInfo.dog_birth,
-    dog_gender: petInfo.dog_gender,
-    neutralization: petInfo.neutralization ? 'true' : 'false',
-    dog_weight: petInfo.dog_weight,
-    dog_img: petInfo.dog_img,
-    dog_isbn: petInfo.dog_isbn,
+    categoryId: petInfo.categoryId,
+    contentBody: petInfo.contentBody,
+    createdAt: petInfo.createdAt,
+    dogImgToday: petInfo.dogImgToday,
+    title: petInfo.title,
   });
   const onChange = (e) => {
     if (e.target.files) {
@@ -56,16 +55,13 @@ function PetModify({ onSubmit, petInfo, onToggle }) {
               select
               label="카테고리"
               variant="outlined"
-              name="category"
+              name="categoryId"
               onChange={onChange}
-              value={petInfo.category}
+              value={petInfo.categoryId}
               size="small"
               required
             >
-              <MenuItem value="산책1">산책1</MenuItem>
-              <MenuItem value="산책2">산책2</MenuItem>
-              <MenuItem value="산책3">산책3</MenuItem>
-              <MenuItem value="산책4">산책4</MenuItem>
+              { categories.map((category) => <MenuItem key={category.categoryId} value={category.categoryId}>{category.name}</MenuItem>)}
             </TextField>
 
             <TextField
@@ -85,16 +81,16 @@ function PetModify({ onSubmit, petInfo, onToggle }) {
               multiline
               variant="outlined"
               size="small"
-              name="content"
+              name="contentBody"
               onChange={onChange}
-              value={petInfo.content}
+              value={petInfo.contentBody}
               required
             />
           </div>
           <div className="pet-img-regist">
             <img
               alt="이미지 미리보기"
-              src={!petInfo.dog_img ? dogimgdefault : petInfo.dog_img}
+              src={!petInfo.dogImgToday ? dogimgdefault : petInfo.dogImgToday}
             />
             <label htmlFor="image-select">사진 선택</label>
             <input

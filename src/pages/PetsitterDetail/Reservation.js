@@ -6,6 +6,7 @@ import axios from 'axios';
 import Options from './Options';
 import CheckCalendar from './CheckCalendar';
 import AvailableCalendar from './AvailableCalendar';
+// import Pay from './Pay';
 
 const Container = styled.div`
   // background-color: orange;
@@ -27,7 +28,9 @@ const Wrapper1 = styled.div`
   border-radius: 10px;
 `;
 
-function Reservation({ dogList, data, petsitterId }) {
+function Reservation({
+  dogList, data, petsitterId,
+}) {
   const [info, setInfo] = useState({
     startDate: '',
     endDate: '',
@@ -36,6 +39,7 @@ function Reservation({ dogList, data, petsitterId }) {
     dogId: '',
     optionId: [],
   });
+  // const [payInfo, setPayInfo] = useState([]);
   // const [unavailable, setUnavailable] = useState([]);
   // const [unavailable2, setUnavailable2] = useState([]);
   const onChange = (e) => {
@@ -79,6 +83,9 @@ function Reservation({ dogList, data, petsitterId }) {
     axios.post('https://withpet.site/api/v1/reservation', temp, { withCredentials: true })
       .then(() => {
         // console.log(res.data.result);
+        // eslint-disable-next-line no-alert
+        alert('예약이 완료되었습니다.');
+        // setPayInfo(res.data.result);
       });
   };
   // console.log(info);
@@ -91,6 +98,10 @@ function Reservation({ dogList, data, petsitterId }) {
       });
     }
   };
+
+  // const onPaing = () => {
+  //   setOpen(true);
+  // };
 
   return (
     <>
@@ -163,6 +174,7 @@ function Reservation({ dogList, data, petsitterId }) {
               <Title>옵션 선택</Title>
               {/* 여기 서비스 넘겨줌 */}
               <Options services={data.petSitterServices} onChange={onChangeOption} />
+              {/* <Pay /> */}
             </div>
             <input
               type="submit"
@@ -170,6 +182,7 @@ function Reservation({ dogList, data, petsitterId }) {
               style={{
                 width: '285px', height: '50px', margin: 'auto', borderRadius: '10px', backgroundColor: '#CAA969', color: 'white', marginBottom: '30px',
               }}
+              // onClick={onPaing}
             />
           </form>
         </Wrapper1>
