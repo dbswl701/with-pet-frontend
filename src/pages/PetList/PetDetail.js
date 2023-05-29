@@ -76,14 +76,6 @@ function PetDetail({ pet, onToggle }) {
               </div>
               <Button onClick={onClickSocilization}>반려견 사회성 등록</Button>
             </div>
-            <div className="pet-group">
-              <button>그룹관리</button>
-              <p>초대코드 : {pet.partyIsbn}</p>
-              {pet.partyMemberResponses.map((user) => <p key={user.userId}>{user.userName}</p>)}
-              {/* <p>맴버1</p>
-              <p>맴버2</p> */}
-              <button>그룹 나가기</button>
-            </div>
           </div>
           <div className="pet-info">
             <div className="pet-name">
