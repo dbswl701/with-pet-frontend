@@ -27,7 +27,7 @@ function DiaryAdd({
   //       setCategories(res.data.result);
   //     });
   // }, []);
-
+  console.log(categories);
   const addinfo = (
     <form onSubmit={onLocalSubmit}>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -45,7 +45,9 @@ function DiaryAdd({
               size="small"
               required
             >
-              { categories && categories.map((category) => <MenuItem key={category.categoryId} value={category.categoryId}>{category.name}</MenuItem>)}
+              { categories && categories.map((category) => (
+                <MenuItem key={category.categoryId} value={category.categoryId}>{category.name}</MenuItem>
+              ))}
             </TextField>
 
             <TextField

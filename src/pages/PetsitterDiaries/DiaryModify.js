@@ -90,7 +90,7 @@ function PetModify({
           <div className="pet-img-regist">
             <img
               alt="이미지 미리보기"
-              src={!petInfo.contentBody ? dogimgdefault : petInfo.contentBody}
+              src={!petInfo.dogImgToday ? dogimgdefault : petInfo.dogImgToday}
             />
             <label htmlFor="image-select">사진 선택</label>
             <input

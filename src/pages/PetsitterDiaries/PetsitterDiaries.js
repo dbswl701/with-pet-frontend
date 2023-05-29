@@ -71,14 +71,21 @@ function PetList({ id }) {
       })
       .catch(() => {
       });
-  }, []);
 
-  useEffect(() => {
     axios.get('https://withpet.site/api/v1/category', { withCredentials: true })
       .then((res) => {
         setCategories(res.data.result);
+        console.log(res.data.result);
       });
   }, []);
+
+  // useEffect(() => {
+  //   axios.get('https://withpet.site/api/v1/category', { withCredentials: true })
+  //     .then((res) => {
+  //       setCategories(res.data.result);
+  //       console.log(res.data.result);
+  //     });
+  // }, []);
 
   const onSubmitModify = (id2, modifyPetInfo) => {
     // setPets(pets.map((pet) => (pet.id === id ? modifyPetInfo : pet)));
@@ -112,7 +119,7 @@ function PetList({ id }) {
         margin: '0px auto',
       }}
       >
-        <DiaryAdd pets={diaries} setPets={setDiaries} onSubmit={onSubmit} onChange={onChange} petInfo={petInfo} onCancle={onCancle} categorie={categories} />
+        <DiaryAdd pets={diaries} setPets={setDiaries} onSubmit={onSubmit} onChange={onChange} petInfo={petInfo} onCancle={onCancle} categories={categories} />
         {diaries && diaries.map((pet) => {
           return <Diary pet={pet} key={pet.petSitterDiaryId} onSubmitModify={onSubmitModify} categories={categories} />;
         })}

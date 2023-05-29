@@ -6,6 +6,7 @@ import axios from 'axios';
 import Options from './Options';
 import CheckCalendar from './CheckCalendar';
 import AvailableCalendar from './AvailableCalendar';
+// import Pay from './Pay';
 
 const Container = styled.div`
   // background-color: orange;
@@ -163,6 +164,7 @@ function Reservation({ dogList, data, petsitterId }) {
               <Title>옵션 선택</Title>
               {/* 여기 서비스 넘겨줌 */}
               <Options services={data.petSitterServices} onChange={onChangeOption} />
+              {/* <Pay /> */}
             </div>
             <input
               type="submit"
