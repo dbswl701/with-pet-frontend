@@ -1,5 +1,5 @@
 import React from 'react';
-import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
+import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router';
@@ -104,7 +104,7 @@ function PetDetail({ pet, onToggle }) {
         </div>
       </div>
       <div>
-        <ExpandCircleDownIcon className="up-icon" fontSize="large" onClick={() => onToggle('simple')} />
+        <ChevronLeftOutlinedIcon className="up-icon" fontSize="large" onClick={() => onToggle('simple')} />
       </div>
     </>
   );

@@ -39,25 +39,6 @@
   border: 2px solid gray;
 }
 
-.down-icon {
-  display: flex;
-  position: absolute;
-  right: 50px;
-  /* top: 900px; */
-  margin-left: 50px;
-  margin-top: 10px;
-}
-
-.up-icon {
-  display: flex;
-  position: absolute;
-  right: 50px;
-  /* top: 900px; */
-  margin-left: 50px;
-  margin-top: 10px;
-  transform: rotate(-180deg);
-}
-
 .diary-detail {
   box-sizing: border-box;
   display: flex;

@@ -1,11 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import dayjs from 'dayjs';
+import styled from 'styled-components';
 import Pet from './Pet';
 import './Pets.css';
 import PetAdd from './PetAdd';
 import Party from './Party';
 import dogimgdefault from '../../assets/dogProfileImage.png';
+
+const Button = styled.button`
+  background-color: #CAA969;
+  border: none;
+  border-radius: 10px;
+  width: 256px;
+  height: 50px;
+  color: white;
+`;
 
 function PetList() {
   const [pets, setPets] = useState([]);
@@ -138,13 +148,15 @@ function PetList() {
             <Party group={group} />
             { group.dogInfoResponseList.map((pet) => {
               console.log(pet);
-              return <Pet pet={pet} key={pet.dog_id} x={onSubmitModify} />;
+              return <Pet pet={pet} key={pet.dog_id} onSubmitModify={onSubmitModify} />;
             })}
             <PetAdd pets={pets} setPets={setPets} onSubmit={onSubmit} onChange={onChange} petInfo={petInfo} onCancle={onCancle} />
           </div>
         ))}
-        <button>그룹생성</button>
-        <button>그룹 가입하기</button>
+        <div style={{ display: 'flex', justifyContent: 'space-around', width: '800px' }}>
+          <Button>그룹생성</Button>
+          <Button>그룹 가입하기</Button>
+        </div>
       </div>
     </>
   );
