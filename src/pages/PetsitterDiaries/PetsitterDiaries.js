@@ -54,7 +54,7 @@ function PetList({ id }) {
       dogId: id,
     };
     // nextId.current += 1;
-    console.log(pet);
+    // console.log(pet);
     axios.post('https://withpet.site/api/v1/petsitter-diaries', pet, { withCredentials: true })
       .then((res) => {
         setDiaries({
@@ -65,20 +65,20 @@ function PetList({ id }) {
       .catch(() => {
       });
   };
-  console.log(diaries);
+  // console.log(diaries);
 
   useEffect(() => {
     axios.get(`https://withpet.site/api/v1/petsitter-diaries?dogId=${id}`, { withCredentials: true })
       .then((res) => {
         setDiaries(res.data.result);
-        console.log(res.data.result);
+        // console.log(res.data.result);
       })
       .catch(() => {
       });
     axios.get('https://withpet.site/api/v1/category', { withCredentials: true })
       .then((res) => {
         setCategories(res.data.result);
-        console.log(res.data.result);
+        // console.log(res.data.result);
       });
   }, []);
 
@@ -92,7 +92,7 @@ function PetList({ id }) {
 
   const onSubmitModify = (id2, modifyPetInfo) => {
     // setPets(pets.map((pet) => (pet.id === id ? modifyPetInfo : pet)));
-    console.log(diaries.petSitterDiaryResponses);
+    // console.log(diaries.petSitterDiaryResponses);
     axios.put(`https://withpet.site/api/v1/petsitter-diaries/${id2}`, modifyPetInfo, { withCredentials: true })
       .then((res) => {
         const updatedPets = diaries.petSitterDiaryResponses.map((pet) => {
@@ -101,7 +101,7 @@ function PetList({ id }) {
           }
           return pet;
         });
-        console.log(updatedPets);
+        // console.log(updatedPets);
         setDiaries(updatedPets);
       })
       .catch(() => {
@@ -117,7 +117,7 @@ function PetList({ id }) {
       title: '',
     });
   };
-  console.log(diaries);
+  // console.log(diaries);
   return (
     <>
       <div style={{

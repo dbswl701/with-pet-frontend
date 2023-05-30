@@ -43,7 +43,7 @@ function PetModify({
     });
     onSubmit(petInfo.petSitterDiaryId, modifyPetInfo);
   };
-  console.log(petInfo);
+  // console.log(petInfo);
 
   const onLocalCancle = () => {
     onToggle(false);

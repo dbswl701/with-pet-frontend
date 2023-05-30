@@ -61,18 +61,18 @@ function UserDiaryListAdd({
     // console.log(diaryInfo);
     axios.post('https://withpet.site/api/v1/userdiaries', diaryInfo, { withCredentials: true })
       .then((res) => {
-        console.log(res.data.result);
+        // console.log(res.data.result);
         const temp = {
           start: dayjs(new Date(res.data.result.createdAt)).format('YYYY-MM-DD'),
           end: dayjs(new Date(res.data.result.createdAt)).format('YYYY-MM-DD'),
           color: colorList[(res.data.result.dogId % colorList.length) - 1],
           title: res.data.result.dogName,
         };
-        console.log(temp);
-        console.log(filteredDiaries);
-        const temp2 = filteredDiaries.concat(temp);
-        console.log(temp2);
-        console.log(filteredDiaries.concat(temp));
+        // console.log(temp);
+        // console.log(filteredDiaries);
+        // const temp2 = filteredDiaries.concat(temp);
+        // console.log(temp2);
+        // console.log(filteredDiaries.concat(temp));
         setFilteredDiaries(filteredDiaries.concat(temp)); // 바로 반영되도록
 
         // console.log(res.data.result);

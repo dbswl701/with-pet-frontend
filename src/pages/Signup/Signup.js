@@ -160,11 +160,11 @@ function SignupForm() {
   const handleImageUpload = async (e) => {
     const img = e.target.files[0];
     const formData = new FormData();
-    console.log(formData);
+    // console.log(formData);
     formData.append('file', img);
 
-    console.log(img);
-    console.log(formData.file);
+    // console.log(img);
+    // console.log(formData.file);
     const config = {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -172,15 +172,15 @@ function SignupForm() {
     };
 
     // eslint-disable-next-line no-restricted-syntax
-    for (const entry of formData.entries()) {
-      console.log(entry);
-    }
+    // for (const entry of formData.entries()) {
+    //   console.log(entry);
+    // }
     // await encodeFileToBase64(file);
 
     axios.post('https://withpet.site/api/v1/file/upload', formData, config)
       .then((res) => {
         setImageSrc(res.data.result);
-        console.log(res.data.result);
+        // console.log(res.data.result);
       });
   };
 
