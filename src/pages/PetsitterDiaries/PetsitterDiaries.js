@@ -57,11 +57,15 @@ function PetList({ id }) {
     console.log(pet);
     axios.post('https://withpet.site/api/v1/petsitter-diaries', pet, { withCredentials: true })
       .then((res) => {
-        setDiaries(diaries.concat(res.data.result));
+        setDiaries({
+          ...diaries,
+          petSitterDiaryResponses: diaries.petSitterDiaryResponses.concat(res.data.result),
+        });
       })
       .catch(() => {
       });
   };
+  console.log(diaries);
 
   useEffect(() => {
     axios.get(`https://withpet.site/api/v1/petsitter-diaries?dogId=${id}`, { withCredentials: true })
@@ -71,7 +75,6 @@ function PetList({ id }) {
       })
       .catch(() => {
       });
-
     axios.get('https://withpet.site/api/v1/category', { withCredentials: true })
       .then((res) => {
         setCategories(res.data.result);
@@ -89,14 +92,16 @@ function PetList({ id }) {
 
   const onSubmitModify = (id2, modifyPetInfo) => {
     // setPets(pets.map((pet) => (pet.id === id ? modifyPetInfo : pet)));
-    axios.put(`https://withpet.site/api/v1/dogs/${id2}`, modifyPetInfo, { withCredentials: true })
+    console.log(diaries.petSitterDiaryResponses);
+    axios.put(`https://withpet.site/api/v1/petsitter-diaries/${id2}`, modifyPetInfo, { withCredentials: true })
       .then((res) => {
-        const updatedPets = diaries.map((pet) => {
-          if (pet.dog_id === res.data.result.dog_id) {
+        const updatedPets = diaries.petSitterDiaryResponses.map((pet) => {
+          if (pet.petSitterDiaryId === res.data.result.petSitterDiaryId) {
             return res.data.result;
           }
           return pet;
         });
+        console.log(updatedPets);
         setDiaries(updatedPets);
       })
       .catch(() => {
@@ -119,8 +124,15 @@ function PetList({ id }) {
         margin: '0px auto',
       }}
       >
+        <div style={{
+          display: 'flex', flexDirection: 'row', marginTop: '20px', borderBottom: '1.5px solid gray',
+        }}
+        >
+          <img src={diaries.dogImg} alt="강아지 이미지" style={{ width: '60px', height: '60px' }} />
+          <p style={{ fontSize: '20px', marginLeft: '20px' }}>{diaries.dogName}</p>
+        </div>
         <DiaryAdd pets={diaries} setPets={setDiaries} onSubmit={onSubmit} onChange={onChange} petInfo={petInfo} onCancle={onCancle} categories={categories} />
-        {diaries && diaries.map((pet) => {
+        {diaries.petSitterDiaryResponses && diaries.petSitterDiaryResponses.map((pet) => {
           return <Diary pet={pet} key={pet.petSitterDiaryId} onSubmitModify={onSubmitModify} categories={categories} />;
         })}
       </div>
