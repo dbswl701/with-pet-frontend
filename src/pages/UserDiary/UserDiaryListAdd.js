@@ -15,7 +15,7 @@ import camera from '../../assets/camera.png';
 import './Diaries.css';
 
 function UserDiaryListAdd({
-  open, setOpen, setFilteredDiaries,
+  open, setOpen, setFilteredDiaries, filteredDiaries,
 }) {
   // const [diaries, setDiaries] = useState([]);
   const dateNow = new Date();
@@ -60,9 +60,21 @@ function UserDiaryListAdd({
     e.preventDefault();
     // console.log(diaryInfo);
     axios.post('https://withpet.site/api/v1/userdiaries', diaryInfo, { withCredentials: true })
-      .then(() => {
-        // // setFilteredDiaries(filteredDiaries.concat(res.data.result)); // 바로 반영되도록
-        // // console.log(res.data.result);
+      .then((res) => {
+        console.log(res.data.result);
+        const temp = {
+          start: dayjs(new Date(res.data.result.createdAt)).format('YYYY-MM-DD'),
+          end: dayjs(new Date(res.data.result.createdAt)).format('YYYY-MM-DD'),
+          color: colorList[(res.data.result.dogId % colorList.length) - 1],
+          title: res.data.result.dogName,
+        };
+        console.log(temp);
+        console.log(filteredDiaries);
+        const temp2 = filteredDiaries.concat(temp);
+        console.log(temp2);
+        console.log(filteredDiaries.concat(temp));
+        setFilteredDiaries(filteredDiaries.concat(temp)); // 바로 반영되도록
+
         // console.log(res.data.result);
         // const { result } = res.data;
         // // 이제 달력 보여줄거 업데이트 하자
@@ -170,7 +182,7 @@ function UserDiaryListAdd({
           </div>
         </div>
       </div>
-      <input className="diary-add-btn" type="submit" value="submit" style={{ width: '510px' }} />
+      <input className="diary-add-btn" type="submit" value="저장" style={{ width: '510px' }} />
     </form>
   );
 
