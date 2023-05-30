@@ -11,6 +11,8 @@ import { SelectWrapper } from '../../styles/main/MainPageStyle';
 // }
 
 const regionList = [
+  { region: '영통구', city: '수원' },
+  { region: '영동구', city: '수원' },
   { region: '용답동', city: '서울' },
   { region: '성수동', city: '서울' },
   { region: '상수동', city: '서울' },
@@ -24,10 +26,17 @@ export default function Asynchronous({ options, setOptions }) {
   const [open, setOpen] = React.useState(false);
 
   const onChange = (event, value) => {
-    setOptions({
-      ...options,
-      region: value.region,
-    });
+    if (!value) {
+      setOptions({
+        ...options,
+        region: '',
+      });
+    } else {
+      setOptions({
+        ...options,
+        region: value.region,
+      });
+    }
   };
   console.log(options);
   return (
