@@ -22,6 +22,7 @@ import UserDiaryListAdd from '../../pages/UserDiary/UserDiaryListAdd';
 function Item({
   item, name, filter, onChange,
 }) {
+  console.log(item);
   return (
     <>
       <div>
@@ -126,7 +127,7 @@ function UserSideBar({
         <ListContainer>
           강아지 선택
           <Items>
-            {dogs.map((dog) => <Item key={dog.Id} name="dogId" item={dog} filter={filter} onChange={onChange} />)}
+            {dogs.map((dog) => <Item key={dog.dogId} name="dogId" item={dog} filter={filter} onChange={onChange} />)}
           </Items>
         </ListContainer>
         <ListContainer>
@@ -157,7 +158,7 @@ function UserSideBar({
           {/* </div> */}
           {/* <div style={{ margin: '20px 10px', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px' }}> */}
           카테고리 선택
-          {categories.map((category) => <Item key={category.id} name="category" item={category} filter={filter} onChange={onChange} />)}
+          {categories.map((category) => <Item key={category.categoryId} name="category" item={category} filter={filter} onChange={onChange} />)}
         </ListContainer>
       </SideBar>
     </>

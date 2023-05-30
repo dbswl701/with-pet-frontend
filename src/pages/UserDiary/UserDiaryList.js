@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -8,11 +8,13 @@ import UserDiary from './UserDiary';
 // import UserDiaryAdd from './UserDiaryAdd';
 import './Diaries.css';
 // function UserDiaryList(props)
-function UserDiaryList({ open, setOpen, dayInfo }) {
+function UserDiaryList({
+  open, setOpen, diaries, setDiaries,
+}) {
   // const [open, setOpen] = useState(false);
   // const handleOpen = () => setOpen(true);
   // const handleClose = () => setOpen(false);
-  const [diaries, setDiaries] = useState([]);
+  // const [diaries, setDiaries] = useState([]);
   // const dateNow = new Date();
   // const today = dateNow.toISOString().substr(0, 10);
   // const [diaryInfo, setDiaryInfo] = useState({
@@ -79,19 +81,6 @@ function UserDiaryList({ open, setOpen, dayInfo }) {
   //   });
   // };
   // console.log(dayInfo);
-  useEffect(() => {
-    // console.log(dayInfo);
-    // console.log(dayInfo.day);
-    axios.get(`https://withpet.site/api/v1/userdiaries/day?categoryId=${dayInfo.categoryId}&day=${dayInfo.day}&dogId=${dayInfo.dogId}&petsitterCheck=${dayInfo.petsitterCheck}`, { withCredentials: true })
-    // axios.get('https://withpet.site/api/v1/userdiaries/day?categoryId=&day=2023-05-20&dogId=', { withCredentials: true })
-      .then((res) => {
-        setDiaries(res.data.result);
-        // console.log(res.data.result);
-      })
-      .catch(() => {
-        // console.error(err);
-      });
-  }, [dayInfo]);
 
   const onSubmitModify = (id, modifyDiaryInfo) => {
     // setPets(pets.map((pet) => (pet.id === id ? modifyPetInfo : pet)));

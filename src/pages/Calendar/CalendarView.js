@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import axios from 'axios';
 import UserDiaryList from '../UserDiary/UserDiaryList';
 
 moment.locale('en-GB');
@@ -10,26 +11,39 @@ const localizer = momentLocalizer(moment);
 function CalendarView({
   filteredDiaries, filter, open, setOpen,
 }) {
-  const [dayInfo, setDayInfo] = useState({
-    categoryId: '',
-    day: '',
-    dogId: '',
-    petsitterCheck: '',
-  });
+  // const [dayInfo, setDayInfo] = useState({
+  //   categoryId: '',
+  //   day: '',
+  //   dogId: '',
+  //   petsitterCheck: '',
+  // });
+  const [diaries, setDiaries] = useState([]);
+
   const onDayClick = (event) => {
     // 클릭 시 년월일(2023-05-17), 필터링된 dogid, categoryid를 건내준다.
     // console.log(event.start);
     // console.log(filter.categoryId);
     // console.log(filter.dogId);
-    setDayInfo({
-      categoryId: filter.categoryId,
-      day: event.start,
-      dogId: filter.dogId,
-      petsitterCheck: '',
-    });
+    // setDayInfo({
+    //   categoryId: filter.categoryId,
+    //   day: event.start,
+    //   dogId: filter.dogId,
+    //   petsitterCheck: '',
+    // });
     setOpen(true);
     // 이제 axios로 일별 일지 불러온다. -> ㄴㄴ 일지 불러오는거 들고옴
     // 날짜, 카테코리, 개 필터링 된 것들 전달
+
+    // dayInfo 해서 axios를 여기서 호출
+    axios.get(`https://withpet.site/api/v1/userdiaries/day?categoryId=${filter.categoryId}&day=${event.start}&dogId=${filter.dogId}&petsitterCheck=`, { withCredentials: true })
+    // axios.get('https://withpet.site/api/v1/userdiaries/day?categoryId=&day=2023-05-20&dogId=', { withCredentials: true })
+      .then((res) => {
+        setDiaries(res.data.result);
+        // console.log(res.data.result);
+      })
+      .catch(() => {
+        // console.error(err);
+      });
   };
 
   // 각 이벤트에 대한 스타일을 동적으로 지정하는 함수
@@ -67,7 +81,7 @@ function CalendarView({
         // onSelectEvent={() => alert(filter.categoryId)}
         eventPropGetter={eventStyleGetter}
       />
-      <UserDiaryList dayInfo={dayInfo} open={open} setOpen={setOpen} />
+      <UserDiaryList diaries={diaries} open={open} setOpen={setOpen} setDiaries={setDiaries} />
     </div>
   );
 }

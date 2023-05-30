@@ -6,7 +6,7 @@ import CalendarView from './CalendarView';
 function Calendar() {
   const [openAdd, setOpenAdd] = useState(false); // 모달창
   const [openDay, setOpenDay] = useState(false); // 모달창
-  const [filteredDiaries, setFilteredDiaries] = useState([]);
+  const [filteredDiaries, setFilteredDiaries] = useState([]); // month
   const [filter, setFilter] = useState({
     dogId: '',
     categoryId: '',
