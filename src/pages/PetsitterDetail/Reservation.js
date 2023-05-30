@@ -200,9 +200,11 @@ function Reservation({
                 }}
               >
                 <div>
-                  <img src={item.serviceImg} alt="서비스 이미지" style={{ width: '50px', height: '50px', marginRight: '10px' }} />
+                  <img src={item.serviceImg} alt="서비스 이미지" style={{ width: '40px', height: '40px', marginRight: '10px' }} />
                 </div>
-                <p>{item.serviceName} / {item.serviceIntroduction} / {item.price}원</p>
+                <div>
+                  <p>{item.serviceName} / {item.serviceIntroduction} / {item.price}원</p>
+                </div>
               </div>
             ))}
           </div>
