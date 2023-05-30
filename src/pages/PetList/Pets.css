@@ -48,6 +48,7 @@
   margin-left: 50px;
   /* margin-top: 10px; */
   transform: rotate( 90deg );
+  color: rgb(181, 181, 181);
 }
 
 .up-icon {
@@ -58,6 +59,7 @@
   margin-left: 50px;
   /* margin-top: 10px; */
   transform: rotate( -90deg );
+  color: rgb(181, 181, 181);
 }
 
 .pet-detail{
