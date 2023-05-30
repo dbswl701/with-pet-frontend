@@ -1,41 +1,51 @@
 import React from 'react';
-import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
-import Grid from '@mui/material/Grid';
+import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
+// import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
 function UserDiaryDetail({ diary, onToggle }) {
-  const diarySpec = [
-    { name: '이름', value: diary.dogName },
-    { name: '날짜', value: diary.createdAt },
-    { name: '카테고리', value: diary.categoryName },
-    { name: '제목', value: diary.title },
-    { name: '내용', value: diary.contentBody },
-  ];
+// function UserDiaryDetail({ diary }) {
+  // const diarySpec = [
+  //   { name: '날짜', value: diary.createdAt },
+  //   { name: '이름', value: diary.dogName },
+  //   { name: '카테고리', value: diary.categoryName },
+  //   { name: '제목', value: diary.title },
+  // ];
   const detail = (
     <>
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <div className="diary-first">
-          <img className="today-img" src={diary.dogImgToday} alt="오늘의 사진" style={{ width: '100px', height: '100px' }} />
+      <div style={{ display: 'flex', flexDirection: 'column', width: '500px' }}>
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+          <div>
+            <Typography style={{ fontSize: '25px', fontWeight: 'bold', borderBottom: '1.5px solid gray' }}>{diary.title}</Typography>
+            <div style={{
+              display: 'flex', flexDirection: 'row', width: '500px', justifyContent: 'space-around', marginTop: '20px',
+            }}
+            >
+              <div style={{
+                display: 'flex', flexWrap: 'wrap', width: '100px', height: '130px', alignContent: 'space-around',
+              }}
+              >
+                <Typography style={{ width: '100px' }}>{diary.createdAt}</Typography>
+                <Typography style={{ width: '100px', border: '1px solid gray', borderRadius: '10px' }}>{diary.dogName}</Typography>
+                <Typography style={{ width: '100px', border: '1px solid gray', borderRadius: '10px' }}>{diary.categoryName}</Typography>
+              </div>
+              <div>
+                <img className="today-img" src={diary.dogImgToday} alt="오늘의 사진" style={{ width: '150px', height: '150px' }} />
+              </div>
+            </div>
+            <div style={{
+              marginTop: '20px', marginBottom: '20px', border: '1px solid gray', padding: '10px', minHeight: '90px',
+            }}
+            >
+              <Typography align="left">{diary.contentBody}</Typography>
+            </div>
+          </div>
         </div>
-        <div className="diary-contents">
-          <Grid container ml={2}>
-            {diarySpec.map((spec) => (
-              <React.Fragment key={spec.name}>
-                <Grid item xs={6}>
-                  <Typography>{spec.name}</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography>{spec.value}</Typography>
-                </Grid>
-              </React.Fragment>
-            ))}
-          </Grid>
-        </div>
-        <button onClick={() => onToggle('modify')}>수정</button>
+        <button className="diary-add-btn" onClick={() => onToggle('modify')}>수정</button>
       </div>
       <div>
-        <ExpandCircleDownIcon
-          className="up-icon"
+        <ChevronLeftOutlinedIcon
+          className="down-icon"
           fontSize="large"
           onClick={() => onToggle('simple')}
         />

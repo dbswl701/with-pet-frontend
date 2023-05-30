@@ -65,7 +65,7 @@ function CalendarView({
     };
   };
 
-  // console.log(filteredDiaries);
+  console.log(filteredDiaries);
   // filter.categoryId
   return (
     <div className="App">

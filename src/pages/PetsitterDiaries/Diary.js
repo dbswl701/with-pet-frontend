@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
+import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
 // import PetModify from './PetModify';
 import DiaryDetail from './DiaryDetail';
 import DiaryModify from './DiaryModify';
@@ -8,9 +8,8 @@ function Pet({ pet, onSubmitModify, categories }) {
   const [toggle, setToggle] = useState('simple');
   const simple = (
     <>
-      <img className="pet-img" src={pet.dogImgToday} alt="반려견 프로필 사진" />
-      <p>{pet.createdAt} / {pet.categoryName} / {pet.title}</p>
-      <ExpandCircleDownIcon className="down-icon" fontSize="large" onClick={() => setToggle('detail')} />
+      <p style={{ fontWeight: 'bold' }}>{pet.createdAt} | {pet.categoryName} | {pet.title}</p>
+      <ChevronLeftOutlinedIcon className="up-icon" fontSize="large" onClick={() => setToggle('detail')} />
     </>
   );
 

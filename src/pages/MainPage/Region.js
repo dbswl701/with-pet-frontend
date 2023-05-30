@@ -1,17 +1,18 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import CircularProgress from '@mui/material/CircularProgress';
 import FormControl from '@mui/material/FormControl/FormControl';
 import { SelectWrapper } from '../../styles/main/MainPageStyle';
 
-function sleep(delay = 0) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, delay);
-  });
-}
+// function sleep(delay = 0) {
+//   return new Promise((resolve) => {
+//     setTimeout(resolve, delay);
+//   });
+// }
 
 const regionList = [
+  { region: '영통구', city: '수원' },
+  { region: '영동구', city: '수원' },
   { region: '용답동', city: '서울' },
   { region: '성수동', city: '서울' },
   { region: '상수동', city: '서울' },
@@ -21,37 +22,23 @@ const regionList = [
   { region: '원문동', city: '과천' },
 ];
 
-export default function Asynchronous() {
+export default function Asynchronous({ options, setOptions }) {
   const [open, setOpen] = React.useState(false);
-  const [options, setOptions] = React.useState([]);
-  const loading = open && options.length === 0;
 
-  React.useEffect(() => {
-    let active = true;
-
-    if (!loading) {
-      return undefined;
+  const onChange = (event, value) => {
+    if (!value) {
+      setOptions({
+        ...options,
+        region: '',
+      });
+    } else {
+      setOptions({
+        ...options,
+        region: value.region,
+      });
     }
-
-    (async () => {
-      await sleep(1e3); // For demo purposes.
-
-      if (active) {
-        setOptions([...regionList]);
-      }
-    })();
-
-    return () => {
-      active = false;
-    };
-  }, [loading]);
-
-  React.useEffect(() => {
-    if (!open) {
-      setOptions([]);
-    }
-  }, [open]);
-
+  };
+  console.log(options);
   return (
     <SelectWrapper>
       <FormControl sx={{ m: 1, width: 4 / 5, display: 'flex' }}>
@@ -69,8 +56,7 @@ export default function Asynchronous() {
           }}
           isOptionEqualToValue={(option, value) => option.region === value.region}
           getOptionLabel={(option) => option.region}
-          options={options}
-          loading={loading}
+          options={regionList}
           renderInput={(params) => (
             <TextField
               className="select"
@@ -80,13 +66,13 @@ export default function Asynchronous() {
                 ...params.InputProps,
                 endAdornment: (
                   <>
-                    {loading ? <CircularProgress color="inherit" size={20} /> : null}
                     {params.InputProps.endAdornment}
                   </>
                 ),
               }}
             />
           )}
+          onChange={onChange}
         />
       </FormControl>
     </SelectWrapper>

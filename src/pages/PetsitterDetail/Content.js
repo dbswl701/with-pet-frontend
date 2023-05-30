@@ -11,19 +11,27 @@ const Container = styled.div`
 
 const ServiceItem = styled.div`
   // background-color: yellow;
-  border: 1px solid gray;
-  width: 200px;
+  border: 1.5px solid gray;
+  width: 150px;
+  height: 45px;
   border-radius: 8px;
   margin-right: 10px;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
+  flex-direction: row;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 function Item({ service }) {
   return (
     <ServiceItem>
-      <img src={service.serviceImg} alt="사진" style={{ width: '40px', height: '40px' }} />
-      <p>{service.serviceName}</p>
-      <p>{service.serviceIntroduction}</p>
-      <p>{service.price}원</p>
+      <div style={{ width: '30px', height: '30px' }}>
+        <img src={service.serviceImg} alt="사진" style={{ width: '30px', height: '30px' }} />
+      </div>
+      <div style={{ marginLeft: '10px' }}>
+        <p style={{ fontSize: '13px', margin: '0px' }}>{service.serviceName} ({service.price}원)</p>
+        <p style={{ fontSize: '11px', margin: '0px', color: 'gray' }}>{service.serviceIntroduction}</p>
+      </div>
     </ServiceItem>
   );
 }
