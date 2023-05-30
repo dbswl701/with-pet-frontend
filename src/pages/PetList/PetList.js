@@ -3,6 +3,8 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
 import Pet from './Pet';
+import JoinParty from './JoinParty';
+import CreateParty from './CreateParty';
 import './Pets.css';
 import PetAdd from './PetAdd';
 import Party from './Party';
@@ -20,6 +22,8 @@ const Button = styled.button`
 function PetList() {
   const [pets, setPets] = useState([]);
   const [groupList, setGroupList] = useState([]);
+  const [openParty, setOpenParty] = useState(false); // 모달창
+  const [openCreate, setOpenCreate] = useState(false);
   const dateNow = new Date();
   const today = dateNow.toISOString().slice(0, 10);
   const [petInfo, setPetInfo] = useState({
@@ -154,9 +158,11 @@ function PetList() {
           </div>
         ))}
         <div style={{ display: 'flex', justifyContent: 'space-around', width: '800px' }}>
-          <Button>그룹생성</Button>
-          <Button>그룹 가입하기</Button>
+          <Button onClick={() => setOpenCreate(true)}>그룹생성</Button>
+          <Button onClick={() => setOpenParty(true)}>그룹 가입하기</Button>
         </div>
+        <CreateParty setGroupList={setGroupList} groupList={groupList} setOpen={setOpenCreate} open={openCreate} />
+        <JoinParty setGroupList={setGroupList} groupList={groupList} setOpen={setOpenParty} open={openParty} />
       </div>
     </>
   );
