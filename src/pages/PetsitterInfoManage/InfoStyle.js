@@ -11,6 +11,7 @@ export const Container = styled.div`
     font-family: 'Noto Sans KR', sans-serif;
     color: #caa969;
     background-color: #yellow;
+    margin: 10% 0 10% 0;
 `;
 
 export const Content = styled.div`
@@ -39,6 +40,19 @@ export const DivContainer = styled.div`
 `;
 
 export const Input = styled.input`
+`;
+
+export const Title = styled.div`
+    font-size: 15px;
+    font-weight: bold;
+    font-family: 'Noto Sans KR', sans-serif;
+    text-align: left;
+    margin: 2% 0 2% 0;
+    dispaly: flex;
+    .page {
+        font-size: 30px;
+        font-weight: bold;
+    }
 `;
 
 export const Button = styled.button`

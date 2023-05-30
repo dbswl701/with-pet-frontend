@@ -126,7 +126,7 @@ function UserSideBar({
         <ListContainer>
           강아지 선택
           <Items>
-            {dogs.map((dog) => <Item key={dog.id} name="dogId" item={dog} filter={filter} onChange={onChange} />)}
+            {dogs.map((dog) => <Item key={dog.Id} name="dogId" item={dog} filter={filter} onChange={onChange} />)}
           </Items>
         </ListContainer>
         <ListContainer>

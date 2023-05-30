@@ -34,19 +34,6 @@ export const ItemContainer = styled.div`
     margin: 20px 0px;
     justify-content: center;
     align-items: center;
-    .sidebutton {
-        button {
-            width: 20px;
-            height: 50px;
-            background-color: #CAA969;
-            color: white;
-            border-radius: top-right: 5px, bottom-right: 5px;
-            ::clicked {
-                background-color: #ffffff;
-                color: #CAA969;
-            }
-        }
-    }
 `;
 
 export const ListContainer = styled.div`
@@ -111,6 +98,8 @@ export const ProfileContainer = styled.div`
     display: flex;
     flex-direction: row;
     margin-bottom: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
     .info {
         margin: 0px;
         margin-bottom: 7px;
@@ -161,12 +150,16 @@ export const Progress = styled.div`
     width: 148px;
     height: 10px;
     border-radius: 5px;
+    border: 1px solid;
     margin: auto 10px;
+    background-opacity: 50%;
     .heart {
         background-color: #FF3B3B;
+        border: 1px solid #FF3B3B;
     }
     .social {
         background-color: #caa969;
+        border: 1px solid #caa969;
     }
 `;
 

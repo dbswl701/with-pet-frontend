@@ -35,8 +35,8 @@ function CurrentListItem({ item, setPrintBody }) {
   const [showDiv, setShowDiv] = useState(false);
   const showButton = (
     <>
-      <button onClick={() => setPrintBody(['diary', item.dogId])}>일지</button>
-      <button>상세</button>
+      <button className="sidebuton" onClick={() => setPrintBody(['diary', item.dogId])}>일지</button>
+      <button className="sidebutton">상세</button>
     </>
   );
 
@@ -44,30 +44,32 @@ function CurrentListItem({ item, setPrintBody }) {
   return (
     <>
       <ItemContainer onMouseEnter={() => setShowDiv(true)} onMouseLeave={() => setShowDiv(false)}>
-        <ProfileContainer>
-          <ProfileImg src={item.dogImg} alt="img" />
-          <InfoContainer>
-            <p className="info">
-              {item.dogName} | {item.cost}
-            </p>
-            <p className="period">{item.checkIn} ~ {item.checkOut}</p>
-          </InfoContainer>
-        </ProfileContainer>
-        <EvalContainer>
-          <IconImg className="heart" src={heart} alt="heart" />
-          <Progress className="heart">
-            <Dealt className="heart" dealt={item.affectionTemperature} />
-          </Progress>
-          <p className="heart">{item.affectionTemperature}%</p>
-        </EvalContainer>
-        <EvalContainer>
-          <IconImg className="social" src={social} alt="social" />
-          <Progress className="social">
-            <Dealt className="social" dealt={item.socializationTemperature} />
-          </Progress>
-          <p className="social">{item.socializationTemperature}%</p>
-        </EvalContainer>
-        <div className="sidebutton">
+        <div>
+          <ProfileContainer>
+            <ProfileImg src={item.dogImg} alt="img" />
+            <InfoContainer>
+              <p className="info">
+                {item.dogName} | {item.cost}
+              </p>
+              <p className="period">{item.checkIn} ~ {item.checkOut}</p>
+            </InfoContainer>
+          </ProfileContainer>
+          <EvalContainer>
+            <IconImg className="heart" src={heart} alt="heart" />
+            <Progress className="heart">
+              <Dealt className="heart" dealt={item.affectionTemperature} />
+            </Progress>
+            <p className="heart">{item.affectionTemperature}%</p>
+          </EvalContainer>
+          <EvalContainer>
+            <IconImg className="social" src={social} alt="social" />
+            <Progress className="social">
+              <Dealt className="social" dealt={item.socializationTemperature} />
+            </Progress>
+            <p className="social">{item.socializationTemperature}%</p>
+          </EvalContainer>
+        </div>
+        <div>
           {showDiv && showButton}
         </div>
       </ItemContainer>
