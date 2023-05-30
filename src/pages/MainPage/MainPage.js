@@ -34,7 +34,7 @@ function MainPage() {
     console.log(options.services);
     console.log(options.services[0]);
 
-    axios.get(`https://withpet.site/api/v1/show-petsitter?address=${options.region}&dogSize=${options.size}&service=${options.services[0] !== undefined ? options.services[0] : ''}`, { withCredentials: true })
+    axios.get(`https://withpet.site/api/v1/show-petsitter?address=${options.region}&dogSize=${options.size}&service=${options.services !== undefined ? options.services : ''}`, { withCredentials: true })
       .then((res) => {
         setTemp(res.data.result.content);
         // console.log(res.data.result.content);

@@ -63,6 +63,7 @@ function UserSideBar({
           categoryId: category.categoryId.toString(),
           name: category.name,
         }));
+        console.log(updatedCategories);
         setCategories(updatedCategories);
       })
       .catch(() => {
@@ -109,7 +110,7 @@ function UserSideBar({
         </ListContainer>
         <ListContainer>
           카테고리 선택
-          {categories.map((category) => <Item key={category.categoryId} name="category" item={category} filter={filter} onChange={onChange} />)}
+          {categories.map((category) => <Item key={category.categoryId} name="categoryId" item={category} filter={filter} onChange={onChange} />)}
         </ListContainer>
       </SideBar>
     </>
