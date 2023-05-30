@@ -31,7 +31,7 @@ function PetsitterSidebar({ setPrintBody, selectedMonth }) {
         setNewReservations(res.data.result.newReservations);
         setDoneReservations(res.data.result.doneReservations);
       });
-  }, []);
+  }, [selectedMonth]);
 
   const handleApprove = (id, data) => {
     setUseReservations(useReservations.concat(data));
