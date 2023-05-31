@@ -1,6 +1,21 @@
 import React from 'react';
+// import axios from 'axios';
+// import './MediaCard.css'; // Import the CSS file that styles the media cards
+// import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { ImgWrapper, CardWrapper } from '../../styles/main/MainPageStyle';
+
+// const Grid = styled.div`
+//     display: grid;
+//     // grid-template-columns: repeat(5, 1fr);
+//     justify-items: center;
+//     padding: 20px;
+//     gap: 20px;
+//     margin: 0 auto;
+// `;
+
+// const Card = styled.div`
+//     background-color: #fff;
+// `;
 
 function MediaCard({ data }) {
   const navigate = useNavigate();
@@ -11,22 +26,24 @@ function MediaCard({ data }) {
     navigate(`./petsitterdetail/${id}`);
   };
   return (
-    <CardWrapper onClick={() => onClick(data.petSitterId)}>
-      <ImgWrapper src={data.petSitterRepresentativeHouse} alt={data.userName} />
-      <div style={{
-        display: 'flex', fontFamily: 'Noto Sans KR', color: 'black',
-      }}
-      >
-        <div style={{ fontSize: '1em', textAlign: 'left' }}>{data.userName}</div>
-        <div style={{ fontSize: '1em', textAlign: 'right' }}>({data.review_count})</div>
+    <div onClick={() => onClick(data.petSitterId)} style={{ marginRight: '14px' }}>
+      <div>
+        <img src={data.petSitterRepresentativeHouse} alt={data.userName} style={{ width: '190px', height: '130px', borderRadius: '5px' }} />
       </div>
-    </CardWrapper>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <h3>{data.userName}</h3>
+        <h4>({data.review_count})</h4>
+      </div>
+    </div>
   );
 }
 
 function MediaCardGrid({ cards }) {
   return (
-    <div id="grid">
+    <div style={{
+      display: 'flex', flexDirection: 'row', width: '1024px', flexWrap: 'wrap',
+    }}
+    >
       {cards && cards.map((card) => (
         // eslint-disable-next-line max-len
         <MediaCard key={card.petSitterId} data={card} />

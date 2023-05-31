@@ -60,8 +60,9 @@ function PetList() {
     }
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = (e, partyId) => {
     e.preventDefault();
+    // console.log(partyId);
     let img = petInfo.dog_img;
     if (img === '') {
       img = dogimgdefault;
@@ -78,9 +79,23 @@ function PetList() {
       dog_isbn: petInfo.dog_isbn,
     };
     // nextId.current += 1;
-    axios.post('https://withpet.site/api/v1/dogs/register-dog', pet, { withCredentials: true })
+    axios.post(`https://withpet.site/api/v1/dogs/register-dog/${partyId}`, pet, { withCredentials: true })
       .then((res) => {
-        setPets(pets.concat(res.data.result));
+        // console.log(res.data.result);
+        // console.log(partyId);
+        // console.log(groupList);
+        const updatedResult = groupList.map((item) => {
+          // console.log(item.partyId, partyId);
+          // console.log(item);
+          if (item.partyId === partyId) {
+            // console.log('여기가 맞는데');
+            // console.log(item.dogInfoResponseList.concat(res.data.result));
+            return { ...item, dogInfoResponseList: item.dogInfoResponseList.concat(res.data.result) };
+          }
+          return item;
+        });
+        // console.log(updatedResult);
+        setGroupList(updatedResult);
       })
       .catch(() => {
       });
@@ -154,7 +169,7 @@ function PetList() {
               // console.log(pet);
               return <Pet pet={pet} key={pet.dog_id} onSubmitModify={onSubmitModify} />;
             })}
-            <PetAdd pets={pets} setPets={setPets} onSubmit={onSubmit} onChange={onChange} petInfo={petInfo} onCancle={onCancle} />
+            <PetAdd partyId={group.partyId} pets={pets} setPets={setPets} onSubmit={onSubmit} onChange={onChange} petInfo={petInfo} onCancle={onCancle} />
           </div>
         ))}
         <div style={{ display: 'flex', justifyContent: 'space-around', width: '800px' }}>

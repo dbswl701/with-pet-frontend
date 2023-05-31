@@ -49,7 +49,7 @@ function MainPage() {
           <MultipleSelectChip services={serviceList} setOptions={setOptions} options={options} />
           <RenderGroup setOptions={setOptions} options={options} />
         </SelectContainer>
-        <CardContainer className="petsitterlist">
+        <CardContainer style={{ marginTop: '60px' }} className="petsitterlist">
           <MediaCardGrid cards={temp} />
         </CardContainer>
       </Content>

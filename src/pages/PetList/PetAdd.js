@@ -11,11 +11,11 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dogimgdefault from '../../assets/dogProfileImage.png';
 
 function PetAdd({
-  onSubmit, onChange, petInfo, onCancle,
+  onSubmit, onChange, petInfo, onCancle, partyId,
 }) {
   const [isClick, setisClick] = useState(false);
   const onLocalSubmit = (e) => {
-    onSubmit(e);
+    onSubmit(e, partyId);
     setisClick(false);
   };
 
