@@ -2,7 +2,7 @@ import React from 'react';
 import crown from '../../assets/crown.png';
 
 function UserItem({ user }) {
-  console.log(user);
+  // console.log(user);
   return (
     <div style={{
       display: 'flex', marginLeft: '30px', alignItems: 'center', border: '1px solid rgb(200, 200, 200)', height: '40px', borderRadius: '5px', padding: '0px 10px',
@@ -21,7 +21,7 @@ function UserItem({ user }) {
 }
 
 function Party({ group }) {
-  console.log(group);
+  // console.log(group);
   return (
     <>
       <div style={{
