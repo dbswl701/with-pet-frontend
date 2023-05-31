@@ -30,9 +30,9 @@ function MainPage() {
   }, []);
 
   useEffect(() => {
-    console.log(options);
-    console.log(options.services);
-    console.log(options.services[0]);
+    // console.log(options);
+    // console.log(options.services);
+    // console.log(options.services[0]);
 
     axios.get(`https://withpet.site/api/v1/show-petsitter?address=${options.region}&dogSize=${options.size}&service=${options.services !== undefined ? options.services : ''}`, { withCredentials: true })
       .then((res) => {
@@ -49,7 +49,7 @@ function MainPage() {
           <MultipleSelectChip services={serviceList} setOptions={setOptions} options={options} />
           <RenderGroup setOptions={setOptions} options={options} />
         </SelectContainer>
-        <CardContainer className="petsitterlist">
+        <CardContainer style={{ marginTop: '60px' }} className="petsitterlist">
           <MediaCardGrid cards={temp} />
         </CardContainer>
       </Content>

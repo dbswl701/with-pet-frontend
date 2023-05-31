@@ -43,13 +43,13 @@ export default function MultipleSelectChip({ services, setOptions, options }) {
     //   // On autofill we get a stringified value.
     //   typeof value === 'string' ? value.split(',') : value,
     // );
-    console.log(options);
+    // console.log(options);
     setOptions({
       ...options,
       services: typeof value === 'string' ? value.split(',') : value,
     });
   };
-  console.log(options);
+  // console.log(options);
   return (
     <SelectWrapper className="option">
       <FormControl sx={{ m: 1, width: 4 / 5, display: 'flex' }}>
