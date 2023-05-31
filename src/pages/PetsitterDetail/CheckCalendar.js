@@ -88,32 +88,23 @@ function ReservationPage({ onChange, petsitterId }) {
 
   return (
     <div>
-      <div>
-        <DateRangePicker
-          startDate={checkInDate}
-          startDateId="start_date"
-          endDate={checkOutDate}
-          endDateId="end_date"
-          onDatesChange={handleDateChange}
-          focusedInput={focusedInputType}
-          onFocusChange={handleFocusChange}
-          numberOfMonths={1}
-          startDatePlaceholderText="체크인 날짜"
-          endDatePlaceholderText="체크아웃 날짜"
-          onPrevMonthClick={handleMonthChange} // 이전 달로 이동할 때 이벤트 발생
-          onNextMonthClick={handleMonthChange}
-          isDayBlocked={(day) => isReservationDateBlocked(day)
-            || blockBeforeStartDate(day)
-            || blockAfterStartDate(day)}
-        />
-      </div>
-      <div>
-        {checkInDate && checkOutDate && (
-          <p>
-            Selected Range: {checkInDate.format('YYYY-MM-DD')} - {checkOutDate.format('YYYY-MM-DD')}
-          </p>
-        )}
-      </div>
+      <DateRangePicker
+        startDate={checkInDate}
+        startDateId="start_date"
+        endDate={checkOutDate}
+        endDateId="end_date"
+        onDatesChange={handleDateChange}
+        focusedInput={focusedInputType}
+        onFocusChange={handleFocusChange}
+        numberOfMonths={1}
+        startDatePlaceholderText="체크인 날짜"
+        endDatePlaceholderText="체크아웃 날짜"
+        onPrevMonthClick={handleMonthChange} // 이전 달로 이동할 때 이벤트 발생
+        onNextMonthClick={handleMonthChange}
+        isDayBlocked={(day) => isReservationDateBlocked(day)
+          || blockBeforeStartDate(day)
+          || blockAfterStartDate(day)}
+      />
     </div>
   );
 }

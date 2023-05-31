@@ -3,13 +3,14 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import axios from 'axios';
+import dayjs from 'dayjs';
 import UserDiaryList from '../UserDiary/UserDiaryList';
 
 moment.locale('en-GB');
 const localizer = momentLocalizer(moment);
 
 function CalendarView({
-  filteredDiaries, filter, open, setOpen,
+  filteredDiaries, filter, open, setOpen, setFilteredDiaries, setFilter,
 }) {
   // const [dayInfo, setDayInfo] = useState({
   //   categoryId: '',
@@ -18,6 +19,7 @@ function CalendarView({
   //   petsitterCheck: '',
   // });
   const [diaries, setDiaries] = useState([]);
+  // const [selectedMonth, setSelectedMonth] = useState(dayjs(new Date()).format('YYYY-MM'));
 
   const onDayClick = (event) => {
     // 클릭 시 년월일(2023-05-17), 필터링된 dogid, categoryid를 건내준다.
@@ -65,6 +67,30 @@ function CalendarView({
     };
   };
 
+  const handleNavigate = (date) => {
+    // 달 변경에 따른 정보 호출
+    // console.log(dayjs(date).format('YYYY-MM'));
+    // setSelectedMonth(dayjs(date).format('YYYY-MM'));
+    // setFilteredDiaries();
+    const colorList = ['#64C8F3', '#F36464', '#57DF86', '#DFDA57', '#CAA969', 'violet', 'gray'];
+    setFilter({ ...filter, month: dayjs(date).format('YYYY-MM') });
+    axios.get(`https://withpet.site/api/v1/userdiaries/month?categoryId=${filter.categoryId}&dogId=${filter.dogId}&month=${dayjs(date).format('YYYY-MM')}&petsitterCheck=${filter.petsitterCheck}`, { withCredentials: true })
+      .then((res) => {
+        const { result } = res.data;
+        // 이제 달력 보여줄거 업데이트 하자
+        const temp = result.map((item) => ({
+          start: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
+          end: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
+          color: colorList[(item.dogId % colorList.length) - 1],
+          title: item.dogName,
+        }));
+        setFilteredDiaries(temp);
+      })
+      .catch(() => {
+
+      });
+  };
+
   // console.log(filteredDiaries);
   // filter.categoryId
   return (
@@ -80,6 +106,7 @@ function CalendarView({
         onSelectEvent={(event) => onDayClick(event)}
         // onSelectEvent={() => alert(filter.categoryId)}
         eventPropGetter={eventStyleGetter}
+        onNavigate={handleNavigate}
       />
       <UserDiaryList diaries={diaries} open={open} setOpen={setOpen} setDiaries={setDiaries} />
     </div>
