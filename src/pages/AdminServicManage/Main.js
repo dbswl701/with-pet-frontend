@@ -12,7 +12,7 @@ export default function Orders() {
     // id: '',
     serviceName: '',
     serviceImg: '',
-    serviceIntroduction: '',
+    serviceIntro: '',
   });
   const [criticalList, setCriticalList] = useState([]);
 
@@ -62,8 +62,8 @@ export default function Orders() {
         // console.log(res.data.result);
         if (listName === 'service') {
           setList(list.concat(res.data.result));
-        } else {
-          setCriticalList(list.concat(res.data.result));
+        } else if (listName === 'criticalservice') {
+          setCriticalList(criticalList.concat(res.data.result));
         }
       })
       .catch(() => {
@@ -71,7 +71,7 @@ export default function Orders() {
     setData({
       serviceName: '',
       serviceImg: '',
-      serviceIntroduction: '',
+      serviceIntro: '',
     });
   };
 
@@ -121,13 +121,13 @@ export default function Orders() {
           {/* Chart */}
           <Grid item xs={12}>
             <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-              <WithPetServices listName="service" list={list} data={setData} onChange={onChange} onSubmit={onSubmit} onSubmitModify={onSubmitModify} onDelete={onDelete} />
+              <WithPetServices listName="service" list={list} data={data} onChange={onChange} onSubmit={onSubmit} onSubmitModify={onSubmitModify} onDelete={onDelete} />
             </Paper>
           </Grid>
           {/* Recent Deposits */}
           <Grid item xs={12}>
             <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-              <WithPetServices listName="criticalservice" list={criticalList} data={setData} onChange={onChange} onSubmit={onSubmit} onSubmitModify={onSubmitModify} onDelete={onDelete} />
+              <WithPetServices listName="criticalservice" list={criticalList} data={data} onChange={onChange} onSubmit={onSubmit} onSubmitModify={onSubmitModify} onDelete={onDelete} />
             </Paper>
           </Grid>
         </Grid>

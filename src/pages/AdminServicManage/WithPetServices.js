@@ -22,6 +22,7 @@ export default function Orders({
   // });
 
   // console.log(list);
+  // console.log(data.serviceName);
   return (
     <>
       <Typography component="h2" variant="h6" color="primary" gutterBottom>서비스 리스트</Typography>
@@ -50,7 +51,7 @@ export default function Orders({
               <TextField sx={{ m: 1 }} label="이름" variant="outlined" name="serviceName" onChange={onChange} value={data.serviceName} required />
             </TableCell>
             <TableCell>
-              <TextField sx={{ m: 1 }} label="설명" variant="outlined" name="serviceIntroduction" onChange={onChange} value={data.serviceIntroduction} required />
+              <TextField sx={{ m: 1 }} label="설명" variant="outlined" name="serviceIntro" onChange={onChange} value={data.serviceIntro} required />
             </TableCell>
             <TableCell>
               <button onClick={(e) => onSubmit(e, listName)}>추가</button>
