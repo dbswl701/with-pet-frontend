@@ -85,12 +85,12 @@ function CurrentListItem({ item, handleRemoveNew, handleApprove }) {
         </EvalContainer>
         <EvalContainer>
           <IconImg className="social" src={social} alt="social" />
-          <Progress>
+          <Progress style={{ borderColor: '#caa969' }}>
             <Dealt className="social" dealt={item.socializationTemperature} />
           </Progress>
           <p className="social">{item.socializationTemperature}%</p>
         </EvalContainer>
-        <EvalContainer>
+        <EvalContainer style={{ flexDirection: 'column' }}>
           <Button onClick={onClick} value="APPROVAL">승인</Button>
           <Button onClick={onClick} value="CANCEL">거절</Button>
         </EvalContainer>

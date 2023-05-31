@@ -10,7 +10,7 @@ export const SideBar = styled.div`
     margin: 75px 40px 50px 40px;
     flex-direction: column;
     align-items: center;
-    // padding: 10px 0px 10px 10px;
+    padding: 10px 10px 10px 10px;
     margin-bottom: 20px;
 `;
 
@@ -18,6 +18,7 @@ export const Title = styled.div`
     display: flex;
     // font-size: 20px;
     margin: 10px 0px 10px 0px;
+    text-align: left;
 `;
 
 export const Items = styled.div`
@@ -181,7 +182,14 @@ export const Dealt = styled.div`
   width: ${(props) => `${props.dealt}%`};
   height: 100%;
   border-radius: 5px;
-  background-color: 
+  .heart {
+    background-color: #FF3B3B;
+    border: 1px solid #FF3B3B;
+  }
+    .social {
+        background-color: #caa969;
+        border: 1px solid #caa969;
+    }
 `;
 
 export const Content = styled.div`

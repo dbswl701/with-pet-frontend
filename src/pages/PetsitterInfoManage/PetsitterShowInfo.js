@@ -1,21 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import {
+  Button, Container, DivContainer, Title,
+} from './InfoStyle';
 
 function Item({ service }) {
   return (
-    <>
-      <div style={{
-        backgroundColor: `${service.isIncluded === true ? '#FAEBD7' : 'gray'}`, width: '300px', marginRight: '20px', borderRadius: '20px',
-      }}
-      >
-        {/* 사진, 이름, 내용 */}
-        <img src={service.serviceImg} alt="서비스 이미지" style={{ width: '100px', height: '100px' }} />
+    <div style={{
+      backgroundColor: `${service.isIncluded === true ? '#FAF6F0' : '#F2F2F2'}`, color: `${service.isIncluded === true ? '#CAA969' : 'gray'}`, width: '130px', height: '150px', marginRight: '5px', borderRadius: '20px', padding: '10px', fontSize: '12px',
+    }}
+    >
+      {/* 사진, 이름, 내용 */}
+      <div style={{ textAlign: 'center' }}>
+        <img src={service.serviceImg} alt="서비스 이미지" style={{ width: '30px', height: '30px', marginTop: '5px' }} />
+      </div>
+      <div style={{ paddingLeft: '5px' }}>
         <p>{service.serviceName}</p>
         <p>{service.serviceIntroduction}</p>
-        <p>가격: {service.price}</p>
+        <p>{service.price ? `가격 : ${service.price}원` : null}</p>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -60,37 +65,40 @@ function PetsitterShowInfo() {
   });
 
   const showInfo = (
-    <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
-      <h1>펫시터 정보 관리 페이지</h1>
-      <div style={{ boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px' }}>
-        <h2>집사진</h2>
-        {
-          info.petSitterHouses && info.petSitterHouses.map((img) => {
-            return <img key={img.houseId} src={img.houseImg} alt="집사진" style={{ width: '200px', height: '200px' }} />;
-          })
-        }
-      </div>
-      <div style={{ boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px' }}>
-        <h2>해시태그</h2>
-        {
+    <Container>
+      <Title className="page">펫시터 정보 관리 페이지</Title>
+      <DivContainer>
+        <div style={{ flexDirection: 'row' }}>
+          <Title>집사진</Title>
+          {
+            info.petSitterHouses && info.petSitterHouses.map((img) => {
+              return <img key={img.houseId} src={img.houseImg} alt="집사진" style={{ width: '200px', height: '200px' }} />;
+            })
+          }
+        </div>
+      </DivContainer>
+      <DivContainer>
+        <Title>해시태그</Title>
+        <div style={{ display: 'flex' }}>
+          {
           info.petSitterHashTags && info.petSitterHashTags.map((tag) => {
-            return <p key={tag.petSitterHashTagId}>#{tag.hashTagName}</p>;
+            return <p style={{ textAlign: 'left' }} key={tag.petSitterHashTagId}>#{tag.hashTagName}&ensp;</p>;
           })
         }
-      </div>
-
-      <div style={{ boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px' }}>
-        <h2>소개글</h2>
+        </div>
+      </DivContainer>
+      <DivContainer>
+        <Title>소개글</Title>
         <p>{info.introduction}</p>
-      </div>
+      </DivContainer>
 
-      <div style={{ boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px' }}>
-        <p>자격증</p>
-        <img src={info.petSitterLicenseImg} alt="자격증 사진" />
-      </div>
+      <DivContainer>
+        <Title>자격증</Title>
+        <img src={info.petSitterLicenseImg} alt="자격증 사진" style={{ width: '180px', height: '150px' }} />
+      </DivContainer>
 
-      <div style={{ boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px' }}>
-        <p>이용 가능 서비스</p>
+      <DivContainer>
+        <Title>이용 가능 서비스</Title>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           {
             isServiceIdIncluded && isServiceIdIncluded.map((service) => {
@@ -98,9 +106,9 @@ function PetsitterShowInfo() {
             })
           }
         </div>
-      </div>
-      <div style={{ boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px' }}>
-        <p>필수 서비스</p>
+      </DivContainer>
+      <DivContainer>
+        <Title>필수 서비스</Title>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           {
             isCriticalServiceIdIncluded && isCriticalServiceIdIncluded.map((service) => {
@@ -108,15 +116,15 @@ function PetsitterShowInfo() {
             })
           }
         </div>
-      </div>
-      <button onClick={onModify} style={{ height: '50px' }}>수정하기</button>
-    </div>
+      </DivContainer>
+      <Button onClick={onModify} style={{ height: '50px' }}>수정</Button>
+    </Container>
   );
 
   const initPrint = (
-    <div>
-      <button onClick={() => navigate('../petsitterInfoManage')}>등록하기</button>
-    </div>
+    <Container>
+      <Button className="init" onClick={() => navigate('../petsitterInfoManage')}>등록하기</Button>
+    </Container>
   );
 
   // 만약 펫시터의 정보가 하나도 없다면

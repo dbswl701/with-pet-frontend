@@ -56,7 +56,7 @@ export const SelectWrapper = styled.div`
 `;
 
 export const CardContainer = styled.div`
-    margin: 5% 3% 0 3%;
+    margin: 10% 5% 10% 5%;
     display: grid;
     grid-template-rows: repeat(4, 1fr);
     grid-template-columns: repeat(5, 1fr);
