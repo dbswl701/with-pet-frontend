@@ -41,7 +41,7 @@ function MediaCard({ data }) {
 function MediaCardGrid({ cards }) {
   return (
     <div style={{
-      display: 'flex', flexDirection: 'row', width: '1024px', flexWrap: 'wrap',
+      display: 'flex', flexDirection: 'row', width: '1024px', flexWrap: 'wrap', marginTop: '60px',
     }}
     >
       {cards && cards.map((card) => (
