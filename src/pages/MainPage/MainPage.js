@@ -5,7 +5,7 @@ import RenderGroup from './Region';
 import MediaCardGrid from './MediaCardGrid';
 import PetSize from './PetSize';
 import {
-  Background, Content, SelectContainer, CardContainer,
+  Background, Content, SelectContainer,
 } from '../../styles/main/MainPageStyle';
 
 function MainPage() {
@@ -49,9 +49,7 @@ function MainPage() {
           <MultipleSelectChip services={serviceList} setOptions={setOptions} options={options} />
           <RenderGroup setOptions={setOptions} options={options} />
         </SelectContainer>
-        <CardContainer style={{ marginTop: '60px' }} className="petsitterlist">
-          <MediaCardGrid cards={temp} />
-        </CardContainer>
+        <MediaCardGrid cards={temp} />
       </Content>
     </Background>
   );
