@@ -38,7 +38,7 @@ export default function Asynchronous({ options, setOptions }) {
       });
     }
   };
-  console.log(options);
+  // console.log(options);
   return (
     <SelectWrapper>
       <FormControl sx={{ m: 1, width: 4 / 5, display: 'flex' }}>

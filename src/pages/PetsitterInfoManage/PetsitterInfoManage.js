@@ -2,35 +2,31 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import TextField from '@mui/material/TextField';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 import {
-  Container, DivContainer, Button, CancelButton, Title,
+  Container, Label, DivContainer, Button, CancelButton, Title,
 } from './InfoStyle';
 
-const Label = styled.label`
-height: 40px;
-width: 100px;
-margin-bottom: 10px;
-background-color: #CAA969;
-color: white;
-box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
-border: none;
-border-radius: 5px;
-`;
 function Item1({ service, onRemove }) {
   // 1. 활성화 (isInclude === true)
   const includeed = (
     <div style={{
       // cursor: 'pointer', backgroundColor: '#caa969', width: '300px', marginRight: '20px',
-      backgroundColor: `${service.isIncluded === true ? '#FAEBD7' : 'gray'}`, width: '300px', marginRight: '20px', borderRadius: '20px',
+      backgroundColor: `${service.isIncluded === true ? '#FAF6F0' : '#F2F2F2'}`, color: `${service.isIncluded === true ? '#CAA969' : 'gray'}`, width: '130px', height: '200px', marginRight: '5px', borderRadius: '20px', padding: '10px', fontSize: '10px',
     }}
     >
       {/* 사진, 이름, 내용, 가격, 삭제 버튼 */}
-      <img src={service.serviceImg} alt="서비스 이미지" style={{ width: '100px', height: '100px' }} />
-      <p>{service.serviceName}</p>
-      <p>{service.serviceIntroduction}</p>
-      <p>가격: {service.price}</p>
-      <input type="button" value="삭제" onClick={() => onRemove(service.serviceId)} />
+      <div style={{ textAlign: 'center' }}>
+        <img src={service.serviceImg} alt="서비스 이미지" style={{ width: '30px', height: '30px', marginTop: '5px' }} />
+      </div>
+      <div style={{ paddingLeft: '5px' }}>
+        <p>{service.serviceName}</p>
+        <p>{service.serviceIntroduction}</p>
+        <p>가격: {service.price}</p>
+      </div>
+      <div style={{ textAlign: 'center' }}>
+        <Button value="삭제" onClick={() => onRemove(service.serviceId)}>삭제</Button>
+      </div>
     </div>
   );
 
@@ -47,15 +43,21 @@ function Item2({ service, onAdd }) {
   const notIncluded = (
     <div
       style={{
-        cursor: 'pointer', backgroundColor: 'gray', width: '300px', marginRight: '20px', borderRadius: '20px',
+        cursor: 'pointer', backgroundColor: '#F2F2F2', width: '130px', height: '200px', marginRight: '5px', borderRadius: '20px', padding: '10px', fontSize: '10px',
       }}
     >
       {/* 사진, 이름, 내용, 가격, 삭제 버튼 */}
-      <img src={service.serviceImg} alt="서비스 이미지" style={{ width: '100px', height: '100px' }} />
-      <p>{service.serviceName}</p>
-      <p>{service.serviceIntroduction}</p>
-      <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
-      <input type="button" value="추가" onClick={() => onAdd(service.serviceId, price)} />
+      <div style={{ textAlign: 'center' }}>
+        <img src={service.serviceImg} alt="서비스 이미지" style={{ width: '30px', height: '30px' }} />
+      </div>
+      <div>
+        <p>{service.serviceName}</p>
+        <p>{service.serviceIntroduction}</p>
+      </div>
+      <div style={{ textAlign: 'center' }}>
+        <input style={{ width: '80%', marginBottom: '3px' }} type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
+        <Button value="추가" onClick={() => onAdd(service.serviceId, price)}>추가</Button>
+      </div>
     </div>
   );
 
@@ -229,19 +231,22 @@ function PetsitterInfoManage() {
       <Title className="page">펫시터 정보 수정 페이지</Title>
       <form onSubmit={onSubmit}>
         <DivContainer>
-          <Title>집사진</Title>
-          {/* <div> */}
-          {
+          <div style={{ flexDirection: 'row' }}>
+            <Title>집사진</Title>
+            {/* <div> */}
+            {
             houseImgList && houseImgList.map((img, index) => (
               // eslint-disable-next-line react/no-array-index-key
               <div key={index}>
                 <img key={img} src={img} alt="집사진" style={{ width: '200px', height: '200px' }} />
                 {/* <input type="button" value="x" /> */}
+                &ensp;
                 <CancelButton className="cancel" value="X" onClick={() => onRemoveHousImg(img)}>X</CancelButton>
                 { index === 0 ? <p>대표사진</p> : <p> </p>}
               </div>
             ))
           }
+          </div>
           {/* </div> */}
           <>
             <input id="file" multiple style={{ visibility: 'hidden' }} type="file" accept="image/*" onChange={handleImageChange} />
@@ -263,16 +268,16 @@ function PetsitterInfoManage() {
           </div>
           <TextField sx={{ m: 1 }} variant="outlined" size="small" name="hashTagName" onChange={(e) => setHashTag(e.target.value)} value={hashTag} />
           {/* <TextField sx={{ m: 1 }} label="해시태그" variant="outlined" size="small" name="hashTagName" onChange={(e) => setHashTag(e.target.value)} value={hashTag} /> */}
-          <input type="button" onClick={handleHashtag} value="추가" />
-          {/* <Button onClick={handleHashtag} value="추가">추가</Button> */}
+          {/* <input type="button" onClick={handleHashtag} value="추가" /> */}
+          <Button onClick={handleHashtag} value="추가">추가</Button>
         </DivContainer>
         <DivContainer>
           <Title>소개글</Title>
-          <TextField multiline sx={{ m: 1 }} variant="outlined" size="small" name="introduction" onChange={(e) => setIntroduction(e.target.value)} value={introduction} required />
+          <TextField multiline rows={3} sx={{ m: 1 }} variant="outlined" size="small" name="introduction" onChange={(e) => setIntroduction(e.target.value)} value={introduction} required />
         </DivContainer>
         <DivContainer>
           <Title>자격증</Title>
-          <img id="preview-image" alt="이미지 미리보기" src={petSitterLicenseImg} />
+          <img alt="이미지 미리보기" src={petSitterLicenseImg} style={{ width: '180px', height: '150px' }} />
         </DivContainer>
         <DivContainer>
           <Title>이용 가능 서비스</Title>
@@ -294,7 +299,10 @@ function PetsitterInfoManage() {
             )))}
           </div>
         </DivContainer>
-        <DivContainer>
+        <DivContainer style={{
+          width: '100%', display: 'inline-block', justifyContent: 'center', alignContent: 'center', alignItems: 'center',
+        }}
+        >
           <Button value="수정">수정</Button>
           <Button value="취소" onClick={() => navigate('../petsitterShowInfo')}>취소</Button>
         </DivContainer>

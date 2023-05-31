@@ -2,7 +2,7 @@ import React from 'react';
 // import axios from 'axios';
 // import styled from 'styled-components';
 // import NewListItem from './CurrentListItem';
-import { ListContainer, Items } from '../../styles/sidebar/SidebarStyle';
+import { ListContainer, Items, Title } from '../../styles/sidebar/SidebarStyle';
 // const Title = styled.p`
 //   display: flex;
 // `;
@@ -40,7 +40,7 @@ function NewList({ newReservations, handleRemoveNew, handleApprove }) {
 
   return (
     <ListContainer className="list">
-      <p>신규 요청 목록</p>
+      <Title>신규 요청 목록</Title>
       <Items>
         {newReservations.map((currentItem) => {
           return <NewListItem key={currentItem.reservationId} item={currentItem} handleRemoveNew={handleRemoveNew} handleApprove={handleApprove} />;

@@ -92,7 +92,7 @@ function UserDiaryModify({ onSubmit, diaryInfo, onToggle }) {
       title: modifyDiaryInfo.title,
       dogImgToday: modifyDiaryInfo.dogImgToday,
     };
-    console.log(updatedSubmitInfo);
+    // console.log(updatedSubmitInfo);
     onSubmit(diaryInfo.userDiaryId, updatedSubmitInfo);
   };
 

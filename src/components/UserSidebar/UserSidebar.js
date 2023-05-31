@@ -50,7 +50,7 @@ function UserSideBar({
 
       });
   };
-  console.log(filteredDiaries);
+  // console.log(filteredDiaries);
   useEffect(() => {
     axios.get('https://withpet.site/api/v1/calendar', { withCredentials: true })
       .then((res) => {
@@ -63,7 +63,7 @@ function UserSideBar({
           categoryId: category.categoryId.toString(),
           name: category.name,
         }));
-        console.log(updatedCategories);
+        // console.log(updatedCategories);
         setCategories(updatedCategories);
       })
       .catch(() => {

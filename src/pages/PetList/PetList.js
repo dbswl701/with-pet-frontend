@@ -123,7 +123,7 @@ function PetList() {
     axios.get('https://withpet.site/api/v1/groups/group-infos', { withCredentials: true })
       .then((res) => {
         setGroupList(res.data.result);
-        console.log(res.data.result);
+        // console.log(res.data.result);
       })
       .catch(() => {
       });
@@ -166,7 +166,7 @@ function PetList() {
           <div key={group.partyId}>
             <Party group={group} />
             { group.dogInfoResponseList.map((pet) => {
-              console.log(pet);
+              // console.log(pet);
               return <Pet pet={pet} key={pet.dog_id} onSubmitModify={onSubmitModify} />;
             })}
             <PetAdd partyId={group.partyId} pets={pets} setPets={setPets} onSubmit={onSubmit} onChange={onChange} petInfo={petInfo} onCancle={onCancle} />
