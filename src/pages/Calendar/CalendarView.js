@@ -69,7 +69,7 @@ function CalendarView({
 
   const handleNavigate = (date) => {
     // 달 변경에 따른 정보 호출
-    console.log(dayjs(date).format('YYYY-MM'));
+    // console.log(dayjs(date).format('YYYY-MM'));
     // setSelectedMonth(dayjs(date).format('YYYY-MM'));
     // setFilteredDiaries();
     const colorList = ['#64C8F3', '#F36464', '#57DF86', '#DFDA57', '#CAA969', 'violet', 'gray'];
@@ -91,7 +91,7 @@ function CalendarView({
       });
   };
 
-  console.log(filteredDiaries);
+  // console.log(filteredDiaries);
   // filter.categoryId
   return (
     <div className="App">
