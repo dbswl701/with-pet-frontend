@@ -38,7 +38,7 @@ function DoneListItem({ item, setPrintBody }) {
     <>
       <ItemContainer onMouseEnter={() => setShowDiv(true)} onMouseLeave={() => setShowDiv(false)}>
         <ProfileContainer>
-          <ProfileImg src={item.dogimg} alt="img" />
+          <ProfileImg src={item.dogImg} alt="img" />
           <InfoContainer>
             <p className="info">
               {item.dogName} | {item.cost}
