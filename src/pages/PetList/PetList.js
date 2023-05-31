@@ -62,7 +62,7 @@ function PetList() {
 
   const onSubmit = (e, partyId) => {
     e.preventDefault();
-    console.log(partyId);
+    // console.log(partyId);
     let img = petInfo.dog_img;
     if (img === '') {
       img = dogimgdefault;
