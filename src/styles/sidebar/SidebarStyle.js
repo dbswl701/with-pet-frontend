@@ -10,7 +10,7 @@ export const SideBar = styled.div`
     margin: 75px 40px 50px 40px;
     flex-direction: column;
     align-items: center;
-    // padding: 10px 0px 10px 10px;
+    padding: 10px 10px 10px 10px;
     margin-bottom: 20px;
 `;
 

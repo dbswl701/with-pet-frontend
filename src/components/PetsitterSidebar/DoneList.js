@@ -2,7 +2,7 @@ import React from 'react';
 // import styled from 'styled-components';
 // import styled from 'styled-components';
 import DoneListItem from './DoneListItem';
-import { Items, ListContainer } from '../../styles/sidebar/SidebarStyle';
+import { Items, Title, ListContainer } from '../../styles/sidebar/SidebarStyle';
 
 // const p = styled.p`
 //   display: flex;
@@ -37,7 +37,7 @@ function DoneList({ doneReservations, setPrintBody }) {
 
   return (
     <ListContainer>
-      <p>이용 완료 목록</p>
+      <Title>이용 완료 목록</Title>
       <Items>
         {doneReservations.map((currentItem) => {
           return <DoneListItem key={currentItem.reservationId} item={currentItem} setPrintBody={setPrintBody} />;
