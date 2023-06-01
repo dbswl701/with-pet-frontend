@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
 import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import dayjs from 'dayjs';
@@ -119,7 +119,7 @@ function UserDiaryAdd({
   return (
     <div className={`${!isClick ? 'diary-add' : 'diary-detail'}`}>
       {isClick !== true ? (
-        <AddCircleOutlineIcon fontSize="large" onClick={() => { setisClick(true); }} />
+        <ChevronLeftOutlinedIcon fontSize="large" onClick={() => { setisClick(true); }} />
       ) : (
         addDiary
       )}

@@ -65,7 +65,7 @@ export default function Orders({ rows, handleApprove, handleCancle }) {
           <TableRow>
             <TableCell>ID</TableCell>
             <TableCell>사진</TableCell>
-            <TableCell>아이디</TableCell>
+            <TableCell>이름</TableCell>
             <TableCell>계정</TableCell>
             <TableCell>전화번호</TableCell>
             <TableCell>상태</TableCell>
@@ -74,12 +74,11 @@ export default function Orders({ rows, handleApprove, handleCancle }) {
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <TableRow key={row.applicant_id}>
-              <TableCell>{row.applicant_id}</TableCell>
+            <TableRow key={row.applicant_user_id}>
+              <TableCell>{row.applicant_user_id}</TableCell>
               <TableCell><img src={row.applicant_user_profileImg} alt="img" style={{ width: '50px', borderRadius: '50%' }} /></TableCell>
               <TableCell>{row.applicant_user_name}</TableCell>
-              <TableCell>{row.applicant_user_name}</TableCell>
-              <TableCell>{row.applicantId}</TableCell>
+              <TableCell>{row.applicant_user_auth_id}</TableCell>
               <TableCell>{row.applicant_user_phone}</TableCell>
               <TableCell>{row.applicant_status}</TableCell>
               <TableCell align="right">

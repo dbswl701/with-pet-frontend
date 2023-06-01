@@ -31,9 +31,7 @@ function AdminMainPage() {
   const handleApprove = (row) => {
     // console.log(row);
     const temp = {
-      applicantId: row.applicant_id,
-      applicantStatus: 'APPROVE',
-      applicant_userId: row.applicant_user_id,
+      userId: row.applicant_user_id,
     };
     // console.log(temp);
     // console.log(row.applicant_id);

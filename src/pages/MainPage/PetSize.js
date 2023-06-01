@@ -2,28 +2,37 @@ import * as React from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+// import OutlinedInput from '@mui/material/OutlinedInput';
+import { SelectWrapper } from '../../styles/main/MainPageStyle';
 
-export default function SelectLabels() {
-  const [size, setSize] = React.useState('');
+export default function SelectLabels({ setOptions, options }) {
+  // const [size, setSize] = React.useState('');
 
   const handleChange = (event) => {
-    setSize(event.target.value);
+    // setSize(event.target.value);
+    setOptions({
+      ...options,
+      size: event.target.value,
+    });
   };
+  // console.log(size);
 
   return (
-    <div>
-      <FormControl sx={{ m: 1, width: 300 }}>
+    <SelectWrapper id="petsize">
+      <FormControl sx={{ m: 1, width: 4 / 5, display: 'flex' }}>
+        <span id="txt">반려견 크기</span>
         <Select
-          value={size}
+          className="select"
+          value={options.size}
           onChange={handleChange}
           displayEmpty
           inputProps={{ 'aria-label': 'Without label' }}
         >
-          <MenuItem value={10}>소</MenuItem>
-          <MenuItem value={20}>중</MenuItem>
-          <MenuItem value={30}>대</MenuItem>
+          <MenuItem value="소형견">소형견</MenuItem>
+          <MenuItem value="중형견">중형견</MenuItem>
+          <MenuItem value="대형견">대형견</MenuItem>
         </Select>
       </FormControl>
-    </div>
+    </SelectWrapper>
   );
 }

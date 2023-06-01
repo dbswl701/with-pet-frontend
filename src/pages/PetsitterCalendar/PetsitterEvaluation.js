@@ -77,7 +77,7 @@ function UserEvaluation({ id, setPrintBody }) {
   };
 
   const print = (
-    <div style={{ display: 'flex', justifyContent: 'center', margin: 'auto' }}>
+    <div style={{ display: 'flex', justifyContent: 'center', margin: '100px auto' }}>
       <form onSubmit={onSubmit}>
         <Title>Q1. 호텔 등 낯선 공간에 맡겨지면,어떤 반응을 보이나요 ? *</Title>
         <TextField sx={{ m: 1 }} select label="Q1를 입력해주세요." variant="outlined" name="q1" style={{ width: '416px' }} onChange={onChange} value={answer.q1} size="small" required>

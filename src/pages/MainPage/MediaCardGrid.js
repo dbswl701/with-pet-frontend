@@ -1,21 +1,21 @@
 import React from 'react';
 // import axios from 'axios';
 // import './MediaCard.css'; // Import the CSS file that styles the media cards
-import styled from 'styled-components';
+// import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-const Grid = styled.div`
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    justify-items: center;
-    padding: 20px;
-    gap: 20px;
-    margin: 0 auto;
-`;
+// const Grid = styled.div`
+//     display: grid;
+//     // grid-template-columns: repeat(5, 1fr);
+//     justify-items: center;
+//     padding: 20px;
+//     gap: 20px;
+//     margin: 0 auto;
+// `;
 
-const Card = styled.div`
-    background-color: #fff;
-`;
+// const Card = styled.div`
+//     background-color: #fff;
+// `;
 
 function MediaCard({ data }) {
   const navigate = useNavigate();
@@ -26,27 +26,28 @@ function MediaCard({ data }) {
     navigate(`./petsitterdetail/${id}`);
   };
   return (
-    <Card onClick={() => onClick(data.petSitterId)}>
+    <div onClick={() => onClick(data.petSitterId)} style={{ marginRight: '14px' }}>
       <div>
-        <img src={data.petSitterRepresentativeHouse} alt={data.userName} style={{ width: '224px', height: '150px' }} />
+        <img src={data.petSitterRepresentativeHouse} alt={data.userName} style={{ width: '190px', height: '130px', borderRadius: '5px' }} />
       </div>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <h3>{data.userName}</h3>
         <h4>({data.review_count})</h4>
       </div>
-    </Card>
+    </div>
   );
 }
 
 function MediaCardGrid({ cards }) {
   return (
-    <div>
-      <Grid>
-        {cards && cards.map((card) => (
-          // eslint-disable-next-line max-len
-          <MediaCard key={card.petSitterId} data={card} />
-        ))}
-      </Grid>
+    <div style={{
+      display: 'flex', flexDirection: 'row', width: '1024px', flexWrap: 'wrap', marginTop: '60px',
+    }}
+    >
+      {cards && cards.map((card) => (
+        // eslint-disable-next-line max-len
+        <MediaCard key={card.petSitterId} data={card} />
+      ))}
     </div>
   );
 }

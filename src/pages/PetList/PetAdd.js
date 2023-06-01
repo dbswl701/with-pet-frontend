@@ -4,19 +4,18 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import dayjs from 'dayjs';
-import axios from 'axios';
+// import axios from 'axios';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dogimgdefault from '../../assets/dogProfileImage.png';
 
 function PetAdd({
-  onSubmit, onChange, petInfo, onCancle, setPets, pets,
+  onSubmit, onChange, petInfo, onCancle, partyId,
 }) {
   const [isClick, setisClick] = useState(false);
-  const [partyCode, setPartyCode] = useState('');
   const onLocalSubmit = (e) => {
-    onSubmit(e);
+    onSubmit(e, partyId);
     setisClick(false);
   };
 
@@ -37,25 +36,6 @@ function PetAdd({
     setisClick(false);
   };
 
-  const onJoinParty = () => {
-    axios.post('https://withpet.site/api/v1/groups/member', { partyIsbn: partyCode }, { withCredentials: true })
-      .then((res) => {
-        // console.log(res.data.result);
-        setPets(pets.concat(res.data.result));
-        // setPets(res.data.result);
-        setisClick(false);
-        setPartyCode('');
-      })
-      .catch(() => {
-        // const temp = res.request.response;
-        // const temp = { errorCode: 'DUPLICATED_GROUP_MEMBER', message: '해당 그룹에 존재하는 유저입니다.' };
-
-        // console.log(temp);
-        // eslint-disable-next-line dot-notation
-        // console.log(temp['message']);
-      });
-  };
-
   const addinfo = (
     <form onSubmit={onLocalSubmit}>
       <div className="pet-img-regist">
@@ -72,12 +52,6 @@ function PetAdd({
           style={{ display: 'none' }}
           onChange={onChange}
         />
-
-        <div style={{ backgroundColor: 'white', marginTop: '30px' }}>
-          <p>그룹에 참여하기</p>
-          <TextField sx={{ m: 1 }} label="코드 입력" variant="standard" size="small" name="inviteCode" value={partyCode} onChange={(e) => setPartyCode(e.target.value)} />
-          <input type="button" value="그룹 참여" onClick={onJoinParty} />
-        </div>
       </div>
       <div className="pet-info-regist">
         <TextField
@@ -215,6 +189,7 @@ function PetAdd({
           onClick={() => {
             setisClick(true);
           }}
+          style={{ color: 'rgb(181, 181, 181)' }}
         />
       ) : (
         addinfo

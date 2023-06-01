@@ -7,23 +7,30 @@ export const SideBar = styled.div`
     height: 100rem;
     width: 256px;
     border-radius: 5px;
-    margin-top: 30px;
-    margin-left: 40px;
-    margin-bottom: 50px;
+    margin: 75px 40px 50px 40px;
     flex-direction: column;
     align-items: center;
-    padding: 10px 0px 10px 10px;
+    padding: 10px 10px 10px 10px;
     margin-bottom: 20px;
+`;
+
+export const Title = styled.div`
+    display: flex;
+    // font-size: 20px;
+    margin: 10px 0px 10px 0px;
+    text-align: left;
 `;
 
 export const Items = styled.div`
     display: flex;
     flex-direction: column;
+    border-bottom: 1px solid gray;
 `;
 
 export const ItemContainer = styled.div`
     display: flex;
     flex-direction: column;
+    position: relative;
     border-radius: 10px;
     margin: 20px 0px;
     justify-content: center;
@@ -92,6 +99,8 @@ export const ProfileContainer = styled.div`
     display: flex;
     flex-direction: row;
     margin-bottom: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
     .info {
         margin: 0px;
         margin-bottom: 7px;
@@ -142,19 +151,45 @@ export const Progress = styled.div`
     width: 148px;
     height: 10px;
     border-radius: 5px;
+    border: 1px solid;
     margin: auto 10px;
+    background-opacity: 50%;
     .heart {
         background-color: #FF3B3B;
+        border: 1px solid #FF3B3B;
     }
     .social {
         background-color: #caa969;
+        border: 1px solid #caa969;
     }
+`;
+
+export const CardContainer = styled.div`
+    display: grid;
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
+    background-opacity: 100;
+    width: 80vw;
+    height: 60vh;
+    justify-items: center;
+    align-content: center;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 3px;
 `;
 
 export const Dealt = styled.div`
   width: ${(props) => `${props.dealt}%`};
   height: 100%;
   border-radius: 5px;
+  .heart {
+    background-color: #FF3B3B;
+    border: 1px solid #FF3B3B;
+  }
+    .social {
+        background-color: #caa969;
+        border: 1px solid #caa969;
+    }
 `;
 
 export const Content = styled.div`
@@ -162,7 +197,7 @@ export const Content = styled.div`
     width: 12rem;
     text-align: center;
     height: 3rem;
-    background-color: gray;
+    background-color: #e6e6e6;
     color: black;
     justify-content: center;
     align-items: center;

@@ -1,13 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import dayjs from 'dayjs';
+import styled from 'styled-components';
 import Pet from './Pet';
+import JoinParty from './JoinParty';
+import CreateParty from './CreateParty';
 import './Pets.css';
 import PetAdd from './PetAdd';
+import Party from './Party';
 import dogimgdefault from '../../assets/dogProfileImage.png';
+
+const Button = styled.button`
+  background-color: #CAA969;
+  border: none;
+  border-radius: 10px;
+  width: 256px;
+  height: 50px;
+  color: white;
+`;
 
 function PetList() {
   const [pets, setPets] = useState([]);
+  const [groupList, setGroupList] = useState([]);
+  const [openParty, setOpenParty] = useState(false); // 모달창
+  const [openCreate, setOpenCreate] = useState(false);
   const dateNow = new Date();
   const today = dateNow.toISOString().slice(0, 10);
   const [petInfo, setPetInfo] = useState({
@@ -44,8 +60,9 @@ function PetList() {
     }
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = (e, partyId) => {
     e.preventDefault();
+    // console.log(partyId);
     let img = petInfo.dog_img;
     if (img === '') {
       img = dogimgdefault;
@@ -62,9 +79,23 @@ function PetList() {
       dog_isbn: petInfo.dog_isbn,
     };
     // nextId.current += 1;
-    axios.post('https://withpet.site/api/v1/dogs/register-dog', pet, { withCredentials: true })
+    axios.post(`https://withpet.site/api/v1/dogs/register-dog/${partyId}`, pet, { withCredentials: true })
       .then((res) => {
-        setPets(pets.concat(res.data.result));
+        // console.log(res.data.result);
+        // console.log(partyId);
+        // console.log(groupList);
+        const updatedResult = groupList.map((item) => {
+          // console.log(item.partyId, partyId);
+          // console.log(item);
+          if (item.partyId === partyId) {
+            // console.log('여기가 맞는데');
+            // console.log(item.dogInfoResponseList.concat(res.data.result));
+            return { ...item, dogInfoResponseList: item.dogInfoResponseList.concat(res.data.result) };
+          }
+          return item;
+        });
+        // console.log(updatedResult);
+        setGroupList(updatedResult);
       })
       .catch(() => {
       });
@@ -82,9 +113,17 @@ function PetList() {
   };
 
   useEffect(() => {
-    axios.get('https://withpet.site/api/v1/dogs', { withCredentials: true })
+    // axios.get('https://withpet.site/api/v1/dogs', { withCredentials: true })
+    //   .then((res) => {
+    //     setPets(res.data.result);
+    //     // console.log(res.data.result);
+    //   })
+    //   .catch(() => {
+    //   });
+    axios.get('https://withpet.site/api/v1/groups/group-infos', { withCredentials: true })
       .then((res) => {
-        setPets(res.data.result.content);
+        setGroupList(res.data.result);
+        // console.log(res.data.result);
       })
       .catch(() => {
       });
@@ -122,10 +161,23 @@ function PetList() {
   return (
     <>
       <div className="list_container">
-        {pets.map((pet) => {
-          return <Pet pet={pet} key={pet.dog_id} onSubmitModify={onSubmitModify} />;
-        })}
-        <PetAdd pets={pets} setPets={setPets} onSubmit={onSubmit} onChange={onChange} petInfo={petInfo} onCancle={onCancle} />
+        {/* {pets && pets.map((pet) => { */}
+        { groupList[0] && groupList.map((group) => (
+          <div key={group.partyId}>
+            <Party group={group} />
+            { group.dogInfoResponseList.map((pet) => {
+              // console.log(pet);
+              return <Pet pet={pet} key={pet.dog_id} onSubmitModify={onSubmitModify} />;
+            })}
+            <PetAdd partyId={group.partyId} pets={pets} setPets={setPets} onSubmit={onSubmit} onChange={onChange} petInfo={petInfo} onCancle={onCancle} />
+          </div>
+        ))}
+        <div style={{ display: 'flex', justifyContent: 'space-around', width: '800px' }}>
+          <Button onClick={() => setOpenCreate(true)}>그룹생성</Button>
+          <Button onClick={() => setOpenParty(true)}>그룹 가입하기</Button>
+        </div>
+        <CreateParty setGroupList={setGroupList} groupList={groupList} setOpen={setOpenCreate} open={openCreate} />
+        <JoinParty setGroupList={setGroupList} groupList={groupList} setOpen={setOpenParty} open={openParty} />
       </div>
     </>
   );

@@ -1,15 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-// import { useTheme } from '@mui/material/styles';
-// import Box from '@mui/material/Box';
-// import OutlinedInput from '@mui/material/OutlinedInput';
-// import InputLabel from '@mui/material/InputLabel';
-// import MenuItem from '@mui/material/MenuItem';
-// import FormControl from '@mui/material/FormControl';
-// import Select from '@mui/material/Select';
-// import Chip from '@mui/material/Chip';
-// import styled from 'styled-components';
-// import dogBanner from '../../assets/dog_banner.png';
 import MultipleSelectChip from './OptionList';
 import RenderGroup from './Region';
 import MediaCardGrid from './MediaCardGrid';
@@ -18,51 +8,48 @@ import {
   Background, Content, SelectContainer,
 } from '../../styles/main/MainPageStyle';
 
-// const BannerBox = styled.div`
-// display: flex;
-// flex-wrap: wrap;
-// justify-content: center;
-// width: 100%;
-// height: auto;
-// position: relative;
-// `;
-// const SelectBox = styled.div`
-// display: flex;
-// background-color: #ffffff;
-// width: 70%;
-// height: 122px;
-// margin: 0 auto;
-// justify-content: center;
-// align-items: center;
-// padding: 24px 30px;
-// gap: 20px;
-// position: relative;
-// box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.04);
-// border-radius: 5px;
-// top: -50px
-// `;
-
 function MainPage() {
   const [temp, setTemp] = useState([]);
+  const [serviceList, setServiceList] = useState([]);
+  const [options, setOptions] = useState({
+    size: '',
+    services: [],
+    region: '',
+  });
   useEffect(() => {
-    axios.get('https://withpet.site/api/v1/show-petsitter', { withCredentials: true })
+    // axios.get('https://withpet.site/api/v1/show-petsitter?address=&dogSize=&service=', { withCredentials: true })
+    //   .then((res) => {
+    //     setTemp(res.data.result.content);
+    //     // console.log(res.data.result.content);
+    //     // console.log(temp);
+    //   });
+    axios.get('https://withpet.site/api/v1/show-services', { withCredentials: true })
+      .then((res) => {
+        setServiceList(res.data.result);
+      });
+  }, []);
+
+  useEffect(() => {
+    // console.log(options);
+    // console.log(options.services);
+    // console.log(options.services[0]);
+
+    axios.get(`https://withpet.site/api/v1/show-petsitter?address=${options.region}&dogSize=${options.size}&service=${options.services !== undefined ? options.services : ''}`, { withCredentials: true })
       .then((res) => {
         setTemp(res.data.result.content);
         // console.log(res.data.result.content);
         // console.log(temp);
       });
-  }, []);
+  }, [options]);
   return (
     <Background>
       <Content>
         <SelectContainer>
-          <PetSize />
-          <MultipleSelectChip />
-          <RenderGroup />
+          <PetSize setOptions={setOptions} options={options} />
+          <MultipleSelectChip services={serviceList} setOptions={setOptions} options={options} />
+          <RenderGroup setOptions={setOptions} options={options} />
         </SelectContainer>
-        <div className="petsitterlist">
-          <MediaCardGrid cards={temp} />
-        </div>
+        <MediaCardGrid cards={temp} />
       </Content>
     </Background>
   );

@@ -2,20 +2,31 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import TextField from '@mui/material/TextField';
+// import styled from 'styled-components';
+import {
+  Container, Label, DivContainer, Button, CancelButton, Title,
+} from './InfoStyle';
 
 function Item1({ service, onRemove }) {
   // 1. 활성화 (isInclude === true)
   const includeed = (
     <div style={{
-      backgroundColor: `${service.isIncluded === true ? '#FAEBD7' : 'gray'}`, width: '300px', marginRight: '20px', borderRadius: '20px',
+      // cursor: 'pointer', backgroundColor: '#caa969', width: '300px', marginRight: '20px',
+      backgroundColor: `${service.isIncluded === true ? '#FAF6F0' : '#F2F2F2'}`, color: `${service.isIncluded === true ? '#CAA969' : 'gray'}`, width: '130px', height: '200px', marginRight: '5px', borderRadius: '20px', padding: '10px', fontSize: '10px',
     }}
     >
       {/* 사진, 이름, 내용, 가격, 삭제 버튼 */}
-      <img src={service.serviceImg} alt="서비스 이미지" style={{ width: '100px', height: '100px' }} />
-      <p>{service.serviceName}</p>
-      <p>{service.serviceIntroduction}</p>
-      <p>가격: {service.price}</p>
-      <input type="button" value="삭제" onClick={() => onRemove(service.serviceId)} />
+      <div style={{ textAlign: 'center' }}>
+        <img src={service.serviceImg} alt="서비스 이미지" style={{ width: '30px', height: '30px', marginTop: '5px' }} />
+      </div>
+      <div style={{ paddingLeft: '5px' }}>
+        <p>{service.serviceName}</p>
+        <p>{service.serviceIntroduction}</p>
+        <p>가격: {service.price}</p>
+      </div>
+      <div style={{ textAlign: 'center' }}>
+        <Button value="삭제" onClick={() => onRemove(service.serviceId)}>삭제</Button>
+      </div>
     </div>
   );
 
@@ -32,15 +43,21 @@ function Item2({ service, onAdd }) {
   const notIncluded = (
     <div
       style={{
-        cursor: 'pointer', backgroundColor: 'gray', width: '300px', marginRight: '20px', borderRadius: '20px',
+        cursor: 'pointer', backgroundColor: '#F2F2F2', width: '130px', height: '200px', marginRight: '5px', borderRadius: '20px', padding: '10px', fontSize: '10px',
       }}
     >
       {/* 사진, 이름, 내용, 가격, 삭제 버튼 */}
-      <img src={service.serviceImg} alt="서비스 이미지" style={{ width: '100px', height: '100px' }} />
-      <p>{service.serviceName}</p>
-      <p>{service.serviceIntroduction}</p>
-      <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
-      <input type="button" value="추가" onClick={() => onAdd(service.serviceId, price)} />
+      <div style={{ textAlign: 'center' }}>
+        <img src={service.serviceImg} alt="서비스 이미지" style={{ width: '30px', height: '30px' }} />
+      </div>
+      <div>
+        <p>{service.serviceName}</p>
+        <p>{service.serviceIntroduction}</p>
+      </div>
+      <div style={{ textAlign: 'center' }}>
+        <input style={{ width: '80%', marginBottom: '3px' }} type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
+        <Button value="추가" onClick={() => onAdd(service.serviceId, price)}>추가</Button>
+      </div>
     </div>
   );
 
@@ -76,18 +93,19 @@ function PetsitterInfoManage() {
 
   // 자격증 사진
   const [petSitterLicenseImg, setPetSitterLicenseImg] = useState('');
+
   useEffect(() => {
     axios.get('https://withpet.site/api/v1/petsitter/show-myinfo', { withCredentials: true })
       .then((res) => {
         // console.log(res.data.result);
         setInfo(res.data.result);
-        // console.log(res.data.result);
-        // console.log(res.data.result.introduction === null);
-        setInfo(res.data.result);
+        // // console.log(res.data.result);
+        // // console.log(res.data.result.introduction === null);
+        // setInfo(res.data.result);
 
-        setIntroduction(res.data.result.introduction);
-        setHashTags(res.data.result.petSitterHashTags);
-        setHouseImgList(res.data.result.petSitterHouses);
+        // setIntroduction(res.data.result.introduction);
+        // setHashTags(res.data.result.petSitterHashTags);
+        // setHouseImgList(res.data.result.petSitterHouses);
         setCriticalServices(res.data.result.petSitterCriticalServices);
         setServiceSelectList(res.data.result.petSitterServices);
         setPetSitterLicenseImg(res.data.result.petSitterLicenseImg);
@@ -103,7 +121,7 @@ function PetsitterInfoManage() {
 
     const houseList = houseImgList.map((houseImg, index) => {
       const representative = index === 0;
-      return { houseImg: houseImg.trim(), representative };
+      return { houseImg, representative };
     });
     const updatedInfo = {
       introduction,
@@ -113,7 +131,7 @@ function PetsitterInfoManage() {
       petSitterServiceRequests: serviceSelectList,
     };
     // console.log(updatedInfo);
-    axios.put('https://withpet.site/api/v1/petsitter/update-myinfo', updatedInfo, { withCredentials: true })
+    axios.post('https://withpet.site/api/v1/petsitter/register-myinfo', updatedInfo, { withCredentials: true })
       .then(() => {
         // console.log(res.data.result);
         navigate('../petsitterShowInfo');
@@ -130,20 +148,19 @@ function PetsitterInfoManage() {
     } else {
       setHashTags([...hashTags, { petSitterHashTagId: 0, hashTagName: hashTag }]);
     }
-    // nextId.current += 1;
-    // console.log(hashTag);
+    setHashTag('');
   };
   // console.log(hashTags);
   // console.log(introduction);
   const onRemoveHashtag = (id) => {
     // 해시태그 하나 삭제
-    setHashTags(hashTags.filter((tag) => (tag.petSitterHashTagId !== id)));
+    setHashTags(hashTags.filter((tag) => (tag !== id)));
   };
 
   const onRemoveHousImg = (id) => {
     // 집 이미지 하나 삭제
     // console.log(id);
-    setHouseImgList(houseImgList.filter((img) => (img.houseId !== id)));
+    setHouseImgList(houseImgList.filter((img) => (img !== id)));
   };
 
   const handleImageChange = (e) => {
@@ -184,12 +201,6 @@ function PetsitterInfoManage() {
     setIsCriticalServiceIdIncluded(includedServices);
   }, [criticalServices]);
 
-  // console.log(serviceSelectList);
-  // const [newList, setNewList] = useState(isServiceIdIncluded);
-  // console.log(isServiceIdIncluded);
-  // console.log(criticalServices);
-  // console.log(newList);
-
   const onRemoveService = (id) => { // sercieId 건너옴
     // 활성화된 서비스 삭제 눌렀을 경우
     // console.log(id);
@@ -215,48 +226,61 @@ function PetsitterInfoManage() {
   };
 
   const modify = (
-    <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
-      <h1>펫시터 정보 수정 페이지</h1>
+    <Container>
+      {/* <Content> */}
+      <Title className="page">펫시터 정보 수정 페이지</Title>
       <form onSubmit={onSubmit}>
-        <div style={{ boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px' }}>
-          <h2>집사진</h2>
-          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+        <DivContainer>
+          <div style={{ flexDirection: 'row' }}>
+            <Title>집사진</Title>
+            {/* <div> */}
             {
-              houseImgList && houseImgList.map((img, index) => (
-                // eslint-disable-next-line react/no-array-index-key
-                <div key={index}>
-                  <img key={img} src={img} alt="집사진" style={{ width: '200px', height: '200px' }} />
-                  <input type="button" value="x" onClick={() => onRemoveHousImg(img.houseId)} />
-                  { index === 0 ? <p>대표사진</p> : <p> </p>}
-                </div>
-              ))
-            }
+            houseImgList && houseImgList.map((img, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <div key={index}>
+                <img key={img} src={img} alt="집사진" style={{ width: '200px', height: '200px' }} />
+                {/* <input type="button" value="x" /> */}
+                &ensp;
+                <CancelButton className="cancel" value="X" onClick={() => onRemoveHousImg(img)}>X</CancelButton>
+                { index === 0 ? <p>대표사진</p> : <p> </p>}
+              </div>
+            ))
+          }
           </div>
-          <input type="file" accept="image/*" multiple onChange={handleImageChange} />
-        </div>
-        <div style={{ boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px' }}>
-          <h2>해시태그</h2>
-          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+          {/* </div> */}
+          <>
+            <input id="file" multiple style={{ visibility: 'hidden' }} type="file" accept="image/*" onChange={handleImageChange} />
+            {/* <Button multiple onChange={handleImageChange}>집 사진 업로드</Button> */}
+            <Label htmlFor="file">이미지 추가</Label>
+          </>
+        </DivContainer>
+        <DivContainer>
+          <Title>해시태그</Title>
+          <div style={{ display: 'flex', flexDirection: 'start' }}>
             {hashTags && hashTags.map((tag) => (
-              <div key={tag.hashTagName}>
-                <span># {tag.hashTagName}</span>
-                <input type="button" value="x" onClick={() => onRemoveHashtag(tag.petSitterHashTagId)} />
+              <div className="list" key={tag.hashTagName} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                #{tag.hashTagName}&ensp;
+                {/* <span># {tag.hashTagName}</span> */}
+                {/* <input type="button" value="x" onClick={() => onRemoveHashtag(tag.petSitterHashTagId)} /> */}
+                <CancelButton className="cancel" value="X" onClick={() => onRemoveHashtag(tag)}>X</CancelButton>&ensp;
               </div>
             ))}
           </div>
-          <TextField sx={{ m: 1 }} label="해시태그" variant="outlined" size="small" name="hashTagName" onChange={(e) => setHashTag(e.target.value)} value={hashTag} />
-          <input type="button" onClick={handleHashtag} value="추가" />
-        </div>
-        <div style={{ boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px' }}>
-          <h2>소개글</h2>
-          <TextField multiline sx={{ m: 1 }} style={{ width: '850px' }} label="소개글" variant="outlined" size="small" name="introduction" onChange={(e) => setIntroduction(e.target.value)} value={introduction} required />
-        </div>
-        <div style={{ boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px' }}>
-          <h2>자격증</h2>
-          <img style={{ width: '400px', height: '300px' }} alt="이미지 미리보기" src={petSitterLicenseImg} />
-        </div>
-        <div style={{ boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px' }}>
-          <h2>이용 가능 서비스</h2>
+          <TextField sx={{ m: 1 }} variant="outlined" size="small" name="hashTagName" onChange={(e) => setHashTag(e.target.value)} value={hashTag} />
+          {/* <TextField sx={{ m: 1 }} label="해시태그" variant="outlined" size="small" name="hashTagName" onChange={(e) => setHashTag(e.target.value)} value={hashTag} /> */}
+          {/* <input type="button" onClick={handleHashtag} value="추가" /> */}
+          <Button onClick={handleHashtag} value="추가">추가</Button>
+        </DivContainer>
+        <DivContainer>
+          <Title>소개글</Title>
+          <TextField multiline rows={3} sx={{ m: 1 }} variant="outlined" size="small" name="introduction" onChange={(e) => setIntroduction(e.target.value)} value={introduction} required />
+        </DivContainer>
+        <DivContainer>
+          <Title>자격증</Title>
+          <img alt="이미지 미리보기" src={petSitterLicenseImg} style={{ width: '180px', height: '150px' }} />
+        </DivContainer>
+        <DivContainer>
+          <Title>이용 가능 서비스</Title>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             {isServiceIdIncluded && isServiceIdIncluded.map((service) => (service.isIncluded ? (
               <Item1 key={service.serviceId} service={service} onRemove={onRemoveService} />
@@ -264,9 +288,9 @@ function PetsitterInfoManage() {
               <Item2 key={service.serviceId} service={service} onAdd={onAddService} />
             )))}
           </div>
-        </div>
-        <div style={{ boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px' }}>
-          <h2>필수 서비스</h2>
+        </DivContainer>
+        <DivContainer>
+          <Title>필수 서비스</Title>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             {isCriticalServiceIdIncluded && isCriticalServiceIdIncluded.map((service) => (service.isIncluded ? (
               <Item1 key={service.serviceId} service={service} onRemove={onRemoveCriticalService} />
@@ -274,11 +298,17 @@ function PetsitterInfoManage() {
               <Item2 key={service.serviceId} service={service} onAdd={onAddCriticalService} />
             )))}
           </div>
-        </div>
-        <input className="pet-add-btn" type="submit" value="수정" />
-        <input className="pet-add-btn pet-add-cancel-btn" type="button" value="취소" onClick={() => navigate('../petsitterShowInfo')} />
+        </DivContainer>
+        <DivContainer style={{
+          width: '100%', display: 'inline-block', justifyContent: 'center', alignContent: 'center', alignItems: 'center',
+        }}
+        >
+          <Button value="수정">수정</Button>
+          <Button value="취소" onClick={() => navigate('../petsitterShowInfo')}>취소</Button>
+        </DivContainer>
       </form>
-    </div>
+      {/* </Content> */}
+    </Container>
   );
   return (
     <>

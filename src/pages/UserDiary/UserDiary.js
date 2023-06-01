@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
+// import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
+import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
 import UserDiaryModify from './UserDiaryModify';
 import UserDiaryDetail from './UserDiaryDetail';
 
@@ -7,12 +8,17 @@ function UserDiary({ diary, onSubmitModify }) {
   const [toggle, setToggle] = useState('simple');
   const simple = (
     <>
-      <img className="diary-img" src={diary.dogImgToday} alt="오늘의 사진" />
-      <p>
-        {diary.createdAt} / {diary.categoryName} / {diary.title}
-      </p>
-      <ExpandCircleDownIcon
-        className="down-icon"
+      <div style={{
+        display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: '350px', marginLeft: '20px',
+      }}
+      >
+        <p style={{ fontWeight: 'bold' }}>{diary.createdAt} | {diary.categoryName} | {diary.title}</p>
+        {/* <p style={{ fontWeight: 'bold' }}>{diary.categoryName}</p>
+        <p style={{ fontWeight: 'bold' }}>{diary.title}</p> */}
+      </div>
+
+      <ChevronLeftOutlinedIcon
+        className="up-icon"
         fontSize="large"
         onClick={() => setToggle('detail')}
       />
