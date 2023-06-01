@@ -17,13 +17,20 @@ const FormTitle = styled.h3`
 `;
 
 const BannerBox = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 100%;
-  height: auto;
   position: relative;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
   align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-opacity: 100;
+  font-family: "Noto Sans KR", sans-serif;
+  color: #caa969;
+  background-image: url(${dogBanner});
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: contain;
 `;
 
 const Card = styled.div`
@@ -98,9 +105,7 @@ function Login({ setState }) {
   return (
     <>
       <div className="img">
-        <BannerBox>
-          <img src={dogBanner} alt="dog_banner" />
-        </BannerBox>
+        <BannerBox></BannerBox>
       </div>
       <div>
         <Container>
