@@ -17,20 +17,13 @@ const FormTitle = styled.h3`
 `;
 
 const BannerBox = styled.div`
-  position: relative;
-  background-size: cover;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  width: 100%;
+  height: auto;
+  position: relative;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
-  background-opacity: 100;
-  font-family: "Noto Sans KR", sans-serif;
-  color: #caa969;
-  background-image: url(${dogBanner});
-  background-repeat: no-repeat;
-  background-position: top;
-  background-size: contain;
 `;
 
 const Card = styled.div`
@@ -77,7 +70,7 @@ const ButtonSignUp = styled.button`
   cursor: pointer;
 `;
 
-function Login({ setState }) {
+function Login({ setState, setUserInfo }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -92,9 +85,10 @@ function Login({ setState }) {
         },
         { withCredentials: true }
       )
-      .then(() => {
+      .then((res) => {
         setState("login");
         alert("로그인에 성공했습니다."); // eslint-disable-line no-alert
+        setUserInfo(res.data.result);
         navigate("../");
       })
       .catch(() => {
@@ -105,7 +99,9 @@ function Login({ setState }) {
   return (
     <>
       <div className="img">
-        <BannerBox></BannerBox>
+        <BannerBox>
+          <img src={dogBanner} alt="dog_banner" />
+        </BannerBox>
       </div>
       <div>
         <Container>
