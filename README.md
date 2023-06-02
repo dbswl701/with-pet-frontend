@@ -59,7 +59,7 @@
 ```jsx
 git clone https://github.com/ajousw-withpet/with_pet_frontend.git
 
-npm install
+npm install --force
 
 npm start
 ```
