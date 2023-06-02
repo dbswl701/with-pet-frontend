@@ -21,9 +21,9 @@
 
 | name | email | github |
 | --- | --- | --- |
-| 강윤지 | mailto:dbswl701@ajou.ac.kr | https://github.com/dbswl701 |
-| 이재영 | mailto:joe981125@ajou.ac.kr | https://github.com/2jaeyoung2 |
-| 이지현 | mailto:wlgus97@ajou.ac.kr | https://github.com/wlgus8284 |
+| 강윤지 | dbswl701@ajou.ac.kr | https://github.com/dbswl701 |
+| 이재영 | joe981125@ajou.ac.kr | https://github.com/2jaeyoung2 |
+| 이지현 | wlgus97@ajou.ac.kr | https://github.com/wlgus8284 |
 
 
 ### 배포 주소
