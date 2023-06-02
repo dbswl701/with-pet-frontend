@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import logo from '../../assets/logo_withpet.png';
 import profile from '../../assets/user_default_profile.png';
 
 function Nav({ name }) {
   const [toggle, setToggle] = useState(false);
+  const navigate = useNavigate();
 
   const toggleDropdown = () => {
     setToggle(!toggle);
@@ -15,20 +16,33 @@ function Nav({ name }) {
     <div
       className="dropdown-menu"
       style={{
-        width: '300px', postion: 'absolute', right: '20px', backgroundColor: 'white', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px',
+        width: '300px', display: 'flex', padding: '10px 40px', flexDirection: 'column', postion: 'absolute', right: '20px', backgroundColor: 'white', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px',
       }}
     >
-      <ul>
-        <li style={{ listStyle: 'none', height: '40px' }}>
-          <Link to="/petsitterCalendar" style={{ textDecoration: 'none', color: 'black', fontSize: '15px' }}>캘린더뷰</Link>
-        </li>
-        <li style={{ listStyle: 'none', height: '40px' }}>
-          <Link to="/petsitterShowInfo" style={{ textDecoration: 'none', color: 'black', fontSize: '15px' }}>펫시터 정보 관리</Link>
-        </li>
-        <li style={{ listStyle: 'none', height: '40px', marginBottom: '20px' }}>
-          <Link to="/" style={{ textDecoration: 'none', color: 'black', fontSize: '15px' }}>로그아웃</Link>
-        </li>
-      </ul>
+      <div
+        style={{
+          listStyle: 'none', display: 'flex', height: '40px', color: 'black', fontSize: '15px', alignItems: 'center',
+        }}
+        onClick={() => navigate('/petsitterCalendar')}
+      >
+        캘린더뷰
+      </div>
+      <div
+        style={{
+          listStyle: 'none', display: 'flex', height: '40px', color: 'black', fontSize: '15px', alignItems: 'center',
+        }}
+        onClick={() => navigate('/petsitterShowInfo')}
+      >
+        펫시터 정보 관리
+      </div>
+      <div
+        style={{
+          listStyle: 'none', display: 'flex', height: '40px', color: 'black', fontSize: '15px', alignItems: 'center',
+        }}
+        onClick={() => navigate('/')}
+      >
+        로그아웃
+      </div>
     </div>
   );
 
