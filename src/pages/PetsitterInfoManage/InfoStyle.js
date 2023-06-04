@@ -75,7 +75,7 @@ export const Title = styled.div`
 `;
 
 export const Button = styled.button`
-    height: 40px;
+    height: 60px;
     width: 100px;
     margin-bottom: 10px;
     background-color: #CAA969;

@@ -301,7 +301,7 @@ function PetsitterInfoManage() {
           </div>
         </DivContainer>
         <DivContainer style={{
-          width: '100%', display: 'inline-block', justifyContent: 'center', alignContent: 'center', alignItems: 'center',
+          width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center',
         }}
         >
           <InputButton type="button" value="수정" />
