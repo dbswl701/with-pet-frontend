@@ -29,7 +29,8 @@ const Wrapper1 = styled.div`
 `;
 
 function Reservation({
-  dogList, data, petsitterId,
+  // dogList, data, petsitterId,
+  dogList, data, petsitterId, setOpen, setPayInfo,
 }) {
   const [info, setInfo] = useState({
     startDate: '',
@@ -81,11 +82,11 @@ function Reservation({
     };
     // console.log(temp);
     axios.post('https://withpet.site/api/v1/reservation', temp, { withCredentials: true })
-      .then(() => {
+      .then((res) => {
         // console.log(res.data.result);
         // eslint-disable-next-line no-alert
         alert('예약이 완료되었습니다.');
-        // setPayInfo(res.data.result);
+        setPayInfo(res.data.result);
       });
   };
   // console.log(info);
@@ -99,9 +100,9 @@ function Reservation({
     }
   };
 
-  // const onPaing = () => {
-  //   setOpen(true);
-  // };
+  const onPaing = () => {
+    setOpen(true);
+  };
 
   return (
     <>
@@ -182,7 +183,7 @@ function Reservation({
               style={{
                 width: '285px', height: '50px', margin: 'auto', borderRadius: '10px', backgroundColor: '#CAA969', color: 'white', marginBottom: '30px',
               }}
-              // onClick={onPaing}
+              onClick={onPaing}
             />
           </form>
         </Wrapper1>
