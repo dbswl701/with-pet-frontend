@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import axios from 'axios';
+// import axios from 'axios';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -12,64 +12,64 @@ import dayjs from 'dayjs';
 import dogimgdefault from '../../assets/dogProfileImage.png';
 
 function CreateParty({
-  open, setOpen, setGroupList, groupList,
+  open, setOpen, onChange, onSubmit, petInfo, setPetInfo,
 }) {
-  const [petInfo, setPetInfo] = useState({
-    dog_name: '',
-    dog_breed: '',
-    dog_birth: dayjs(new Date()),
-    dog_gender: '',
-    neutralization: '',
-    dog_weight: '',
-    dog_img: '',
-    dog_isbn: '',
-    partyName: '',
-  });
-  const onChange = (e) => {
-    // console.log(dateNow);
-    // console.log(today);
-    if (e.target.files) {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        setPetInfo({
-          ...petInfo,
-          dog_img: reader.result,
-        });
-      };
-    } else {
-      const { value, name } = e.target;
-      setPetInfo({
-        ...petInfo,
-        [name]: value,
-      });
-    }
-  };
+  // const [petInfo, setPetInfo] = useState({
+  //   dog_name: '',
+  //   dog_breed: '',
+  //   dog_birth: dayjs(new Date()),
+  //   dog_gender: '',
+  //   neutralization: '',
+  //   dog_weight: '',
+  //   dog_img: '',
+  //   dog_isbn: '',
+  //   partyName: '',
+  // });
+  // const onChange = (e) => {
+  //   // console.log(dateNow);
+  //   // console.log(today);
+  //   if (e.target.files) {
+  //     const file = e.target.files[0];
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(file);
+  //     reader.onloadend = () => {
+  //       setPetInfo({
+  //         ...petInfo,
+  //         dog_img: reader.result,
+  //       });
+  //     };
+  //   } else {
+  //     const { value, name } = e.target;
+  //     setPetInfo({
+  //       ...petInfo,
+  //       [name]: value,
+  //     });
+  //   }
+  // };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  // const onSubmit = (e) => {
+  //   e.preventDefault();
 
-    axios.post('https://withpet.site/api/v1/groups', petInfo, { withCredentials: true })
-      .then((res) => {
-        setGroupList(groupList.concat(res.data.result));
-      })
-      .catch(() => {
-      });
-    setPetInfo({
-      // dog_id: '',
-      dog_name: '',
-      dog_breed: '',
-      dog_birth: '',
-      dog_gender: '',
-      neutralization: '',
-      dog_weight: '',
-      dog_img: '',
-      dog_isbn: '',
-      partyName: '',
-    });
-    setOpen(false);
-  };
+  //   axios.post('https://withpet.site/api/v1/groups', petInfo, { withCredentials: true })
+  //     .then((res) => {
+  //       setGroupList(groupList.concat(res.data.result));
+  //     })
+  //     .catch(() => {
+  //     });
+  //   setPetInfo({
+  //     // dog_id: '',
+  //     dog_name: '',
+  //     dog_breed: '',
+  //     dog_birth: '',
+  //     dog_gender: '',
+  //     neutralization: '',
+  //     dog_weight: '',
+  //     dog_img: '',
+  //     dog_isbn: '',
+  //     partyName: '',
+  //   });
+  //   setOpen(false);
+  // };
 
   const onChangeCalendar = (date) => {
     // console.log(date);
@@ -81,6 +81,8 @@ function CreateParty({
       },
     };
     onChange(e);
+    console.log(e);
+    // console.log(dayjs(date).format('YYYY-MM-DD'));
   };
 
   const onLocalCancle = () => {
@@ -153,7 +155,6 @@ function CreateParty({
             <MenuItem value="치와와">치와와</MenuItem>
             <MenuItem value="보더콜리">보더콜리</MenuItem>
           </TextField>
-
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               sx={{ m: 1 }}

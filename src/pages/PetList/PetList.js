@@ -60,6 +60,30 @@ function PetList() {
     }
   };
 
+  const onSubmitCreateGroup = (e) => {
+    e.preventDefault();
+
+    axios.post('https://withpet.site/api/v1/groups', petInfo, { withCredentials: true })
+      .then((res) => {
+        setGroupList(groupList.concat(res.data.result));
+      })
+      .catch(() => {
+      });
+    setPetInfo({
+      // dog_id: '',
+      dog_name: '',
+      dog_breed: '',
+      dog_birth: '',
+      dog_gender: '',
+      neutralization: '',
+      dog_weight: '',
+      dog_img: '',
+      dog_isbn: '',
+      partyName: '',
+    });
+    setOpenCreate(false);
+  };
+
   const onSubmit = (e, partyId) => {
     e.preventDefault();
     // console.log(partyId);
@@ -176,7 +200,7 @@ function PetList() {
           <Button onClick={() => setOpenCreate(true)}>그룹생성</Button>
           <Button onClick={() => setOpenParty(true)}>그룹 가입하기</Button>
         </div>
-        <CreateParty setGroupList={setGroupList} groupList={groupList} setOpen={setOpenCreate} open={openCreate} />
+        <CreateParty setPetInfo={setPetInfo} petInfo={petInfo} setOpen={setOpenCreate} open={openCreate} onChange={onChange} onSubmit={onSubmitCreateGroup} />
         <JoinParty setGroupList={setGroupList} groupList={groupList} setOpen={setOpenParty} open={openParty} />
       </div>
     </>

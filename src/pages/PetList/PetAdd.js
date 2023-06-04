@@ -14,6 +14,7 @@ function PetAdd({
   onSubmit, onChange, petInfo, onCancle, partyId,
 }) {
   const [isClick, setisClick] = useState(false);
+
   const onLocalSubmit = (e) => {
     onSubmit(e, partyId);
     setisClick(false);
@@ -89,7 +90,6 @@ function PetAdd({
           <MenuItem value="치와와">치와와</MenuItem>
           <MenuItem value="보더콜리">보더콜리</MenuItem>
         </TextField>
-
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             sx={{ m: 1 }}
