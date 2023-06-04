@@ -31,6 +31,17 @@ export const Label = styled.label`
     line-height: 40px;
 `;
 
+export const InputButton = styled.input`
+    height: 40px;
+    width: 100px;
+    margin-bottom: 10px;
+    background-color: #CAA969;
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
+    border: none;
+    border-radius: 5px;
+`;
+
 export const Content = styled.div`
     position: relative;
     display: flex;
@@ -40,8 +51,6 @@ export const Content = styled.div`
     background-opacity: 100;
     align-items: center;
     flex-direction: column;
-    // background-color: #green;
-    // text-align: center;
 `;
 
 export const DivContainer = styled.div`
@@ -56,9 +65,6 @@ export const DivContainer = styled.div`
     }
 `;
 
-export const Input = styled.input`
-`;
-
 export const Title = styled.div`
     font-size: 15px;
     font-weight: bold;
@@ -69,7 +75,7 @@ export const Title = styled.div`
 `;
 
 export const Button = styled.button`
-    height: 40px;
+    height: 60px;
     width: 100px;
     margin-bottom: 10px;
     background-color: #CAA969;
@@ -79,7 +85,7 @@ export const Button = styled.button`
     border-radius: 5px;
 `;
 
-export const CancelButton = styled.button`
+export const CancelButton = styled.input`
     height: 20px;
     opacity: 100;
     color: red;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
-  Button, Container, DivContainer, Title,
+  Container, DivContainer, Title, Button,
 } from './InfoStyle';
 
 function Item({ service }) {

@@ -4,14 +4,13 @@ export const SideBar = styled.div`
     display: flex;
     position: relative;
     background-color: white;
-    height: 100rem;
     width: 256px;
     border-radius: 5px;
     margin: 75px 40px 50px 40px;
     flex-direction: column;
     align-items: center;
     padding: 10px 10px 10px 10px;
-    margin-bottom: 20px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
 `;
 
 export const Title = styled.div`
@@ -24,17 +23,17 @@ export const Title = styled.div`
 export const Items = styled.div`
     display: flex;
     flex-direction: column;
-    border-bottom: 1px solid gray;
 `;
 
 export const ItemContainer = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;
-    border-radius: 10px;
     margin: 20px 0px;
     justify-content: center;
     align-items: center;
+    border-bottom: 1px solid gray;
+    padding-bottom: 20px;
 `;
 
 export const ListContainer = styled.div`
@@ -45,8 +44,6 @@ export const ListContainer = styled.div`
     padding: 20px;
     width: 100%;
     margin-bottom: 20px;
-    border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
 `;
 
 export const IconImg = styled.img`
@@ -62,38 +59,6 @@ export const ProfileImg = styled.img`
     margin-right: 10px;
     text-align: center;
 `;
-
-// export const ImgContainer = styled.img`
-//     margin-right: 10px;
-//     text-align: center;
-//     .Icon {
-//         width: 16px;
-//         height: 16px;
-//     }
-//     .Profile {
-//         width: 53px;
-//         height: 53px;
-//         border-radius: 50%;
-//     }
-// `;
-
-// export const StyledParagraph = styled.p`
-//     margin: 0px;
-//     font-size: 11px;
-//     .profile {
-//         margin-bottom: 7px;
-//         font-size: 13px;
-//     }
-//     .date {
-//         color: gray;
-//     }
-//     // .heart {
-//     //     color: #FF3B3B;
-//     // }
-//     // .social {
-//     //     color: #caa969;
-//     // }
-// `;
 
 export const ProfileContainer = styled.div`
     display: flex;
@@ -152,7 +117,7 @@ export const Progress = styled.div`
     height: 10px;
     border-radius: 5px;
     border: 1px solid;
-    margin: auto 10px;
+    margin: auto;
     background-opacity: 50%;
     .heart {
         background-color: #FF3B3B;
@@ -231,4 +196,10 @@ export const Container = styled.div`
   width: 100%;
   justify-content: center;
   align-items: center;
+`;
+
+export const BarContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 `;
