@@ -5,7 +5,59 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FormContainer, StyledInput } from './ApplyStyle';
 
-function BasicInfo({ info, onChange, onSubmit }) {
+function PetsitterApply() {
+  const navigate = useNavigate();
+  const [info, setInfo] = useState({
+    applicant_animal_career: '',
+    applicant_care_experience: '',
+    applicant_having_with_pet: '',
+    applicant_identification: '',
+    applicant_is_smoking: '',
+    applicant_license_img: '',
+    applicant_motivate: '',
+    applicant_petsitter_career: '',
+  });
+
+  const handleImageUpload = async (e) => {
+    const img = e.target.files[0];
+    const formData = new FormData();
+    formData.append('file', img);
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+    axios.post('https://withpet.site/api/v1/file/upload', formData, config)
+      .then((res) => {
+        setInfo({
+          ...info,
+          applicant_license_img: res.data.result[0],
+        });
+      });
+  };
+  // console.log(imageSrc);
+  const onChange = (e) => {
+    if (e.target.files) {
+      handleImageUpload(e);
+    } else {
+      const { value, name } = e.target;
+      setInfo({
+        ...info,
+        [name]: value,
+      });
+    }
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    axios.post('https://withpet.site/api/v1/users/applicate-petsitter', info, { withCredentials: true })
+      .then(() => {
+        navigate('../');
+      })
+      .catch(() => {
+      });
+  };
+
   return (
     <>
       <FormContainer onSubmit={onSubmit}>
@@ -30,68 +82,10 @@ function BasicInfo({ info, onChange, onSubmit }) {
         <TextField sx={{ m: 1, width: 1 / 2 }} label="6. 타인의 반려 동물을 돌봐준 경험" variant="outlined" name="applicant_care_experience" onChange={onChange} value={info.applicant_care_experience} required />
         <img id="preview-image" alt="이미지 미리보기" src={info.applicant_license_img} />
         <label className="radio" htmlFor="image-select">6. 자격증 등록</label>
-        <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} onChange={onChange} />
+        <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} name="applicant_license_img" onChange={onChange} />
         <TextField sx={{ m: 1, width: 1 / 2 }} label="7. applicant_having_with_pet " variant="outlined" name="applicant_animal_career" onChange={onChange} value={info.applicant_animal_career} required />
         <StyledInput type="submit" value="제출" />
       </FormContainer>
-    </>
-  );
-}
-
-function PetsitterApply() {
-  const navigate = useNavigate();
-  const [info, setInfo] = useState({
-    applicant_animal_career: '',
-    applicant_care_experience: '',
-    applicant_having_with_pet: '',
-    applicant_identification: '',
-    applicant_is_smoking: '',
-    applicant_license_img: '',
-    applicant_motivate: '',
-    applicant_petsitter_career: '',
-  });
-
-  const onChange = (e) => {
-    if (e.target.files) {
-      // console.log('img change');
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        setInfo({
-          ...info,
-          applicant_license_img: reader.result,
-        });
-      };
-    } else {
-      // console.log(info);
-      const { value, name } = e.target;
-      setInfo({
-        ...info,
-        [name]: value,
-      });
-    }
-    // console.log(info);
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    // console.log(info);
-    axios.post('https://withpet.site/api/v1/users/applicate-petsitter', info, { withCredentials: true })
-      .then(() => {
-        // 성공했다고 알려주고
-        navigate('../');
-      })
-      .catch(() => {
-      });
-    // navigate('../');
-  };
-
-  return (
-    <>
-      <>
-        <BasicInfo info={info} onChange={onChange} onSubmit={onSubmit} />
-      </>
     </>
   );
 }

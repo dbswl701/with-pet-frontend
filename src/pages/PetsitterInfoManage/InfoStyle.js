@@ -74,7 +74,7 @@ export const Title = styled.div`
     margin: 2% 0 2% 0;
 `;
 
-export const Button = styled.input`
+export const Button = styled.button`
     height: 40px;
     width: 100px;
     margin-bottom: 10px;

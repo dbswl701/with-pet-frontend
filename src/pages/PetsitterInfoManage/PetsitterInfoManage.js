@@ -242,7 +242,7 @@ function PetsitterInfoManage() {
                 <img key={img} src={img} alt="집사진" style={{ width: '200px', height: '200px' }} />
                 {/* <input type="button" value="x" /> */}
                 &ensp;
-                <CancelButton type="button" className="cancel" value="X" onClick={() => onRemoveHousImg(img)}>X</CancelButton>
+                <CancelButton type="button" className="cancel" value="X" onClick={() => onRemoveHousImg(img)} />
                 { index === 0 ? <p>대표사진</p> : <p> </p>}
               </div>
             ))
