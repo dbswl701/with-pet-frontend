@@ -68,7 +68,6 @@ export default function Orders({ rows }) {
             <TableCell>이름</TableCell>
             <TableCell>계정</TableCell>
             <TableCell>전화번호</TableCell>
-            <TableCell>신고 횟수</TableCell>
             <TableCell align="right">삭제</TableCell>
           </TableRow>
         </TableHead>
@@ -80,7 +79,6 @@ export default function Orders({ rows }) {
               <TableCell>{row.userName}</TableCell>
               <TableCell>{row.userId}</TableCell>
               <TableCell>{row.userPhone}</TableCell>
-              <TableCell>{row.report_count}</TableCell>
               <TableCell align="right">
                 <button>x</button>
               </TableCell>
