@@ -4,7 +4,7 @@ import axios from 'axios';
 import TextField from '@mui/material/TextField';
 // import styled from 'styled-components';
 import {
-  Container, Label, DivContainer, Button, CancelButton, Title,
+  Container, Label, DivContainer, InputButton, CancelButton, Title,
 } from './InfoStyle';
 
 function Item1({ service, onRemove }) {
@@ -25,7 +25,8 @@ function Item1({ service, onRemove }) {
         <p>가격: {service.price}</p>
       </div>
       <div style={{ textAlign: 'center' }}>
-        <Button value="삭제" onClick={() => onRemove(service.serviceId)}>삭제</Button>
+        {/* <Button value="삭제" onClick={() => onRemove(service.serviceId)}>삭제</Button> */}
+        <InputButton type="button" value="삭제" onClick={() => onRemove(service.serviceId)} />
       </div>
     </div>
   );
@@ -56,7 +57,7 @@ function Item2({ service, onAdd }) {
       </div>
       <div style={{ textAlign: 'center' }}>
         <input style={{ width: '80%', marginBottom: '3px' }} type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
-        <Button value="추가" onClick={() => onAdd(service.serviceId, price)}>추가</Button>
+        <InputButton type="button" value="추가" onClick={() => onAdd(service.serviceId, price)} />
       </div>
     </div>
   );
@@ -241,7 +242,7 @@ function PetsitterInfoManage() {
                 <img key={img} src={img} alt="집사진" style={{ width: '200px', height: '200px' }} />
                 {/* <input type="button" value="x" /> */}
                 &ensp;
-                <CancelButton className="cancel" value="X" onClick={() => onRemoveHousImg(img)}>X</CancelButton>
+                <CancelButton type="button" className="cancel" value="X" onClick={() => onRemoveHousImg(img)}>X</CancelButton>
                 { index === 0 ? <p>대표사진</p> : <p> </p>}
               </div>
             ))
@@ -262,14 +263,14 @@ function PetsitterInfoManage() {
                 #{tag.hashTagName}&ensp;
                 {/* <span># {tag.hashTagName}</span> */}
                 {/* <input type="button" value="x" onClick={() => onRemoveHashtag(tag.petSitterHashTagId)} /> */}
-                <CancelButton className="cancel" value="X" onClick={() => onRemoveHashtag(tag)}>X</CancelButton>&ensp;
+                <CancelButton type="button" className="cancel" value="X" onClick={() => onRemoveHashtag(tag)} />&ensp;
               </div>
             ))}
           </div>
           <TextField sx={{ m: 1 }} variant="outlined" size="small" name="hashTagName" onChange={(e) => setHashTag(e.target.value)} value={hashTag} />
           {/* <TextField sx={{ m: 1 }} label="해시태그" variant="outlined" size="small" name="hashTagName" onChange={(e) => setHashTag(e.target.value)} value={hashTag} /> */}
           {/* <input type="button" onClick={handleHashtag} value="추가" /> */}
-          <Button onClick={handleHashtag} value="추가">추가</Button>
+          <InputButton type="button" onClick={handleHashtag} value="추가" />
         </DivContainer>
         <DivContainer>
           <Title>소개글</Title>
@@ -303,8 +304,8 @@ function PetsitterInfoManage() {
           width: '100%', display: 'inline-block', justifyContent: 'center', alignContent: 'center', alignItems: 'center',
         }}
         >
-          <Button value="수정">수정</Button>
-          <Button value="취소" onClick={() => navigate('../petsitterShowInfo')}>취소</Button>
+          <InputButton type="button" value="수정" />
+          <InputButton type="button" value="취소" onClick={() => navigate('../petsitterShowInfo')} />
         </DivContainer>
       </form>
       {/* </Content> */}

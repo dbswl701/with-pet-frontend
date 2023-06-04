@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
-  Button, Container, DivContainer, Title,
+  Container, DivContainer, Title, InputButton,
 } from './InfoStyle';
 
 function Item({ service }) {
@@ -117,13 +117,13 @@ function PetsitterShowInfo() {
           }
         </div>
       </DivContainer>
-      <Button onClick={onModify} style={{ height: '50px' }}>수정</Button>
+      <InputButton type="button" value="수정" onClick={onModify} style={{ height: '50px' }} />
     </Container>
   );
 
   const initPrint = (
     <Container>
-      <Button className="init" onClick={() => navigate('../petsitterInfoManage')}>등록하기</Button>
+      <InputButton type="button" value="등록" className="init" onClick={() => navigate('../petsitterInfoManage')} />
     </Container>
   );
 
