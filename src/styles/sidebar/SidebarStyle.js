@@ -27,7 +27,8 @@ export const Items = styled.div`
 
 export const ItemContainer = styled.div`
     display: flex;
-    flex-direction: column;
+    // flex-direction: column;
+    flex-direction: row;
     position: relative;
     margin: 20px 0px;
     justify-content: center;
@@ -97,7 +98,7 @@ export const InfoContainer = styled.div`
 export const EvalContainer = styled.div`
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-betwween;
     align-items: center;
     padding: 5px 1px 5px 1px;
     p {
@@ -201,5 +202,10 @@ export const Container = styled.div`
 export const BarContainer = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: center;
+`;
+
+export const SideButton = styled.button`
+    // background-color: #CAA969;
+    flex-direction: column;
+    justify-content: flex-start;
 `;
