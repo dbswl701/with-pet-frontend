@@ -4,7 +4,7 @@ import axios from 'axios';
 import social from '../../assets/social.png';
 import heart from '../../assets/heart.png';
 import {
-  ItemContainer, Dealt, Progress, ProfileImg, BarContainer, IconImg, InfoContainer, ProfileContainer, EvalContainer, Button,
+  ItemContainer, Dealt, Progress, ProfileImg, BarContainer, IconImg, InfoContainer, ProfileContainer, EvalContainer, Button, SideButton,
 } from '../../styles/sidebar/SidebarStyle';
 
 // const Progress = styled.div`
@@ -60,46 +60,52 @@ function CurrentListItem({ item, handleRemoveNew, handleApprove }) {
 
   const showButton = (
     <>
-      <button>일지</button>
-      <button>상세</button>
+      <SideButton>일지</SideButton>
+      <SideButton>상세</SideButton>
     </>
   );
   return (
     <>
       <ItemContainer onMouseEnter={() => setShowDiv(true)} onMouseLeave={() => setShowDiv(false)}>
-        <ProfileContainer>
-          <ProfileImg src={item.dogImg} alt="img" />
-          <InfoContainer>
-            <p className="info">
-              {item.dogName} | {item.cost}
-            </p>
-            <p className="period">{item.checkIn} ~ {item.checkOut}</p>
-          </InfoContainer>
-        </ProfileContainer>
-        <BarContainer className="bar">
-          <EvalContainer>
-            <IconImg className="heart" src={heart} alt="heart" />
-            <Progress className="heart">
-              <Dealt className="heart" dealt={item.affectionTemperature} />
-            </Progress>
-            <p className="heart">{item.affectionTemperature}%</p>
+        <div>
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <div>
+              <ProfileContainer>
+                <ProfileImg src={item.dogImg} alt="img" />
+                <InfoContainer>
+                  <p className="info">
+                    {item.dogName} | {item.cost}
+                  </p>
+                  <p className="period">{item.checkIn} ~ {item.checkOut}</p>
+                </InfoContainer>
+              </ProfileContainer>
+              <BarContainer className="bar">
+                <EvalContainer>
+                  <IconImg className="heart" src={heart} alt="heart" />
+                  <Progress className="heart">
+                    <Dealt className="heart" dealt={item.affectionTemperature} />
+                  </Progress>
+                  <p className="heart">{item.affectionTemperature}%</p>
+                </EvalContainer>
+                <EvalContainer>
+                  <IconImg className="social" src={social} alt="social" />
+                  <Progress className="social">
+                    <Dealt className="social" dealt={item.socializationTemperature} />
+                  </Progress>
+                  <p className="social">{item.socializationTemperature}%</p>
+                </EvalContainer>
+              </BarContainer>
+            </div>
+            <div>
+              {showDiv && showButton}
+            </div>
+          </div>
+          <EvalContainer style={{ flexDirection: 'column' }}>
+            <Button onClick={onClick} value="APPROVAL">승인</Button>
+            <Button onClick={onClick} value="CANCEL">거절</Button>
           </EvalContainer>
-          <EvalContainer>
-            <IconImg className="social" src={social} alt="social" />
-            <Progress className="social">
-              <Dealt className="social" dealt={item.socializationTemperature} />
-            </Progress>
-            <p className="social">{item.socializationTemperature}%</p>
-          </EvalContainer>
-        </BarContainer>
-        <EvalContainer style={{ flexDirection: 'column' }}>
-          <Button onClick={onClick} value="APPROVAL">승인</Button>
-          <Button onClick={onClick} value="CANCEL">거절</Button>
-        </EvalContainer>
+        </div>
       </ItemContainer>
-      <div>
-        {showDiv && showButton}
-      </div>
     </>
   );
 }
