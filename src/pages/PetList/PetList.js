@@ -113,7 +113,7 @@ function PetList() {
           }
           return item;
         });
-        console.log(updatedResult);
+        // console.log(updatedResult);
         setGroupList(updatedResult);
       })
       .catch(() => {
