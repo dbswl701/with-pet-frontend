@@ -5,8 +5,11 @@ import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import axios from 'axios';
 
-function PetModify({ onSubmit, petInfo, onToggle }) {
+function PetModify({
+  onSubmit, petInfo, onToggle, partyId,
+}) {
   const [modifyPetInfo, setModifyPetInfo] = useState({
     dog_name: petInfo.dog_name,
     dog_breed: petInfo.dog_breed,
@@ -17,17 +20,28 @@ function PetModify({ onSubmit, petInfo, onToggle }) {
     dog_img: petInfo.dog_img,
     dog_isbn: petInfo.dog_isbn,
   });
-  const onChange = (e) => {
-    if (e.target.files) {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
+
+  const handleImageUpload = async (e) => {
+    const img = e.target.files[0];
+    const formData = new FormData();
+    formData.append('file', img);
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+    axios.post('https://withpet.site/api/v1/file/upload', formData, config)
+      .then((res) => {
         setModifyPetInfo({
           ...modifyPetInfo,
-          dog_img: reader.result,
+          dog_img: res.data.result[0],
         });
-      };
+      });
+  };
+
+  const onChange = (e) => {
+    if (e.target.files) {
+      handleImageUpload(e);
     } else {
       const { value, name } = e.target;
       setModifyPetInfo({
@@ -44,7 +58,7 @@ function PetModify({ onSubmit, petInfo, onToggle }) {
       ...modifyPetInfo,
       neutralization: modifyPetInfo.neutralization === 'true',
     });
-    onSubmit(petInfo.dog_id, modifyPetInfo);
+    onSubmit(partyId, petInfo.dog_id, modifyPetInfo);
   };
 
   const onChangeCalendar = (date) => {

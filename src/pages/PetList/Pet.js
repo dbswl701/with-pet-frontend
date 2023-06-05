@@ -5,7 +5,7 @@ import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
 import PetModify from './PetModify';
 import PetDetail from './PetDetail';
 
-function Pet({ pet, onSubmitModify }) {
+function Pet({ pet, onSubmitModify, partyId }) {
   const [toggle, setToggle] = useState('simple');
   const simple = (
     <div style={{ alignItems: 'center', display: 'flex' }}>
@@ -37,6 +37,7 @@ function Pet({ pet, onSubmitModify }) {
           petInfo={pet}
           onSubmit={onSubmitModify}
           onToggle={onToggle}
+          partyId={partyId}
         />
       );
       break;

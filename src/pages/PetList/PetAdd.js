@@ -52,6 +52,7 @@ function PetAdd({
           id="image-select"
           style={{ display: 'none' }}
           onChange={onChange}
+          required
         />
       </div>
       <div className="pet-info-regist">
