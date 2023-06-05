@@ -36,21 +36,27 @@ function PetList() {
     dog_img: '',
     dog_isbn: '',
   });
-  // const nextId = useRef(3);
 
-  const onChange = (e) => {
-    // console.log(dateNow);
-    // console.log(today);
-    if (e.target.files) {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
+  const handleImageUpload = async (e) => {
+    const img = e.target.files[0];
+    const formData = new FormData();
+    formData.append('file', img);
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+    axios.post('https://withpet.site/api/v1/file/upload', formData, config)
+      .then((res) => {
         setPetInfo({
           ...petInfo,
-          dog_img: reader.result,
+          dog_img: res.data.result[0],
         });
-      };
+      });
+  };
+  const onChange = (e) => {
+    if (e.target.files) {
+      handleImageUpload(e);
     } else {
       const { value, name } = e.target;
       setPetInfo({
@@ -70,7 +76,6 @@ function PetList() {
       .catch(() => {
       });
     setPetInfo({
-      // dog_id: '',
       dog_name: '',
       dog_breed: '',
       dog_birth: '',
@@ -86,13 +91,11 @@ function PetList() {
 
   const onSubmit = (e, partyId) => {
     e.preventDefault();
-    // console.log(partyId);
     let img = petInfo.dog_img;
     if (img === '') {
       img = dogimgdefault;
     }
     const pet = {
-      // dog_id: nextId.current,
       dog_name: petInfo.dog_name,
       dog_breed: petInfo.dog_breed,
       dog_birth: petInfo.dog_birth,
@@ -102,29 +105,20 @@ function PetList() {
       dog_img: img,
       dog_isbn: petInfo.dog_isbn,
     };
-    // nextId.current += 1;
     axios.post(`https://withpet.site/api/v1/dogs/register-dog/${partyId}`, pet, { withCredentials: true })
       .then((res) => {
-        // console.log(res.data.result);
-        // console.log(partyId);
-        // console.log(groupList);
         const updatedResult = groupList.map((item) => {
-          // console.log(item.partyId, partyId);
-          // console.log(item);
           if (item.partyId === partyId) {
-            // console.log('여기가 맞는데');
-            // console.log(item.dogInfoResponseList.concat(res.data.result));
             return { ...item, dogInfoResponseList: item.dogInfoResponseList.concat(res.data.result) };
           }
           return item;
         });
-        // console.log(updatedResult);
+        console.log(updatedResult);
         setGroupList(updatedResult);
       })
       .catch(() => {
       });
     setPetInfo({
-      // dog_id: '',
       dog_name: '',
       dog_breed: '',
       dog_birth: '',
@@ -137,33 +131,53 @@ function PetList() {
   };
 
   useEffect(() => {
-    // axios.get('https://withpet.site/api/v1/dogs', { withCredentials: true })
-    //   .then((res) => {
-    //     setPets(res.data.result);
-    //     // console.log(res.data.result);
-    //   })
-    //   .catch(() => {
-    //   });
     axios.get('https://withpet.site/api/v1/groups/group-infos', { withCredentials: true })
       .then((res) => {
         setGroupList(res.data.result);
-        // console.log(res.data.result);
       })
       .catch(() => {
       });
   }, []);
 
-  const onSubmitModify = (id, modifyPetInfo) => {
-    // setPets(pets.map((pet) => (pet.id === id ? modifyPetInfo : pet)));
+  const onSubmitModify = (partyId, id, modifyPetInfo) => {
     axios.put(`https://withpet.site/api/v1/dogs/${id}`, modifyPetInfo, { withCredentials: true })
       .then((res) => {
-        const updatedPets = pets.map((pet) => {
-          if (pet.dog_id === res.data.result.dog_id) {
-            return res.data.result;
+        const updatedResult = groupList.map((item) => {
+          if (item.partyId === partyId) {
+            const updatedPets = item.dogInfoResponseList.map((pet) => {
+              if (pet.dog_id === id) {
+                return res.data.result;
+              }
+              return pet;
+            });
+
+            return { ...item, dogInfoResponseList: updatedPets };
           }
-          return pet;
+          return item;
         });
-        setPets(updatedPets);
+        setGroupList(updatedResult);
+
+        // const updatedResult = groupList.map((item) => {
+        //   if (item.partyId === partyId) {
+        //     // 해당 그룹 내에서 dogInfoResponseList에 id 보고 수정
+        //     const updatedPets = item.dogInfoResponseList.map((pet) => {
+        //       if (pet.dog_id === id) {
+        //         return res.data.result;
+        //       }
+        //       return pet;
+        //     });
+
+        //     return { ...item, dogInfoResponseList: item.dogInfoResponseList.concat(res.data.result) };
+        //   }
+        //   return item;
+        // });
+        // const updatedPets = pets.map((pet) => {
+        //   if (pet.dog_id === res.data.result.dog_id) {
+        //     return res.data.result;
+        //   }
+        //   return pet;
+        // });
+        // setPets(updatedPets);
       })
       .catch(() => {
       });
@@ -185,13 +199,11 @@ function PetList() {
   return (
     <>
       <div className="list_container">
-        {/* {pets && pets.map((pet) => { */}
         { groupList[0] && groupList.map((group) => (
           <div key={group.partyId}>
             <Party group={group} />
             { group.dogInfoResponseList.map((pet) => {
-              // console.log(pet);
-              return <Pet pet={pet} key={pet.dog_id} onSubmitModify={onSubmitModify} />;
+              return <Pet partyId={group.partyId} pet={pet} key={pet.dog_id} onSubmitModify={onSubmitModify} />;
             })}
             <PetAdd partyId={group.partyId} pets={pets} setPets={setPets} onSubmit={onSubmit} onChange={onChange} petInfo={petInfo} onCancle={onCancle} />
           </div>

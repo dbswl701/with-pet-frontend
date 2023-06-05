@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
-// import PetModify from './PetModify';
 import DiaryDetail from './DiaryDetail';
 import DiaryModify from './DiaryModify';
 

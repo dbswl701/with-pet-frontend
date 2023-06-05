@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-// import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import TextField from '@mui/material/TextField';
 import dayjs from 'dayjs';
@@ -17,10 +16,8 @@ import './Diaries.css';
 function UserDiaryListAdd({
   open, setOpen, setFilteredDiaries, filteredDiaries,
 }) {
-  // const [diaries, setDiaries] = useState([]);
   const dateNow = new Date();
   const today = dateNow.toISOString().substr(0, 10);
-  // const colorList = ['red', 'yellow', 'green', 'blue', 'orange', 'violet', 'gray'];
   const colorList = ['#64C8F3', '#F36464', '#57DF86', '#DFDA57', '#CAA969', 'violet', 'gray'];
 
   const [diaryInfo, setDiaryInfo] = useState({
@@ -34,68 +31,53 @@ function UserDiaryListAdd({
   const [categories, setCategories] = useState([]);
   const [dogs, setDogs] = useState([]);
 
-  const onChangetemp = (e) => {
-    if (e.target.files) {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
+  const handleImageUpload = async (e) => {
+    const img = e.target.files[0];
+    const formData = new FormData();
+    formData.append('file', img);
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+    axios.post('https://withpet.site/api/v1/file/upload', formData, config)
+      .then((res) => {
         setDiaryInfo({
           ...diaryInfo,
-          dogImgToday: reader.result,
+          dogImgToday: res.data.result[0],
         });
-      };
+      });
+  };
+  const onChangetemp = (e) => {
+    if (e.target.files) {
+      handleImageUpload(e);
     } else {
       const { value, name } = e.target;
       setDiaryInfo({
         ...diaryInfo,
         [name]: value,
       });
-      // console.log(name, value);
     }
   };
-  // console.log(dayjs(new Date()).format('YYYY-MM'));
 
   const onSubmitAdd = (e) => {
     e.preventDefault();
-    // console.log(diaryInfo);
     axios.post('https://withpet.site/api/v1/userdiaries', diaryInfo, { withCredentials: true })
       .then((res) => {
-        // console.log(res.data.result);
         const temp = {
           start: dayjs(new Date(res.data.result.createdAt)).format('YYYY-MM-DD'),
           end: dayjs(new Date(res.data.result.createdAt)).format('YYYY-MM-DD'),
           color: colorList[(res.data.result.dogId % colorList.length) - 1],
           title: res.data.result.dogName,
         };
-        // console.log(temp);
-        // console.log(filteredDiaries);
-        // const temp2 = filteredDiaries.concat(temp);
-        // console.log(temp2);
-        // console.log(filteredDiaries.concat(temp));
-        setFilteredDiaries(filteredDiaries.concat(temp)); // 바로 반영되도록
-
-        // console.log(res.data.result);
-        // const { result } = res.data;
-        // // 이제 달력 보여줄거 업데이트 하자
-        // console.log(dogs);
-        // const temp = {
-        //   start: dayjs(new Date(result.createdAt)).format('YYYY-MM-DD'),
-        //   end: dayjs(new Date(result.createdAt)).format('YYYY-MM-DD'),
-        //   color: colorList[(result.dogId % colorList.length) - 1],
-        //   title: result.dogName,
-        // };
-        // setFilteredDiaries(filteredDiaries.concat(temp));
-        // console.log(temp);
+        setFilteredDiaries(filteredDiaries.concat(temp));
       })
       .catch(() => {
-        // console.error(err);
       });
 
     axios.get(`https://withpet.site/api/v1/userdiaries/month?categoryId=&dogId=&month=${dayjs(new Date()).format('YYYY-MM')}&petsitterCheck=`, { withCredentials: true })
       .then((res) => {
         const { result } = res.data;
-        // 이제 달력 보여줄거 업데이트 하자
         const temp = result.map((item) => ({
           start: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
           end: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
@@ -103,7 +85,6 @@ function UserDiaryListAdd({
           title: item.dogName,
         }));
         setFilteredDiaries(temp);
-        // console.log(temp);
       })
       .catch(() => {
       });
@@ -119,8 +100,6 @@ function UserDiaryListAdd({
   };
 
   const onChangeCalendar = (date) => {
-    // console.log(date);
-    // console.log(dayjs(date).format('YYYY-MM-DD'));
     const e = {
       target: {
         name: 'createdAt',
@@ -140,7 +119,6 @@ function UserDiaryListAdd({
         setCategories(res.data.result.categoryResponses);
       })
       .catch(() => {
-        // console.log(err);
       });
   }, []);
 

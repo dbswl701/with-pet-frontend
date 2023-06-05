@@ -3,14 +3,6 @@ import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
 import Typography from '@mui/material/Typography';
 
 function PetDetail({ pet, onToggle }) {
-  // const [isModify, setIsModify] = useState(false);
-  // const petSpec = [
-  //   { name: '작성날짜', value: pet.createdAt },
-  //   { name: '카테고리', value: pet.categoryName },
-  //   { name: '제목', value: pet.title },
-  //   { name: '내용', value: pet.contentBody },
-  // ];
-  // console.log(pet);
   const detail = (
     <>
       <div style={{ display: 'flex', flexDirection: 'column', width: '500px' }}>

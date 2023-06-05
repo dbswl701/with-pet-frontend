@@ -14,66 +14,7 @@ import dogimgdefault from '../../assets/dogProfileImage.png';
 function CreateParty({
   open, setOpen, onChange, onSubmit, petInfo, setPetInfo,
 }) {
-  // const [petInfo, setPetInfo] = useState({
-  //   dog_name: '',
-  //   dog_breed: '',
-  //   dog_birth: dayjs(new Date()),
-  //   dog_gender: '',
-  //   neutralization: '',
-  //   dog_weight: '',
-  //   dog_img: '',
-  //   dog_isbn: '',
-  //   partyName: '',
-  // });
-  // const onChange = (e) => {
-  //   // console.log(dateNow);
-  //   // console.log(today);
-  //   if (e.target.files) {
-  //     const file = e.target.files[0];
-  //     const reader = new FileReader();
-  //     reader.readAsDataURL(file);
-  //     reader.onloadend = () => {
-  //       setPetInfo({
-  //         ...petInfo,
-  //         dog_img: reader.result,
-  //       });
-  //     };
-  //   } else {
-  //     const { value, name } = e.target;
-  //     setPetInfo({
-  //       ...petInfo,
-  //       [name]: value,
-  //     });
-  //   }
-  // };
-
-  // const onSubmit = (e) => {
-  //   e.preventDefault();
-
-  //   axios.post('https://withpet.site/api/v1/groups', petInfo, { withCredentials: true })
-  //     .then((res) => {
-  //       setGroupList(groupList.concat(res.data.result));
-  //     })
-  //     .catch(() => {
-  //     });
-  //   setPetInfo({
-  //     // dog_id: '',
-  //     dog_name: '',
-  //     dog_breed: '',
-  //     dog_birth: '',
-  //     dog_gender: '',
-  //     neutralization: '',
-  //     dog_weight: '',
-  //     dog_img: '',
-  //     dog_isbn: '',
-  //     partyName: '',
-  //   });
-  //   setOpen(false);
-  // };
-
   const onChangeCalendar = (date) => {
-    // console.log(date);
-    // console.log(dayjs(date).format('YYYY-MM-DD'));
     const e = {
       target: {
         name: 'dog_birth',
@@ -81,13 +22,10 @@ function CreateParty({
       },
     };
     onChange(e);
-    console.log(e);
-    // console.log(dayjs(date).format('YYYY-MM-DD'));
   };
 
   const onLocalCancle = () => {
     setPetInfo({
-      // dog_id: '',
       dog_name: '',
       dog_breed: '',
       dog_birth: '',
