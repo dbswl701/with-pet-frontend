@@ -171,15 +171,6 @@ export const Content = styled.div`
     margin-bottom: 5px;
 `;
 
-export const ProfitButton = styled.button`
-    width: 12rem;
-    height: 3rem;
-    background-color: #CAA969;
-    border: none;
-    border-radius: 5px;
-    color: white;
-`;
-
 export const Button = styled.button`
   width: 190px;
   height: 40px;
@@ -205,7 +196,8 @@ export const BarContainer = styled.div`
 `;
 
 export const SideButton = styled.button`
-    // background-color: #CAA969;
+    background-color: #CAA969;
     flex-direction: column;
     justify-content: flex-start;
+    color: #ffffff;
 `;

@@ -52,7 +52,7 @@ function PetsitterInfoModifyHouse({ houseImgList, setHouseImgList }) {
             <div key={index} style={{ display: 'flex', flexDirection: 'column' }}>
               <img key={img.houseImg} src={img.houseImg} alt="집사진" style={{ width: '200px', height: '200px' }} />
               {/* <input type="button" value="x" /> */}
-              <CancelButton className="cancel" value="X" onClick={() => onRemoveHousImg(img.houseImg)}>X</CancelButton>
+              <CancelButton type="button" className="cancel" value="X" onClick={() => onRemoveHousImg(img.houseImg)} />
               { index === 0 ? <p>대표사진</p> : <p> </p>}
             </div>
           ))
