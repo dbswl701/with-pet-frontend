@@ -57,17 +57,17 @@ function PetsitterDetial() {
   const top = window.screenY + (window.outerHeight - height) / 2;
 
   useEffect(() => {
-    console.log(pgToken);
-    console.log(kakaoPay);
+    // console.log(pgToken);
+    // console.log(kakaoPay);
     if (pgToken !== null) {
-      console.log('close');
+      // console.log('close');
       setPopup('close');
       localStorage.setItem('pg_token', searchParams.get('pg_token'));
       // window.close();
 
       axios.get('http://ec2-13-209-73-128.ap-northeast-2.compute.amazonaws.com:8080/payment/cancel', { withCredentials: true })
-        .then((res) => {
-          console.log(res);
+        .then(() => {
+          // console.log(res);
         });
     }
     axios.get(`https://withpet.site/api/v1/petsitter/${id}`, { withCredentials: true })
@@ -88,7 +88,7 @@ function PetsitterDetial() {
   }, []);
 
   const onPaying = (reservationId) => {
-    console.log(reservationId);
+    // console.log(reservationId);
     const temp = {
       reservationId,
     };
@@ -115,8 +115,8 @@ function PetsitterDetial() {
       });
   };
   // console.log(paymentInfo);
-  console.log(pgToken);
-  console.log(popup);
+  // console.log(pgToken);
+  // console.log(popup);
 
   useEffect(() => {
     if (popup === 'false') {
@@ -128,7 +128,7 @@ function PetsitterDetial() {
       // console.log('timer');
       // console.log(popup);
       if (popup === 'close') {
-        console.log('팝업창 종료');
+        // console.log('팝업창 종료');
         timer = clearInterval(timer);
         return;
       }
@@ -136,7 +136,7 @@ function PetsitterDetial() {
       // console.log(pgToken2);
       // console.log(initPgToken);
       if (pgToken2 !== initPgToken) {
-        console.log('달라서 종료');
+        // console.log('달라서 종료');
         timer = clearInterval(timer);
         setKakaoPay({ ...kakaoPay, pg_token: pgToken2 });
         setReady(true);
@@ -144,21 +144,21 @@ function PetsitterDetial() {
     }, 500);
   }, [popup, initPgToken]);
 
-  console.log(kakaoPay);
+  // console.log(kakaoPay);
 
   useEffect(() => {
     if (!ready) {
       return;
     }
-    console.log(kakaoPay.pg_token);
-    console.log(kakaoPay.tid);
+    // console.log(kakaoPay.pg_token);
+    // console.log(kakaoPay.tid);
 
     axios.get(`https://withpet.site/payment/success?pg_token=${kakaoPay.pg_token}&tid=${kakaoPay.tid}`, { withCredentials: true })
       .then(() => {
       })
-      .catch((err) => {
-        if (err.response.data.message) console.log(err.response.data.message);
-        else console.log('카카오페이 결제에 실패했습니다.');
+      .catch(() => {
+        // eslint-disable-next-line no-alert
+        alert('카카오페이 결제에 실패했습니다.');
       });
   }, [ready, kakaoPay]);
 
