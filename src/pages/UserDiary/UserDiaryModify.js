@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
-// import MenuItem from '@mui/material/MenuItem';
 import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-// import FormControl from '@mui/material/FormControl';
 import axios from 'axios';
 import MenuItem from '@mui/material/MenuItem';
 
@@ -17,27 +15,11 @@ function UserDiaryModify({ onSubmit, diaryInfo, onToggle }) {
     contentBody: diaryInfo.contentBody,
     dogImgToday: diaryInfo.dogImgToday,
     dogId: diaryInfo.dogId,
-    // diaryId: diaryInfo.userDiaryId,
   });
   const [categories, setCategories] = useState([]);
   const [dogs, setDogs] = useState([]);
-  // const styles = {
-  //   formControl: {
-  //     margin: '8px',
-  //     minWidth: '120px',
-  //   },
-  //   select: {
-  //     padding: '8px',
-  //     fontSize: '16px',
-  //     border: '1px solid #ccc',
-  //     borderRadius: '4px',
-  //     backgroundColor: '#fff',
-  //     outline: 'none',
-  //   },
-  // };
 
   useEffect(() => {
-    // 반려견 selectbox 불러오기
     axios
       .get('https://withpet.site/api/v1/calendar', {
         withCredentials: true,
@@ -47,29 +29,29 @@ function UserDiaryModify({ onSubmit, diaryInfo, onToggle }) {
         setCategories(res.data.result.categoryResponses);
       })
       .catch(() => {
-        // console.log(err);
       });
   }, []);
 
-  // const handleCategoryChange = (event) => {
-  //   setCategoryId(event.target.value);
-  // };
-
-  // const handleDogChange = (event) => {
-  //   setDogId(event.target.value);
-  // };
-
-  const onChange = (e) => {
-    if (e.target.files) {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
+  const handleImageUpload = async (e) => {
+    const img = e.target.files[0];
+    const formData = new FormData();
+    formData.append('file', img);
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+    axios.post('https://withpet.site/api/v1/file/upload', formData, config)
+      .then((res) => {
         setModifyDiaryInfo({
           ...modifyDiaryInfo,
-          dogImgToday: reader.result,
+          dogImgToday: res.data.result[0],
         });
-      };
+      });
+  };
+  const onChange = (e) => {
+    if (e.target.files) {
+      handleImageUpload(e);
     } else {
       const { value, name } = e.target;
       setModifyDiaryInfo({
@@ -92,10 +74,8 @@ function UserDiaryModify({ onSubmit, diaryInfo, onToggle }) {
       title: modifyDiaryInfo.title,
       dogImgToday: modifyDiaryInfo.dogImgToday,
     };
-    // console.log(updatedSubmitInfo);
     onSubmit(diaryInfo.userDiaryId, updatedSubmitInfo);
   };
-
   const onChangeCalendar = (date) => {
     const e = {
       target: {
@@ -131,7 +111,7 @@ function UserDiaryModify({ onSubmit, diaryInfo, onToggle }) {
           <div style={{ marginLeft: '50px' }}>
             <div className="today-img-regist" style={{ display: 'flex', flexDirection: 'column' }}>
               <label htmlFor="image-select">
-                <img style={{ width: '150px', height: '150px', border: '1px solid gray' }} alt="이미지 미리보기" src={diaryInfo.dogImgToday} />
+                <img style={{ width: '150px', height: '150px', border: '1px solid gray' }} alt="이미지 미리보기" src={modifyDiaryInfo.dogImgToday} />
               </label>
               <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} onChange={onChange} />
             </div>

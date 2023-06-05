@@ -12,17 +12,6 @@ import dogimgdefault from '../../assets/dogProfileImage.png';
 export default function Orders({
   listName, list, data, onChange, onDelete, onSubmitModify, onSubmit,
 }) {
-  // const nextId = useRef(5);
-  // const [list, setList] = useState([]);
-  // const [data, setData] = useState({
-  //   // id: '',
-  //   serviceName: '',
-  //   serviceImg: '',
-  //   serviceIntroduction: '',
-  // });
-
-  // console.log(list);
-  // console.log(data.serviceName);
   return (
     <>
       <Typography component="h2" variant="h6" color="primary" gutterBottom>서비스 리스트</Typography>
