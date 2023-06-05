@@ -10,6 +10,13 @@ const Container = styled.div`
   border-radius: 5px;
 `;
 
+const ImagePlaceholder = styled.div`
+  width: 256px;
+  height: 256px;
+  background-color: #f3deb5;
+  margin-bottom: 20px;
+`;
+
 const Card = styled.div`
   width: auto;
   padding: 10px;
@@ -31,6 +38,7 @@ const Form = styled.form`
   display: grid;
   gap: 20px;
   text-align: center;
+  display: flex;
 
   div {
     display: flex;
@@ -190,6 +198,29 @@ function SignupForm() {
       <Card>
         <Form onSubmit={handleSubmit}>
           <div>
+            <label htmlFor="image">프로필 사진</label>
+            {imageSrc ? (
+              <img src={imageSrc} alt="프로필 사진 미리보기" />
+            ) : (
+              <ImagePlaceholder />
+            )}
+            <input type="file" onChange={handleImageUpload} />
+            <label htmlFor="name">이름</label>
+            <input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <label htmlFor="phone">전화번호</label>
+            <input
+              type="text"
+              id="phone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+          </div>
+          <div>
             <label htmlFor="username">아이디</label>
             <input
               type="text"
@@ -223,13 +254,6 @@ function SignupForm() {
             <input type="file" accept="image/*" onChange={handleImageUpload} />
           </div>
           <div>
-            <label htmlFor="phone">전화번호</label>
-            <input
-              type="text"
-              id="phone"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-            />
             <label htmlFor="addressRoad">주소(도로명)</label>
             <input
               type="text"
