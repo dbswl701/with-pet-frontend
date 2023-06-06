@@ -24,6 +24,9 @@ import UserDiaryList from './pages/UserDiary/UserDiaryList';
 import UserEvaluation from './pages/UserEvaluation/UserEvaluation';
 import PetsitterDiaries from './pages/PetsitterDiaries/PetsitterDiaries';
 import PetsitterInfoModify from './pages/PetsitterInfoManage/PetsitterInfoModify';
+import Chat from './pages/Chat/Chat';
+import Notification from './pages/Notification/Notification';
+import NotificationPage from './pages/Notification/NotificationPage';
 
 function App() {
   const [state, setState] = useState('false');
@@ -59,13 +62,17 @@ function App() {
           <Route path="/petsitterShowInfo" element={<PetsitterShowInfo />} />
           <Route path="/petsitterDiaries" element={<PetsitterDiaries />} />
           <Route path="/petsitterInfoModify" element={<PetsitterInfoModify />} />
+          <Route path="/chat" element={<Chat />} />
 
           {/* 관리자 페이지 */}
           <Route path="/adminmainpage" element={<AdminMainPage />} />
           <Route path="/servicemanage" element={<AdminServicManage />} />
           <Route path="/adminapplyInfo" element={<AdminApplyInfo />} />
+
+          <Route path="/notification" element={<NotificationPage />} />
         </Route>
       </Routes>
+      <Notification />
     </>
   );
 }

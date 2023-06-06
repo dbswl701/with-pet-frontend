@@ -85,7 +85,7 @@ function Reservation({
       .then((res) => {
         // console.log(res.data.result);
         // eslint-disable-next-line no-alert
-        alert('예약이 완료되었습니다.');
+        // alert('예약이 완료되었습니다.');
         setPayInfo(res.data.result);
       });
   };

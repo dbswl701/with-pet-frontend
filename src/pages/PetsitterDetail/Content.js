@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom/dist';
 import Review from './Review';
 
 const Container = styled.div`
@@ -37,8 +39,23 @@ function Item({ service }) {
   );
 }
 
-function Content({ data }) {
-  // console.log(data.);
+function Content({ data, petsitterUserId }) {
+  console.log(petsitterUserId);
+  const navigate = useNavigate();
+
+  const moveChatPage = () => {
+    const temp = {
+      createTime: new Date().toISOString(),
+      otherId: petsitterUserId,
+    };
+    axios.post('https://withpet.site/chat/room', temp, { withCredentials: true })
+      .then((res) => {
+        // room id 저장
+        console.log(res.data.result);
+        navigate(`../chat?userId=${res.data.result.myId}&roomId=${res.data.result.chatRoomId}`);
+      });
+  };
+
   const reviews = [
     {
       id: 1,
@@ -76,6 +93,7 @@ function Content({ data }) {
             <p>{data.petSitterAddress && data.petSitterAddress}</p>
             <h2 style={{ marginBottom: '10px' }}>{data && data.petSitterName}</h2>
             {data.petSitterHashTags && data.petSitterHashTags.map((tag) => <span key={tag.petSitterHashTagId}>#{tag.hashTagName}  </span>)}
+            <button onClick={moveChatPage}>문의하기</button>
           </div>
         </div>
 
