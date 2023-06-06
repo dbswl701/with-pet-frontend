@@ -105,7 +105,7 @@ function Login({ setState, setUserInfo }) {
       </div>
       <div>
         <Container>
-          <Card>
+          <Card style={{ zIndex: '1' }}>
             <FormTitle>로그인</FormTitle>
             <Form>
               <div style={{ textAlign: 'center' }}>

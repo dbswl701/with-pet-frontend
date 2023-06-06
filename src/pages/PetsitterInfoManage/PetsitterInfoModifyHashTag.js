@@ -35,7 +35,7 @@ function PetsitterInfoModifyHashTag({ hashTags, setHashTags }) {
             #{tag.hashTagName}&ensp;
             {/* <span># {tag.hashTagName}</span> */}
             {/* <input type="button" value="x" onClick={() => onRemoveHashtag(tag.petSitterHashTagId)} /> */}
-            <CancelButton className="cancel" value="X" onClick={() => onRemoveHashtag(tag)} />&ensp;
+            <CancelButton type="button" className="cancel" value="X" onClick={() => onRemoveHashtag(tag)} />&ensp;
           </div>
         ))}
       </div>
