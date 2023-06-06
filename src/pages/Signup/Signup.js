@@ -119,7 +119,7 @@ function SignupForm() {
   //   });
   // };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     // 회원가입 시 백엔드로 보내는 로직
     if (password !== passwordConfirm) {
@@ -128,14 +128,14 @@ function SignupForm() {
       return;
     }
     if (
-      username === ''
-      || password === ''
-      || name === ''
-      || phone === ''
-      || addressRoad === ''
-      || addressPost === ''
-      || addressDtail === ''
-      || email === ''
+      username === '' ||
+      password === '' ||
+      name === '' ||
+      phone === '' ||
+      addressRoad === '' ||
+      addressPost === '' ||
+      addressDtail === '' ||
+      email === ''
     ) {
       alert('빈 칸을 모두 입력해주세요.'); // eslint-disable-line no-alert
       return;
@@ -165,7 +165,7 @@ function SignupForm() {
       });
   };
 
-  const handleImageUpload = async (e) => {
+  const handleImageUpload = async e => {
     const img = e.target.files[0];
     const formData = new FormData();
     // console.log(formData);
@@ -185,8 +185,9 @@ function SignupForm() {
     // }
     // await encodeFileToBase64(file);
 
-    axios.post('https://withpet.site/api/v1/file/upload', formData, config)
-      .then((res) => {
+    axios
+      .post('https://withpet.site/api/v1/file/upload', formData, config)
+      .then(res => {
         setImageSrc(res.data.result);
         // console.log(res.data.result);
       });
@@ -210,14 +211,14 @@ function SignupForm() {
               type="text"
               id="name"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={e => setName(e.target.value)}
             />
             <label htmlFor="phone">전화번호</label>
             <input
               type="text"
               id="phone"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={e => setPhone(e.target.value)}
             />
           </div>
           <div>
@@ -226,28 +227,28 @@ function SignupForm() {
               type="text"
               id="username"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={e => setUsername(e.target.value)}
             />
             <label htmlFor="password">비밀번호</label>
             <input
               type="password"
               id="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={e => setPassword(e.target.value)}
             />
             <label htmlFor="passwordConfirm">비밀번호 확인</label>
             <input
               type="password"
               id="passwordConfirm"
               value={passwordConfirm}
-              onChange={(e) => setPasswordConfirm(e.target.value)}
+              onChange={e => setPasswordConfirm(e.target.value)}
             />
             <label htmlFor="name">이름</label>
             <input
               type="text"
               id="name"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={e => setName(e.target.value)}
             />
             <label htmlFor="image">프로필 사진</label>
             {imageSrc && <img src={imageSrc} alt="프로필 사진 미리보기" />}
@@ -259,28 +260,28 @@ function SignupForm() {
               type="text"
               id="addressRoad"
               value={addressRoad}
-              onChange={(e) => setAddressRoad(e.target.value)}
+              onChange={e => setAddressRoad(e.target.value)}
             />
             <label htmlFor="addressPost">주소(우편번호)</label>
             <input
               type="text"
               id="addressPost"
               value={addressPost}
-              onChange={(e) => setAddressPost(e.target.value)}
+              onChange={e => setAddressPost(e.target.value)}
             />
             <label htmlFor="addressDtail">주소(상세주소)</label>
             <input
               type="text"
               id="addressDtail"
               value={addressDtail}
-              onChange={(e) => setAddressDtail(e.target.value)}
+              onChange={e => setAddressDtail(e.target.value)}
             />
             <label htmlFor="email">이메일</label>
             <input
               type="email"
               id="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={e => setEmail(e.target.value)}
             />
             <button type="submit">회원가입</button>
           </div>

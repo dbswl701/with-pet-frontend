@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import styled from "styled-components";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import styled from 'styled-components';
 
 const Container = styled.div`
   display: flex;
@@ -104,13 +104,13 @@ const ButtonContainer = styled.div`
   justify-self: center;
 `;
 
-const url = "https://withpet.site/api/v1/users/my-info";
+const url = 'https://withpet.site/api/v1/users/my-info';
 
 function EditProfile() {
-  const [imageSrc, setImageSrc] = useState("");
+  const [imageSrc, setImageSrc] = useState('');
   const [modifyInfo, setModifyInfo] = useState({});
 
-  const handleChangeImage = (e) => {
+  const handleChangeImage = e => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -128,7 +128,7 @@ function EditProfile() {
   useEffect(() => {
     axios
       .get(url, { withCredentials: true })
-      .then((response) => {
+      .then(response => {
         const info = response.data.result;
         setModifyInfo({
           detailAdr: info.address.detailAdr,
@@ -145,7 +145,7 @@ function EditProfile() {
       .catch(() => {});
   }, []);
 
-  const onChange = (e) => {
+  const onChange = e => {
     const { value, name } = e.target;
     setModifyInfo({
       ...modifyInfo,
@@ -153,7 +153,7 @@ function EditProfile() {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
     const info = {
       address: {
@@ -165,7 +165,7 @@ function EditProfile() {
       profileImg: modifyInfo.profileImg,
       userEmail: modifyInfo.userEmail,
       userName: modifyInfo.userName,
-      userPassword: "ajounice1234!",
+      // userPassword: 'ajounice0302!',
     };
 
     axios
@@ -187,7 +187,7 @@ function EditProfile() {
             <label>이름</label>
             <input
               type="text"
-              value={modifyInfo.userName || ""}
+              value={modifyInfo.userName || ''}
               onChange={onChange}
               name="userName"
               placeholder="위드펫"
@@ -195,7 +195,7 @@ function EditProfile() {
             <label>전화번호</label>
             <input
               type="tel"
-              value={modifyInfo.phoneNum || ""}
+              value={modifyInfo.phoneNum || ''}
               onChange={onChange}
               name="phoneNum"
               placeholder="010-1234-5678"
@@ -203,7 +203,7 @@ function EditProfile() {
             <label>이메일</label>
             <input
               type="email"
-              value={modifyInfo.userEmail || ""}
+              value={modifyInfo.userEmail || ''}
               onChange={onChange}
               name="userEmail"
               placeholder="withpet1@gmail.com"
@@ -213,7 +213,7 @@ function EditProfile() {
             <label>우편번호</label>
             <input
               type="text"
-              value={modifyInfo.zipcode || ""}
+              value={modifyInfo.zipcode || ''}
               onChange={onChange}
               name="zipcode"
               placeholder="12345"
@@ -221,7 +221,7 @@ function EditProfile() {
             <label>도로명주소</label>
             <input
               type="text"
-              value={modifyInfo.streetAdr || ""}
+              value={modifyInfo.streetAdr || ''}
               onChange={onChange}
               name="streetAdr"
               placeholder="경기도 수원시 영통구 아주로1번길 12"
@@ -229,7 +229,7 @@ function EditProfile() {
             <label>상세주소</label>
             <input
               type="text"
-              value={modifyInfo.detailAdr || ""}
+              value={modifyInfo.detailAdr || ''}
               onChange={onChange}
               name="detailAdr"
               placeholder="123동 123호"
