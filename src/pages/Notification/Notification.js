@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+/* eslint-disable no-console */
 
 function NotificationComponent() {
   useEffect(() => {

@@ -15,7 +15,7 @@ border-radius: 5px;
 `;
 function PetsitterInfoModifyHouse({ houseImgList, setHouseImgList }) {
   // const [houseImgList, setHouseImgList] = useState([]);
-  console.log(houseImgList);
+  // console.log(houseImgList);
   // const handleImageChange = (e) => {
   //   const files = Array.from(e.target.files);
   //   files.forEach((file) => {
