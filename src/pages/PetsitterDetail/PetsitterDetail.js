@@ -155,6 +155,8 @@ function PetsitterDetial() {
 
     axios.get(`https://withpet.site/payment/success?pg_token=${kakaoPay.pg_token}&tid=${kakaoPay.tid}`, { withCredentials: true })
       .then(() => {
+        // eslint-disable-next-line no-alert
+        alert('예약이 완료되었습니다.');
       })
       .catch(() => {
         // eslint-disable-next-line no-alert
@@ -193,7 +195,7 @@ function PetsitterDetial() {
           {/* { info.petSitterHouses && info.petSitterHouses.find((item) => item.representative === true)} */}
         </HouseImgWrapper>
         <ContentWrapper>
-          <Content data={info} />
+          <Content data={info} petsitterUserId={info.petSitterUserId} />
           <Reservation data={info} dogList={dogList} petsitterId={id} setOpen={setOpen} setPayInfo={setPayInfo} />
           {/* <Reservation data={info} dogList={dogList} petsitterId={id} /> */}
         </ContentWrapper>
