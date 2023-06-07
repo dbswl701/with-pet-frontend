@@ -9,7 +9,8 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  background-color: #fff;
+  height: 50px;
 `;
 
 const FormTitle = styled.h3`
@@ -31,7 +32,7 @@ const Card = styled.div`
   padding: 20px;
   outline: 1px solid #f3deb5;
   border-radius: 5px;
-  margin-top: -30%;
+  margin-top: 10px;
   justify-content="center"
   z-index: 1;
   background-color: #fff;
@@ -74,7 +75,7 @@ function Login({ setState, setUserInfo }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const onSubmit = (e) => {
+  const onSubmit = e => {
     e.preventDefault();
     axios
       .post(
@@ -85,7 +86,7 @@ function Login({ setState, setUserInfo }) {
         },
         { withCredentials: true },
       )
-      .then((res) => {
+      .then(res => {
         setState('login');
         alert('로그인에 성공했습니다.'); // eslint-disable-line no-alert
         setUserInfo(res.data.result);
@@ -119,7 +120,7 @@ function Login({ setState, setUserInfo }) {
                     size="small"
                     border="none"
                     value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    onChange={e => setUsername(e.target.value)}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -129,7 +130,7 @@ function Login({ setState, setUserInfo }) {
                     id="password"
                     size="small"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={e => setPassword(e.target.value)}
                   />
                 </FormGroup>
               </div>
@@ -144,7 +145,6 @@ function Login({ setState, setUserInfo }) {
           </Card>
         </Container>
       </div>
-      ``
     </>
   );
 }

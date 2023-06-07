@@ -29,6 +29,7 @@ const Form = styled.form`
 `;
 
 const FormGroup = styled.div`
+  width: 100%;
   margin-bottom: 20px;
   justify-content="center"
   align-items: center;
@@ -42,8 +43,10 @@ const FormTitle = styled.h2`
 `;
 
 const ProfileImage = styled.img`
-  max-width: 200px;
-  height: auto;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  border-radius: 50%;
 `;
 
 const Button = styled.button`
@@ -65,7 +68,7 @@ function ViewProfile() {
   useEffect(() => {
     axios
       .get(url, { withCredentials: true })
-      .then((response) => {
+      .then(response => {
         // 받아온 회원 정보를 state에 저장한다.
         setUserInfo(response.data.result);
       })
@@ -87,16 +90,16 @@ function ViewProfile() {
                     <p>전화번호:</p>
                     <p>이메일:</p>
                     <p>우편번호:</p>
-                    <p>도로명주소/상세주소:</p>
+                    <p>도로명주소:</p>
+                    <p>상세주소:</p>
                   </div>
                   <div>
                     <p>{userInfo.userName}</p>
                     <p>{userInfo.phoneNum}</p>
                     <p>{userInfo.userEmail}</p>
                     <p>{userInfo.address.zipcode}</p>
-                    <p>
-                      {userInfo.address.streetAdr} {userInfo.address.detailAdr}
-                    </p>
+                    <p>{userInfo.address.streetAdr}</p>
+                    <p> {userInfo.address.detailAdr}</p>
                   </div>
                 </FormGroup>
                 <Button
