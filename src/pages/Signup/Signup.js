@@ -193,7 +193,7 @@ function SignupForm() {
   const [addressDtail, setAddressDtail] = useState('');
   const [email, setEmail] = useState('');
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     // 회원가입 시 백엔드로 보내는 로직
     if (password !== passwordConfirm) {
@@ -202,14 +202,14 @@ function SignupForm() {
       return;
     }
     if (
-      username === '' ||
-      password === '' ||
-      name === '' ||
-      phone === '' ||
-      addressRoad === '' ||
-      addressPost === '' ||
-      addressDtail === '' ||
-      email === ''
+      username === ''
+      || password === ''
+      || name === ''
+      || phone === ''
+      || addressRoad === ''
+      || addressPost === ''
+      || addressDtail === ''
+      || email === ''
     ) {
       alert('빈 칸을 모두 입력해주세요.');
       return;
@@ -237,24 +237,25 @@ function SignupForm() {
       });
   };
 
-  const onAddressDetail = detail => {
+  const onAddressDetail = (detail) => {
     setAddressDtail(detail);
   };
 
   const openPostcodeSearch = () => {
+    // eslint-disable-next-line no-undef
     new daum.Postcode({
-      oncomplete: function (data) {
+      oncomplete(data) {
         setAddressPost(data.zonecode);
         setAddressRoad(data.roadAddress);
       },
-      onAddressDetail: onAddressDetail,
+      onAddressDetail,
       width: 430,
       height: 600,
       popupName: 'postcodePopup',
     }).open();
   };
 
-  const handleImageUpload = async e => {
+  const handleImageUpload = async (e) => {
     const img = e.target.files[0];
     const formData = new FormData();
     formData.append('file', img);
@@ -267,7 +268,7 @@ function SignupForm() {
 
     axios
       .post('https://withpet.site/api/v1/file/upload', formData, config)
-      .then(res => {
+      .then((res) => {
         setImageSrc(res.data.result);
       });
   };
@@ -283,7 +284,7 @@ function SignupForm() {
               {imageSrc ? (
                 <img src={imageSrc} alt="프로필 사진 미리보기" />
               ) : (
-                <img src={userimgdefault} />
+                <img src={userimgdefault} alt="userimgdefault" />
               )}
             </label>
           </ImageContainer>
@@ -301,7 +302,7 @@ function SignupForm() {
                 type="text"
                 id="name"
                 value={name}
-                onChange={e => setName(e.target.value)}
+                onChange={(e) => setName(e.target.value)}
                 placeholder="위드펫"
               />
               <label htmlFor="phone">전화번호</label>
@@ -309,7 +310,7 @@ function SignupForm() {
                 type="text"
                 id="phone"
                 value={phone}
-                onChange={e => setPhone(e.target.value)}
+                onChange={(e) => setPhone(e.target.value)}
                 placeholder="010-1234-5678"
               />
               <label htmlFor="email">이메일</label>
@@ -317,7 +318,7 @@ function SignupForm() {
                 type="email"
                 id="email"
                 value={email}
-                onChange={e => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="withpet1@gmail.com"
               />
             </InputContainer>
@@ -327,14 +328,14 @@ function SignupForm() {
                 type="text"
                 id="username"
                 value={username}
-                onChange={e => setUsername(e.target.value)}
+                onChange={(e) => setUsername(e.target.value)}
               />
               <label htmlFor="password">비밀번호</label>
               <input
                 type="password"
                 id="password"
                 value={password}
-                onChange={e => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="영문자 + 숫자 + 특수문자 8자리 이상"
               />
               <label htmlFor="passwordConfirm">비밀번호 확인</label>
@@ -342,12 +343,12 @@ function SignupForm() {
                 type="password"
                 id="passwordConfirm"
                 value={passwordConfirm}
-                onChange={e => setPasswordConfirm(e.target.value)}
+                onChange={(e) => setPasswordConfirm(e.target.value)}
               />
             </InputContainer2>
             <InputContainer3>
               <div>
-                <label>주소</label>
+                <p>주소</p>
                 <SearchButton type="button" onClick={openPostcodeSearch}>
                   <SearchIcon />
                 </SearchButton>
@@ -358,24 +359,24 @@ function SignupForm() {
                 value={addressPost}
                 readOnly
                 placeholder="우편번호"
-                onChange={e => setAddressPost(e.target.value)}
+                onChange={(e) => setAddressPost(e.target.value)}
               />
-              <label htmlFor="addressRoad"></label>
+              <label htmlFor="addressRoad" />
               <input
                 type="text"
                 id="addressRoad"
                 value={addressRoad}
                 readOnly
                 placeholder="도로명 주소"
-                onChange={e => setAddressRoad(e.target.value)}
+                onChange={(e) => setAddressRoad(e.target.value)}
               />
-              <label htmlFor="addressDtail"></label>
+              <label htmlFor="addressDtail" />
               <input
                 type="text"
                 id="addressDtail"
                 value={addressDtail}
                 placeholder="상세주소"
-                onChange={e => setAddressDtail(e.target.value)}
+                onChange={(e) => setAddressDtail(e.target.value)}
               />
             </InputContainer3>
           </GridContainer>

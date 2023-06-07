@@ -75,7 +75,7 @@ function Login({ setState, setUserInfo }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
     axios
       .post(
@@ -86,7 +86,7 @@ function Login({ setState, setUserInfo }) {
         },
         { withCredentials: true },
       )
-      .then(res => {
+      .then((res) => {
         setState('login');
         alert('로그인에 성공했습니다.'); // eslint-disable-line no-alert
         setUserInfo(res.data.result);
@@ -120,7 +120,7 @@ function Login({ setState, setUserInfo }) {
                     size="small"
                     border="none"
                     value={username}
-                    onChange={e => setUsername(e.target.value)}
+                    onChange={(e) => setUsername(e.target.value)}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -130,7 +130,7 @@ function Login({ setState, setUserInfo }) {
                     id="password"
                     size="small"
                     value={password}
-                    onChange={e => setPassword(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </FormGroup>
               </div>
