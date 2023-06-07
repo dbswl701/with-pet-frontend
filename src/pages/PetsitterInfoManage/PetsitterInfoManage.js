@@ -255,7 +255,7 @@ function PetsitterInfoManage() {
     // console.log(id);
     setCriticalServices(criticalServices.filter((service) => service.serviceId !== id));
   };
-  console.log(houseImgList);
+  // console.log(houseImgList);
   const onAddCriticalService = (id, price) => { // sercieId 건너옴
     // 활성화된 서비스 삭제 눌렀을 경우
     // console.log(id);
