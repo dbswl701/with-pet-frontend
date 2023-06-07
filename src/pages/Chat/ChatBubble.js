@@ -23,7 +23,7 @@ const Sender = styled(Bubble)`
   float: right:
 `;
 function ChatBubble({ msg }) {
-  console.log(msg);
+  // console.log(msg);
   // const time = msg.time.split('T')[1];
   const time = dayjs(msg.time).format('HH:mm');
 

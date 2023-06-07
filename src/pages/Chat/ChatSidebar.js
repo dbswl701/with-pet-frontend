@@ -29,7 +29,7 @@ const RoomWrapper = styled.div`
 `;
 
 function RoomItem({ room }) {
-  console.log(room);
+  // console.log(room);
   const navigate = useNavigate();
   const date = room.recentMessageTime.split('T')[0];
 
