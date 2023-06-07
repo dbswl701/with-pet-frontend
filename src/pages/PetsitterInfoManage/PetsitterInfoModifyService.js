@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Button } from './InfoStyle';
 
 function Item1({ service, onRemove }) {
   // 1. 활성화 (isInclude === true)
@@ -92,7 +91,7 @@ function PetsitterInfoModifyService({ serviceSelectList, setServiceSelectList, w
           <Item2 key={service.serviceId} service={service} onAdd={onAddService} />
         )))}
       </div>
-      <Button onClick={onSubmit}>저장</Button>
+      <button onClick={onSubmit}>저장하기</button>
 
     </>
   );

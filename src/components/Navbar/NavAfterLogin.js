@@ -47,17 +47,25 @@ function Nav({ name }) {
         style={{
           listStyle: 'none', display: 'flex', height: '40px', color: 'black', fontSize: '15px', alignItems: 'center',
         }}
-        onClick={() => navigate('/')}
+        onClick={() => navigate('/petsitterapply')}
       >
-        로그아웃
+        펫시터 지원
       </div>
       <div
         style={{
           listStyle: 'none', display: 'flex', height: '40px', color: 'black', fontSize: '15px', alignItems: 'center',
         }}
-        onClick={() => navigate('/petsitterapply')}
+        onClick={() => navigate('/chat')}
       >
-        펫시터 지원
+        채팅
+      </div>
+      <div
+        style={{
+          listStyle: 'none', display: 'flex', height: '40px', color: 'black', fontSize: '15px', alignItems: 'center',
+        }}
+        onClick={() => navigate('/')}
+      >
+        로그아웃
       </div>
     </div>
   );

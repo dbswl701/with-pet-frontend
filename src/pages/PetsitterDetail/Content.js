@@ -40,7 +40,7 @@ function Item({ service }) {
 }
 
 function Content({ data, petsitterUserId }) {
-  // console.log(petsitterUserId);
+  console.log(petsitterUserId);
   const navigate = useNavigate();
 
   const moveChatPage = () => {
@@ -51,7 +51,7 @@ function Content({ data, petsitterUserId }) {
     axios.post('https://withpet.site/chat/room', temp, { withCredentials: true })
       .then((res) => {
         // room id 저장
-        // console.log(res.data.result);
+        console.log(res.data.result);
         navigate(`../chat?userId=${res.data.result.myId}&roomId=${res.data.result.chatRoomId}`);
       });
   };

@@ -12,7 +12,6 @@ const Container = styled.div`
   height: 100vh;
 `;
 
-// height 수정
 const FormTitle = styled.h3`
   text-align: center;
 `;

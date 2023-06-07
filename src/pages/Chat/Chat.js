@@ -8,13 +8,12 @@ import ChatContent from './ChatContent';
 
 function Chat() {
   const searchParams = useSearchParams()[0];
-  const userId = searchParams.get('userId');
   const roomId = searchParams.get('roomId');
   const [roomList, setRoomList] = useState([]);
   const [chatInfo, setChatInfo] = useState([]);
   // const [loading, setLoading] = useState(false);
 
-  // console.log(userId, roomId);
+  // console.log(roomId);
   useEffect(() => {
     setChatInfo([]);
     // setLoading(true);
@@ -38,8 +37,8 @@ function Chat() {
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
       {/* 채팅 UI 렌더링 및 이벤트 핸들러 등 */}
-      <ChatSidebar roomList={roomList} userId={userId} />
-      { chatInfo.length !== 0 && <ChatContent chatInfo={chatInfo} myId={userId} roomId={roomId} /> }
+      <ChatSidebar roomList={roomList} />
+      { chatInfo.length !== 0 && <ChatContent chatInfo={chatInfo} roomId={roomId} /> }
     </div>
   );
 }
