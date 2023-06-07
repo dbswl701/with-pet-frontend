@@ -37,7 +37,7 @@ function App() {
   //   userProfile: '',
   // });
   const [userInfo, setUserInfo] = useState(localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : '');
-  console.log(userInfo);
+  // console.log(userInfo);
   // const setUserInfo = () => {
   //   localStorage.setItem('userInfo', '');
   // };
