@@ -4,18 +4,16 @@ export const Container = styled.div`
     // padding: 10% 0 10% 0;
     position: relative;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     background-opacity: 100;
     align-items: center;
     flex-direction: column;
     font-family: 'Noto Sans KR', sans-serif;
     color: #caa969;
-    background-color: #yellow;
-    margin: 10% 0 10% 0;
-    width: 100;
-    height: 80rem;
-    margin: 0 auto;
-    margin-top: 10%;
+    margin: 10% 0 15% 0;
+    width: 100vw;
+    height: 100vh;
+    // margin: auto;
 `;
 
 export const Label = styled.label`
@@ -33,7 +31,7 @@ export const Label = styled.label`
 
 export const InputButton = styled.input`
     height: 40px;
-    width: 100px;
+    width: 60px;
     margin-bottom: 10px;
     background-color: #CAA969;
     color: white;
@@ -75,8 +73,8 @@ export const Title = styled.div`
 `;
 
 export const Button = styled.button`
-    height: 60px;
-    width: 100px;
+    height: 40px;
+    width: 60px;
     margin-bottom: 10px;
     background-color: #CAA969;
     color: white;
@@ -87,6 +85,7 @@ export const Button = styled.button`
 
 export const CancelButton = styled.input`
     height: 20px;
+    width: 20px;
     opacity: 100;
     color: red;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
@@ -94,4 +93,20 @@ export const CancelButton = styled.input`
     border: none;
     flex-direction: row;
     justify-content: flex-start;
+`;
+
+export const LabelContainer = styled.label`
+    display: block;
+    text-align: center;
+    align-content: center;
+    justify-content: center;
+    height: 40px;
+    width: 100px;   
+    line-height: 40px;
+    margin-bottom: 10px;
+    background-color: #CAA969;
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
+    border: none;
+    border-radius: 5px;
 `;

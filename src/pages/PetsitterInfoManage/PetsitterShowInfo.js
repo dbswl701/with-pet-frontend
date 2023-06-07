@@ -117,7 +117,7 @@ function PetsitterShowInfo() {
           }
         </div>
       </DivContainer>
-      <Button onClick={onModify} style={{ height: '50px' }}>수정</Button>
+      <Button onClick={onModify}>수정</Button>
     </Container>
   );
 

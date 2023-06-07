@@ -11,7 +11,7 @@ const Container = styled.div`
   align-items: center;
   height: 100vh;
 `;
-//height 수정
+// height 수정
 const FormTitle = styled.h3`
   text-align: center;
 `;
@@ -105,7 +105,7 @@ function Login({ setState, setUserInfo }) {
       </div>
       <div>
         <Container>
-          <Card style={{ zIndex: "1" }}>
+          <Card style={{ zIndex: '1' }}>
             <FormTitle>로그인</FormTitle>
             <Form>
               <div style={{ textAlign: 'center' }}>
