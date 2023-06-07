@@ -34,13 +34,13 @@ function CurrentListItem({ item, handleRemoveNew, handleApprove }) {
   // console.log(item);
   const [showDiv, setShowDiv] = useState(false);
 
-  const onClick = (e) => {
+  const onAccept = (e) => {
     const reservationStatus = {
       reservationId: item.reservationId,
       status: e.target.value,
     };
     // console.log(reservationStatus);
-    axios.put('https://withpet.site/api/v1/reservation/reservation-status', reservationStatus, { withCredentials: true })
+    axios.put('https://withpet.site/api/v1/reservation/reservation-accept', reservationStatus, { withCredentials: true })
       .then((res) => {
         // console.log(res);
         // 이제 어쨌든 newlist에서 삭제하고, 승인이면 이용자 목록으로 올림!
@@ -54,6 +54,30 @@ function CurrentListItem({ item, handleRemoveNew, handleApprove }) {
         // 붙이는거 걍 함수로 전달
         if (e.target.value === 'APPROVAL') {
           handleApprove(res.data.result.reservationId, res.data.result);
+        }
+      });
+  };
+
+  const onRefuse = (e) => {
+    const reservationStatus = {
+      reservationId: item.reservationId,
+      status: e.target.value,
+    };
+    // console.log(reservationStatus);
+    axios.post('https://withpet.site/api/v1/reservation/reservation-refuse', reservationStatus, { withCredentials: true })
+      .then((res) => {
+        // console.log(res);
+        // 이제 어쨌든 newlist에서 삭제하고, 승인이면 이용자 목록으로 올림!
+        // 일단 삭제
+        // console.log(res.data.result);
+        // console.log(item);
+        // setNewReservations(item.filter((temp) => (temp.reservationId !== res.data.result.reservationId)));
+        handleRemoveNew(item.reservationId);
+
+        // 그리고 만약 승인이면 이용자목록에 붙여버린다.
+        // 붙이는거 걍 함수로 전달
+        if (e.target.value === 'APPROVAL') {
+          handleApprove(item.reservationId, res.data.result);
         }
       });
   };
@@ -101,8 +125,8 @@ function CurrentListItem({ item, handleRemoveNew, handleApprove }) {
             </div>
           </div>
           <EvalContainer style={{ flexDirection: 'column' }}>
-            <Button onClick={onClick} value="APPROVAL">승인</Button>
-            <Button onClick={onClick} value="CANCEL">거절</Button>
+            <Button onClick={onAccept} value="APPROVAL">승인</Button>
+            <Button onClick={onRefuse} value="REFUSE">거절</Button>
           </EvalContainer>
         </div>
       </ItemContainer>
