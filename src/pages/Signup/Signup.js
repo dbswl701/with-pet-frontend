@@ -1,98 +1,183 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
+import SearchIcon from '@mui/icons-material/Search';
+import userimgdefault from '../../assets/forAddPic.png';
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+`;
 
 const Container = styled.div`
-  width: 500px;
-  margin: 0 auto;
-  padding: 2px;
-  border-radius: 5px;
-`;
-
-const ImagePlaceholder = styled.div`
-  width: 256px;
-  height: 256px;
-  background-color: #f3deb5;
-  margin-bottom: 20px;
-`;
-
-const Card = styled.div`
-  width: auto;
-  padding: 10px;
-  outline: 1px solid #f3deb5;
-  border-radius: 5px;
-  margin-top: 3%;
-  z-index: 1;
-  background-color: #fff;
-  text-align: center;
+  display: flex;
   justify-content: center;
-  align-item: center;
-`;
-
-const FormTitle = styled.h2`
-  text-align: center;
+  align-items: center;
+  height: 90vh;
 `;
 
 const Form = styled.form`
   display: grid;
-  gap: 20px;
+  grid-template-rows: auto 1fr auto;
+  grid-gap: 20px;
+  align-items: center;
+  background-color: #fffaf0;
+  border-radius: 5px;
+  outline: 1px solid #caa969;
+  padding: 20px;
+  width: flex;
+`;
+
+const GridContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 20px;
+`;
+
+const Title = styled.h1`
+  grid-row: 1;
   text-align: center;
+  font-family: 'Noto Sans KR', sans-serif;
+`;
+
+const ImageContainer = styled.div`
+  grid-row: 2;
+  justify-self: center;
+  background-color: #fff;
+  border: 1px solid #caa969;
+  width: 200px;
+  height: 200px;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
 
-  div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    label {
-      margin-bottom: 10px;
-      font-weight: bold;
-      text-align: center;
-    }
-
-    input {
-      width: 200px;
-      padding: 10px;
-      border-radius: 5px;
-      border: 1px solid #ddd;
-      outline: none;
-      margin-bottom: 20px;
-      align-item: center;
-      justify-content="center"
-    }
-
-    input[type="file"] {
-      margin: 10px 0;
-    }
-  }
-
-  .preview {
-    grid-column: 2/3;
-    display: flex;
-    justify-content: center;
-
-    img {
-      max-width: 200px;
-      max-height: 200px;
-      margin-bottom: 20px;
-    }
-  }
-
-  button[type="submit"] {
-    background-color: #caa969;
-    color: #fff;
-    padding: 10px 50px;
-    border-radius: 5px;
-    border: none;
-    margin: 0px auto;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     cursor: pointer;
-
-    &:hover {
-      background-color: #caa000;
-    }
   }
+`;
+
+const InputContainer = styled.div`
+  grid-row: 3;
+  grid-column: 1;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Noto Sans KR', sans-serif;
+  input::placeholder {
+    color: #ddd;
+  }
+
+  label {
+    font-size: 12px;
+  }
+
+  input {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #caa969;
+  }
+
+  span {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #888;
+    text-align: left;
+  }
+`;
+
+const InputContainer2 = styled.div`
+  grid-row: 3;
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Noto Sans KR', sans-serif;
+  input::placeholder {
+    color: #ddd;
+  }
+
+  label {
+    font-size: 12px;
+  }
+
+  input {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #caa969;
+  }
+
+  span {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #777;
+    text-align: left;
+  }
+`;
+
+const InputContainer3 = styled.div`
+  grid-row: 3;
+  grid-column: 3;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Noto Sans KR', sans-serif;
+  input::placeholder {
+    color: #ddd;
+  }
+
+  input {
+    margin-top: 5px;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #caa969;
+  }
+
+  label {
+    font-size: 12px;
+  }
+
+  input {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: #777;
+    text-align: left;
+  }
+`;
+
+const SearchButton = styled.button`
+  background-color: transparent;
+  cursor: pointer;
+  outline: none;
+  border-radius: 3px;
+  border: 0px;
+  float: right;
+  svg {
+    color: #caa969;
+  }
+`;
+
+const Button = styled.button`
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #caa969;
+  color: #fff;
+  padding: 10px 50px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+`;
+
+const ButtonContainer = styled.div`
+  grid-row: 4;
+  justify-self: center;
 `;
 
 function SignupForm() {
@@ -108,36 +193,25 @@ function SignupForm() {
   const [addressDtail, setAddressDtail] = useState('');
   const [email, setEmail] = useState('');
 
-  // const encodeFileToBase64 = (fileBlob) => {
-  //   const reader = new FileReader();
-  //   reader.readAsDataURL(fileBlob);
-  //   return new Promise((resolve) => {
-  //     reader.onload = () => {
-  //       setImageSrc(reader.result);
-  //       resolve();
-  //     };
-  //   });
-  // };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     // 회원가입 시 백엔드로 보내는 로직
     if (password !== passwordConfirm) {
-      alert('비밀번호가 일치하지 않습니다.'); // eslint-disable-line no-alert
+      alert('비밀번호가 일치하지 않습니다.');
       setPasswordConfirm('');
       return;
     }
     if (
-      username === ''
-      || password === ''
-      || name === ''
-      || phone === ''
-      || addressRoad === ''
-      || addressPost === ''
-      || addressDtail === ''
-      || email === ''
+      username === '' ||
+      password === '' ||
+      name === '' ||
+      phone === '' ||
+      addressRoad === '' ||
+      addressPost === '' ||
+      addressDtail === '' ||
+      email === ''
     ) {
-      alert('빈 칸을 모두 입력해주세요.'); // eslint-disable-line no-alert
+      alert('빈 칸을 모두 입력해주세요.');
       return;
     }
     axios
@@ -156,137 +230,161 @@ function SignupForm() {
         userPasswordCheck: passwordConfirm,
       })
       .then(() => {
-        // console.log(res);
         navigate('/login');
       })
       .catch(() => {
-        // console.error(err);
-        alert('회원가입에 실패했습니다. 다시 시도해주세요.'); // eslint-disable-line no-alert
+        alert('회원가입에 실패했습니다. 다시 시도해주세요.');
       });
   };
 
-  const handleImageUpload = async (e) => {
+  const onAddressDetail = detail => {
+    setAddressDtail(detail);
+  };
+
+  const openPostcodeSearch = () => {
+    new daum.Postcode({
+      oncomplete: function (data) {
+        setAddressPost(data.zonecode);
+        setAddressRoad(data.roadAddress);
+      },
+      onAddressDetail: onAddressDetail,
+      width: 430,
+      height: 600,
+      popupName: 'postcodePopup',
+    }).open();
+  };
+
+  const handleImageUpload = async e => {
     const img = e.target.files[0];
     const formData = new FormData();
-    // console.log(formData);
     formData.append('file', img);
 
-    // console.log(img);
-    // console.log(formData.file);
     const config = {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     };
 
-    // eslint-disable-next-line no-restricted-syntax
-    // for (const entry of formData.entries()) {
-    //   console.log(entry);
-    // }
-    // await encodeFileToBase64(file);
-
-    axios.post('https://withpet.site/api/v1/file/upload', formData, config)
-      .then((res) => {
+    axios
+      .post('https://withpet.site/api/v1/file/upload', formData, config)
+      .then(res => {
         setImageSrc(res.data.result);
-        // console.log(res.data.result);
       });
   };
 
   return (
-    <Container>
-      <FormTitle>회원가입</FormTitle>
-      <Card>
+    <>
+      <GlobalStyle />
+      <Container>
         <Form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="image">프로필 사진</label>
-            {imageSrc ? (
-              <img src={imageSrc} alt="프로필 사진 미리보기" />
-            ) : (
-              <ImagePlaceholder />
-            )}
-            <input type="file" onChange={handleImageUpload} />
-            <label htmlFor="name">이름</label>
+          <Title>회원가입</Title>
+          <ImageContainer>
+            <label htmlFor="image-select">
+              {imageSrc ? (
+                <img src={imageSrc} alt="프로필 사진 미리보기" />
+              ) : (
+                <img src={userimgdefault} />
+              )}
+            </label>
+          </ImageContainer>
+          <GridContainer>
             <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              type="file"
+              accept="image/*"
+              id="image-select"
+              style={{ display: 'none' }}
+              onChange={handleImageUpload}
             />
-            <label htmlFor="phone">전화번호</label>
-            <input
-              type="text"
-              id="phone"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="username">아이디</label>
-            <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <label htmlFor="password">비밀번호</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <label htmlFor="passwordConfirm">비밀번호 확인</label>
-            <input
-              type="password"
-              id="passwordConfirm"
-              value={passwordConfirm}
-              onChange={(e) => setPasswordConfirm(e.target.value)}
-            />
-            <label htmlFor="name">이름</label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <label htmlFor="image">프로필 사진</label>
-            {imageSrc && <img src={imageSrc} alt="프로필 사진 미리보기" />}
-            <input type="file" accept="image/*" onChange={handleImageUpload} />
-          </div>
-          <div>
-            <label htmlFor="addressRoad">주소(도로명)</label>
-            <input
-              type="text"
-              id="addressRoad"
-              value={addressRoad}
-              onChange={(e) => setAddressRoad(e.target.value)}
-            />
-            <label htmlFor="addressPost">주소(우편번호)</label>
-            <input
-              type="text"
-              id="addressPost"
-              value={addressPost}
-              onChange={(e) => setAddressPost(e.target.value)}
-            />
-            <label htmlFor="addressDtail">주소(상세주소)</label>
-            <input
-              type="text"
-              id="addressDtail"
-              value={addressDtail}
-              onChange={(e) => setAddressDtail(e.target.value)}
-            />
-            <label htmlFor="email">이메일</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <button type="submit">회원가입</button>
-          </div>
+            <InputContainer>
+              <label htmlFor="name">이름</label>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                placeholder="위드펫"
+              />
+              <label htmlFor="phone">전화번호</label>
+              <input
+                type="text"
+                id="phone"
+                value={phone}
+                onChange={e => setPhone(e.target.value)}
+                placeholder="010-1234-5678"
+              />
+              <label htmlFor="email">이메일</label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="withpet1@gmail.com"
+              />
+            </InputContainer>
+            <InputContainer2>
+              <label htmlFor="username">아이디</label>
+              <input
+                type="text"
+                id="username"
+                value={username}
+                onChange={e => setUsername(e.target.value)}
+              />
+              <label htmlFor="password">비밀번호</label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                placeholder="영문자 + 숫자 + 특수문자 8자리 이상"
+              />
+              <label htmlFor="passwordConfirm">비밀번호 확인</label>
+              <input
+                type="password"
+                id="passwordConfirm"
+                value={passwordConfirm}
+                onChange={e => setPasswordConfirm(e.target.value)}
+              />
+            </InputContainer2>
+            <InputContainer3>
+              <div>
+                <label>주소</label>
+                <SearchButton type="button" onClick={openPostcodeSearch}>
+                  <SearchIcon />
+                </SearchButton>
+              </div>
+              <input
+                type="text"
+                id="addressPost"
+                value={addressPost}
+                readOnly
+                placeholder="우편번호"
+                onChange={e => setAddressPost(e.target.value)}
+              />
+              <label htmlFor="addressRoad"></label>
+              <input
+                type="text"
+                id="addressRoad"
+                value={addressRoad}
+                readOnly
+                placeholder="도로명 주소"
+                onChange={e => setAddressRoad(e.target.value)}
+              />
+              <label htmlFor="addressDtail"></label>
+              <input
+                type="text"
+                id="addressDtail"
+                value={addressDtail}
+                placeholder="상세주소"
+                onChange={e => setAddressDtail(e.target.value)}
+              />
+            </InputContainer3>
+          </GridContainer>
+          <ButtonContainer>
+            <Button type="submit">회원가입</Button>
+          </ButtonContainer>
         </Form>
-      </Card>
-    </Container>
+      </Container>
+    </>
   );
 }
 

@@ -1,26 +1,176 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import SearchIcon from '@mui/icons-material/Search';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+`;
+
+const Form = styled.form`
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-gap: 20px;
+  align-items: center;
+  background-color: #fffaf0;
+  border-radius: 5px;
+  outline: 1px solid #caa969;
+  padding: 20px;
+  width: flex;
+`;
+
+const GridContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 20px;
+`;
+
+const Title = styled.h1`
+  grid-row: 1;
+  text-align: center;
+`;
+
+const ImageContainer = styled.div`
+  grid-row: 2;
+  justify-self: center;
+  border-radius: 50%;
+  border: 1px solid #caa969;
+  background-color: #fff;
+
+  img {
+    max-width: 200px;
+    height: auto;
+    cursor: pointer;
+  }
+`;
+
+const InputContainer = styled.div`
+  grid-row: 2;
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  input::placeholder {
+    color: #ddd;
+  }
+
+  label {
+    font-size: 12px;
+  }
+
+  input {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+  }
+
+  span {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #888;
+    text-align: left;
+  }
+`;
+
+const InputContainer2 = styled.div`
+  grid-row: 2;
+  grid-column: 3;
+  display: flex;
+  flex-direction: column;
+  input::placeholder {
+    color: #ddd;
+  }
+
+  label {
+    font-size: 12px;
+  }
+
+  input {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+  }
+
+  span {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #777;
+    text-align: left;
+  }
+`;
+
+const SearchButton = styled.button`
+  background-color: transparent;
+  cursor: pointer;
+  outline: none;
+  border-radius: 3px;
+  border: 0px;
+  float: right;
+  svg {
+    color: #caa969;
+  }
+`;
+
+const Button = styled.button`
+  background-color: #caa969;
+  color: #fff;
+  padding: 10px 50px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+`;
+
+const ButtonContainer = styled.div`
+  grid-row: 3;
+  justify-self: center;
+`;
 
 const url = 'https://withpet.site/api/v1/users/my-info';
 
 function EditProfile() {
   const [imageSrc, setImageSrc] = useState('');
-  // const encodeFileToBase64 = (fileBlob) => {
-  //   const reader = new FileReader();
-  //   reader.readAsDataURL(fileBlob);
-  //   return new Promise((resolve) => {
-  //     reader.onload = () => {
-  //       setImageSrc(reader.result);
-  //       resolve();
-  //     };
-  //   });
-  // };
   const [modifyInfo, setModifyInfo] = useState({});
+
+  const handleChangeImage = e => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageSrc(reader.result);
+        setModifyInfo({
+          ...modifyInfo,
+          profileImg: reader.result,
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleClickFindAddress = () => {
+    new window.daum.Postcode({
+      oncomplete: function (data) {
+        setModifyInfo({
+          ...modifyInfo,
+          zipcode: data.zonecode,
+          streetAdr: data.address,
+        });
+      },
+      width: 430,
+      height: 600,
+      popupName: 'postcodePopup',
+    }).open();
+  };
+
   useEffect(() => {
     axios
       .get(url, { withCredentials: true })
-      .then((response) => {
-        // console.log(response.data.result.address.zipcode);
+      .then(response => {
         const info = response.data.result;
         setModifyInfo({
           detailAdr: info.address.detailAdr,
@@ -34,35 +184,19 @@ function EditProfile() {
         });
         setImageSrc(info.profileImg);
       })
-      .catch(() => {
-        // console.log(error);
-        // console.log('Editprofile error');
-      });
+      .catch(() => {});
   }, []);
 
-  // 회원정보를 수정하기 위해 입력받을 새로운 상태값
-  // const [newPassword, setNewPassword] = useState('');
-  // const [newName, setNewName] = useState('');
-  // const [newPhone, setNewPhone] = useState('');
-  // const [newAddressPost, setNewAddressPost] = useState('');
-  // const [newAddressRoad, setNewAddressRoad] = useState('');
-  // const [newAddressDtail, setNewAddressDtail] = useState('');
-  // const [newEmail, setNewEmail] = useState('');
-
-  const onChange = (e) => {
+  const onChange = e => {
     const { value, name } = e.target;
     setModifyInfo({
       ...modifyInfo,
       [name]: value,
     });
   };
-  // 현재 회원정보를 불러와 폼에 미리 채워놓는 기능
 
-  // 입력한 회원정보를 서버로 보내어 수정하는 기능
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
-    // 서버로 수정된 회원정보를 보내는 코드
-
     const info = {
       address: {
         detailAdr: modifyInfo.detailAdr,
@@ -73,101 +207,96 @@ function EditProfile() {
       profileImg: modifyInfo.profileImg,
       userEmail: modifyInfo.userEmail,
       userName: modifyInfo.userName,
-      userPassword: 'ajounice1234!',
+      userPassword: 'ajounice0302!',
     };
-    // console.log(info);
 
     axios
       .put(url, info, { withCredentials: true })
-      .then(() => {
-        // console.log(response);
-      })
-      .catch(() => {
-        // console.log(error);
-      });
+      .then(() => {})
+      .catch(() => {});
   };
 
-  const print = (
-    <form onSubmit={handleSubmit}>
-      <h1>회원정보 수정</h1>
-      <div className="preview">
-        {imageSrc && <img src={imageSrc} alt="preview-img" />}
-      </div>
-      <input
-        type="file"
-        onChange={(e) => {
-          setImageSrc(e.target.files[0]);
-        }}
-      />
-      <br />
-      <label>
-        이름:
-        <input
-          type="text"
-          value={modifyInfo.userName || ''}
-          onChange={onChange}
-          name="userName"
-        />
-      </label>
-      <br />
-      <label>
-        전화번호:
-        <input
-          type="tel"
-          value={modifyInfo.phoneNum || ''}
-          onChange={onChange}
-          name="phoneNum"
-        />
-      </label>
-      <br />
-      <label>
-        우편번호:
-        <input
-          type="text"
-          value={modifyInfo.zipcode || ''}
-          onChange={onChange}
-          name="zipcode"
-        />
-      </label>
-      <br />
-      <label>
-        도로명주소:
-        <input
-          type="text"
-          value={modifyInfo.streetAdr || ''}
-          onChange={onChange}
-          name="streetAdr"
-        />
-      </label>
-      <br />
-      <label>
-        상세주소:
-        <input
-          type="text"
-          value={modifyInfo.detailAdr || ''}
-          onChange={onChange}
-          name="detailAdr"
-        />
-      </label>
-      <br />
-      <label>
-        이메일:
-        <input
-          type="email"
-          value={modifyInfo.userEmail || ''}
-          onChange={onChange}
-          name="email"
-        />
-      </label>
-      <br />
-      <button type="submit">Update Profile</button>
-    </form>
-  );
-
   return (
-    <>
-      { print }
-    </>
+    <Container>
+      <Form onSubmit={handleSubmit}>
+        <Title>회원정보 수정</Title>
+        <GridContainer>
+          <ImageContainer>
+            <label htmlFor="image-select">
+              {imageSrc && <img src={imageSrc} alt="preview-img" />}
+            </label>
+          </ImageContainer>
+          <input
+            type="file"
+            accept="image/*"
+            id="image-select"
+            style={{ display: 'none' }}
+            onChange={handleChangeImage}
+          />
+          <InputContainer>
+            <label>이름</label>
+            <input
+              type="text"
+              value={modifyInfo.userName || ''}
+              onChange={onChange}
+              name="userName"
+              placeholder="위드펫"
+            />
+            <label>전화번호</label>
+            <input
+              type="tel"
+              value={modifyInfo.phoneNum || ''}
+              onChange={onChange}
+              name="phoneNum"
+              placeholder="010-1234-5678"
+            />
+            <label>이메일</label>
+            <input
+              type="email"
+              value={modifyInfo.userEmail || ''}
+              onChange={onChange}
+              name="userEmail"
+              placeholder="withpet1@gmail.com"
+            />
+          </InputContainer>
+          <InputContainer2>
+            <div>
+              <label>주소</label>
+              <SearchButton type="button" onClick={handleClickFindAddress}>
+                <SearchIcon />
+              </SearchButton>
+            </div>
+            <input
+              type="text"
+              value={modifyInfo.zipcode || ''}
+              onChange={onChange}
+              name="zipcode"
+              readOnly
+              placeholder="우편번호"
+            />
+            <input
+              type="text"
+              value={modifyInfo.streetAdr || ''}
+              onChange={onChange}
+              name="streetAdr"
+              readOnly
+              placeholder="도로명주소"
+            />
+            <input
+              type="text"
+              value={modifyInfo.detailAdr || ''}
+              onChange={onChange}
+              name="detailAdr"
+              placeholder="상세주소"
+            />
+          </InputContainer2>
+        </GridContainer>
+        <ButtonContainer>
+          <Button type="submit">수정하기</Button>
+        </ButtonContainer>
+      </Form>
+    </Container>
   );
 }
+
 export default EditProfile;
