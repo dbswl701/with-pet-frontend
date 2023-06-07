@@ -43,9 +43,10 @@ const FormTitle = styled.h2`
 `;
 
 const ProfileImage = styled.img`
-  max-width: 200px;
-  height: auto;
+  width: 200px;
+  height: 200px;
   margin: 0 auto;
+  border-radius: 50%;
 `;
 
 const Button = styled.button`
