@@ -55,3 +55,26 @@ export const StyledInput = styled.input`
     border-radius: 5px;
     color: white;
 `;
+
+export const StyledRadioInput = styled.input`
+  display: none;
+`;
+
+export const StyledButtonLabel = styled.label`
+  display: inline-block;
+  cursor: pointer;
+  height: 40px;
+  width: 60px;
+  border: 2px solid white;
+  border-radius: 5px;
+  text-align: center;
+  vertical-align: middle;
+  padding: 5px;
+  margin-left: 5px;
+  background-color: white;
+`;
+
+export const Form = styled.form`
+  display: flex;
+  align-items: center;
+`;

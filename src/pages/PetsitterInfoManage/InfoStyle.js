@@ -12,7 +12,6 @@ export const Container = styled.div`
     color: #caa969;
     margin: 10% 0 15% 0;
     width: 100vw;
-    height: 100vh;
     // margin: auto;
 `;
 
