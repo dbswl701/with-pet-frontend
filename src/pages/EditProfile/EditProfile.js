@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import SearchIcon from '@mui/icons-material/Search';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -14,9 +15,9 @@ const Form = styled.form`
   grid-template-rows: auto 1fr auto;
   grid-gap: 20px;
   align-items: center;
-  background-color: #fff;
+  background-color: #fffaf0;
   border-radius: 5px;
-  outline: 1px solid #f3deb5;
+  outline: 1px solid #caa969;
   padding: 20px;
   width: flex;
 `;
@@ -35,10 +36,14 @@ const Title = styled.h1`
 const ImageContainer = styled.div`
   grid-row: 2;
   justify-self: center;
+  border-radius: 50%;
+  border: 1px solid #caa969;
+  background-color: #fff;
 
   img {
     max-width: 200px;
     height: auto;
+    cursor: pointer;
   }
 `;
 
@@ -51,8 +56,13 @@ const InputContainer = styled.div`
     color: #ddd;
   }
 
+  label {
+    font-size: 12px;
+  }
+
   input {
     margin-top: 5px;
+    margin-bottom: 5px;
     padding: 5px;
     border-radius: 3px;
     border: 1px solid #ccc;
@@ -75,8 +85,13 @@ const InputContainer2 = styled.div`
     color: #ddd;
   }
 
+  label {
+    font-size: 12px;
+  }
+
   input {
     margin-top: 5px;
+    margin-bottom: 5px;
     padding: 5px;
     border-radius: 3px;
     border: 1px solid #ccc;
@@ -87,6 +102,18 @@ const InputContainer2 = styled.div`
     font-size: 12px;
     color: #777;
     text-align: left;
+  }
+`;
+
+const SearchButton = styled.button`
+  background-color: transparent;
+  cursor: pointer;
+  outline: none;
+  border-radius: 3px;
+  border: 0px;
+  float: right;
+  svg {
+    color: #caa969;
   }
 `;
 
@@ -123,6 +150,21 @@ function EditProfile() {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleClickFindAddress = () => {
+    new window.daum.Postcode({
+      oncomplete: function (data) {
+        setModifyInfo({
+          ...modifyInfo,
+          zipcode: data.zonecode,
+          streetAdr: data.address,
+        });
+      },
+      width: 430,
+      height: 600,
+      popupName: 'postcodePopup',
+    }).open();
   };
 
   useEffect(() => {
@@ -165,7 +207,7 @@ function EditProfile() {
       profileImg: modifyInfo.profileImg,
       userEmail: modifyInfo.userEmail,
       userName: modifyInfo.userName,
-      // userPassword: 'ajounice0302!',
+      userPassword: 'ajounice0302!',
     };
 
     axios
@@ -180,9 +222,17 @@ function EditProfile() {
         <Title>회원정보 수정</Title>
         <GridContainer>
           <ImageContainer>
-            {imageSrc && <img src={imageSrc} alt="preview-img" />}
+            <label htmlFor="image-select">
+              {imageSrc && <img src={imageSrc} alt="preview-img" />}
+            </label>
           </ImageContainer>
-          <input type="file" onChange={handleChangeImage} />
+          <input
+            type="file"
+            accept="image/*"
+            id="image-select"
+            style={{ display: 'none' }}
+            onChange={handleChangeImage}
+          />
           <InputContainer>
             <label>이름</label>
             <input
@@ -210,29 +260,34 @@ function EditProfile() {
             />
           </InputContainer>
           <InputContainer2>
-            <label>우편번호</label>
+            <div>
+              <label>주소</label>
+              <SearchButton type="button" onClick={handleClickFindAddress}>
+                <SearchIcon />
+              </SearchButton>
+            </div>
             <input
               type="text"
               value={modifyInfo.zipcode || ''}
               onChange={onChange}
               name="zipcode"
-              placeholder="12345"
+              readOnly
+              placeholder="우편번호"
             />
-            <label>도로명주소</label>
             <input
               type="text"
               value={modifyInfo.streetAdr || ''}
               onChange={onChange}
               name="streetAdr"
-              placeholder="경기도 수원시 영통구 아주로1번길 12"
+              readOnly
+              placeholder="도로명주소"
             />
-            <label>상세주소</label>
             <input
               type="text"
               value={modifyInfo.detailAdr || ''}
               onChange={onChange}
               name="detailAdr"
-              placeholder="123동 123호"
+              placeholder="상세주소"
             />
           </InputContainer2>
         </GridContainer>
