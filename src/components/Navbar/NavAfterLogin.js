@@ -1,15 +1,28 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
+import axios from 'axios';
 import logo from '../../assets/logo_withpet.png';
-import profile from '../../assets/user_default_profile.png';
+// import profile from '../../assets/user_default_profile.png';
 
-function Nav({ name }) {
+function Nav({ userInfo, setUserInfo }) {
   const [toggle, setToggle] = useState(false);
   const navigate = useNavigate();
 
   const toggleDropdown = () => {
     setToggle(!toggle);
+  };
+
+  const handleLogOut = () => {
+    axios.get('https://withpet.site/api/v1/users/logout')
+      .then(() => {
+        setUserInfo({
+          role: '',
+          userName: '',
+          userProfile: '',
+        });
+      });
+    navigate('/');
   };
 
   const dropdown = (
@@ -63,7 +76,7 @@ function Nav({ name }) {
         style={{
           listStyle: 'none', display: 'flex', height: '40px', color: 'black', fontSize: '15px', alignItems: 'center',
         }}
-        onClick={() => navigate('/')}
+        onClick={handleLogOut}
       >
         로그아웃
       </div>
@@ -77,9 +90,9 @@ function Nav({ name }) {
       </Link>
       <ul className="menu">
         <li onClick={toggleDropdown} className="user-profile">
-          <img src={profile} className="profile" alt="프로필" />
+          <img src={userInfo.userProfile} className="profile" alt="프로필" />
           <div className={`user-name ${toggle ? 'active' : ''}`}>
-            <p>{name}</p>
+            <p>{userInfo.userName}</p>
             {toggle && dropdown}
           </div>
         </li>

@@ -33,11 +33,12 @@ function App() {
   const [userInfo, setUserInfo] = useState({
     role: '',
     userName: '',
+    userProfile: '',
   });
   return (
     <>
       <Routes>
-        <Route path="/" element={<Navbar state={state} userInfo={userInfo} />}>
+        <Route path="/" element={<Navbar state={state} userInfo={userInfo} setUserInfo={setUserInfo} />}>
           <Route index element={<MainPage />} />
           <Route path="/login" element={<Login setState={setState} setUserInfo={setUserInfo} />} />
           <Route path="/signup" element={<Signup />} />
