@@ -24,37 +24,17 @@ function Nav({ setUserInfo }) {
       <Link to="/">
         <img src={logo} className="logo" alt="로고" />
       </Link>
-      <div
-        className="dropdown-menu"
-        style={{
-          width: '300px', display: 'flex', padding: '10px 40px', flexDirection: 'column', postion: 'absolute', right: '20px', backgroundColor: 'white', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px',
-        }}
-      >
-        <div
-          style={{
-            listStyle: 'none', display: 'flex', height: '40px', color: 'black', fontSize: '15px', alignItems: 'center',
-          }}
-          onClick={() => navigate('/adminmainpage')}
-        >
-          펫시터 리스트
-        </div>
-        <div
-          style={{
-            listStyle: 'none', display: 'flex', height: '40px', color: 'black', fontSize: '15px', alignItems: 'center',
-          }}
-          onClick={() => navigate('/servicemanage')}
-        >
-          서비스 관리
-        </div>
-        <div
-          style={{
-            listStyle: 'none', display: 'flex', height: '40px', color: 'black', fontSize: '15px', alignItems: 'center',
-          }}
-          onClick={handleLogOut}
-        >
-          로그아웃
-        </div>
-      </div>
+      <ul className="menu">
+        <li>
+          <Link to="/adminmainpage">펫시터 리스트</Link>
+        </li>
+        <li>
+          <Link to="/servicemanage">서비스 관리</Link>
+        </li>
+        <li>
+          <Link to="/" onClick={handleLogOut}>로그아웃</Link>
+        </li>
+      </ul>
     </div>
   );
 
