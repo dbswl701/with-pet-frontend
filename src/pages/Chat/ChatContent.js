@@ -5,7 +5,7 @@ import SockJS from 'sockjs-client';
 // import axios from 'axios';
 import ChatBubble from './ChatBubble';
 
-function ChatContent({ chatInfo, myId, roomId }) {
+function ChatContent({ chatInfo, roomId }) {
   const [messageContent, setMessageContent] = useState('');
   const [receiveMsgList, setReceiveMsgList] = useState([]);
   const ws = useRef(null);
@@ -42,7 +42,7 @@ function ChatContent({ chatInfo, myId, roomId }) {
         const { message } = data;
         const time = data.chatTime;
 
-        if (sender === parseInt(myId, 10)) {
+        if (sender === parseInt(chatInfo.myId, 10)) {
           receiveMessage('my', sender, message, time);
         } else {
           receiveMessage('other', sender, message, time);
@@ -53,7 +53,7 @@ function ChatContent({ chatInfo, myId, roomId }) {
 
   useEffect(() => {
     setReceiveMsgList(chatInfo.chatMessages.map((msg) => {
-      if (msg.senderId === parseInt(myId, 10)) {
+      if (msg.senderId === parseInt(chatInfo.myId, 10)) {
         return {
           who: 'my', sender: msg.senderId, message: msg.message, time: msg.sendTime,
         };
@@ -79,7 +79,7 @@ function ChatContent({ chatInfo, myId, roomId }) {
       `/pub/sendMessage/${roomId}`,
       {},
       JSON.stringify({
-        senderId: myId,
+        senderId: chatInfo.myId,
         receiverId: chatInfo.otherId,
         message,
         sendTime: time,
