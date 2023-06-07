@@ -3,19 +3,18 @@ import styled from 'styled-components';
 import axios from 'axios';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import { useParams, useSearchParams } from 'react-router-dom';
 import Content from './Content';
 import Reservation from './Reservation';
 import paymentIconYellowMedium from '../../assets/paymentIconYellowMedium.png';
 
 const Container = styled.div`
-  // background-color: blue;
   display: flex;
   flex-direction: column;
 `;
 
 const HouseImgWrapper = styled.div`
-  // background-color: yellow;
   text-align: center;
 `;
 
@@ -30,10 +29,6 @@ const ContentWrapper = styled.div`
 `;
 
 function PetsitterDetial() {
-  // const navigate = useNavigate();
-  // const location = useLocation();
-  // const queryString = location.search;
-  // const [searchParams, setSearchParams] = useSearchParams();
   const searchParams = useSearchParams()[0];
   const pgToken = searchParams.get('pg_token'); // 2
   const [popup, setPopup] = useState('false');
@@ -41,15 +36,13 @@ function PetsitterDetial() {
   const [initPgToken] = useState(localStorage.getItem('pg_token'));
 
   const { id } = useParams();
-  // console.log(id);
   const [info, setInfo] = useState({});
   const [dogList, setDogList] = useState([]);
-  // const [info2, setInfo2] = useState({});
   const [houseImg, setHouseImg] = useState();
   const [open, setOpen] = useState(false); // 모달창
   const [payInfo, setPayInfo] = useState([]);
-  // const [paymentInfo, setpaymentInfo] = useState({});
   const [ready, setReady] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const width = 600;
   const height = 800;
@@ -57,66 +50,35 @@ function PetsitterDetial() {
   const top = window.screenY + (window.outerHeight - height) / 2;
 
   useEffect(() => {
-    // console.log(pgToken);
-    // console.log(kakaoPay);
     if (pgToken !== null) {
-      // console.log('close');
-      setPopup('close');
+      setPopup('complete');
       localStorage.setItem('pg_token', searchParams.get('pg_token'));
-      // window.close();
-
-      axios.get('http://ec2-13-209-73-128.ap-northeast-2.compute.amazonaws.com:8080/payment/cancel', { withCredentials: true })
-        .then(() => {
-          // console.log(res);
-        });
+      window.close();
     }
     axios.get(`https://withpet.site/api/v1/petsitter/${id}`, { withCredentials: true })
       .then((res) => {
-        // console.log(res.data.result);
         setInfo(res.data.result);
         setHouseImg(res.data.result.petSitterHouses.find((item) => item.representative === true).houseImg);
-      })
-      .catch(() => {
       });
     axios.get(`https://withpet.site/api/v1/dogs/reservation-dogs?petSitterId=${id}`, { withCredentials: true })
       .then((res) => {
-        // console.log(res.data.result);
         setDogList(res.data.result);
-      })
-      .catch(() => {
       });
   }, []);
 
   const onPaying = (reservationId) => {
-    // console.log(reservationId);
-    const temp = {
-      reservationId,
-    };
     // 카카오페이 api
-    axios.post('https://withpet.site/payment/ready', temp, { withCredentials: true })
+    axios.post('https://withpet.site/payment/ready', { reservationId }, { withCredentials: true })
       .then((res) => {
-        let popupTemp = null;
-        if (res.data.resultCode) {
-          popupTemp = window.open(
-            res.data.result.next_redirect_pc_url,
-            '카카오페이 결제',
-            `width=${width},height=${height},left=${left},top=${top}`,
-          );
-          setPopup(popupTemp);
-          setKakaoPay({ ...kakaoPay, tid: res.data.result.tid });
-        // eslint-disable-next-line no-alert
-        } else alert('카카오페이 결제 시도에 실패했습니다.');
-
-        // console.log(res.data.result);
-        // setpaymentInfo(res.data.result);
-        // console.log(res.data.result.next_redirect_pc_url);
-
-        // navigate(`${res.data.result.next_redirect_pc_url}`);
+        setPopup(window.open(
+          res.data.result.next_redirect_pc_url,
+          '카카오페이 결제',
+          `width=${width},height=${height},left=${left},top=${top}`,
+        ));
+        console.log(res.data.result.tid);
+        setKakaoPay({ ...kakaoPay, tid: res.data.result.tid });
       });
   };
-  // console.log(paymentInfo);
-  // console.log(pgToken);
-  // console.log(popup);
 
   useEffect(() => {
     if (popup === 'false') {
@@ -125,36 +87,25 @@ function PetsitterDetial() {
     let timer = null; // 타이머 변수를 선언하고 null로 초기화합니다.
 
     timer = setInterval(() => {
-      // console.log('timer');
-      // console.log(popup);
-      if (popup === 'close') {
-        // console.log('팝업창 종료');
-        timer = clearInterval(timer);
-        return;
-      }
       const pgToken2 = localStorage.getItem('pg_token');
-      // console.log(pgToken2);
-      // console.log(initPgToken);
+
       if (pgToken2 !== initPgToken) {
-        // console.log('달라서 종료');
+        console.log('timer complete2');
         timer = clearInterval(timer);
         setKakaoPay({ ...kakaoPay, pg_token: pgToken2 });
         setReady(true);
       }
     }, 500);
-  }, [popup, initPgToken]);
-
-  // console.log(kakaoPay);
+  }, [popup]);
 
   useEffect(() => {
     if (!ready) {
       return;
     }
-    // console.log(kakaoPay.pg_token);
-    // console.log(kakaoPay.tid);
 
     axios.get(`https://withpet.site/payment/success?pg_token=${kakaoPay.pg_token}&tid=${kakaoPay.tid}`, { withCredentials: true })
       .then(() => {
+        setIsSuccess(true);
         // eslint-disable-next-line no-alert
         alert('예약이 완료되었습니다.');
       })
@@ -163,6 +114,23 @@ function PetsitterDetial() {
         alert('카카오페이 결제에 실패했습니다.');
       });
   }, [ready, kakaoPay]);
+
+  const showSuccess = (
+    <div style={{
+      height: '300px', display: 'flex', flexDirection: 'column', alignTtems: 'center', marginTop: '30%', textAlign: 'center',
+    }}
+    >
+      <div>
+        <img src="https://withpetoriginimage.s3.ap-northeast-1.amazonaws.com/3c4c2c20-fed4-45eb-98ab-de0f677693cc.png" alt="성공 아이콘" />
+      </div>
+      <div>
+        <h3>결제에 성공하였습니다.</h3>
+      </div>
+      <Button type="button" onClick={() => setOpen(false)}>
+        닫기
+      </Button>
+    </div>
+  );
 
   const showPay = (
     <>
@@ -197,7 +165,6 @@ function PetsitterDetial() {
         <ContentWrapper>
           <Content data={info} petsitterUserId={info.petSitterUserId} />
           <Reservation data={info} dogList={dogList} petsitterId={id} setOpen={setOpen} setPayInfo={setPayInfo} />
-          {/* <Reservation data={info} dogList={dogList} petsitterId={id} /> */}
         </ContentWrapper>
       </Container>
       <Modal open={open} onClose={() => setOpen(false)} style={{ margin: '40px' }}>
@@ -217,7 +184,7 @@ function PetsitterDetial() {
           }}
         >
           <div>
-            { showPay }
+            { !isSuccess ? showPay : showSuccess }
           </div>
         </Box>
       </Modal>

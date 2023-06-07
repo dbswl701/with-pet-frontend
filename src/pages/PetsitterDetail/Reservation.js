@@ -87,6 +87,14 @@ function Reservation({
         // eslint-disable-next-line no-alert
         // alert('예약이 완료되었습니다.');
         setPayInfo(res.data.result);
+        setInfo({
+          startDate: '',
+          endDate: '',
+          checkinTime: '',
+          checkoutTime: '',
+          dogId: '',
+          optionId: [],
+        });
       });
   };
   // console.log(info);
