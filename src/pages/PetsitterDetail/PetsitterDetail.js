@@ -80,7 +80,7 @@ function PetsitterDetial() {
           '카카오페이 결제',
           `width=${width},height=${height},left=${left},top=${top}`,
         ));
-        console.log(res.data.result.tid);
+        // console.log(res.data.result.tid);
         setKakaoPay({ ...kakaoPay, tid: res.data.result.tid });
       });
   };
@@ -95,7 +95,7 @@ function PetsitterDetial() {
       const pgToken2 = localStorage.getItem('pg_token');
 
       if (pgToken2 !== initPgToken) {
-        console.log('timer complete2');
+        // console.log('timer complete2');
         timer = clearInterval(timer);
         setKakaoPay({ ...kakaoPay, pg_token: pgToken2 });
         setReady(true);

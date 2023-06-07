@@ -45,7 +45,7 @@ export default function MultipleSelectChip({ services, reset, onChange }) {
     );
     onChange(typeof value === 'string' ? value.split(',') : value);
   };
-  console.log(personName);
+  // console.log(personName);
   return (
     <div>
       <FormControl sx={{ m: 1, width: 300 }}>
