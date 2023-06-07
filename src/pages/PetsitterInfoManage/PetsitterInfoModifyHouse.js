@@ -91,7 +91,7 @@ function PetsitterInfoModifyHouse({ houseImgList, setHouseImgList }) {
         {/* </div> */}
       </div>
       <>
-        <input id="file" multiple style={{ visibility: 'hidden' }} type="file" accept="image/*" onChange={handleImageChange} />
+        <input id="file" multiple style={{ visibility: 'hidden' }} type="file" accept="image/*" onChange={handleImageUpload} />
         <LabelContainer htmlFor="file">추가</LabelContainer>
         <Button style={{ width: '100px', height: '40px' }} className="submit" onClick={onSubmit}>저장</Button>
       </>
