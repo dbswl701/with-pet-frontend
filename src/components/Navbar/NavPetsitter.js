@@ -31,6 +31,14 @@ function Nav({ name }) {
         style={{
           listStyle: 'none', display: 'flex', height: '40px', color: 'black', fontSize: '15px', alignItems: 'center',
         }}
+        onClick={() => navigate('/chat')}
+      >
+        채팅
+      </div>
+      <div
+        style={{
+          listStyle: 'none', display: 'flex', height: '40px', color: 'black', fontSize: '15px', alignItems: 'center',
+        }}
         onClick={() => navigate('/petsitterShowInfo')}
       >
         펫시터 정보 관리
