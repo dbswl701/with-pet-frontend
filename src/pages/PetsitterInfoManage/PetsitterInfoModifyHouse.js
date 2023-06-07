@@ -1,21 +1,21 @@
 import React from 'react';
 import axios from 'axios';
-import styled from 'styled-components';
-import { CancelButton } from './InfoStyle';
+// import styled from 'styled-components';
+import { CancelButton, Button, LabelContainer } from './InfoStyle';
 
-const Label = styled.label`
-height: 40px;
-width: 100px;
-margin-bottom: 10px;
-background-color: #CAA969;
-color: white;
-box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
-border: none;
-border-radius: 5px;
-`;
+// const Label = styled.label`
+// height: 40px;
+// width: 100px;
+// margin-bottom: 10px;
+// background-color: #CAA969;
+// color: white;
+// box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
+// border: none;
+// border-radius: 5px;
+// `;
 function PetsitterInfoModifyHouse({ houseImgList, setHouseImgList }) {
   // const [houseImgList, setHouseImgList] = useState([]);
-  console.log(houseImgList);
+  // console.log(houseImgList);
   // const handleImageChange = (e) => {
   //   const files = Array.from(e.target.files);
   //   files.forEach((file) => {
@@ -92,8 +92,8 @@ function PetsitterInfoModifyHouse({ houseImgList, setHouseImgList }) {
       </div>
       <>
         <input id="file" multiple style={{ visibility: 'hidden' }} type="file" accept="image/*" onChange={handleImageUpload} />
-        <Label htmlFor="file">추가</Label>
-        <button onClick={onSubmit}>저장하기</button>
+        <LabelContainer htmlFor="file">추가</LabelContainer>
+        <Button style={{ width: '100px', height: '40px' }} className="submit" onClick={onSubmit}>저장</Button>
       </>
     </>
   );

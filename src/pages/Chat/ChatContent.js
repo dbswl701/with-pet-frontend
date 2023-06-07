@@ -36,7 +36,7 @@ function ChatContent({ chatInfo, myId, roomId }) {
     ws.current = Stomp.over(socket);
     ws.current.connect({}, () => {
       ws.current.subscribe(`/sub/chat/receive/${roomId}`, (event) => {
-        console.log(event.body);
+        // console.log(event.body);
         const data = JSON.parse(event.body);
         const sender = data.senderId;
         const { message } = data;
@@ -62,7 +62,7 @@ function ChatContent({ chatInfo, myId, roomId }) {
         who: 'other', sender: msg.senderId, message: msg.message, time: msg.sendTime,
       };
     }));
-    console.log(chatInfo.chatMessages);
+    // console.log(chatInfo.chatMessages);
     connectStomp();
 
     // 컴포넌트 언마운트 시 WebSocket 연결 해제
@@ -85,10 +85,10 @@ function ChatContent({ chatInfo, myId, roomId }) {
         sendTime: time,
       }),
     );
-    console.log(time);
+    // console.log(time);
     setMessageContent('');
   }
-  console.log(messageContent);
+  // console.log(messageContent);
   return (
     // 채팅 ui
     <div style={{ marginTop: '20px' }}>

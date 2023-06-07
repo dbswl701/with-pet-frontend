@@ -24,7 +24,7 @@ const RoomWrapper = styled.div`
 `;
 
 function RoomItem({ room, userId }) {
-  console.log(room);
+  // console.log(room);
   const navigate = useNavigate();
   return (
     <RoomWrapper onClick={() => navigate(`../chat?userId=${userId}&roomId=${room.chatRoomId}`)}>

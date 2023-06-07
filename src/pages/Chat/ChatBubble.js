@@ -16,7 +16,7 @@ const Sender = styled(Bubble)`
   float: right:
 `;
 function ChatBubble({ msg }) {
-  console.log(msg);
+  // console.log(msg);
   let print = '';
   if (msg.who === 'my') {
     print = (

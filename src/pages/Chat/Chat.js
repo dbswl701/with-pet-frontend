@@ -14,20 +14,20 @@ function Chat() {
   const [chatInfo, setChatInfo] = useState([]);
   // const [loading, setLoading] = useState(false);
 
-  console.log(userId, roomId);
+  // console.log(userId, roomId);
   useEffect(() => {
     setChatInfo([]);
     // setLoading(true);
     // 사이드바, 내용에 대한 api 호출
     axios.get('https://withpet.site/chat/rooms', { withCredentials: true })
       .then((res) => {
-        console.log(res.data.result);
+        // console.log(res.data.result);
         setRoomList(res.data.result);
       });
     if (roomId) {
       axios.get(`https://withpet.site/chat/room/${roomId}`, { withCredentials: true })
         .then((res) => {
-          console.log(res.data.result);
+          // console.log(res.data.result);
           setChatInfo(res.data.result);
         });
     }

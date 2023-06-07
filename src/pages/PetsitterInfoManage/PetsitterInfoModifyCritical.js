@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Button } from './InfoStyle';
 
 function Item1({ service, onRemove }) {
   // 1. 활성화 (isInclude === true)
@@ -91,7 +92,7 @@ function PetsitterInfoModifyCritical({ criticalServices, criticalSelectList, set
           <Item2 key={service.serviceId} service={service} onAdd={onAddCriticalService} />
         )))}
       </div>
-      <button onClick={onSubmit}>저장하기</button>
+      <Button onClick={onSubmit}>저장</Button>
     </>
   );
 }
