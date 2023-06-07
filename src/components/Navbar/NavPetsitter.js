@@ -14,8 +14,10 @@ function Nav({ userInfo, setUserInfo }) {
   };
 
   const handleLogOut = () => {
-    axios.get('https://withpet.site/api/v1/users/logout')
+    axios.get('https://withpet.site/api/v1/users/logout', { withCredentials: true })
       .then(() => {
+        // eslint-disable-next-line no-alert
+        alert('로그아웃 되었습니다.');
         setUserInfo({
           role: '',
           userName: '',
@@ -74,7 +76,7 @@ function Nav({ userInfo, setUserInfo }) {
       </Link>
       <ul className="menu">
         <li onClick={toggleDropdown} className="user-profile">
-          <img src={userInfo.userProfile} className="profile" alt="프로필" />
+          <img style={{ borderRadius: '50%' }} src={userInfo.userProfile} className="profile" alt="프로필" />
           <div className={`user-name ${toggle ? 'active' : ''}`}>
             <p>{userInfo.userName}</p>
             {toggle && dropdown}

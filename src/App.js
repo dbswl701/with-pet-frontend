@@ -30,11 +30,29 @@ import NotificationPage from './pages/Notification/NotificationPage';
 
 function App() {
   const [state, setState] = useState('false');
-  const [userInfo, setUserInfo] = useState({
-    role: '',
-    userName: '',
-    userProfile: '',
-  });
+  // const navigate = useNavigate();
+  // const [userInfo, setUserInfo] = useState({
+  //   role: '',
+  //   userName: '',
+  //   userProfile: '',
+  // });
+  const [userInfo, setUserInfo] = useState(localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : '');
+  console.log(userInfo);
+  // const setUserInfo = () => {
+  //   localStorage.setItem('userInfo', '');
+  // };
+
+  // const needLogIn = () => {
+  //   // eslint-disable-next-line no-alert
+  //   alert('로그인이 필요한 서비스입니다.');
+  //   navigate('/');
+  //   setUserInfo({
+  //     role: '',
+  //     userName: '',
+  //     userProfile: '',
+  //   });
+  // }
+
   return (
     <>
       <Routes>

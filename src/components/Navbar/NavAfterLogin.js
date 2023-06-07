@@ -14,13 +14,20 @@ function Nav({ userInfo, setUserInfo }) {
   };
 
   const handleLogOut = () => {
-    axios.get('https://withpet.site/api/v1/users/logout')
+    axios.get('https://withpet.site/api/v1/users/logout', { withCredentials: true })
       .then(() => {
-        setUserInfo({
+        // eslint-disable-next-line no-alert
+        alert('로그아웃 되었습니다.');
+        setUserInfo(JSON.stringify({
           role: '',
           userName: '',
           userProfile: '',
-        });
+        }));
+        localStorage.setItem('userInfo', JSON.stringify({
+          role: '',
+          userName: '',
+          userProfile: '',
+        }));
       });
     navigate('/');
   };

@@ -7,7 +7,7 @@ import AdminNavbar from './AdminNavbar';
 import NavPetsitter from './NavPetsitter';
 
 function Nav({ userInfo, setUserInfo }) {
-  // console.log(userInfo);
+  console.log(userInfo);
   let print = <NavNoLogin />;
   if (userInfo.userName === '') {
     print = <NavNoLogin />;
