@@ -6,17 +6,19 @@ import moment from 'moment';
 import axios from 'axios';
 import dayjs from 'dayjs';
 
-function ReservationPage({ onChange, petsitterId }) {
+function ReservationPage({ onChange, petsitterId, reset }) {
   const [checkInDate, setCheckInDate] = useState(null);
   const [checkOutDate, setCheckOutDate] = useState(null);
   const [focusedInputType, setFocusedInputType] = useState(null);
   const [unavailable, setUnavailable] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState(dayjs(new Date()).format('YYYY-MM'));
+  const [isSelectionComplete, setIsSelectionComplete] = useState(false); // 체크인 및 체크아웃 날짜 선택 여부
 
   const handleDateChange = ({ startDate, endDate }) => {
     setCheckInDate(startDate);
     setCheckOutDate(endDate);
     onChange(startDate, endDate);
+    setIsSelectionComplete(!!startDate && !!endDate); // 선택 여부 업데이트
   };
 
   const handleFocusChange = (focusedInput) => {
@@ -71,6 +73,10 @@ function ReservationPage({ onChange, petsitterId }) {
   // const handleMonthChange = (month) => {
   //   console.log(month);
   // };
+  useEffect(() => {
+    setCheckInDate(null);
+    setCheckOutDate(null);
+  }, [reset]);
 
   // 예약 불가능한 날짜 확인
   useEffect(() => {
@@ -89,6 +95,7 @@ function ReservationPage({ onChange, petsitterId }) {
   return (
     <div>
       <DateRangePicker
+        required
         startDate={checkInDate}
         startDateId="start_date"
         endDate={checkOutDate}
@@ -105,6 +112,7 @@ function ReservationPage({ onChange, petsitterId }) {
           || blockBeforeStartDate(day)
           || blockAfterStartDate(day)}
       />
+      {!isSelectionComplete && <p style={{ color: 'red', fontSize: '11px', margin: '0px' }}>체크인 및 체크아웃 날짜를 선택해주세요.</p>}
     </div>
   );
 }

@@ -40,6 +40,8 @@ function Reservation({
     dogId: '',
     optionId: [],
   });
+
+  const [reset, setReset] = useState(false);
   // const [payInfo, setPayInfo] = useState([]);
   // const [unavailable, setUnavailable] = useState([]);
   // const [unavailable2, setUnavailable2] = useState([]);
@@ -80,13 +82,17 @@ function Reservation({
       optionId: info.optionId,
       petsitterId: Number(petsitterId),
     };
+    if (!info.startDate || !info.endDate) {
+      // eslint-disable-next-line no-alert
+      alert('체크인 체크아웃 날짜를 선택해주세요.');
+      return;
+    }
     // console.log(temp);
     axios.post('https://withpet.site/api/v1/reservation', temp, { withCredentials: true })
       .then((res) => {
         // console.log(res.data.result);
         // eslint-disable-next-line no-alert
         // alert('예약이 완료되었습니다.');
-        setPayInfo(res.data.result);
         setInfo({
           startDate: '',
           endDate: '',
@@ -95,6 +101,9 @@ function Reservation({
           dogId: '',
           optionId: [],
         });
+        setReset((prev) => !prev);
+        setPayInfo(res.data.result);
+        setOpen(true);
       });
   };
   // console.log(info);
@@ -108,16 +117,12 @@ function Reservation({
     }
   };
 
-  const onPaing = () => {
-    setOpen(true);
-  };
-
   return (
     <>
       <Container>
         <Wrapper1> { /* 예약 정보 입력 */ }
           <Title>체크인 / 체크아웃 날짜</Title>
-          <CheckCalendar onChange={onChangeCalender} petsitterId={petsitterId} />
+          <CheckCalendar onChange={onChangeCalender} petsitterId={petsitterId} reset={reset} />
           <form onSubmit={onSubmit}>
             <div>
               <Title>체크인 / 체크아웃 시간</Title>
@@ -182,7 +187,7 @@ function Reservation({
               </TextField>
               <Title>옵션 선택</Title>
               {/* 여기 서비스 넘겨줌 */}
-              <Options services={data.petSitterServices} onChange={onChangeOption} />
+              <Options services={data.petSitterServices} reset={reset} onChange={onChangeOption} />
               {/* <Pay /> */}
             </div>
             <input
@@ -191,7 +196,6 @@ function Reservation({
               style={{
                 width: '285px', height: '50px', margin: 'auto', borderRadius: '10px', backgroundColor: '#CAA969', color: 'white', marginBottom: '30px',
               }}
-              onClick={onPaing}
             />
           </form>
         </Wrapper1>
