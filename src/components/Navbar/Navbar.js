@@ -13,7 +13,7 @@ function Nav({ userInfo, setUserInfo }) {
     print = <NavNoLogin />;
   } else if (userInfo.role === 'ROLE_PETSITTER') {
     print = <NavPetsitter userInfo={userInfo} setUserInfo={setUserInfo} />;
-  } else if (userInfo.role === 'ROLE_USER') {
+  } else if (userInfo.role === 'ROLE_USER' || userInfo.role === 'ROLE_APPLICANT') {
     print = <NavAfterLogin userInfo={userInfo} setUserInfo={setUserInfo} />;
   } else if (userInfo.role === 'ROLE_ADMIN') {
     print = <AdminNavbar setUserInfo={setUserInfo} />;
