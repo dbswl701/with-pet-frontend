@@ -1,21 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Button } from './InfoStyle';
+import { InputButton, Button } from './InfoStyle';
 
 function Item1({ service, onRemove }) {
   // 1. 활성화 (isInclude === true)
   const includeed = (
     <div style={{
       // cursor: 'pointer', backgroundColor: '#caa969', width: '300px', marginRight: '20px',
-      backgroundColor: `${service.isIncluded === true ? '#FAEBD7' : 'gray'}`, width: '300px', marginRight: '20px', borderRadius: '20px',
+      backgroundColor: `${service.isIncluded === true ? '#FAF6F0' : 'F2F2F2'}`, color: `${service.isIncluded === true ? '#CAA969' : 'gray'}`, width: '130px', height: '220px', borderRadius: '20px', padding: '10px', fontSize: '12px', justifyContent: 'center', margin: '20px', overflow: 'auto',
     }}
     >
-      {/* 사진, 이름, 내용, 가격, 삭제 버튼 */}
-      <img src={service.serviceImg} alt="서비스 이미지" style={{ width: '100px', height: '100px' }} />
-      <p>{service.serviceName}</p>
-      <p>{service.serviceIntroduction}</p>
-      <p>가격: {service.price}</p>
-      <input type="button" value="삭제" onClick={() => onRemove(service.serviceId)} />
+      <div style={{ textAlign: 'center' }}>
+        {/* 사진, 이름, 내용, 가격, 삭제 버튼 */}
+        <img src={service.serviceImg} alt="서비스 이미지" style={{ width: '30px', height: '30px', marginTop: '5px' }} />
+      </div>
+      <div style={{ paddingLeft: '5px' }}>
+        <p>{service.serviceName}</p>
+        <p>{service.serviceIntroduction}</p>
+        <p>가격: {service.price}</p>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <InputButton style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)' }} type="button" value="삭제" onClick={() => onRemove(service.serviceId)} />
+      </div>
     </div>
   );
 
@@ -32,15 +38,21 @@ function Item2({ service, onAdd }) {
   const notIncluded = (
     <div
       style={{
-        cursor: 'pointer', backgroundColor: 'gray', width: '300px', marginRight: '20px', borderRadius: '20px',
+        cursor: 'pointer', backgroundColor: '#F2F2F2', color: 'gray', width: '130px', height: '220px', borderRadius: '20px', padding: '10px', fontSize: '12px', justifyContent: 'center', margin: '20px',
       }}
     >
-      {/* 사진, 이름, 내용, 가격, 삭제 버튼 */}
-      <img src={service.serviceImg} alt="서비스 이미지" style={{ width: '100px', height: '100px' }} />
-      <p>{service.serviceName}</p>
-      <p>{service.serviceIntroduction}</p>
-      <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
-      <input type="button" value="추가" onClick={() => onAdd(service.serviceId, price)} />
+      <div style={{ textAlign: 'center' }}>
+        {/* 사진, 이름, 내용, 가격, 삭제 버튼 */}
+        <img src={service.serviceImg} alt="서비스 이미지" style={{ width: '30px', height: '30px', marginTop: '5px' }} />
+      </div>
+      <div style={{ paddingLeft: '5px' }}>
+        <p>{service.serviceName}</p>
+        <p>{service.serviceIntroduction}</p>
+        <input style={{ marginBottom: '6px', width: '100px' }} type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <InputButton style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)' }} type="button" value="추가" onClick={() => onAdd(service.serviceId, price)} />
+      </div>
     </div>
   );
 

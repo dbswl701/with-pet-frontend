@@ -81,7 +81,12 @@ function PetsitterInfoModifyHouse({ houseImgList, setHouseImgList }) {
           houseImgList && houseImgList.map((img, index) => (
             // eslint-disable-next-line react/no-array-index-key
             <div key={index} style={{ display: 'flex', flexDirection: 'column' }}>
-              <img key={img.houseImg} src={img.houseImg} alt="집사진" style={{ width: '200px', height: '200px' }} />
+              <img
+                key={img.houseImg}
+                src={img.houseImg}
+                alt="집사진"
+                style={{ width: '200px', height: '200px' }}
+              />
               {/* <input type="button" value="x" /> */}
               <CancelButton type="button" className="cancel" value="X" onClick={() => onRemoveHousImg(img.houseImg)} />
               { index === 0 ? <p>대표사진</p> : <p> </p>}

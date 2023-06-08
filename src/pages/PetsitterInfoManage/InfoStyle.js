@@ -9,7 +9,7 @@ export const Container = styled.div`
     align-items: center;
     flex-direction: column;
     font-family: 'Noto Sans KR', sans-serif;
-    color: #caa969;
+    // color: #caa969;
     margin: 5% 0 5% 0;
     // width: 100vw;
     // height: 100vh;
@@ -65,6 +65,7 @@ export const DivContainer = styled.div`
 
 export const Title = styled.div`
     font-size: 15px;
+    color: #caa969;
     font-weight: bold;
     font-family: 'Noto Sans KR', sans-serif;
     text-align: left;
