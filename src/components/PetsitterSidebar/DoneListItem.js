@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import social from '../../assets/social.png';
 import heart from '../../assets/heart.png';
 import {
-  ItemContainer, Dealt, Progress, Button, ProfileImg, IconImg, InfoContainer, EvalContainer, ProfileContainer, BarContainer,
+  ItemContainer, Dealt, Progress, Button, ProfileImg, IconImg, InfoContainer, EvalContainer, ProfileContainer, BarContainer, SideButton,
 } from '../../styles/sidebar/SidebarStyle';
 
 function DoneListItem({ item, setPrintBody }) {
@@ -11,8 +11,8 @@ function DoneListItem({ item, setPrintBody }) {
   const [showDiv, setShowDiv] = useState(false);
   const showButton = (
     <>
-      <button>일지</button>
-      <button>상세</button>
+      <SideButton>일지</SideButton>
+      <SideButton>상세</SideButton>
     </>
   );
 
@@ -50,13 +50,6 @@ function DoneListItem({ item, setPrintBody }) {
                 <Dealt className="social" dealt={item.socializationTemperature} />
               </Progress>
               <p className="social">{item.socializationTemperature}%</p>
-            </EvalContainer>
-            <EvalContainer>
-              <IconImg className="social" src={social} alt="social" />
-              <Progress className="social">
-                <Dealt className="social" dealt={item.socializationDegree} />
-              </Progress>
-              <p className="social">{item.socializationDegree}%</p>
             </EvalContainer>
           </BarContainer>
         </div>
