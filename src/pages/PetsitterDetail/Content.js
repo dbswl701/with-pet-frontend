@@ -52,7 +52,7 @@ function Content({ data, petsitterUserId }) {
       .then((res) => {
         // room id 저장
         // console.log(res.data.result);
-        navigate(`../chat?userId=${res.data.result.myId}&roomId=${res.data.result.chatRoomId}`);
+        navigate(`../chat?roomId=${res.data.result.chatRoomId}`);
       });
   };
 
