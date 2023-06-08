@@ -11,8 +11,8 @@ import { SelectWrapper } from '../../styles/main/MainPageStyle';
 // }
 
 const regionList = [
+  { region: '팔달구', city: '수원' },
   { region: '영통구', city: '수원' },
-  { region: '영동구', city: '수원' },
   { region: '용답동', city: '서울' },
   { region: '성수동', city: '서울' },
   { region: '상수동', city: '서울' },
