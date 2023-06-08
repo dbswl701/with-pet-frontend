@@ -118,6 +118,13 @@ function CurrentListItem({ item, handleRemoveNew, handleApprove }) {
                   </Progress>
                   <p className="social">{item.socializationTemperature}%</p>
                 </EvalContainer>
+                <EvalContainer>
+                  <IconImg className="social" src={social} alt="social" />
+                  <Progress className="social">
+                    <Dealt className="social" dealt={item.socializationDegree} />
+                  </Progress>
+                  <p className="social">{item.socializationDegree}%</p>
+                </EvalContainer>
               </BarContainer>
             </div>
             <div>

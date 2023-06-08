@@ -23,6 +23,7 @@ function PetsitterSidebar({ setPrintBody, selectedMonth }) {
   const [useReservations, setUseReservations] = useState([]);
   const [newReservations, setNewReservations] = useState([]);
   const [doneReservations, setDoneReservations] = useState([]);
+  const [monthProfit, setMonthProfit] = useState(0);
   useEffect(() => { // 여기 달 고정 바꿔야함.
     axios.get(`https://withpet.site/api/v1/calendar/petsitter-calendar?month=${selectedMonth}`, { withCredentials: true })
       .then((res) => {
@@ -30,6 +31,7 @@ function PetsitterSidebar({ setPrintBody, selectedMonth }) {
         setUseReservations(res.data.result.useReservations);
         setNewReservations(res.data.result.newReservations);
         setDoneReservations(res.data.result.doneReservations);
+        setMonthProfit(res.data.result.monthProfit);
       });
   }, [selectedMonth]);
 
@@ -47,7 +49,7 @@ function PetsitterSidebar({ setPrintBody, selectedMonth }) {
         <CurrentList useReservations={useReservations} setUseReservations={setUseReservations} setPrintBody={setPrintBody} />
         <NewList newReservations={newReservations} handleRemoveNew={handleRemoveNew} handleApprove={handleApprove} />
         <DoneList doneReservations={doneReservations} setDoneReservations={setDoneReservations} setPrintBody={setPrintBody} />
-        <Profit />
+        <Profit monthProfit={monthProfit} />
       </SideBar>
     </>
   );
