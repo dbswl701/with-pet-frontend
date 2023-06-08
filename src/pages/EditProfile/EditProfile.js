@@ -35,10 +35,15 @@ const Title = styled.h1`
 
 const ImageContainer = styled.div`
   grid-row: 2;
+  grid-column: 1;
   justify-self: center;
   border-radius: 50%;
-  border: 1px solid #caa969;
   background-color: #fff;
+  border: 1px solid #caa969;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  overflow: hidden;
 
   img {
     max-width: 200px;
@@ -62,10 +67,9 @@ const InputContainer = styled.div`
 
   input {
     margin-top: 5px;
-    margin-bottom: 5px;
     padding: 5px;
     border-radius: 3px;
-    border: 1px solid #ccc;
+    border: 1px solid #caa969;
   }
 
   span {
@@ -91,10 +95,9 @@ const InputContainer2 = styled.div`
 
   input {
     margin-top: 5px;
-    margin-bottom: 5px;
     padding: 5px;
     border-radius: 3px;
-    border: 1px solid #ccc;
+    border: 1px solid #caa969;
   }
 
   span {
