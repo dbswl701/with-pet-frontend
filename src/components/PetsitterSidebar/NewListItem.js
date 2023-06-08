@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import axios from 'axios';
 // import styled from 'styled-components';
 import social from '../../assets/social.png';
 import heart from '../../assets/heart.png';
 import {
-  ItemContainer, Dealt, Progress, ProfileImg, BarContainer, IconImg, InfoContainer, ProfileContainer, EvalContainer, Button, SideButton,
+  ItemContainer, Dealt, Progress, ProfileImg, BarContainer, IconImg, InfoContainer, ProfileContainer, EvalContainer, Button,
 } from '../../styles/sidebar/SidebarStyle';
 
 // const Progress = styled.div`
@@ -32,7 +32,7 @@ import {
 
 function CurrentListItem({ item, handleRemoveNew, handleApprove }) {
   // console.log(item);
-  const [showDiv, setShowDiv] = useState(false);
+  // const [showDiv, setShowDiv] = useState(false);
 
   const onAccept = (e) => {
     const reservationStatus = {
@@ -82,15 +82,15 @@ function CurrentListItem({ item, handleRemoveNew, handleApprove }) {
       });
   };
 
-  const showButton = (
-    <>
-      <SideButton>일지</SideButton>
-      <SideButton>상세</SideButton>
-    </>
-  );
+  // const showButton = (
+  //   <>
+  //     <SideButton>일지</SideButton>
+  //     <SideButton>상세</SideButton>
+  //   </>
+  // );
   return (
     <>
-      <ItemContainer onMouseEnter={() => setShowDiv(true)} onMouseLeave={() => setShowDiv(false)}>
+      <ItemContainer>
         <div>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <div>
@@ -127,9 +127,9 @@ function CurrentListItem({ item, handleRemoveNew, handleApprove }) {
                 </EvalContainer>
               </BarContainer>
             </div>
-            <div>
+            {/* <div>
               {showDiv && showButton}
-            </div>
+            </div> */}
           </div>
           <EvalContainer style={{ flexDirection: 'column' }}>
             <Button onClick={onAccept} value="APPROVAL">승인</Button>
