@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import dayjs from 'dayjs';
 import axios from 'axios';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
@@ -140,15 +141,15 @@ function PetsitterDetial() {
   const showPayInfo = [
     {
       name: '예약 일자',
-      desc: payInfo.reservationDate,
+      desc: dayjs(payInfo.reservationDate).format('YYYY-MM-DD'),
     },
     {
       name: '체크인',
-      desc: payInfo.checkIn,
+      desc: dayjs(payInfo.checkIn).format('YYYY-MM-DD (HH:mm)'),
     },
     {
       name: '체크아웃',
-      desc: payInfo.checkOut,
+      desc: dayjs(payInfo.checkOut).format('YYYY-MM-DD (HH:mm)'),
     },
     {
       name: '펫시터 이름',
@@ -192,7 +193,7 @@ function PetsitterDetial() {
       <p style={{
         fontSize: '13px', marginTop: '0px', color: 'red',
       }}
-      >* 5분 내로 결제하지 않으면 해당 예약건은 자동으로 취소됩니다.
+      >* 20분 내로 결제하지 않으면 해당 예약건은 자동으로 취소됩니다.
       </p>
       <List disablePadding>
         <div style={{ borderBottom: '1px solid gray' }}>
