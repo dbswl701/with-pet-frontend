@@ -104,8 +104,8 @@ function UserSideBar({
         <ListContainer>
           작성자 선택
           <ItemContainer>
+            <Button value="USER" name="petsitterCheck" onClick={onChange}>반려인</Button>
             <Button value="PETSITTER" name="petsitterCheck" onClick={onChange}>펫시터</Button>
-            <Button value="USER" name="petsitterCheck" onClick={onChange}>펫시터</Button>
           </ItemContainer>
         </ListContainer>
         <ListContainer>
