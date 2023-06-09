@@ -241,7 +241,7 @@ function PetsitterDetial() {
           {/* { info.petSitterHouses && info.petSitterHouses.find((item) => item.representative === true)} */}
         </HouseImgWrapper>
         <ContentWrapper>
-          <Content data={info} petsitterUserId={info.petSitterUserId} />
+          <Content data={info} petsitterUserId={info.petSitterUserId} reviews={info.reviewResponses} />
           <Reservation data={info} dogList={dogList} petsitterId={id} setOpen={setOpen} setPayInfo={setPayInfo} />
         </ContentWrapper>
       </Container>
