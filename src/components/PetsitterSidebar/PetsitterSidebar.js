@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 // import styled from 'styled-components';
 import axios from 'axios';
+// import { useNavigate } from 'react-router';
 import CurrentList from './CurrentList';
 import NewList from './NewList';
 import DoneList from './DoneList';
 import Profit from './Profit';
 import { SideBar } from '../../styles/sidebar/SidebarStyle';
-
 // const SideBar = styled.div`
 // display: flex;
 // background-color: white;
@@ -20,6 +20,7 @@ import { SideBar } from '../../styles/sidebar/SidebarStyle';
 // `;
 
 function PetsitterSidebar({ setPrintBody, selectedMonth }) {
+  // const navigate = useNavigate();
   const [useReservations, setUseReservations] = useState([]);
   const [newReservations, setNewReservations] = useState([]);
   const [doneReservations, setDoneReservations] = useState([]);
@@ -32,6 +33,13 @@ function PetsitterSidebar({ setPrintBody, selectedMonth }) {
         setNewReservations(res.data.result.newReservations);
         setDoneReservations(res.data.result.doneReservations);
         setMonthProfit(res.data.result.monthProfit);
+      })
+      .catch((err) => {
+        if (err.response && err.response.status === 401) {
+          // eslint-disable-next-line no-alert
+          // alert('로그인이 필요한 서비스입니다.');
+          // navigate('/login');
+        }
       });
   }, [selectedMonth]);
 
