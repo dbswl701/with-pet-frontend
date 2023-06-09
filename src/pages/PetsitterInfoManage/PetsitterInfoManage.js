@@ -57,7 +57,7 @@ function Item2({ service, onAdd }) {
       </div>
       <div style={{ textAlign: 'center' }}>
         <input style={{ width: '80%', marginBottom: '3px' }} type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
-        <InputButton type="button" value="추가" onClick={() => onAdd(service.serviceId, price)} />
+        <InputButton type="button" value="추가" onClick={() => onAdd(service.serviceId, price, service.serviceName)} />
       </div>
     </div>
   );
@@ -120,15 +120,17 @@ function PetsitterInfoManage() {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    const houseList = houseImgList.map((houseImg, index) => {
-      const representative = index === 0;
-      return { houseImg, representative };
-    });
+    // const houseList = houseImgList.map((houseImg, index) => {
+    //   const representative = index === 0;
+    //   console.log(houseImg);
+    //   return { ...houseImg };
+    // });
+    // console.log(houseList);
     const updatedInfo = {
       introduction,
       petSitterCriticalServiceRequests: criticalServices,
       petSitterHashTagRequests: hashTags,
-      petSitterHouseRequests: houseList,
+      petSitterHouseRequests: houseImgList,
       petSitterServiceRequests: serviceSelectList,
     };
     // console.log(updatedInfo);
@@ -147,7 +149,7 @@ function PetsitterInfoManage() {
     if (hashTags.includes(hashTag)) {
       // console.log('중복된 값입니다.');
     } else {
-      setHashTags([...hashTags, { petSitterHashTagId: 0, hashTagName: hashTag }]);
+      setHashTags([...hashTags, { petSitterhashTagId: 0, hashTagName: hashTag }]);
     }
     setHashTag('');
   };
@@ -244,10 +246,10 @@ function PetsitterInfoManage() {
     setServiceSelectList(serviceSelectList.filter((service) => service.serviceId !== id));
   };
 
-  const onAddService = (id, price) => { // sercieId 건너옴
+  const onAddService = (id, price, serviceName) => { // sercieId 건너옴
     // 활성화된 서비스 삭제 눌렀을 경우
     // console.log(id);
-    setServiceSelectList([...serviceSelectList, { serviceId: id, price: parseInt(price, 10) }]);
+    setServiceSelectList([...serviceSelectList, { serviceId: id, price: parseInt(price, 10), serviceName }]);
   };
 
   const onRemoveCriticalService = (id) => { // sercieId 건너옴
@@ -256,10 +258,10 @@ function PetsitterInfoManage() {
     setCriticalServices(criticalServices.filter((service) => service.serviceId !== id));
   };
   // console.log(houseImgList);
-  const onAddCriticalService = (id, price) => { // sercieId 건너옴
+  const onAddCriticalService = (id, price, serviceName) => { // sercieId 건너옴
     // 활성화된 서비스 삭제 눌렀을 경우
     // console.log(id);
-    setCriticalServices([...criticalServices, { serviceId: id, price: parseInt(price, 10) }]);
+    setCriticalServices([...criticalServices, { serviceId: id, price: parseInt(price, 10), serviceName }]);
   };
 
   const modify = (

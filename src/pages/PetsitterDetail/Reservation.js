@@ -104,6 +104,21 @@ function Reservation({
         setReset((prev) => !prev);
         setPayInfo(res.data.result);
         setOpen(true);
+      })
+      .catch((err) => {
+        if (err.response && err.response.status === 409) {
+          setInfo({
+            startDate: '',
+            endDate: '',
+            checkinTime: '',
+            checkoutTime: '',
+            dogId: '',
+            optionId: [],
+          });
+          setReset((prev) => !prev);
+          // eslint-disable-next-line no-alert
+          alert('해당 반려견은 이미 해당 일자에 다른 예약이 있습니다.');
+        }
       });
   };
   // console.log(info);

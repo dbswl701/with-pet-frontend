@@ -10,17 +10,17 @@ function Review({ review }) {
       >
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <div style={{ marginRight: '10px' }}>
-            <img src={review.img} alt="반려인 프로필 사진" style={{ width: '50px', height: '50px', alignItems: 'center' }} />
+            <img src={review.reviewerImg} alt="반려인 프로필 사진" style={{ width: '50px', height: '50px', alignItems: 'center' }} />
           </div>
           <div>
-            <p style={{ fontSize: '16px', margin: '0px' }}>{review.name}</p>
+            <p style={{ fontSize: '16px', margin: '0px' }}>{review.reviewerName}</p>
             {/* <p style={{ fontSize: '16px', marginTop: '10px', marginBottom: '0px' }}>{review.rate}</p> */}
-            <Rating name="read-only" value={review.rate} precision={0.1} readOnly />
+            <Rating name="read-only" value={review.grade} precision={0.1} readOnly />
 
           </div>
         </div>
         <div style={{ marginBottom: '30px', color: '#999999', fontSize: '14px' }}>
-          <p>{review.createdAt}</p>
+          <p>{review.createdAt.split('T')[0]}</p>
         </div>
       </div>
       <p>{review.content}</p>

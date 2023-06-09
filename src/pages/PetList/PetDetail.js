@@ -98,10 +98,6 @@ function PetDetail({ pet, onToggle }) {
             <button onClick={() => onToggle('modify')}>수정</button>
           </div>
         </div>
-        <div className="pet-second">
-          {/* <button onClick={onClickSocilization}>사회화</button> */}
-          <button>건강수첩</button>
-        </div>
       </div>
       <div>
         <ChevronLeftOutlinedIcon className="up-icon" fontSize="large" onClick={() => onToggle('simple')} />
