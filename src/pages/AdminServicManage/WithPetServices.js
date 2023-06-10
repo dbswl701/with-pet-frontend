@@ -11,6 +11,7 @@ import dogimgdefault from '../../assets/dogProfileImage.png';
 export default function Orders({
   listName, list, data, onChange, onDelete, onSubmitModify, onSubmit,
 }) {
+  console.log(listName);
   return (
     <>
       <Table>
@@ -28,11 +29,11 @@ export default function Orders({
             <Service key={row.serviceId} item={row} listName={listName} onModify={onSubmitModify} onDelete={onDelete} />
           ))}
           <TableRow style={{ height: '50px' }}>
-            <TableCell>5</TableCell>
+            <TableCell>-</TableCell>
             <TableCell>
               <img id="preview-image" alt="이미지 미리보기" src={!data.serviceImg ? dogimgdefault : data.serviceImg} />
-              <label htmlFor="image-select">프로필 이미지 선택</label>
-              <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} onChange={onChange} />
+              <label htmlFor={listName}>프로필 이미지 선택</label>
+              <input type="file" accept="image/*" id={listName} style={{ display: 'none' }} onChange={onChange} />
             </TableCell>
             <TableCell>
               <TextField sx={{ m: 1 }} label="이름" variant="outlined" name="serviceName" onChange={onChange} value={data.serviceName} required />
