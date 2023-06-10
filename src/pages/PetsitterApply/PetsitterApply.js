@@ -78,7 +78,7 @@ function PetsitterApply() {
           <input className="radio" type="radio" name="applicant_having_with_pet" id="false" value="false" onChange={onChange} checked={info.applicant_having_with_pet === 'false'} />
           <label htmlFor="female">X</label> */}
         </div>
-        <TextField sx={{ m: 1 }} label="6. 타인의 반려 동물을 돌봐준 경험" variant="outlined" name="applicant_care_experience" onChange={onChange} value={info.applicant_care_experience} required />
+        <TextField sx={{ m: 1 }} label="5. 타인의 반려 동물을 돌봐준 경험" variant="outlined" name="applicant_care_experience" onChange={onChange} value={info.applicant_care_experience} required />
         {/* <label className="radio" htmlFor="image-select">6. 자격증 등록</label>
         <img id="preview-image" alt="이미지 미리보기" src={info.applicant_license_img} />
         <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} name="applicant_license_img" onChange={onChange} /> */}
