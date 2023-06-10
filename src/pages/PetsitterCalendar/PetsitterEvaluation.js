@@ -231,7 +231,7 @@ function UserEvaluation({ id, setPrintBody }) {
               </MenuItem>
             ))}
           </CustomTextField>
-          <div>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
             <Button type="submit">완료하기</Button>
           </div>
         </Form>
