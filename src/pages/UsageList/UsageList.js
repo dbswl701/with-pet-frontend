@@ -17,6 +17,14 @@ function UsageList() {
       });
   };
 
+  const handleRefund = (reservationId) => {
+    axios.post('https://withpet.site/payment/refund', { reservationId }, { withCredentials: true })
+      .then(() => {
+        setWaitList(waitList.filter((item) => (item.reservationId !== reservationId)));
+        // 취소된 내역에 추가
+      });
+  };
+
   const handleReview = (reservationId, reviewContent) => {
     const temp = {
       content: reviewContent.content,
@@ -57,10 +65,12 @@ function UsageList() {
       width: '600px', margin: '30px auto 0px auto', display: 'flex', justifyContent: 'center', flexDirection: 'column',
     }}
     >
-      <div>반려인 이용내역 페이지</div>
+      <div style={{ margin: '0px auto' }}>
+        <p style={{ fontSize: '30px', fontWeight: 'bold' }}>이용 내역</p>
+      </div>
       <WaitList list={waitList} handleCancel={handleCancel} stepValue="1" />
-      <WaitList list={payedList} handleCancel={handleCancel} stepValue="2" />
-      <WaitList list={approveList} handleCancel={handleCancel} stepValue="3" />
+      <WaitList list={payedList} handleCancel={handleRefund} stepValue="2" />
+      <WaitList list={approveList} handleCancel={handleRefund} stepValue="3" />
       <WaitList list={useList} handleCancel={handleCancel} stepValue="4" handleDone={handleDone} />
       <WaitList list={doneList} handleCancel={handleCancel} stepValue="5" handleReview={handleReview} />
     </div>

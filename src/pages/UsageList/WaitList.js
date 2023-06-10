@@ -148,7 +148,7 @@ function Item({
       </button>
     </div>
   );
-  console.log(reviewContent);
+  // console.log(reviewContent);
   const detail = (
     <div style={{
       position: 'relative', backgroundColor: '#FFFAF0', alignItems: 'center', justifyContent: 'center', margin: 'auto', paddingBottom: '30px', marginBottom: '30px', width: '500px', display: 'flex', flexDirection: 'column', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px',
@@ -236,12 +236,20 @@ function WaitList({
     '이용 완료',
   ];
 
+  const stepInfo = [
+    '결제가 되어야 펫시터가 수락할 수 있습니다.',
+    '결제가 완료되었고 펫시터의 수락을 기다리고 있습니다.',
+    '예약이 확정되었습니다.',
+    '펫시터가 돌봄을 하고 있습니다.',
+    '후기를 작성해주세요',
+  ];
+
   return (
     <div style={{
       display: 'flex', alignItems: 'center', flexDirection: 'column',
     }}
     >
-      <div style={{ width: '400px' }}>
+      <div style={{ width: '400px', marginTop: '30px' }}>
         <Box sx={{ width: '100%' }}>
           <Stepper activeStep={stepValue} alternativeLabel>
             {steps.map((label) => (
@@ -252,10 +260,18 @@ function WaitList({
           </Stepper>
         </Box>
       </div>
-
+      <p style={{ fontSize: '11px', color: 'gray' }}>{stepInfo[stepValue - 1]}</p>
       { list && list.map((item) => {
         return <Item key={item.reservationId} item={item} handleCancel={handleCancel} stepValue={stepValue} handleDone={handleDone} handleReview={handleReview} />;
       })}
+      { list.length === 0 && (
+        <div style={{
+          backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', margin: 'auto', marginBottom: '30px', width: '500px', height: '80px', display: 'flex', flexDirection: 'row', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px',
+        }}
+        >
+          <p style={{ color: 'gray' }}>비어있습니다</p>
+        </div>
+      )}
     </div>
   );
 }
