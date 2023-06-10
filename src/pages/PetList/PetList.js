@@ -197,12 +197,20 @@ function PetList() {
     });
   };
 
+  const handleLeaveParty = (partyId) => {
+    axios.delete(`https://withpet.site/api/v1/groups/${partyId}`, { withCredentials: true })
+      .then(() => {
+        // 자신의 groupList에서 해당 그룹 삭제
+        setGroupList((prev) => prev.filter((group) => group.partyId !== partyId));
+      });
+  };
+
   return (
     <>
       <div className="list_container">
         { groupList[0] && groupList.map((group) => (
           <div key={group.partyId}>
-            <Party group={group} isLeader={group.leaderName === userName} setGroupList={setGroupList} />
+            <Party group={group} isLeader={group.leaderName === userName} setGroupList={setGroupList} handleLeaveParty={handleLeaveParty} />
             { group.dogInfoResponseList.map((pet) => {
               return <Pet isLeader={group.leaderName === userName} partyId={group.partyId} pet={pet} key={pet.dog_id} onSubmitModify={onSubmitModify} setGroupList={setGroupList} />;
             })}

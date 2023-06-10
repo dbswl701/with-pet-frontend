@@ -35,7 +35,7 @@ function UserItem({
   );
 }
 
-function Party({ group, isLeader }) {
+function Party({ group, isLeader, handleLeaveParty }) {
   console.log(isLeader);
   const [noneDisplay, setNoneDisplay] = useState({});
   const handleExpelMember = (userId) => {
@@ -47,6 +47,7 @@ function Party({ group, isLeader }) {
     }
   };
   // console.log(group);
+
   return (
     <>
       <div style={{
@@ -74,7 +75,25 @@ function Party({ group, isLeader }) {
           </div>
           { group.userPartyList && group.userPartyList.map((user) => <UserItem key={user.userId} user={user} isLeader={isLeader} handleExpelMember={handleExpelMember} noneDisplay={noneDisplay} />)}
         </div>
-        <p>그룹 코드 : {group.partyIsbn}</p>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <p style={{ margin: '0px' }}>그룹 코드 : {group.partyIsbn}</p>
+          <button
+            onClick={() => handleLeaveParty(group.partyId)}
+            onMouseEnter={(e) => {
+              e.target.style.backgroundColor = 'red';
+              e.target.style.color = 'white';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.backgroundColor = 'white';
+              e.target.style.color = 'black';
+            }}
+            style={{
+              backgroundColor: 'white', border: 'none', color: 'black', marginTop: '20px', width: '120px', height: '30px',
+            }}
+          >
+            그룹 탈퇴
+          </button>
+        </div>
       </div>
     </>
   );
