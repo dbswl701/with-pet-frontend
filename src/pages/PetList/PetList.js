@@ -204,7 +204,7 @@ function PetList() {
           <div key={group.partyId}>
             <Party group={group} isLeader={group.leaderName === userName} setGroupList={setGroupList} />
             { group.dogInfoResponseList.map((pet) => {
-              return <Pet partyId={group.partyId} pet={pet} key={pet.dog_id} onSubmitModify={onSubmitModify} />;
+              return <Pet isLeader={group.leaderName === userName} partyId={group.partyId} pet={pet} key={pet.dog_id} onSubmitModify={onSubmitModify} setGroupList={setGroupList} />;
             })}
             <PetAdd partyId={group.partyId} pets={pets} setPets={setPets} onSubmit={onSubmit} onChange={onChange} petInfo={petInfo} onCancle={onCancle} />
           </div>
