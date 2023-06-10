@@ -37,7 +37,7 @@ function CalendarView({
     // 날짜, 카테코리, 개 필터링 된 것들 전달
 
     // dayInfo 해서 axios를 여기서 호출
-    axios.get(`https://withpet.site/api/v1/userdiaries/day?categoryId=${filter.categoryId}&day=${event.start}&dogId=${filter.dogId}&petsitterCheck=`, { withCredentials: true })
+    axios.get(`https://withpet.site/api/v1/userdiaries/day?categoryId=${filter.categoryId}&day=${event.start}&dogId=${filter.dogId}&petsitterCheck=${filter.petsitterCheck}`, { withCredentials: true })
     // axios.get('https://withpet.site/api/v1/userdiaries/day?categoryId=&day=2023-05-20&dogId=', { withCredentials: true })
       .then((res) => {
         setDiaries(res.data.result);
