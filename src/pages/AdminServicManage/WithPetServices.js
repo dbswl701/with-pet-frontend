@@ -11,7 +11,7 @@ import dogimgdefault from '../../assets/dogProfileImage.png';
 export default function Orders({
   listName, list, data, onChange, onDelete, onSubmitModify, onSubmit,
 }) {
-  console.log(listName);
+  // console.log(listName);
   return (
     <>
       <Table>

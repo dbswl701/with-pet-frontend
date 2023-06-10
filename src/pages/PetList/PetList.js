@@ -36,6 +36,7 @@ function PetList() {
     dog_img: '',
     dog_isbn: '',
   });
+  const [userName] = useState(localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')).userName : '');
 
   const handleImageUpload = async (e) => {
     const img = e.target.files[0];
@@ -201,7 +202,7 @@ function PetList() {
       <div className="list_container">
         { groupList[0] && groupList.map((group) => (
           <div key={group.partyId}>
-            <Party group={group} />
+            <Party group={group} isLeader={group.leaderName === userName} setGroupList={setGroupList} />
             { group.dogInfoResponseList.map((pet) => {
               return <Pet partyId={group.partyId} pet={pet} key={pet.dog_id} onSubmitModify={onSubmitModify} />;
             })}
