@@ -316,7 +316,7 @@ function PetsitterInfoManage() {
         </DivContainer>
         <DivContainer>
           <Title>자격증</Title>
-          <img alt="이미지 미리보기" src={petSitterLicenseImg} style={{ width: '180px', height: '150px' }} />
+          <img alt="이미지 미리보기" src={petSitterLicenseImg} style={{ width: '180px' }} />
         </DivContainer>
         <DivContainer>
           <Title>이용 가능 서비스</Title>
