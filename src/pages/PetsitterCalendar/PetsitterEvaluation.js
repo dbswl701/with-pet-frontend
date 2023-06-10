@@ -51,7 +51,7 @@ function UserEvaluation({ id, setPrintBody }) {
     q5: '',
   });
 
-  const onChange = (e) => {
+  const onChange = e => {
     const { name, value } = e.target;
     setAnswer({
       ...answer,
@@ -61,56 +61,145 @@ function UserEvaluation({ id, setPrintBody }) {
   // console.log(answer);
   // console.log(id);
 
-  const onSubmit = (e) => {
+  const onSubmit = e => {
     e.preventDefault();
     // 데이터 전송 및 페이지 이동
-    axios.put(`https://withpet.site/api/v1/reservation/update-dogSocialTemperature/${id}`, answer, { withCredentials: true })
+    axios
+      .put(
+        `https://withpet.site/api/v1/reservation/update-dogSocialTemperature/${id}`,
+        answer,
+        { withCredentials: true },
+      )
       .then(() => {
         // console.log(res.data.result);
         // 캘린더뷰로 이동
 
         // 모달창
         // eslint-disable-next-line no-alert
-        alert('평가가 완료되었습니다. 해당 평가는 다른 펫시터가 반려견을 알아가는데 많은 도움을 줄 것입니다.');
+        alert(
+          '평가가 완료되었습니다. 해당 평가는 다른 펫시터가 반려견을 알아가는데 많은 도움을 줄 것입니다.',
+        );
         setPrintBody(['main', 0]);
       });
   };
 
   const print = (
-    <div style={{ display: 'flex', justifyContent: 'center', margin: '100px auto' }}>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        margin: '100px auto',
+      }}
+    >
       <form onSubmit={onSubmit}>
         <Title>Q1. 호텔 등 낯선 공간에 맡겨지면,어떤 반응을 보이나요 ? *</Title>
-        <TextField sx={{ m: 1 }} select label="Q1를 입력해주세요." variant="outlined" name="q1" style={{ width: '416px' }} onChange={onChange} value={answer.q1} size="small" required>
-          { q1.map((item) => <MenuItem key={item.value} value={item.value}>{item.name}</MenuItem>)}
+        <TextField
+          sx={{ m: 1 }}
+          select
+          label="Q1를 입력해주세요."
+          variant="outlined"
+          name="q1"
+          style={{ width: '416px' }}
+          onChange={onChange}
+          value={answer.q1}
+          size="small"
+          required
+        >
+          {q1.map(item => (
+            <MenuItem key={item.value} value={item.value}>
+              {item.name}
+            </MenuItem>
+          ))}
         </TextField>
         <Title>Q2. 다른 낯선 강아지를 만나면, 어떤 반응을 보이나요? *</Title>
-        <TextField sx={{ m: 1 }} select label="Q2를 입력해주세요." variant="outlined" name="q2" style={{ width: '416px' }} onChange={onChange} value={answer.q2} size="small" required>
-          { q2.map((item) => <MenuItem key={item.value} value={item.value}>{item.name}</MenuItem>)}
+        <TextField
+          sx={{ m: 1 }}
+          select
+          label="Q2를 입력해주세요."
+          variant="outlined"
+          name="q2"
+          style={{ width: '416px' }}
+          onChange={onChange}
+          value={answer.q2}
+          size="small"
+          required
+        >
+          {q2.map(item => (
+            <MenuItem key={item.value} value={item.value}>
+              {item.name}
+            </MenuItem>
+          ))}
         </TextField>
-        <Title>Q3. 낯선 사람이 스킨쉽하면 어떤 반응을 보이나요  ? *</Title>
-        <TextField sx={{ m: 1 }} select label="Q3를 입력해주세요." variant="outlined" name="q3" style={{ width: '416px' }} onChange={onChange} value={answer.q3} size="small" required>
-          { q3.map((item) => <MenuItem key={item.value} value={item.value}>{item.name}</MenuItem>)}
+        <Title>Q3. 낯선 사람이 스킨쉽하면 어떤 반응을 보이나요 ? *</Title>
+        <TextField
+          sx={{ m: 1 }}
+          select
+          label="Q3를 입력해주세요."
+          variant="outlined"
+          name="q3"
+          style={{ width: '416px' }}
+          onChange={onChange}
+          value={answer.q3}
+          size="small"
+          required
+        >
+          {q3.map(item => (
+            <MenuItem key={item.value} value={item.value}>
+              {item.name}
+            </MenuItem>
+          ))}
         </TextField>
         <Title>Q4. 평소 집에서 짖음은 어느정도인가요 ? *</Title>
-        <TextField sx={{ m: 1 }} select label="Q4를 입력해주세요." variant="outlined" name="q4" style={{ width: '416px' }} onChange={onChange} value={answer.q4} size="small" required>
-          { q4.map((item) => <MenuItem key={item.value} value={item.value}>{item.name}</MenuItem>)}
+        <TextField
+          sx={{ m: 1 }}
+          select
+          label="Q4를 입력해주세요."
+          variant="outlined"
+          name="q4"
+          style={{ width: '416px' }}
+          onChange={onChange}
+          value={answer.q4}
+          size="small"
+          required
+        >
+          {q4.map(item => (
+            <MenuItem key={item.value} value={item.value}>
+              {item.name}
+            </MenuItem>
+          ))}
         </TextField>
         <Title>Q5. 배변 습관은 어떤 편인가요 ? *</Title>
-        <TextField sx={{ m: 1 }} select label="Q5를 입력해주세요." variant="outlined" name="q5" style={{ width: '416px' }} onChange={onChange} value={answer.q5} size="small" required>
-          { q5.map((item) => <MenuItem key={item.value} value={item.value}>{item.name}</MenuItem>)}
+        <TextField
+          sx={{ m: 1 }}
+          select
+          label="Q5를 입력해주세요."
+          variant="outlined"
+          name="q5"
+          style={{ width: '416px' }}
+          onChange={onChange}
+          value={answer.q5}
+          size="small"
+          required
+        >
+          {q5.map(item => (
+            <MenuItem key={item.value} value={item.value}>
+              {item.name}
+            </MenuItem>
+          ))}
         </TextField>
         <div>
-          <input type="submit" value="완료하기" style={{ width: '400px', height: '50px', marginTop: '20px' }} />
+          <input
+            type="submit"
+            value="완료하기"
+            style={{ width: '400px', height: '50px', marginTop: '20px' }}
+          />
         </div>
+        z
       </form>
     </div>
   );
 
-  return (
-    <>
-      { print }
-    </>
-  );
+  return <>{print}</>;
 }
 
 export default UserEvaluation;
