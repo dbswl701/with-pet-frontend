@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import dogimgdefault from '../../assets/dogProfileImage.png';
+import { InputButton } from '../PetsitterInfoManage/InfoStyle';
 
 function DiaryAdd({
   onSubmit, onChange, petInfo, onCancle, categories,
@@ -55,13 +56,18 @@ function DiaryAdd({
             <TextField sx={{ m: 1 }} label="내용" value={petInfo.contentBody} multiline rows={6} style={{ width: '500px' }} variant="outlined" size="small" name="contentBody" onChange={onChange} />
           </div>
         </div>
-        <input className="diary-add-btn" type="submit" value="저장" style={{ width: '510px' }} />
-        <input
-          className="pet-add-btn pet-add-cancel-btn"
-          type="button"
-          value="cancel"
-          onClick={onLocalCancle}
-        />
+        <div style={{
+          display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', textAlign: 'center', alignItems: 'center',
+        }}
+        >
+          <InputButton className="diary-add-btn" type="submit" value="저장" />
+          <InputButton
+            className="pet-add-btn pet-add-cancel-btn"
+            type="button"
+            value="cancel"
+            onClick={onLocalCancle}
+          />
+        </div>
       </div>
     </form>
   );
