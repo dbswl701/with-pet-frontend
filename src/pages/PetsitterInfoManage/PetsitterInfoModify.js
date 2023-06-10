@@ -57,7 +57,7 @@ function PetsitterInfoModify() {
   const licenseComponent = (
     <>
       <p>자격증</p>
-      <img src={petSitterLicenseImg} alt="자격증 이미지" />
+      <img src={petSitterLicenseImg} alt="자격증 이미지" style={{ width: '300px', height: 'auto' }} />
     </>
   );
 
