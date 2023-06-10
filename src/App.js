@@ -36,7 +36,11 @@ function App() {
   //   userName: '',
   //   userProfile: '',
   // });
-  const [userInfo, setUserInfo] = useState(localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : '');
+  const [userInfo, setUserInfo] = useState(
+    localStorage.getItem('userInfo')
+      ? JSON.parse(localStorage.getItem('userInfo'))
+      : '',
+  );
   // console.log(userInfo);
   // const setUserInfo = () => {
   //   localStorage.setItem('userInfo', '');
@@ -56,9 +60,21 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Navbar state={state} userInfo={userInfo} setUserInfo={setUserInfo} />}>
+        <Route
+          path="/"
+          element={
+            <Navbar
+              state={state}
+              userInfo={userInfo}
+              setUserInfo={setUserInfo}
+            />
+          }
+        >
           <Route index element={<MainPage />} />
-          <Route path="/login" element={<Login setState={setState} setUserInfo={setUserInfo} />} />
+          <Route
+            path="/login"
+            element={<Login setState={setState} setUserInfo={setUserInfo} />}
+          />
           <Route path="/signup" element={<Signup />} />
 
           {/* 반려인 페이지 */}
@@ -69,7 +85,10 @@ function App() {
           <Route path="/petList" element={<PetList />} />
           <Route path="/petsitterdetail/:id" element={<PetsitterDetail />} />
           <Route path="/userdiaryList" element={<UserDiaryList />} />
-          <Route path="/petList/userEvaluation/:id" element={<UserEvaluation />} />
+          <Route
+            path="/petList/userEvaluation/:id"
+            element={<UserEvaluation />}
+          />
 
           {/* 펫시터 페이지 */}
           <Route path="/petsitterapply" element={<PetsitterApply />} />
@@ -77,10 +96,16 @@ function App() {
           <Route path="/petsittersdoginfo" element={<PetsittersDogInfo />} />
           <Route path="/petsitternewdog" element={<PetsitterNewDog />} />
           <Route path="/profit" element={<Profit />} />
-          <Route path="/petsitterInfoManage" element={<PetsitterInfoManage />} />
+          <Route
+            path="/petsitterInfoManage"
+            element={<PetsitterInfoManage />}
+          />
           <Route path="/petsitterShowInfo" element={<PetsitterShowInfo />} />
           <Route path="/petsitterDiaries" element={<PetsitterDiaries />} />
-          <Route path="/petsitterInfoModify" element={<PetsitterInfoModify />} />
+          <Route
+            path="/petsitterInfoModify"
+            element={<PetsitterInfoModify />}
+          />
           <Route path="/chat" element={<Chat />} />
 
           {/* 관리자 페이지 */}

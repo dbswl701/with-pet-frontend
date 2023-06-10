@@ -9,11 +9,17 @@ function UsageList() {
   const [useList, setUseList] = useState([]);
   const [doneList, setDoneList] = useState([]);
 
-  const handleCancel = (reservationId) => {
-    axios.post(`https://withpet.site/api/v1/reservation/user/cancel-reservation?reservationId=${reservationId}`, { withCredentials: true })
+  const handleCancel = reservationId => {
+    axios
+      .post(
+        `https://withpet.site/api/v1/reservation/user/cancel-reservation?reservationId=${reservationId}`,
+        { withCredentials: true },
+      )
       .then(() => {
         // 목록에서도 삭제
-        setWaitList(waitList.filter((item) => (item.reservationId !== reservationId)));
+        setWaitList(
+          waitList.filter(item => item.reservationId !== reservationId),
+        );
       });
   };
 
@@ -23,25 +29,37 @@ function UsageList() {
       grade: reviewContent.rate,
       reservationId,
     };
-    axios.post('https://withpet.site/api/v1/review/create-review', temp, { withCredentials: true })
+    axios
+      .post('https://withpet.site/api/v1/review/create-review', temp, {
+        withCredentials: true,
+      })
       .then(() => {
         // eslint-disable-next-line no-alert
         alert('리뷰 작성이 완료되었습니다.');
       });
   };
 
-  const handleDone = (reservationId) => {
-    axios.post(`https://withpet.site/api/v1/reservation/user/done-reservation?reservationId=${reservationId}`, { withCredentials: true })
-      .then((res) => {
+  const handleDone = reservationId => {
+    axios
+      .post(
+        `https://withpet.site/api/v1/reservation/user/done-reservation?reservationId=${reservationId}`,
+        { withCredentials: true },
+      )
+      .then(res => {
         // 목록에서도 삭제
-        setUseList(useList.filter((item) => (item.reservationId !== reservationId)));
+        setUseList(
+          useList.filter(item => item.reservationId !== reservationId),
+        );
         setDoneList(doneList.concat(res.data.result));
       });
   };
 
   useEffect(() => {
-    axios.get('https://withpet.site/api/v1/reservation/user/show-reservations', { withCredentials: true })
-      .then((res) => {
+    axios
+      .get('https://withpet.site/api/v1/reservation/user/show-reservations', {
+        withCredentials: true,
+      })
+      .then(res => {
         console.log(res.data.result);
         setWaitList(res.data.result.waitReservations);
         setPayedList(res.data.result.payedReservations);
@@ -52,16 +70,31 @@ function UsageList() {
   }, []);
 
   return (
-    <div style={{
-      width: '600px', margin: '30px auto 0px auto', display: 'flex', justifyContent: 'center', flexDirection: 'column',
-    }}
+    <div
+      style={{
+        width: '600px',
+        margin: '30px auto 0px auto',
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
+      }}
     >
       <div>반려인 이용내역 페이지</div>
       <WaitList list={waitList} handleCancel={handleCancel} stepValue="1" />
       <WaitList list={payedList} handleCancel={handleCancel} stepValue="2" />
       <WaitList list={approveList} handleCancel={handleCancel} stepValue="3" />
-      <WaitList list={useList} handleCancel={handleCancel} stepValue="4" handleDone={handleDone} />
-      <WaitList list={doneList} handleCancel={handleCancel} stepValue="5" handleReview={handleReview} />
+      <WaitList
+        list={useList}
+        handleCancel={handleCancel}
+        stepValue="4"
+        handleDone={handleDone}
+      />
+      <WaitList
+        list={doneList}
+        handleCancel={handleCancel}
+        stepValue="5"
+        handleReview={handleReview}
+      />
     </div>
   );
 }
