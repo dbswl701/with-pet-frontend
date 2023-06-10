@@ -19,8 +19,8 @@ function Item1({ service, onRemove }) {
         <p>{service.serviceIntroduction}</p>
         <p>가격: {service.price}</p>
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <InputButton style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)' }} type="button" value="삭제" onClick={() => onRemove(service.serviceId)} />
+      <div style={{ textAlign: 'center' }}>
+        <InputButton type="button" value="삭제" onClick={() => onRemove(service.serviceId)} />
       </div>
     </div>
   );
@@ -50,8 +50,8 @@ function Item2({ service, onAdd }) {
         <p>{service.serviceIntroduction}</p>
         <input style={{ marginBottom: '6px', width: '100px' }} type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <InputButton style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)' }} type="button" value="추가" onClick={() => onAdd(service.serviceId, price)} />
+      <div style={{ textAlign: 'center' }}>
+        <InputButton type="button" value="추가" onClick={() => onAdd(service.serviceId, price)} />
       </div>
     </div>
   );
