@@ -3,19 +3,19 @@ import React from 'react';
 import social from '../../assets/social.png';
 import heart from '../../assets/heart.png';
 import {
-  ItemContainer, Dealt, Progress, Button, ProfileImg, IconImg, InfoContainer, EvalContainer, ProfileContainer, BarContainer, SideButton,
+  // ItemContainer, Dealt, Progress, Button, ProfileImg, IconImg, InfoContainer, EvalContainer, ProfileContainer, BarContainer, SideButton,
+  ItemContainer, Dealt, Progress, Button, ProfileImg, IconImg, InfoContainer, EvalContainer, ProfileContainer, BarContainer,
 } from '../../styles/sidebar/SidebarStyle';
 
 function DoneListItem({ item, setPrintBody }) {
   // console.log(item);
-  const [showDiv, setShowDiv] = useState(false);
-  const showButton = (
-    <>
-      <SideButton>일지</SideButton>
-      <SideButton>상세</SideButton>
-    </>
-  );
-
+  // const [showDiv, setShowDiv] = useState(false);
+  // const showButton = (
+  //   <>
+  //     <SideButton>일지</SideButton>
+  //     <SideButton>상세</SideButton>
+  //   </>
+  // );
 
   const onClick = () => {
     setPrintBody(['eval', item.reservationId]);

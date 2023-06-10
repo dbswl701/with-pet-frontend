@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import dayjs from 'dayjs';
 import axios from 'axios';
 import CalendarView from './CalendarView';
@@ -11,8 +12,8 @@ function PetsitterCalendar() {
   const [printBody, setPrintBody] = useState(['main', 0]);
   const [selectedMonth, setSelectedMonth] = useState(dayjs(new Date()).format('YYYY-MM'));
   const [eventsData, setEventsData] = useState([]);
-
   const colorList = ['#64C8F3', '#F36464', '#57DF86', '#DFDA57', '#CAA969', 'violet', 'gray'];
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get(`https://withpet.site/api/v1/reservation/petsitter/reservations?month=${selectedMonth}`, { withCredentials: true })
@@ -25,12 +26,19 @@ function PetsitterCalendar() {
           end: new Date(item.checkOut),
           color: colorList[(item.dogId % colorList.length) - 1],
           title: item.dogName,
+          reservationId: item.reservationId,
         }));
         // console.log(res.data.result);
         // console.log(temp);
         setEventsData(temp);
       })
-      .catch(() => {});
+      .catch((err) => {
+        if (err.response && err.response.status === 401) {
+          // eslint-disable-next-line no-alert
+          alert('로그인이 필요한 서비스입니다.');
+          navigate('/login');
+        }
+      });
   }, [selectedMonth]);
 
   let print = <CalendarView />;

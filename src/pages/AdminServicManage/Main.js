@@ -14,6 +14,11 @@ export default function Orders() {
     serviceImg: '',
     serviceIntro: '',
   });
+  const [cridicalData, setCriticalData] = useState({
+    serviceName: '',
+    serviceImg: '',
+    serviceIntro: '',
+  });
   const [criticalList, setCriticalList] = useState([]);
 
   useEffect(() => {
@@ -57,10 +62,23 @@ export default function Orders() {
     }
   };
 
+  const onCriticalChange = (e) => {
+    if (e.target.files) {
+      handleImageUpload(e);
+    } else {
+      const { name, value } = e.target;
+      setCriticalData({
+        ...data,
+        [name]: value,
+      });
+    }
+  };
+
   const onSubmit = (e, listName) => { // 하나 등록 시
     e.preventDefault();
+    const temp = listName === 'service' ? data : setCriticalData;
     nextId.current += 1;
-    axios.post(`https://withpet.site/api/v1/admin/add-${listName}`, data, { withCredentials: true })
+    axios.post(`https://withpet.site/api/v1/admin/add-${listName}`, temp, { withCredentials: true })
       .then((res) => {
         if (listName === 'service') {
           setList(list.concat(res.data.result));
@@ -123,7 +141,7 @@ export default function Orders() {
           <Grid item xs={12}>
             <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
               <Typography component="h2" variant="h6" color="primary" gutterBottom>필수 서비스 리스트</Typography>
-              <WithPetServices listName="criticalservice" list={criticalList} data={data} onChange={onChange} onSubmit={onSubmit} onSubmitModify={onSubmitModify} onDelete={onDelete} />
+              <WithPetServices listName="criticalservice" list={criticalList} data={cridicalData} onChange={onCriticalChange} onSubmit={onSubmit} onSubmitModify={onSubmitModify} onDelete={onDelete} />
             </Paper>
           </Grid>
         </Grid>

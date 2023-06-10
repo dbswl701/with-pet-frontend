@@ -1,161 +1,68 @@
-import React, { useState } from 'react';
-// import axios from 'axios';
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
-
-function Item({ item }) {
-  const [toggle, setToggle] = useState('simple');
-
-  const steps = [
-    '예약 대기',
-    '예약 확정',
-    '이용중',
-    '이용 완료',
-  ];
-
-  const statusSteps = [
-    'wait',
-    'confirm',
-    'use',
-    'done',
-  ];
-
-  const simple = (
-    <div style={{
-      alignItems: 'center', justifyContent: 'center', margin: 'auto', marginBottom: '30px', width: '700px', height: '120px', display: 'flex', flexDirection: 'row', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px',
-    }}
-    >
-      <div>
-        <img style={{ width: '70px', height: '70px' }} src={item.dog_img} alt="반려견 사진" />
-      </div>
-      <div>
-        <div style={{
-          display: 'flex', flexDirection: 'row', width: '400px', justifyContent: 'space-around',
-        }}
-        >
-          <p>{item.petsitter_name}</p>
-          <p>{item.start_date} ~ {item.end_date}</p>
-        </div>
-        <div style={{ width: '400px' }}>
-          <Box sx={{ width: '100%' }}>
-            <Stepper activeStep={statusSteps.indexOf(item.state)} alternativeLabel>
-              {steps.map((label) => (
-                <Step key={label}>
-                  <StepLabel>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-          </Box>
-        </div>
-
-      </div>
-      <div>
-        <button>예약 취소</button>
-        <ChevronLeftOutlinedIcon style={{ transform: 'rotate( -90deg )', color: 'rgb(181, 181, 181)' }} fontSize="large" onClick={() => setToggle('detail')} />
-      </div>
-    </div>
-  );
-
-  const detail = (
-    <div style={{
-      alignItems: 'center', justifyContent: 'center', margin: 'auto', width: '1000px', height: '500px', display: 'flex', flexDirection: 'row', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px',
-    }}
-    >
-      <div>
-        <img style={{ width: '100px', height: '100px' }} src={item.dog_img} alt="반려견 사진" />
-      </div>
-      <div>
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <p>{item.petsitter_name}</p>
-          <p>{item.start_date} ~ {item.end_date}</p>
-        </div>
-        <div style={{ width: '400px' }}>
-          <Box sx={{ width: '100%' }}>
-            <Stepper activeStep={statusSteps.indexOf(item.state)} alternativeLabel>
-              {steps.map((label) => (
-                <Step key={label}>
-                  <StepLabel>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-          </Box>
-        </div>
-
-      </div>
-      <div>
-        <button>예약 취소</button>
-        <ChevronLeftOutlinedIcon fontSize="large" onClick={() => setToggle('simple')} />
-      </div>
-    </div>
-  );
-
-  let print = simple;
-  if (toggle === 'simple') {
-    print = simple;
-  } else if (toggle === 'detail') {
-    print = detail;
-  }
-  return (
-    <>
-      { print }
-    </>
-  );
-}
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import WaitList from './WaitList';
 
 function UsageList() {
-  const usageHistory = [
-    {
-      id: 1,
-      state: 'wait',
-      dog_img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRulquOahMvWbXSqv2Bloml0ol2miJWhsV1Rw&usqp=CAU',
-      petsitter_name: '펫시터1',
-      start_date: '2023-03-28',
-      end_date: '2023-03-30',
-      cost: 10000,
-      address: '경기도 팔달구 아주대',
-      options: [
-        {
-          name: '산책',
-          price: '1000',
-        },
-        {
-          name: '미용',
-          price: '1500',
-        },
-      ],
-    },
-    {
-      id: 2,
-      state: 'done',
-      dog_img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRulquOahMvWbXSqv2Bloml0ol2miJWhsV1Rw&usqp=CAU',
-      petsitter_name: '펫시터2',
-      start_date: '2023-03-29',
-      end_date: '2023-03-31',
-      cost: 20000,
-      address: '경기도 팔달구 아주대',
-      options: [
-        {
-          name: '산책',
-          price: '1000',
-        },
-        {
-          name: '미용',
-          price: '1500',
-        },
-      ],
-    },
-  ];
+  const [waitList, setWaitList] = useState([]);
+  const [payedList, setPayedList] = useState([]);
+  const [approveList, setApproveList] = useState([]);
+  const [useList, setUseList] = useState([]);
+  const [doneList, setDoneList] = useState([]);
+
+  const handleCancel = (reservationId) => {
+    axios.post(`https://withpet.site/api/v1/reservation/user/cancel-reservation?reservationId=${reservationId}`, { withCredentials: true })
+      .then(() => {
+        // 목록에서도 삭제
+        setWaitList(waitList.filter((item) => (item.reservationId !== reservationId)));
+      });
+  };
+
+  const handleReview = (reservationId, reviewContent) => {
+    const temp = {
+      content: reviewContent.content,
+      grade: reviewContent.rate,
+      reservationId,
+    };
+    axios.post('https://withpet.site/api/v1/review/create-review', temp, { withCredentials: true })
+      .then(() => {
+        // eslint-disable-next-line no-alert
+        alert('리뷰 작성이 완료되었습니다.');
+      });
+  };
+
+  const handleDone = (reservationId) => {
+    axios.post(`https://withpet.site/api/v1/reservation/user/done-reservation?reservationId=${reservationId}`, { withCredentials: true })
+      .then((res) => {
+        // 목록에서도 삭제
+        setUseList(useList.filter((item) => (item.reservationId !== reservationId)));
+        setDoneList(doneList.concat(res.data.result));
+      });
+  };
+
+  useEffect(() => {
+    axios.get('https://withpet.site/api/v1/reservation/user/show-reservations', { withCredentials: true })
+      .then((res) => {
+        console.log(res.data.result);
+        setWaitList(res.data.result.waitReservations);
+        setPayedList(res.data.result.payedReservations);
+        setApproveList(res.data.result.approveReservations);
+        setUseList(res.data.result.useReservations);
+        setDoneList(res.data.result.doneReservations);
+      });
+  }, []);
 
   return (
-    <>
+    <div style={{
+      width: '600px', margin: '30px auto 0px auto', display: 'flex', justifyContent: 'center', flexDirection: 'column',
+    }}
+    >
       <div>반려인 이용내역 페이지</div>
-      { usageHistory.map((item) => {
-        return <Item key={item.id} item={item} />;
-      }) }
-    </>
+      <WaitList list={waitList} handleCancel={handleCancel} stepValue="1" />
+      <WaitList list={payedList} handleCancel={handleCancel} stepValue="2" />
+      <WaitList list={approveList} handleCancel={handleCancel} stepValue="3" />
+      <WaitList list={useList} handleCancel={handleCancel} stepValue="4" handleDone={handleDone} />
+      <WaitList list={doneList} handleCancel={handleCancel} stepValue="5" handleReview={handleReview} />
+    </div>
   );
 }
 
