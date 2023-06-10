@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
+import Rating from '@mui/material/Rating';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
@@ -8,8 +9,53 @@ import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
 // import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
 
-function Item({ item }) {
+function Item({
+  item, handleCancel, stepValue, handleDone, handleReview,
+}) {
   const [toggle, setToggle] = useState('simple');
+  const [reviewToggle, setReviewToggle] = useState(false);
+  const [reviewContent, setReviewContent] = useState({
+    rate: 0,
+    content: '',
+  });
+  let printButton = (
+    <button
+      onClick={() => handleCancel(item.reservationId)}
+      style={{
+        backgroundColor: '#E3D5C2', border: 'none', width: '60px', height: '20px',
+      }}
+    >
+      <p style={{ fontSize: '6px', margin: '0px', cursor: 'pointer' }}>예약 취소</p>
+    </button>
+  );
+
+  if (stepValue === '4') {
+    printButton = (
+      <button
+        onClick={() => handleDone(item.reservationId)}
+        style={{
+          backgroundColor: '#E3D5C2', border: 'none', width: '60px', height: '20px',
+        }}
+      >
+        <p style={{ fontSize: '6px', margin: '0px', cursor: 'pointer' }}>이용완료</p>
+      </button>
+    );
+  } else if (stepValue === '5') {
+    printButton = (
+      <button
+        onClick={() => {
+          setReviewToggle(true);
+          setToggle('detail');
+        }}
+        style={{
+          backgroundColor: '#E3D5C2', border: 'none', width: '60px', height: '20px',
+        }}
+      >
+        <p style={{ fontSize: '6px', margin: '0px', cursor: 'pointer' }}>후기작성</p>
+      </button>
+    );
+  }
+
   const simple = (
     <div style={{
       backgroundColor: '#FFFAF0', alignItems: 'center', justifyContent: 'center', margin: 'auto', marginBottom: '30px', width: '500px', height: '80px', display: 'flex', flexDirection: 'row', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px',
@@ -32,12 +78,7 @@ function Item({ item }) {
         display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center',
       }}
       >
-        <button style={{
-          backgroundColor: '#E3D5C2', border: 'none', width: '60px', height: '20px',
-        }}
-        >
-          <p style={{ fontSize: '6px', margin: '0px' }}>예약 취소</p>
-        </button>
+        {printButton}
         <ChevronLeftOutlinedIcon style={{ transform: 'rotate( -90deg )', color: 'rgb(181, 181, 181)' }} fontSize="large" onClick={() => setToggle('detail')} />
       </div>
     </div>
@@ -68,15 +109,25 @@ function Item({ item }) {
       name: '총 비용',
       value: `${item.totalCost} 원`,
     },
-    // {
-    //   name: '옵션',
-    //   value: item.streetAdr,
-    // },
   ];
 
+  const reviewBody = (
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+
+      <Rating
+        value={reviewContent.rate}
+        onChange={(event, newValue) => {
+          setReviewContent({ ...reviewContent, rate: newValue });
+        }}
+      />
+      <textarea value={reviewContent.content} onChange={(e) => setReviewContent({ ...reviewContent, content: e.target.value })} />
+      <button onClick={() => handleReview(item.reservationId, reviewContent)}>제출</button>
+    </div>
+  );
+  console.log(reviewContent);
   const detail = (
     <div style={{
-      position: 'relative', backgroundColor: '#FFFAF0', alignItems: 'center', justifyContent: 'center', margin: 'auto', marginBottom: '30px', width: '500px', height: '400px', display: 'flex', flexDirection: 'column', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px',
+      position: 'relative', backgroundColor: '#FFFAF0', alignItems: 'center', justifyContent: 'center', margin: 'auto', marginBottom: '30px', width: '500px', display: 'flex', flexDirection: 'column', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px',
     }}
     >
       <ChevronLeftOutlinedIcon
@@ -120,10 +171,10 @@ function Item({ item }) {
           backgroundColor: 'white', border: '1.5px solid #CAA969', width: '80px', borderRadius: '5px',
         }}
         >
+          <p style={{ fontSize: '13px', fontWeight: 'bolder', textAlign: 'center' }}>옵션</p>
           {item.reservationServiceResponses && item.reservationServiceResponses.map((service) => {
             return (
-              <div>
-                <p style={{ fontSize: '13px', fontWeight: 'bolder', textAlign: 'center' }}>옵션</p>
+              <div key={service.serviceName}>
                 <p style={{ fontSize: '13px', fontWeight: 'bolder', textAlign: 'center' }}>{service.serviceName} {service.price}</p>
                 {/* <p style={{ fontSize: '13px', fontWeight: 'bolder', textAlign: 'center' }}>+</p> */}
               </div>
@@ -131,6 +182,7 @@ function Item({ item }) {
           })}
         </div>
       </div>
+      { reviewToggle && reviewBody}
 
     </div>
   );
@@ -148,8 +200,12 @@ function Item({ item }) {
   );
 }
 
-function WaitList({ waitList }) {
+function WaitList({
+  list, handleCancel, stepValue, handleDone, handleReview,
+}) {
+  console.log(stepValue);
   const steps = [
+    '결제 대기',
     '예약 대기',
     '예약 확정',
     '이용중',
@@ -163,7 +219,7 @@ function WaitList({ waitList }) {
     >
       <div style={{ width: '400px' }}>
         <Box sx={{ width: '100%' }}>
-          <Stepper activeStep={0} alternativeLabel>
+          <Stepper activeStep={stepValue} alternativeLabel>
             {steps.map((label) => (
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>
@@ -173,8 +229,8 @@ function WaitList({ waitList }) {
         </Box>
       </div>
 
-      { waitList && waitList.map((item) => {
-        return <Item key={item.reservationId} item={item} />;
+      { list && list.map((item) => {
+        return <Item key={item.reservationId} item={item} handleCancel={handleCancel} stepValue={stepValue} handleDone={handleDone} handleReview={handleReview} />;
       })}
     </div>
   );

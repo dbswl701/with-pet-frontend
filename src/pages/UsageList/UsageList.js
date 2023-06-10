@@ -4,55 +4,52 @@ import WaitList from './WaitList';
 
 function UsageList() {
   const [waitList, setWaitList] = useState([]);
+  const [payedList, setPayedList] = useState([]);
+  const [approveList, setApproveList] = useState([]);
+  const [useList, setUseList] = useState([]);
+  const [doneList, setDoneList] = useState([]);
+
+  const handleCancel = (reservationId) => {
+    axios.post(`https://withpet.site/api/v1/reservation/user/cancel-reservation?reservationId=${reservationId}`, { withCredentials: true })
+      .then(() => {
+        // 목록에서도 삭제
+        setWaitList(waitList.filter((item) => (item.reservationId !== reservationId)));
+      });
+  };
+
+  const handleReview = (reservationId, reviewContent) => {
+    const temp = {
+      content: reviewContent.content,
+      grade: reviewContent.rate,
+      reservationId,
+    };
+    axios.post('https://withpet.site/api/v1/review/create-review', temp, { withCredentials: true })
+      .then(() => {
+        // eslint-disable-next-line no-alert
+        alert('리뷰 작성이 완료되었습니다.');
+      });
+  };
+
+  const handleDone = (reservationId) => {
+    axios.post(`https://withpet.site/api/v1/reservation/user/done-reservation?reservationId=${reservationId}`, { withCredentials: true })
+      .then((res) => {
+        // 목록에서도 삭제
+        setUseList(useList.filter((item) => (item.reservationId !== reservationId)));
+        setDoneList(doneList.concat(res.data.result));
+      });
+  };
+
   useEffect(() => {
     axios.get('https://withpet.site/api/v1/reservation/user/show-reservations', { withCredentials: true })
       .then((res) => {
         console.log(res.data.result);
         setWaitList(res.data.result.waitReservations);
+        setPayedList(res.data.result.payedReservations);
+        setApproveList(res.data.result.approveReservations);
+        setUseList(res.data.result.useReservations);
+        setDoneList(res.data.result.doneReservations);
       });
   }, []);
-  // const usageHistory = [
-  //   {
-  //     id: 1,
-  //     state: 'wait',
-  //     dog_img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRulquOahMvWbXSqv2Bloml0ol2miJWhsV1Rw&usqp=CAU',
-  //     petsitter_name: '펫시터1',
-  //     start_date: '2023-03-28',
-  //     end_date: '2023-03-30',
-  //     cost: 10000,
-  //     address: '경기도 팔달구 아주대',
-  //     options: [
-  //       {
-  //         name: '산책',
-  //         price: '1000',
-  //       },
-  //       {
-  //         name: '미용',
-  //         price: '1500',
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     id: 2,
-  //     state: 'done',
-  //     dog_img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRulquOahMvWbXSqv2Bloml0ol2miJWhsV1Rw&usqp=CAU',
-  //     petsitter_name: '펫시터2',
-  //     start_date: '2023-03-29',
-  //     end_date: '2023-03-31',
-  //     cost: 20000,
-  //     address: '경기도 팔달구 아주대',
-  //     options: [
-  //       {
-  //         name: '산책',
-  //         price: '1000',
-  //       },
-  //       {
-  //         name: '미용',
-  //         price: '1500',
-  //       },
-  //     ],
-  //   },
-  // ];
 
   return (
     <div style={{
@@ -60,7 +57,11 @@ function UsageList() {
     }}
     >
       <div>반려인 이용내역 페이지</div>
-      <WaitList waitList={waitList} />
+      <WaitList list={waitList} handleCancel={handleCancel} stepValue="1" />
+      <WaitList list={payedList} handleCancel={handleCancel} stepValue="2" />
+      <WaitList list={approveList} handleCancel={handleCancel} stepValue="3" />
+      <WaitList list={useList} handleCancel={handleCancel} stepValue="4" handleDone={handleDone} />
+      <WaitList list={doneList} handleCancel={handleCancel} stepValue="5" handleReview={handleReview} />
     </div>
   );
 }
