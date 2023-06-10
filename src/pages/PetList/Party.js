@@ -19,14 +19,15 @@ function UserItem({
       <p>{user.userName}</p>
     </>
   );
-
+  console.log(noneDisplay);
+  console.log(noneDisplay[user.userId]);
   return (
     <div
       onMouseEnter={() => setShowDiv(true)}
       onMouseLeave={() => setShowDiv(false)}
       onClick={() => handleExpelMember(user.userId)}
       style={{
-        width: '120px', backgroundColor: showDiv && isLeader ? 'red' : 'white', display: noneDisplay === user.userId ? 'none' : 'flex', marginLeft: '30px', alignItems: 'center', border: '1px solid rgb(200, 200, 200)', height: '40px', borderRadius: '5px', padding: '0px 10px', justifyContent: 'center',
+        width: '120px', backgroundColor: showDiv && isLeader ? 'red' : 'white', display: noneDisplay[user.userId] ? 'none' : 'flex', marginLeft: '30px', alignItems: 'center', border: '1px solid rgb(200, 200, 200)', height: '40px', borderRadius: '5px', padding: '0px 10px', justifyContent: 'center',
       }}
     >
       { showDiv && isLeader ? <p style={{ color: 'white' }}>X</p> : content}
@@ -36,12 +37,12 @@ function UserItem({
 
 function Party({ group, isLeader }) {
   console.log(isLeader);
-  const [noneDisplay, setNoneDisplay] = useState(0);
+  const [noneDisplay, setNoneDisplay] = useState({});
   const handleExpelMember = (userId) => {
     if (isLeader) {
       axios.delete(`https://withpet.site/api/v1/groups/${group.partyId}/members/${userId}`, { withCredentials: true })
         .then(() => {
-          setNoneDisplay(userId);
+          setNoneDisplay((prevState) => ({ ...prevState, [userId]: true }));
         });
     }
   };
