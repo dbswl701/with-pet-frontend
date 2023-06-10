@@ -6,9 +6,10 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
 import dayjs from 'dayjs';
+import paymentIconYellowMedium from '../../assets/paymentIconYellowMedium.png';
 
 function Item({
-  item, handleCancel, stepValue, handleDone, handleReview,
+  item, handleCancel, stepValue, handleDone, handleReview, onPaying,
 }) {
   const [toggle, setToggle] = useState('simple');
   const [reviewToggle, setReviewToggle] = useState(false);
@@ -119,6 +120,15 @@ function Item({
     // });
   };
 
+  const paying = (
+    <div>
+      <p>결제 다시 진행하기</p>
+      <button style={{ backgroundColor: 'transparent', border: 'none' }}>
+        <img src={paymentIconYellowMedium} alt="대체 텍스트" onClick={() => onPaying(item.reservationId)} />
+      </button>
+    </div>
+  );
+
   const reviewBody = (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
 
@@ -206,6 +216,7 @@ function Item({
           })}
         </div>
       </div>
+      { stepValue === '1' && paying }
       { reviewToggle && reviewBody}
 
     </div>
@@ -225,7 +236,7 @@ function Item({
 }
 
 function WaitList({
-  list, handleCancel, stepValue, handleDone, handleReview,
+  list, handleCancel, stepValue, handleDone, handleReview, onPaying,
 }) {
   // console.log(stepValue);
   const steps = [
@@ -262,7 +273,7 @@ function WaitList({
       </div>
       <p style={{ fontSize: '11px', color: 'gray' }}>{stepInfo[stepValue - 1]}</p>
       { list && list.map((item) => {
-        return <Item key={item.reservationId} item={item} handleCancel={handleCancel} stepValue={stepValue} handleDone={handleDone} handleReview={handleReview} />;
+        return <Item key={item.reservationId} item={item} handleCancel={handleCancel} stepValue={stepValue} handleDone={handleDone} handleReview={handleReview} onPaying={onPaying} />;
       })}
       { list.length === 0 && (
         <div style={{
