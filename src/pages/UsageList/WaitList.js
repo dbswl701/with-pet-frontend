@@ -5,8 +5,6 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
-// import Grid from '@mui/material/Grid';
-// import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
 
 function Item({
@@ -50,6 +48,7 @@ function Item({
         style={{
           backgroundColor: '#E3D5C2', border: 'none', width: '60px', height: '20px',
         }}
+        disabled={reviewContent.content !== ''}
       >
         <p style={{ fontSize: '6px', margin: '0px', cursor: 'pointer' }}>후기작성</p>
       </button>
@@ -111,6 +110,15 @@ function Item({
     },
   ];
 
+  const handleLocalReview = () => {
+    handleReview(item.reservationId, reviewContent);
+    setReviewToggle(false);
+    // setReviewContent({
+    //   rate: 0,
+    //   content: '',
+    // });
+  };
+
   const reviewBody = (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
 
@@ -119,15 +127,31 @@ function Item({
         onChange={(event, newValue) => {
           setReviewContent({ ...reviewContent, rate: newValue });
         }}
+        precision={0.5}
+        style={{ marginLeft: '10px', marginTop: '20px' }}
       />
-      <textarea value={reviewContent.content} onChange={(e) => setReviewContent({ ...reviewContent, content: e.target.value })} />
-      <button onClick={() => handleReview(item.reservationId, reviewContent)}>제출</button>
+      <textarea
+        style={{
+          width: '400px', border: '1.5px solid #CAA969', resize: 'none', margin: '10px', outline: 'none', borderRadius: '5px',
+        }}
+        rows="3"
+        value={reviewContent.content}
+        onChange={(e) => setReviewContent({ ...reviewContent, content: e.target.value })}
+      />
+      {/* <textarea value={reviewContent.content} onChange={(e) => setReviewContent({ ...reviewContent, content: e.target.value })} /> */}
+      <button
+        style={{
+          backgroundColor: '#E3D5C2', width: '200px', border: 'none', margin: 'auto', marginBottom: '20px', marginTop: '20px', cursor: 'pointer',
+        }}
+        onClick={handleLocalReview}
+      >제출
+      </button>
     </div>
   );
-  // console.log(reviewContent);
+  console.log(reviewContent);
   const detail = (
     <div style={{
-      position: 'relative', backgroundColor: '#FFFAF0', alignItems: 'center', justifyContent: 'center', margin: 'auto', marginBottom: '30px', width: '500px', display: 'flex', flexDirection: 'column', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px',
+      position: 'relative', backgroundColor: '#FFFAF0', alignItems: 'center', justifyContent: 'center', margin: 'auto', paddingBottom: '30px', marginBottom: '30px', width: '500px', display: 'flex', flexDirection: 'column', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px',
     }}
     >
       <ChevronLeftOutlinedIcon

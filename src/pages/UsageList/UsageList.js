@@ -10,7 +10,7 @@ function UsageList() {
   const [doneList, setDoneList] = useState([]);
 
   const handleCancel = (reservationId) => {
-    axios.post(`https://withpet.site/api/v1/reservation/user/cancel-reservation?reservationId=${reservationId}`, { withCredentials: true })
+    axios.post('https://withpet.site/api/v1/reservation/user/cancel-reservation', { reservationId }, { withCredentials: true })
       .then(() => {
         // 목록에서도 삭제
         setWaitList(waitList.filter((item) => (item.reservationId !== reservationId)));
@@ -31,11 +31,12 @@ function UsageList() {
   };
 
   const handleDone = (reservationId) => {
-    axios.post(`https://withpet.site/api/v1/reservation/user/done-reservation?reservationId=${reservationId}`, { withCredentials: true })
-      .then((res) => {
+    axios.post('https://withpet.site/api/v1/reservation/user/done-reservation', { reservationId }, { withCredentials: true })
+      .then(() => {
         // 목록에서도 삭제
         setUseList(useList.filter((item) => (item.reservationId !== reservationId)));
-        setDoneList(doneList.concat(res.data.result));
+        const select = useList.filter((item) => (item.reservationId === reservationId));
+        setDoneList(doneList.concat(select));
       });
   };
 
