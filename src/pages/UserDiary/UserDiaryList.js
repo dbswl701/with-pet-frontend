@@ -25,6 +25,13 @@ function UserDiaryList({
       })
       .catch(() => {});
   };
+  const handleRemove = (diaryId) => {
+    axios.delete(`https://withpet.site/api/v1/userdiaries/${diaryId}`, { withCredentials: true })
+      .then(() => {
+        // 일지 리스트에서
+        setDiaries((prev) => prev.filter((item) => item.userDiaryId !== diaryId));
+      });
+  };
 
   return (
     <div>
@@ -48,7 +55,7 @@ function UserDiaryList({
         >
           <div className="diary_container">
             {diaries.map((diary) => {
-              return <UserDiary key={diary.userDiaryId} diary={diary} onSubmitModify={onSubmitModify} />;
+              return <UserDiary key={diary.userDiaryId} diary={diary} onSubmitModify={onSubmitModify} handleRemove={handleRemove} />;
             })}
           </div>
           <Button type="button" onClick={() => setOpen(false)}>
