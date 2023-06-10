@@ -11,7 +11,7 @@ function Service({
   const basic = (
     <TableRow>
       <TableCell>{item.serviceId}</TableCell>
-      <TableCell><img src={item.serviceImg} alt="img" style={{ width: '50px' }} /></TableCell>
+      <TableCell><img src={item.serviceImg} alt="img" style={{ width: '50px', height: '50px', borderRadius: '50%' }} /></TableCell>
       <TableCell>{item.serviceName}</TableCell>
       <TableCell>{item.serviceIntroduction}</TableCell>
       <TableCell>
