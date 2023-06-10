@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom/dist';
 import Review from './Review';
 
 const Container = styled.div`
@@ -37,34 +39,49 @@ function Item({ service }) {
   );
 }
 
-function Content({ data }) {
-  // console.log(data.);
-  const reviews = [
-    {
-      id: 1,
-      img: 'https://thumb.ac-illust.com/af/af39b2c67aed0b79b7e57070f41e180f_t.jpeg',
-      name: '홍길동',
-      content: '배추가 특별한 케이스라 돌봐주시는동안 잠도 제대로 못주무시고 많이 힘드셨을텐데 날씨 좋을때마다 산책도 다녀와주시고 밥도 잘 먹여주시고 넘 잘돌봐주셔서 일지확인하는내내 너무 감사했어요 !!! 덕분에 걱정을 좀 덜고 일정 잘 소화할수있었어요. 진짜 얼마나 감사한지 저는 말로 다 부족해요 ㅜㅠ 집에와서 코를 드르렁골면서 잘자고있어여 진짜 시터님 너무너무 감사했어요!!!!❤️❤️❤️',
-      rate: 4.0,
-      createdAt: '2023-04-05',
-    },
-    {
-      id: 2,
-      img: 'https://thumb.ac-illust.com/af/af39b2c67aed0b79b7e57070f41e180f_t.jpeg',
-      name: '홍길동2',
-      content: '배추가 특별한 케이스라 돌봐주시는동안 잠도 제대로 못주무시고 많이 힘드셨을텐데 날씨 좋을때마다 산책도 다녀와주시고 밥도 잘 먹여주시고 넘 잘돌봐주셔서 일지확인하는내내 너무 감사했어요 !!! 덕분에 걱정을 좀 덜고 일정 잘 소화할수있었어요. 진짜 얼마나 감사한지 저는 말로 다 부족해요 ㅜㅠ 집에와서 코를 드르렁골면서 잘자고있어여 진짜 시터님 너무너무 감사했어요!!!!❤️❤️❤️',
-      rate: 3.0,
-      createdAt: '2023-04-05',
-    },
-    {
-      id: 3,
-      img: 'https://thumb.ac-illust.com/af/af39b2c67aed0b79b7e57070f41e180f_t.jpeg',
-      name: '홍길동3',
-      content: '배추가 특별한 케이스라 돌봐주시는동안 잠도 제대로 못주무시고 많이 힘드셨을텐데 날씨 좋을때마다 산책도 다녀와주시고 밥도 잘 먹여주시고 넘 잘돌봐주셔서 일지확인하는내내 너무 감사했어요 !!! 덕분에 걱정을 좀 덜고 일정 잘 소화할수있었어요. 진짜 얼마나 감사한지 저는 말로 다 부족해요 ㅜㅠ 집에와서 코를 드르렁골면서 잘자고있어여 진짜 시터님 너무너무 감사했어요!!!!❤️❤️❤️',
-      rate: 5.0,
-      createdAt: '2023-04-05',
-    },
-  ];
+function Content({ data, petsitterUserId, reviews }) {
+  // console.log(petsitterUserId);
+  const navigate = useNavigate();
+
+  const moveChatPage = () => {
+    const temp = {
+      createTime: new Date().toISOString(),
+      otherId: petsitterUserId,
+    };
+    axios.post('https://withpet.site/chat/room', temp, { withCredentials: true })
+      .then((res) => {
+        // room id 저장
+        // console.log(res.data.result);
+        navigate(`../chat?roomId=${res.data.result.chatRoomId}`);
+      });
+  };
+
+  // const reviews = [
+  //   {
+  //     id: 1,
+  //     img: 'https://thumb.ac-illust.com/af/af39b2c67aed0b79b7e57070f41e180f_t.jpeg',
+  //     name: '홍길동',
+  //     content: '배추가 특별한 케이스라 돌봐주시는동안 잠도 제대로 못주무시고 많이 힘드셨을텐데 날씨 좋을때마다 산책도 다녀와주시고 밥도 잘 먹여주시고 넘 잘돌봐주셔서 일지확인하는내내 너무 감사했어요 !!! 덕분에 걱정을 좀 덜고 일정 잘 소화할수있었어요. 진짜 얼마나 감사한지 저는 말로 다 부족해요 ㅜㅠ 집에와서 코를 드르렁골면서 잘자고있어여 진짜 시터님 너무너무 감사했어요!!!!❤️❤️❤️',
+  //     rate: 4.0,
+  //     createdAt: '2023-04-05',
+  //   },
+  //   {
+  //     id: 2,
+  //     img: 'https://thumb.ac-illust.com/af/af39b2c67aed0b79b7e57070f41e180f_t.jpeg',
+  //     name: '홍길동2',
+  //     content: '배추가 특별한 케이스라 돌봐주시는동안 잠도 제대로 못주무시고 많이 힘드셨을텐데 날씨 좋을때마다 산책도 다녀와주시고 밥도 잘 먹여주시고 넘 잘돌봐주셔서 일지확인하는내내 너무 감사했어요 !!! 덕분에 걱정을 좀 덜고 일정 잘 소화할수있었어요. 진짜 얼마나 감사한지 저는 말로 다 부족해요 ㅜㅠ 집에와서 코를 드르렁골면서 잘자고있어여 진짜 시터님 너무너무 감사했어요!!!!❤️❤️❤️',
+  //     rate: 3.0,
+  //     createdAt: '2023-04-05',
+  //   },
+  //   {
+  //     id: 3,
+  //     img: 'https://thumb.ac-illust.com/af/af39b2c67aed0b79b7e57070f41e180f_t.jpeg',
+  //     name: '홍길동3',
+  //     content: '배추가 특별한 케이스라 돌봐주시는동안 잠도 제대로 못주무시고 많이 힘드셨을텐데 날씨 좋을때마다 산책도 다녀와주시고 밥도 잘 먹여주시고 넘 잘돌봐주셔서 일지확인하는내내 너무 감사했어요 !!! 덕분에 걱정을 좀 덜고 일정 잘 소화할수있었어요. 진짜 얼마나 감사한지 저는 말로 다 부족해요 ㅜㅠ 집에와서 코를 드르렁골면서 잘자고있어여 진짜 시터님 너무너무 감사했어요!!!!❤️❤️❤️',
+  //     rate: 5.0,
+  //     createdAt: '2023-04-05',
+  //   },
+  // ];
   return (
     <>
       <Container>
@@ -76,6 +93,7 @@ function Content({ data }) {
             <p>{data.petSitterAddress && data.petSitterAddress}</p>
             <h2 style={{ marginBottom: '10px' }}>{data && data.petSitterName}</h2>
             {data.petSitterHashTags && data.petSitterHashTags.map((tag) => <span key={tag.petSitterHashTagId}>#{tag.hashTagName}  </span>)}
+            <button onClick={moveChatPage}>문의하기</button>
           </div>
         </div>
 
@@ -102,7 +120,7 @@ function Content({ data }) {
             display: 'flex', flexDirection: 'column', width: '580px',
           }}
           >
-            { reviews.map((review) => <Review key={review.id} review={review} />)}
+            { reviews && reviews.map((review) => <Review key={review.reviewId} review={review} />)}
           </div>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <button style={{

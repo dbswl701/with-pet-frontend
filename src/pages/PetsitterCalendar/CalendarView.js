@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
-// import axios from 'axios';
+import axios from 'axios';
 import dayjs from 'dayjs';
 // import events from './events';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import ModalDogInfo from './ModalDogInfo';
 
 moment.locale('en-GB');
 const localizer = momentLocalizer(moment);
@@ -42,6 +43,9 @@ function CalendarView({ setSelectedMonth, eventsData }) {
   //   },
   // ]);
 
+  const [dogInfo, setDogInfo] = useState({});
+  const [open, setOpen] = useState(false);
+
   // 각 이벤트에 대한 스타일을 동적으로 지정하는 함수
   const eventStyleGetter = (event) => {
   // const backgroundColor = "#ff0000"; // 바의 배경색
@@ -66,6 +70,22 @@ function CalendarView({ setSelectedMonth, eventsData }) {
     setSelectedMonth(dayjs(date).format('YYYY-MM'));
   };
 
+  const onDogClick = (event) => {
+    // 모달창
+    setOpen(true);
+    // console.log(event);
+
+    axios.get(`https://withpet.site/api/v1/reservation/show-payment/${event.reservationId}`, { withCredentials: true })
+    // axios.get('https://withpet.site/api/v1/userdiaries/day?categoryId=&day=2023-05-20&dogId=', { withCredentials: true })
+      .then((res) => {
+        setDogInfo(res.data.result);
+        console.log(res.data.result);
+      })
+      .catch(() => {
+        // console.error(err);
+      });
+  };
+
   return (
     <div className="App">
       {/* <div style={{
@@ -79,6 +99,7 @@ function CalendarView({ setSelectedMonth, eventsData }) {
           defaultDate={new Date()}
           defaultView="month"
           events={eventsData}
+          onSelectEvent={(event) => onDogClick(event)}
           style={{ height: '700px', width: '1000px', marginTop: '30px' }}
           eventPropGetter={eventStyleGetter}
           onNavigate={handleNavigate}
@@ -86,6 +107,7 @@ function CalendarView({ setSelectedMonth, eventsData }) {
           //   position: 'absolute', width: '100%', height: '100%', top: '0', left: '0',
           // }}
         />
+        <ModalDogInfo open={open} setOpen={setOpen} dogInfo={dogInfo} />
       </div>
     </div>
   );

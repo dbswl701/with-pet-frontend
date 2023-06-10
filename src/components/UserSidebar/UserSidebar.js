@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import dayjs from 'dayjs';
 // import styled from 'styled-components';
 import axios from 'axios';
@@ -23,6 +24,7 @@ function Item({
 function UserSideBar({
   setFilteredDiaries, filter, setFilter, open, setOpen, filteredDiaries,
 }) {
+  const navigate = useNavigate();
   const [dogs, setDogs] = useState([]);
   const [categories, setCategories] = useState([]);
   const colorList = ['#64C8F3', '#F36464', '#57DF86', '#DFDA57', '#CAA969', 'violet', 'gray'];
@@ -66,7 +68,12 @@ function UserSideBar({
         // console.log(updatedCategories);
         setCategories(updatedCategories);
       })
-      .catch(() => {
+      .catch((err) => {
+        if (err.response && err.response.status === 401) {
+          // eslint-disable-next-line no-alert
+          alert('로그인이 필요한 서비스입니다.');
+          navigate('/login');
+        }
       });
 
     // 필터링 안했을 때 정보 불러옴
@@ -104,8 +111,8 @@ function UserSideBar({
         <ListContainer>
           작성자 선택
           <ItemContainer>
-            <Button value="PETSITTER" name="petsitterCheck" onClick={onChange}>반려인</Button>
-            <Button value="USER" name="petsitterCheck" onClick={onChange}>펫시터</Button>
+            <Button value="USER" name="petsitterCheck" onClick={onChange}>반려인</Button>
+            <Button value="PETSITTER" name="petsitterCheck" onClick={onChange}>펫시터</Button>
           </ItemContainer>
         </ListContainer>
         <ListContainer>

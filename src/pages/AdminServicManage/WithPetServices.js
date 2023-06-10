@@ -4,7 +4,6 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Service from './Service';
 import dogimgdefault from '../../assets/dogProfileImage.png';
@@ -14,7 +13,6 @@ export default function Orders({
 }) {
   return (
     <>
-      <Typography component="h2" variant="h6" color="primary" gutterBottom>서비스 리스트</Typography>
       <Table>
         <TableHead>
           <TableRow>

@@ -11,6 +11,37 @@ export const SideBar = styled.div`
     align-items: center;
     padding: 10px 10px 10px 10px;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
+    #back {
+        background-color: #caa969;
+        color: white;
+    }
+// .select2 input[type=radio] {
+    //     position: absolute;
+    //     left: -9999px;
+    // }
+    // .select2 input[type=radio]+label {
+    //     display: inline-block;
+    //     cursor: pointer;
+    //     height: 40px;
+    //     width: 60px;
+    //     border: 2px solid white;
+    //     border-radius: 5px;
+    //     text-align: center;
+    //     vertical-align: center;
+    //     padding: 5px;
+    //     margin-left: 5px;
+    //     background-color: white;
+    // }
+    // .select2 input[type=radio]+label:hover {
+    //     background-color: #caa969;
+    //     border: 2px solid #caa969;
+    //     color: white;
+    // }
+    
+    // .select2 input[type=radio]:checked+label:after {
+    //     border: 2px solid rgb(153, 121, 85);
+    //     background-color: #caa969;
+    // }
 `;
 
 export const Title = styled.div`
@@ -171,15 +202,6 @@ export const Content = styled.div`
     margin-bottom: 5px;
 `;
 
-export const ProfitButton = styled.button`
-    width: 12rem;
-    height: 3rem;
-    background-color: #CAA969;
-    border: none;
-    border-radius: 5px;
-    color: white;
-`;
-
 export const Button = styled.button`
   width: 190px;
   height: 40px;
@@ -205,7 +227,8 @@ export const BarContainer = styled.div`
 `;
 
 export const SideButton = styled.button`
-    // background-color: #CAA969;
+    background-color: #CAA969;
     flex-direction: column;
     justify-content: flex-start;
+    color: #ffffff;
 `;

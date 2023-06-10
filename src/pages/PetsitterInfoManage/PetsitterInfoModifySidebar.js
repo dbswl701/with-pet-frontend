@@ -34,7 +34,7 @@ function PetsitterInfoModifySidebar({ setMenu }) {
       <Button onClick={() => setMenu('license')}>자격증</Button>
       <Button onClick={() => setMenu('service')}>이용가능서비스</Button>
       <Button onClick={() => setMenu('criticalService')}>필수서비스</Button>
-      <Button onClick={() => navigate('../petsitterShowInfo')}>돌아가기</Button>
+      <Button id="back" onClick={() => navigate('../petsitterShowInfo')}>돌아가기</Button>
     </SideBar>
   );
 }

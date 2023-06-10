@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 // import styled from 'styled-components';
 import axios from 'axios';
+// import { useNavigate } from 'react-router';
 import CurrentList from './CurrentList';
 import NewList from './NewList';
 import DoneList from './DoneList';
 import Profit from './Profit';
 import { SideBar } from '../../styles/sidebar/SidebarStyle';
-
 // const SideBar = styled.div`
 // display: flex;
 // background-color: white;
@@ -20,9 +20,11 @@ import { SideBar } from '../../styles/sidebar/SidebarStyle';
 // `;
 
 function PetsitterSidebar({ setPrintBody, selectedMonth }) {
+  // const navigate = useNavigate();
   const [useReservations, setUseReservations] = useState([]);
   const [newReservations, setNewReservations] = useState([]);
   const [doneReservations, setDoneReservations] = useState([]);
+  const [monthProfit, setMonthProfit] = useState(0);
   useEffect(() => { // 여기 달 고정 바꿔야함.
     axios.get(`https://withpet.site/api/v1/calendar/petsitter-calendar?month=${selectedMonth}`, { withCredentials: true })
       .then((res) => {
@@ -30,6 +32,14 @@ function PetsitterSidebar({ setPrintBody, selectedMonth }) {
         setUseReservations(res.data.result.useReservations);
         setNewReservations(res.data.result.newReservations);
         setDoneReservations(res.data.result.doneReservations);
+        setMonthProfit(res.data.result.monthProfit);
+      })
+      .catch((err) => {
+        if (err.response && err.response.status === 401) {
+          // eslint-disable-next-line no-alert
+          // alert('로그인이 필요한 서비스입니다.');
+          // navigate('/login');
+        }
       });
   }, [selectedMonth]);
 
@@ -47,7 +57,7 @@ function PetsitterSidebar({ setPrintBody, selectedMonth }) {
         <CurrentList useReservations={useReservations} setUseReservations={setUseReservations} setPrintBody={setPrintBody} />
         <NewList newReservations={newReservations} handleRemoveNew={handleRemoveNew} handleApprove={handleApprove} />
         <DoneList doneReservations={doneReservations} setDoneReservations={setDoneReservations} setPrintBody={setPrintBody} />
-        <Profit />
+        <Profit monthProfit={monthProfit} />
       </SideBar>
     </>
   );

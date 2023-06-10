@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import axios from 'axios';
-import { CancelButton } from './InfoStyle';
+import { CancelButton, InputButton, Button } from './InfoStyle';
 
 function PetsitterInfoModifyHashTag({ hashTags, setHashTags }) {
   const [hashTag, setHashTag] = useState('');
@@ -29,20 +29,39 @@ function PetsitterInfoModifyHashTag({ hashTags, setHashTags }) {
   return (
     <>
       <p>해시태그</p>
-      <div style={{ display: 'flex', flexDirection: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'start', position: 'ablosute' }}>
         {hashTags && hashTags.map((tag) => (
-          <div className="list" key={tag.hashTagName} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}>
+          <div
+            className="list"
+            key={tag.hashTagName}
+            style={{
+              display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', marginBottom: '20px',
+            }}
+          >
             #{tag.hashTagName}&ensp;
             {/* <span># {tag.hashTagName}</span> */}
             {/* <input type="button" value="x" onClick={() => onRemoveHashtag(tag.petSitterHashTagId)} /> */}
-            <CancelButton className="cancel" value="X" onClick={() => onRemoveHashtag(tag)}>X</CancelButton>&ensp;
+            <CancelButton type="button" className="cancel" value="X" onClick={() => onRemoveHashtag(tag)} />&ensp;
           </div>
         ))}
       </div>
-      <TextField sx={{ m: 1 }} variant="outlined" size="small" name="hashTagName" onChange={(e) => setHashTag(e.target.value)} value={hashTag} />
-      {/* <TextField sx={{ m: 1 }} label="해시태그" variant="outlined" size="small" name="hashTagName" onChange={(e) => setHashTag(e.target.value)} value={hashTag} /> */}
-      <input type="button" onClick={handleHashtag} value="추가" />
-      <button onClick={onSubmit}>저장하기</button>
+      <div style={{ display: 'block', justifyContent: 'flex-end', position: 'relative' }}>
+        <TextField
+          inputProps={{
+            style: {
+              height: '35px', width: '300px', fontSize: '15px', padding: '0px', border: '1px solid #c4c4c4', borderRadius: '5px',
+            },
+          }}
+          sx={{ m: 1 }}
+          size="small"
+          name="hashTagName"
+          onChange={(e) => setHashTag(e.target.value)}
+          value={hashTag}
+        />
+        {/* <TextField sx={{ m: 1 }} label="해시태그" variant="outlined" size="small" name="hashTagName" onChange={(e) => setHashTag(e.target.value)} value={hashTag} /> */}
+        <InputButton type="button" onClick={handleHashtag} value="추가" />
+      </div>
+      <Button onClick={onSubmit}>저장</Button>
       {/* <Button onClick={handleHashtag} value="추가">추가</Button> */}
     </>
   );

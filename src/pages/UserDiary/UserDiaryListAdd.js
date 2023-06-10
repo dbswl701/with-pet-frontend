@@ -42,7 +42,7 @@ function UserDiaryListAdd({
   const [categories, setCategories] = useState([]);
   const [dogs, setDogs] = useState([]);
 
-  const handleImageUpload = async e => {
+  const handleImageUpload = async (e) => {
     const img = e.target.files[0];
     const formData = new FormData();
     formData.append('file', img);
@@ -53,14 +53,14 @@ function UserDiaryListAdd({
     };
     axios
       .post('https://withpet.site/api/v1/file/upload', formData, config)
-      .then(res => {
+      .then((res) => {
         setDiaryInfo({
           ...diaryInfo,
           dogImgToday: res.data.result[0],
         });
       });
   };
-  const onChangetemp = e => {
+  const onChangetemp = (e) => {
     if (e.target.files) {
       handleImageUpload(e);
     } else {
@@ -72,13 +72,13 @@ function UserDiaryListAdd({
     }
   };
 
-  const onSubmitAdd = e => {
+  const onSubmitAdd = (e) => {
     e.preventDefault();
     axios
       .post('https://withpet.site/api/v1/userdiaries', diaryInfo, {
         withCredentials: true,
       })
-      .then(res => {
+      .then((res) => {
         const temp = {
           start: dayjs(new Date(res.data.result.createdAt)).format(
             'YYYY-MM-DD',
@@ -98,9 +98,9 @@ function UserDiaryListAdd({
         ).format('YYYY-MM')}&petsitterCheck=`,
         { withCredentials: true },
       )
-      .then(res => {
+      .then((res) => {
         const { result } = res.data;
-        const temp = result.map(item => ({
+        const temp = result.map((item) => ({
           start: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
           end: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
           color: colorList[(item.dogId % colorList.length) - 1],
@@ -120,7 +120,7 @@ function UserDiaryListAdd({
     setOpen(false);
   };
 
-  const onChangeCalendar = date => {
+  const onChangeCalendar = (date) => {
     const e = {
       target: {
         name: 'createdAt',
@@ -135,7 +135,7 @@ function UserDiaryListAdd({
       .get('https://withpet.site/api/v1/calendar', {
         withCredentials: true,
       })
-      .then(res => {
+      .then((res) => {
         setDogs(res.data.result.dogSimpleInfoResponses);
         setCategories(res.data.result.categoryResponses);
       })
@@ -174,7 +174,7 @@ function UserDiaryListAdd({
                 size="small"
                 required
               >
-                {dogs.map(item => (
+                {dogs.map((item) => (
                   <MenuItem key={item.dogId} value={item.dogId}>
                     {item.name}
                   </MenuItem>
@@ -192,7 +192,7 @@ function UserDiaryListAdd({
                 size="small"
                 required
               >
-                {categories.map(item => (
+                {categories.map((item) => (
                   <MenuItem key={item.categoryId} value={item.categoryId}>
                     {item.name}
                   </MenuItem>

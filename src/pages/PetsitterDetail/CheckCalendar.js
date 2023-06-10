@@ -6,51 +6,54 @@ import moment from 'moment';
 import axios from 'axios';
 import dayjs from 'dayjs';
 
-function ReservationPage({ onChange, petsitterId }) {
+function ReservationPage({ onChange, petsitterId, reset }) {
   const [checkInDate, setCheckInDate] = useState(null);
   const [checkOutDate, setCheckOutDate] = useState(null);
   const [focusedInputType, setFocusedInputType] = useState(null);
   const [unavailable, setUnavailable] = useState([]);
-  const [selectedMonth, setSelectedMonth] = useState(
-    dayjs(new Date()).format('YYYY-MM'),
-  );
+  const [selectedMonth, setSelectedMonth] = useState(dayjs(new Date()).format('YYYY-MM'));
+  const [isSelectionComplete, setIsSelectionComplete] = useState(false); // 체크인 및 체크아웃 날짜 선택 여부
 
   const handleDateChange = ({ startDate, endDate }) => {
     setCheckInDate(startDate);
     setCheckOutDate(endDate);
     onChange(startDate, endDate);
+    setIsSelectionComplete(!!startDate && !!endDate); // 선택 여부 업데이트
   };
 
-  const handleFocusChange = focusedInput => {
+  const handleFocusChange = (focusedInput) => {
     setFocusedInputType(focusedInput);
   };
 
-  const blockedDates = unavailable
-    ? unavailable.map(date => {
-        const [year, month, day] = date.split('-');
-        return new Date(year, month - 1, day);
-      })
-    : [];
+  // const blockedDates = [
+  //   new Date(2023, 4, 23), // May 13, 2023
+  //   new Date(2023, 4, 26), // May 26, 2023
+  //   new Date(2023, 4, 18), // May 18, 2023 (임의로 추가한 블록된 날짜)
+  // ];
+  const blockedDates = unavailable ? unavailable.map((date) => {
+    const [year, month, day] = date.split('-');
+    return new Date(year, month - 1, day);
+  }) : [];
 
   const isSameDay = (date1, date2) => {
     return (
-      date1.getFullYear() === date2.year() &&
-      date1.getMonth() === date2.month() &&
-      date1.getDate() === date2.date()
+      date1.getFullYear() === date2.year()
+      && date1.getMonth() === date2.month()
+      && date1.getDate() === date2.date()
     );
   };
 
-  const isReservationDateBlocked = day => {
-    return blockedDates.some(date => isSameDay(date, day));
+  const isReservationDateBlocked = (day) => {
+    return blockedDates.some((date) => isSameDay(date, day));
   };
 
-  const getClosestBlockedDate = targetDate => {
+  const getClosestBlockedDate = (targetDate) => {
     const sortedDates = blockedDates.sort((a, b) => a - b);
-    const closestDate = sortedDates.find(date => date > targetDate);
+    const closestDate = sortedDates.find((date) => date > targetDate);
     return closestDate ? moment(closestDate).startOf('day') : null;
   };
 
-  const blockAfterStartDate = day => {
+  const blockAfterStartDate = (day) => {
     if (checkInDate) {
       const closestBlockedDate = getClosestBlockedDate(checkInDate.toDate());
       if (closestBlockedDate) {
@@ -60,31 +63,39 @@ function ReservationPage({ onChange, petsitterId }) {
     return false;
   };
 
-  const blockBeforeStartDate = day => {
+  const blockBeforeStartDate = (day) => {
     if (checkInDate) {
       return day.isBefore(checkInDate, 'day');
     }
     return false;
   };
 
+  // const handleMonthChange = (month) => {
+  //   console.log(month);
+  // };
   useEffect(() => {
-    axios
-      .get(
-        `https://withpet.site/api/v1/reservation?month=${selectedMonth}&petsitterId=${petsitterId}`,
-        { withCredentials: true },
-      )
-      .then(res => {
+    setCheckInDate(null);
+    setCheckOutDate(null);
+  }, [reset]);
+
+  // 예약 불가능한 날짜 확인
+  useEffect(() => {
+    axios.get(`https://withpet.site/api/v1/reservation?month=${selectedMonth}&petsitterId=${petsitterId}`, { withCredentials: true })
+      .then((res) => {
+        // console.log(res.data.result);
         setUnavailable(res.data.result);
       });
   }, [selectedMonth]);
 
-  const handleMonthChange = item => {
+  const handleMonthChange = (item) => {
+    // console.log(dayjs(new Date(item)).format('YYYY-MM'));
     setSelectedMonth(dayjs(new Date(item)).format('YYYY-MM'));
   };
 
   return (
     <div>
       <DateRangePicker
+        required
         startDate={checkInDate}
         startDateId="start_date"
         endDate={checkOutDate}
@@ -95,21 +106,13 @@ function ReservationPage({ onChange, petsitterId }) {
         numberOfMonths={1}
         startDatePlaceholderText="체크인 날짜"
         endDatePlaceholderText="체크아웃 날짜"
-        onPrevMonthClick={handleMonthChange}
+        onPrevMonthClick={handleMonthChange} // 이전 달로 이동할 때 이벤트 발생
         onNextMonthClick={handleMonthChange}
-        isDayBlocked={day =>
-          isReservationDateBlocked(day) ||
-          blockBeforeStartDate(day) ||
-          blockAfterStartDate(day)
-        }
+        isDayBlocked={(day) => isReservationDateBlocked(day)
+          || blockBeforeStartDate(day)
+          || blockAfterStartDate(day)}
       />
-      <style>
-        {`
-          .DateRangePickerInput__display-text--has-input {
-            display: none;
-          }
-        `}
-      </style>
+      {!isSelectionComplete && <p style={{ color: 'red', fontSize: '11px', margin: '0px' }}>체크인 및 체크아웃 날짜를 선택해주세요.</p>}
     </div>
   );
 }

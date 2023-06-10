@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import axios from 'axios';
 // import styled from 'styled-components';
 import social from '../../assets/social.png';
 import heart from '../../assets/heart.png';
 import {
-  ItemContainer, Dealt, Progress, ProfileImg, BarContainer, IconImg, InfoContainer, ProfileContainer, EvalContainer, Button, SideButton,
+  ItemContainer, Dealt, Progress, ProfileImg, BarContainer, IconImg, InfoContainer, ProfileContainer, EvalContainer, Button,
 } from '../../styles/sidebar/SidebarStyle';
 
 // const Progress = styled.div`
@@ -32,15 +32,15 @@ import {
 
 function CurrentListItem({ item, handleRemoveNew, handleApprove }) {
   // console.log(item);
-  const [showDiv, setShowDiv] = useState(false);
+  // const [showDiv, setShowDiv] = useState(false);
 
-  const onClick = (e) => {
+  const onAccept = (e) => {
     const reservationStatus = {
       reservationId: item.reservationId,
       status: e.target.value,
     };
     // console.log(reservationStatus);
-    axios.put('https://withpet.site/api/v1/reservation/reservation-status', reservationStatus, { withCredentials: true })
+    axios.put('https://withpet.site/api/v1/reservation/reservation-accept', reservationStatus, { withCredentials: true })
       .then((res) => {
         // console.log(res);
         // 이제 어쨌든 newlist에서 삭제하고, 승인이면 이용자 목록으로 올림!
@@ -58,15 +58,39 @@ function CurrentListItem({ item, handleRemoveNew, handleApprove }) {
       });
   };
 
-  const showButton = (
-    <>
-      <SideButton>일지</SideButton>
-      <SideButton>상세</SideButton>
-    </>
-  );
+  const onRefuse = (e) => {
+    const reservationStatus = {
+      reservationId: item.reservationId,
+      status: e.target.value,
+    };
+    // console.log(reservationStatus);
+    axios.post('https://withpet.site/api/v1/reservation/reservation-refuse', reservationStatus, { withCredentials: true })
+      .then((res) => {
+        // console.log(res);
+        // 이제 어쨌든 newlist에서 삭제하고, 승인이면 이용자 목록으로 올림!
+        // 일단 삭제
+        // console.log(res.data.result);
+        // console.log(item);
+        // setNewReservations(item.filter((temp) => (temp.reservationId !== res.data.result.reservationId)));
+        handleRemoveNew(item.reservationId);
+
+        // 그리고 만약 승인이면 이용자목록에 붙여버린다.
+        // 붙이는거 걍 함수로 전달
+        if (e.target.value === 'APPROVAL') {
+          handleApprove(item.reservationId, res.data.result);
+        }
+      });
+  };
+
+  // const showButton = (
+  //   <>
+  //     <SideButton>일지</SideButton>
+  //     <SideButton>상세</SideButton>
+  //   </>
+  // );
   return (
     <>
-      <ItemContainer onMouseEnter={() => setShowDiv(true)} onMouseLeave={() => setShowDiv(false)}>
+      <ItemContainer>
         <div>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <div>
@@ -94,15 +118,22 @@ function CurrentListItem({ item, handleRemoveNew, handleApprove }) {
                   </Progress>
                   <p className="social">{item.socializationTemperature}%</p>
                 </EvalContainer>
+                <EvalContainer>
+                  <IconImg className="social" src={social} alt="social" />
+                  <Progress className="social">
+                    <Dealt className="social" dealt={item.socializationDegree} />
+                  </Progress>
+                  <p className="social">{item.socializationDegree}%</p>
+                </EvalContainer>
               </BarContainer>
             </div>
-            <div>
+            {/* <div>
               {showDiv && showButton}
-            </div>
+            </div> */}
           </div>
           <EvalContainer style={{ flexDirection: 'column' }}>
-            <Button onClick={onClick} value="APPROVAL">승인</Button>
-            <Button onClick={onClick} value="CANCEL">거절</Button>
+            <Button onClick={onAccept} value="APPROVAL">승인</Button>
+            <Button onClick={onRefuse} value="REFUSE">거절</Button>
           </EvalContainer>
         </div>
       </ItemContainer>

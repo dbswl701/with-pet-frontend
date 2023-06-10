@@ -68,7 +68,7 @@ function ViewProfile() {
   useEffect(() => {
     axios
       .get(url, { withCredentials: true })
-      .then(response => {
+      .then((response) => {
         // 받아온 회원 정보를 state에 저장한다.
         setUserInfo(response.data.result);
       })

@@ -140,7 +140,7 @@ function EditProfile() {
   const [imageSrc, setImageSrc] = useState('');
   const [modifyInfo, setModifyInfo] = useState({});
 
-  const handleChangeImage = e => {
+  const handleChangeImage = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -157,7 +157,7 @@ function EditProfile() {
 
   const handleClickFindAddress = () => {
     new window.daum.Postcode({
-      oncomplete: function (data) {
+      oncomplete(data) {
         setModifyInfo({
           ...modifyInfo,
           zipcode: data.zonecode,
@@ -173,7 +173,7 @@ function EditProfile() {
   useEffect(() => {
     axios
       .get(url, { withCredentials: true })
-      .then(response => {
+      .then((response) => {
         const info = response.data.result;
         setModifyInfo({
           detailAdr: info.address.detailAdr,
@@ -190,7 +190,7 @@ function EditProfile() {
       .catch(() => {});
   }, []);
 
-  const onChange = e => {
+  const onChange = (e) => {
     const { value, name } = e.target;
     setModifyInfo({
       ...modifyInfo,
@@ -198,7 +198,7 @@ function EditProfile() {
     });
   };
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     const info = {
       address: {
@@ -237,7 +237,7 @@ function EditProfile() {
             onChange={handleChangeImage}
           />
           <InputContainer>
-            <label>이름</label>
+            <p>이름</p>
             <input
               type="text"
               value={modifyInfo.userName || ''}
@@ -245,7 +245,7 @@ function EditProfile() {
               name="userName"
               placeholder="위드펫"
             />
-            <label>전화번호</label>
+            <p>전화번호</p>
             <input
               type="tel"
               value={modifyInfo.phoneNum || ''}
@@ -253,7 +253,7 @@ function EditProfile() {
               name="phoneNum"
               placeholder="010-1234-5678"
             />
-            <label>이메일</label>
+            <p>이메일</p>
             <input
               type="email"
               value={modifyInfo.userEmail || ''}
@@ -264,7 +264,7 @@ function EditProfile() {
           </InputContainer>
           <InputContainer2>
             <div>
-              <label>주소</label>
+              <p>주소</p>
               <SearchButton type="button" onClick={handleClickFindAddress}>
                 <SearchIcon />
               </SearchButton>

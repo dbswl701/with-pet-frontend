@@ -57,7 +57,7 @@ function Item2({ service, onAdd }) {
       </div>
       <div style={{ textAlign: 'center' }}>
         <input style={{ width: '80%', marginBottom: '3px' }} type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
-        <InputButton type="button" value="추가" onClick={() => onAdd(service.serviceId, price)} />
+        <InputButton type="button" value="추가" onClick={() => onAdd(service.serviceId, price, service.serviceName)} />
       </div>
     </div>
   );
@@ -120,15 +120,17 @@ function PetsitterInfoManage() {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    const houseList = houseImgList.map((houseImg, index) => {
-      const representative = index === 0;
-      return { houseImg, representative };
-    });
+    // const houseList = houseImgList.map((houseImg, index) => {
+    //   const representative = index === 0;
+    //   console.log(houseImg);
+    //   return { ...houseImg };
+    // });
+    // console.log(houseList);
     const updatedInfo = {
       introduction,
       petSitterCriticalServiceRequests: criticalServices,
       petSitterHashTagRequests: hashTags,
-      petSitterHouseRequests: houseList,
+      petSitterHouseRequests: houseImgList,
       petSitterServiceRequests: serviceSelectList,
     };
     // console.log(updatedInfo);
@@ -147,7 +149,7 @@ function PetsitterInfoManage() {
     if (hashTags.includes(hashTag)) {
       // console.log('중복된 값입니다.');
     } else {
-      setHashTags([...hashTags, { petSitterHashTagId: 0, hashTagName: hashTag }]);
+      setHashTags([...hashTags, { petSitterhashTagId: 0, hashTagName: hashTag }]);
     }
     setHashTag('');
   };
@@ -158,24 +160,60 @@ function PetsitterInfoManage() {
     setHashTags(hashTags.filter((tag) => (tag !== id)));
   };
 
+  // const onRemoveHousImg = (id) => {
+  //   // 집 이미지 하나 삭제
+  //   // console.log(id);
+  //   setHouseImgList(houseImgList.filter((img) => (img !== id)));
+  // };
+
+  // const handleImageChange = (e) => {
+  //   const files = Array.from(e.target.files);
+  //   files.forEach((file) => {
+  //     const reader = new FileReader();
+  //     reader.onload = (ev) => {
+  //       const imagePreview = ev.target.result;
+  //       setHouseImgList((prevImages) => [...prevImages, imagePreview]);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   });
+  // };
+  // console.log(houseImgList);
+  const handleImageUpload = async (e) => {
+    const files = Array.from(e.target.files);
+    const formData = new FormData();
+    files.forEach((file) => {
+      formData.append('file', file);
+    });
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+    axios.post('https://withpet.site/api/v1/file/upload', formData, config)
+      .then((res) => {
+        res.data.result.forEach((img, index) => {
+          const temp = { houseId: 0, representative: index === 0, houseImg: img };
+          setHouseImgList((prevImages) => [...prevImages, temp]);
+        });
+      });
+  };
   const onRemoveHousImg = (id) => {
     // 집 이미지 하나 삭제
     // console.log(id);
-    setHouseImgList(houseImgList.filter((img) => (img !== id)));
-  };
 
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    files.forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        const imagePreview = ev.target.result;
-        setHouseImgList((prevImages) => [...prevImages, imagePreview]);
-      };
-      reader.readAsDataURL(file);
-    });
+    // 대표사진 다시 지정
+    const removeHouseImg = houseImgList.filter((img) => (img.houseImg === id));
+    const updateHouseImg = houseImgList.filter((img) => (img.houseImg !== id));
+
+    if (removeHouseImg[0].representative === true) {
+      setHouseImgList(updateHouseImg.map((img, index) => {
+        if (index === 0) {
+          return { ...img, representative: true };
+        }
+        return img;
+      }));
+    }
   };
-  // console.log(houseImgList);
 
   const [isServiceIdIncluded, setIsServiceIdIncluded] = useState([]);
   const [isCriticalServiceIdIncluded, setIsCriticalServiceIdIncluded] = useState([]);
@@ -208,10 +246,10 @@ function PetsitterInfoManage() {
     setServiceSelectList(serviceSelectList.filter((service) => service.serviceId !== id));
   };
 
-  const onAddService = (id, price) => { // sercieId 건너옴
+  const onAddService = (id, price, serviceName) => { // sercieId 건너옴
     // 활성화된 서비스 삭제 눌렀을 경우
     // console.log(id);
-    setServiceSelectList([...serviceSelectList, { serviceId: id, price: parseInt(price, 10) }]);
+    setServiceSelectList([...serviceSelectList, { serviceId: id, price: parseInt(price, 10), serviceName }]);
   };
 
   const onRemoveCriticalService = (id) => { // sercieId 건너옴
@@ -219,11 +257,11 @@ function PetsitterInfoManage() {
     // console.log(id);
     setCriticalServices(criticalServices.filter((service) => service.serviceId !== id));
   };
-
-  const onAddCriticalService = (id, price) => { // sercieId 건너옴
+  // console.log(houseImgList);
+  const onAddCriticalService = (id, price, serviceName) => { // sercieId 건너옴
     // 활성화된 서비스 삭제 눌렀을 경우
     // console.log(id);
-    setCriticalServices([...criticalServices, { serviceId: id, price: parseInt(price, 10) }]);
+    setCriticalServices([...criticalServices, { serviceId: id, price: parseInt(price, 10), serviceName }]);
   };
 
   const modify = (
@@ -239,10 +277,10 @@ function PetsitterInfoManage() {
             houseImgList && houseImgList.map((img, index) => (
               // eslint-disable-next-line react/no-array-index-key
               <div key={index}>
-                <img key={img} src={img} alt="집사진" style={{ width: '200px', height: '200px' }} />
+                <img key={img.houseImg} src={img.houseImg} alt="집사진" style={{ width: '200px', height: '200px' }} />
                 {/* <input type="button" value="x" /> */}
                 &ensp;
-                <CancelButton type="button" className="cancel" value="X" onClick={() => onRemoveHousImg(img)} />
+                <CancelButton type="button" className="cancel" value="X" onClick={() => onRemoveHousImg(img.houseImg)} />
                 { index === 0 ? <p>대표사진</p> : <p> </p>}
               </div>
             ))
@@ -250,7 +288,7 @@ function PetsitterInfoManage() {
           </div>
           {/* </div> */}
           <>
-            <input id="file" multiple style={{ visibility: 'hidden' }} type="file" accept="image/*" onChange={handleImageChange} />
+            <input id="file" multiple style={{ visibility: 'hidden' }} type="file" accept="image/*" onChange={handleImageUpload} />
             {/* <Button multiple onChange={handleImageChange}>집 사진 업로드</Button> */}
             <Label htmlFor="file">이미지 추가</Label>
           </>
@@ -304,7 +342,7 @@ function PetsitterInfoManage() {
           width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center',
         }}
         >
-          <InputButton type="button" value="수정" />
+          <InputButton type="submit" value="수정" />
           <InputButton type="button" value="취소" onClick={() => navigate('../petsitterShowInfo')} />
         </DivContainer>
       </form>
