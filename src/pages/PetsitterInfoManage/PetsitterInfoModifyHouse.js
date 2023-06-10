@@ -86,11 +86,11 @@ function PetsitterInfoModifyHouse({ houseImgList, setHouseImgList }) {
                 src={img.houseImg}
                 alt="집사진"
                 style={{
-                  width: '200px', height: '200px', border: index === 0 ? '5px solid #caa969' : 'none', borderRadius: '10px',
+                  width: '200px', height: '200px', border: index === 0 ? '5px solid rgba(202, 169, 105, .5)' : 'none', borderRadius: '10px', margin: '10px',
                 }}
               />
               {/* <input type="button" value="x" /> */}
-              <CancelButton type="button" className="cancel" value="X" onClick={() => onRemoveHousImg(img.houseImg)} />
+              <CancelButton style={{ marginLeft: '10px' }} type="button" className="cancel" value="X" onClick={() => onRemoveHousImg(img.houseImg)} />
               { index === 0 ? <p>대표사진</p> : <p> </p>}
             </div>
           ))
