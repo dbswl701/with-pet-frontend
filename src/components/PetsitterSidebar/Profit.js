@@ -27,10 +27,10 @@ import { ListContainer, Content } from '../../styles/sidebar/SidebarStyle';
 //   color: white;
 // `;
 
-function Profit() {
+function Profit({ monthProfit }) {
   return (
     <ListContainer className="admin">
-      <Content>총 매출: 100.000</Content>
+      <Content>총 매출: {monthProfit} 원</Content>
     </ListContainer>
   );
 }

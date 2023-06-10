@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 // import styled from 'styled-components';
 import social from '../../assets/social.png';
 import heart from '../../assets/heart.png';
@@ -16,12 +16,13 @@ function DoneListItem({ item, setPrintBody }) {
     </>
   );
 
+
   const onClick = () => {
     setPrintBody(['eval', item.reservationId]);
   };
   return (
     <>
-      <ItemContainer onMouseEnter={() => setShowDiv(true)} onMouseLeave={() => setShowDiv(false)}>
+      <ItemContainer>
         <div>
           <ProfileContainer>
             <ProfileImg src={item.dogImg} alt="img" />
@@ -53,9 +54,9 @@ function DoneListItem({ item, setPrintBody }) {
             </EvalContainer>
           </BarContainer>
         </div>
-        <div>
+        {/* <div>
           {showDiv && showButton}
-        </div>
+        </div> */}
       </ItemContainer>
     </>
   );

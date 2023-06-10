@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
+import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -115,11 +116,13 @@ export default function Orders() {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+              <Typography component="h2" variant="h6" color="primary" gutterBottom>서비스 리스트</Typography>
               <WithPetServices listName="service" list={list} data={data} onChange={onChange} onSubmit={onSubmit} onSubmitModify={onSubmitModify} onDelete={onDelete} />
             </Paper>
           </Grid>
           <Grid item xs={12}>
             <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+              <Typography component="h2" variant="h6" color="primary" gutterBottom>필수 서비스 리스트</Typography>
               <WithPetServices listName="criticalservice" list={criticalList} data={data} onChange={onChange} onSubmit={onSubmit} onSubmitModify={onSubmitModify} onDelete={onDelete} />
             </Paper>
           </Grid>
