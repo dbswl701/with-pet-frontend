@@ -19,18 +19,23 @@ const Container = styled.div`
 const Title = styled.div`
   font-size: 20px;
   font-weight: bold;
-  color: #CAA969;
+  color: #caa969;
   margin-top: 30px;
 `;
 
 const Wrapper1 = styled.div`
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px,
+    rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
   border-radius: 10px;
 `;
 
 function Reservation({
   // dogList, data, petsitterId,
-  dogList, data, petsitterId, setOpen, setPayInfo,
+  dogList,
+  data,
+  petsitterId,
+  setOpen,
+  setPayInfo,
 }) {
   const [info, setInfo] = useState({
     startDate: '',
@@ -43,7 +48,7 @@ function Reservation({
   // const [payInfo, setPayInfo] = useState([]);
   // const [unavailable, setUnavailable] = useState([]);
   // const [unavailable2, setUnavailable2] = useState([]);
-  const onChange = (e) => {
+  const onChange = e => {
     const { name, value } = e.target;
     setInfo({
       ...info,
@@ -51,7 +56,7 @@ function Reservation({
     });
   };
 
-  const onChangeOption = (list) => {
+  const onChangeOption = list => {
     setInfo({
       ...info,
       optionId: list,
@@ -69,7 +74,7 @@ function Reservation({
   //     });
   // }, []);
 
-  const onSubmit = (e) => {
+  const onSubmit = e => {
     // 예약 api
     // console.log(info);
     e.preventDefault();
@@ -81,8 +86,11 @@ function Reservation({
       petsitterId: Number(petsitterId),
     };
     // console.log(temp);
-    axios.post('https://withpet.site/api/v1/reservation', temp, { withCredentials: true })
-      .then((res) => {
+    axios
+      .post('https://withpet.site/api/v1/reservation', temp, {
+        withCredentials: true,
+      })
+      .then(res => {
         // console.log(res.data.result);
         // eslint-disable-next-line no-alert
         alert('예약이 완료되었습니다.');
@@ -107,13 +115,28 @@ function Reservation({
   return (
     <>
       <Container>
-        <Wrapper1> { /* 예약 정보 입력 */ }
+        <Wrapper1>
+          {' '}
+          {/* 예약 정보 입력 */}
           <Title>체크인 / 체크아웃 날짜</Title>
-          <CheckCalendar onChange={onChangeCalender} petsitterId={petsitterId} />
+          <CheckCalendar
+            onChange={onChangeCalender}
+            petsitterId={petsitterId}
+          />
           <form onSubmit={onSubmit}>
             <div>
               <Title>체크인 / 체크아웃 시간</Title>
-              <TextField sx={{ m: 1 }} select label="체크인 시간" variant="outlined" name="checkinTime" style={{ width: '138px', height: '40px' }} onChange={onChange} value={info.checkinTime} required>
+              <TextField
+                sx={{ m: 1 }}
+                select
+                label="체크인 시간"
+                variant="outlined"
+                name="checkinTime"
+                style={{ width: '138px', height: '40px' }}
+                onChange={onChange}
+                value={info.checkinTime}
+                required
+              >
                 <MenuItem value="00">오전 12:00</MenuItem>
                 <MenuItem value="01">오전 01:00</MenuItem>
                 <MenuItem value="02">오전 02:00</MenuItem>
@@ -140,7 +163,17 @@ function Reservation({
                 <MenuItem value="22">오후 10:00</MenuItem>
                 <MenuItem value="23">오후 11:00</MenuItem>
               </TextField>
-              <TextField sx={{ m: 1 }} select label="체크아웃 시간" variant="outlined" name="checkoutTime" style={{ width: '138px', height: '40px' }} onChange={onChange} value={info.checkoutTime} required>
+              <TextField
+                sx={{ m: 1 }}
+                select
+                label="체크아웃 시간"
+                variant="outlined"
+                name="checkoutTime"
+                style={{ width: '138px', height: '40px' }}
+                onChange={onChange}
+                value={info.checkoutTime}
+                required
+              >
                 <MenuItem value="00">오전 12:00</MenuItem>
                 <MenuItem value="01">오전 01:00</MenuItem>
                 <MenuItem value="02">오전 02:00</MenuItem>
@@ -168,20 +201,47 @@ function Reservation({
                 <MenuItem value="23">오후 11:00</MenuItem>
               </TextField>
               <Title>반려동물 선택</Title>
-              <TextField sx={{ m: 1 }} select label="반려견 선택" variant="outlined" name="dogId" style={{ width: '300px' }} onChange={onChange} value={info.dogId} required>
+              <TextField
+                sx={{ m: 1 }}
+                select
+                label="반려견 선택"
+                variant="outlined"
+                name="dogId"
+                style={{ width: '300px' }}
+                onChange={onChange}
+                value={info.dogId}
+                required
+              >
                 {/* <MenuItem value="23">오후 11:00</MenuItem> */}
-                { dogList.map((dog) => <MenuItem key={dog.dogId} value={dog.dogId} disabled={!dog.petReservationAvailable}>{dog.name}</MenuItem>)}
+                {dogList.map(dog => (
+                  <MenuItem
+                    key={dog.dogId}
+                    value={dog.dogId}
+                    disabled={!dog.petReservationAvailable}
+                  >
+                    {dog.name}
+                  </MenuItem>
+                ))}
               </TextField>
               <Title>옵션 선택</Title>
               {/* 여기 서비스 넘겨줌 */}
-              <Options services={data.petSitterServices} onChange={onChangeOption} />
+              <Options
+                services={data.petSitterServices}
+                onChange={onChangeOption}
+              />
               {/* <Pay /> */}
             </div>
             <input
               type="submit"
               value="예약 하기"
               style={{
-                width: '285px', height: '50px', margin: 'auto', borderRadius: '10px', backgroundColor: '#CAA969', color: 'white', marginBottom: '30px',
+                width: '285px',
+                height: '50px',
+                margin: 'auto',
+                borderRadius: '10px',
+                backgroundColor: '#CAA969',
+                color: 'white',
+                marginBottom: '30px',
               }}
               onClick={onPaing}
             />
@@ -189,25 +249,44 @@ function Reservation({
         </Wrapper1>
         <Wrapper1>
           <Title>이용 요금(데이케어)</Title>
-          <div style={{
-            display: 'flex', justifyContent: 'center', textAlign: 'center', flexDirection: 'column',
-          }}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              textAlign: 'center',
+              flexDirection: 'column',
+            }}
           >
-            { data.petSitterCriticalServices && data.petSitterCriticalServices.map((item) => (
-              <div
-                key={item.petSitterServiceId}
-                style={{
-                  display: 'flex', flexDirection: 'row', justifyContent: 'center', textAlign: 'center',
-                }}
-              >
-                <div>
-                  <img src={item.serviceImg} alt="서비스 이미지" style={{ width: '40px', height: '40px', marginRight: '10px' }} />
+            {data.petSitterCriticalServices &&
+              data.petSitterCriticalServices.map(item => (
+                <div
+                  key={item.petSitterServiceId}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    textAlign: 'center',
+                  }}
+                >
+                  <div>
+                    <img
+                      src={item.serviceImg}
+                      alt="서비스 이미지"
+                      style={{
+                        width: '40px',
+                        height: '40px',
+                        marginRight: '10px',
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <p>
+                      {item.serviceName} / {item.serviceIntroduction} /{' '}
+                      {item.price}원
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p>{item.serviceName} / {item.serviceIntroduction} / {item.price}원</p>
-                </div>
-              </div>
-            ))}
+              ))}
           </div>
         </Wrapper1>
         <AvailableCalendar petsitterId={petsitterId} />

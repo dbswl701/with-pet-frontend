@@ -7,35 +7,44 @@ import axios from 'axios';
 
 function ReservationPage({ petsitterId }) {
   const [unavailable, setUnavailable] = useState([]);
-  const [selectedMonth, setSelectedMonth] = useState(dayjs(new Date()).format('YYYY-MM'));
+  const [selectedMonth, setSelectedMonth] = useState(
+    dayjs(new Date()).format('YYYY-MM'),
+  );
 
-  const blockedDates = unavailable ? unavailable.map((date) => {
-    const [year, month, day] = date.split('-');
-    return new Date(year, month - 1, day);
-  }) : [];
+  const blockedDates = unavailable
+    ? unavailable.map(date => {
+        const [year, month, day] = date.split('-');
+        return new Date(year, month - 1, day);
+      })
+    : [];
 
   const isSameDay = (date1, date2) => {
     return (
-      date1.getFullYear() === date2.year()
-      && date1.getMonth() === date2.month()
-      && date1.getDate() === date2.date()
+      date1.getFullYear() === date2.year() &&
+      date1.getMonth() === date2.month() &&
+      date1.getDate() === date2.date()
     );
   };
 
-  const isReservationDateBlocked = (day) => {
+  const isReservationDateBlocked = day => {
     const today = new Date(); // 오늘 날짜
     return (
-      blockedDates.some((date) => isSameDay(date, day)) || day.isBefore(today, 'day') // 오늘 이전의 날짜
+      blockedDates.some(date => isSameDay(date, day)) ||
+      day.isBefore(today, 'day') // 오늘 이전의 날짜
     );
   };
 
-  const handleMonthChange = (item) => {
+  const handleMonthChange = item => {
     // console.log(dayjs(new Date(item)).format('YYYY-MM'));
     setSelectedMonth(dayjs(new Date(item)).format('YYYY-MM'));
   };
   useEffect(() => {
-    axios.get(`https://withpet.site/api/v1/reservation?month=${selectedMonth}&petsitterId=${petsitterId}`, { withCredentials: true })
-      .then((res) => {
+    axios
+      .get(
+        `https://withpet.site/api/v1/reservation?month=${selectedMonth}&petsitterId=${petsitterId}`,
+        { withCredentials: true },
+      )
+      .then(res => {
         // console.log(res.data.result);
         setUnavailable(res.data.result);
       });
@@ -46,7 +55,7 @@ function ReservationPage({ petsitterId }) {
       <div>
         <DayPickerRangeController
           numberOfMonths={1}
-          isDayBlocked={(day) => isReservationDateBlocked(day)}
+          isDayBlocked={day => isReservationDateBlocked(day)}
           onPrevMonthClick={handleMonthChange} // 이전 달로 이동할 때 이벤트 발생
           onNextMonthClick={handleMonthChange}
         />
