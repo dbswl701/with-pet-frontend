@@ -42,7 +42,7 @@ function UsageList() {
   useEffect(() => {
     axios.get('https://withpet.site/api/v1/reservation/user/show-reservations', { withCredentials: true })
       .then((res) => {
-        console.log(res.data.result);
+        // console.log(res.data.result);
         setWaitList(res.data.result.waitReservations);
         setPayedList(res.data.result.payedReservations);
         setApproveList(res.data.result.approveReservations);
