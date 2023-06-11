@@ -61,8 +61,6 @@ function PetsitterApply() {
       });
   };
 
-  console.log(info);
-
   return (
     <>
       <FormContainer onSubmit={onSubmit}>
