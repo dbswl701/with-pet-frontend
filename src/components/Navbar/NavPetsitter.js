@@ -46,6 +46,14 @@ function Nav({ userInfo, setUserInfo }) {
         style={{
           listStyle: 'none', display: 'flex', height: '40px', color: 'black', fontSize: '15px', alignItems: 'center',
         }}
+        onClick={() => navigate('/notification')}
+      >
+        알림 페이지
+      </div>
+      <div
+        style={{
+          listStyle: 'none', display: 'flex', height: '40px', color: 'black', fontSize: '15px', alignItems: 'center',
+        }}
         onClick={() => navigate('/chat')}
       >
         채팅
