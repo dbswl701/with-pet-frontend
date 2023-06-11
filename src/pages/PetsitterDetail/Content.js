@@ -15,7 +15,7 @@ const Container = styled.div`
 const ServiceItem = styled.div`
   // background-color: yellow;
   border: 1.5px solid gray;
-  width: 150px;
+  width: 180px;
   height: 45px;
   border-radius: 8px;
   margin-right: 10px;
@@ -24,6 +24,7 @@ const ServiceItem = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 10px;
 `;
 function Item({ service }) {
   return (
@@ -85,15 +86,26 @@ function Content({ data, petsitterUserId, reviews }) {
   return (
     <>
       <Container>
-        <div style={{ display: 'flex', flexDirection: 'row' }}> { /* 맨 위에 펫시터 정보 */ }
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}> { /* 맨 위에 펫시터 정보 */ }
           <div style={{ margin: 'auto 10px auto 0px' }}>
-            <img src={data && data.petSitterProfileImg} alt="펫시터 프로필 사진" style={{ width: '90px', height: '90px' }} />
+            <img src={data && data.petSitterProfileImg} alt="펫시터 프로필 사진" style={{ width: '90px', height: '90px', borderRadius: '50%' }} />
           </div>
           <div>
-            <p>{data.petSitterAddress && data.petSitterAddress}</p>
-            <h2 style={{ marginBottom: '10px' }}>{data && data.petSitterName}</h2>
-            {data.petSitterHashTags && data.petSitterHashTags.map((tag) => <span key={tag.petSitterHashTagId}>#{tag.hashTagName}  </span>)}
-            <button onClick={moveChatPage}>문의하기</button>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <h2 style={{ marginRight: '10px' }}>{data && data.petSitterName}</h2>
+              <p>{data.petSitterAddress && data.petSitterAddress}</p>
+            </div>
+
+            {data.petSitterHashTags && data.petSitterHashTags.map((tag) => <span key={tag.petSitterHashTagId} style={{ color: '#CAA969' }}>#{tag.hashTagName}  </span>)}
+          </div>
+          <div>
+            <button
+              onClick={moveChatPage}
+              style={{
+                marginLeft: '30px', width: '110px', height: '45px', backgroundColor: 'white', color: '#CAA969', border: '1px solid #CAA969', borderRadius: '10px', cursor: 'pointer',
+              }}
+            >문의하기
+            </button>
           </div>
         </div>
 
@@ -109,7 +121,7 @@ function Content({ data, petsitterUserId, reviews }) {
 
         <div> { /* 이용 가능 서비스 */ }
           <h3 style={{ marginTop: '60px' }}>이용 가능 서비스</h3>
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
+          <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
             {data.petSitterServices && data.petSitterServices.map((service) => <Item key={service.petSitterServiceId} service={service} />)}
           </div>
         </div>
