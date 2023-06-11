@@ -239,6 +239,7 @@ function EditProfile() {
         alert('회원정보 수정이 완료되었습니다.');
         navigate('../');
         // localstorage update
+        window.location.reload(); // 페이지 새로고침
         localStorage.setItem('userInfo', JSON.stringify(res.data.result));
       })
       .catch(() => {});
