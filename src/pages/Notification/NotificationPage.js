@@ -10,7 +10,7 @@ function Item({ noti }) {
     <div
       // onMouseEnter={() => setToggle(true)}
       // onMouseLeave={() => setToggle(false)}
-      onClick={() => navigate(noti.url)}
+      onClick={() => navigate(`..${noti.url}`)}
       style={{
         cursor: 'pointer', justifyContent: 'space-evenly', marginBottom: '8px', alignItems: 'center', display: 'flex', flexDirection: 'row', width: '600px', height: '45px', backgroundColor: !noti.isRead ? '#FAF6F0' : 'white', border: '1.5px solid #CAA969', borderRadius: '10px',
       }}
