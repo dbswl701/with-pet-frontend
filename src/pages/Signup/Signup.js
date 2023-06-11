@@ -349,6 +349,7 @@ function SignupForm() {
                 type="text"
                 id="phone"
                 value={phone}
+                maxLength={13}
                 onChange={(e) => setPhone(String(e.target.value).replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'))}
                 placeholder="010-1234-5678"
               />
