@@ -63,7 +63,7 @@ function Item({
     >
       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
         {/* <img style={{ width: '70px', height: '70px' }} src={item.dog_img} alt="반려견 사진" /> */}
-        <img style={{ width: '50px', height: '50px', borderRadius: '50%' }} src="https://withpetoriginimage.s3.ap-northeast-1.amazonaws.com/02f71a84-7269-4319-8840-7a8a3fe9ea25.jpg" alt="반려견 사진" />
+        <img style={{ width: '50px', height: '50px', borderRadius: '50%' }} src={item.dogImg} alt="반려견 사진" />
         <p>{item.petSitterName}</p>
       </div>
       <div>
@@ -122,10 +122,10 @@ function Item({
 
   const paying = (
     <div>
-      <p>결제 다시 진행하기</p>
       <button style={{ backgroundColor: 'transparent', border: 'none' }}>
         <img src={paymentIconYellowMedium} alt="대체 텍스트" onClick={() => onPaying(item.reservationId)} />
       </button>
+      <p>결제 다시 진행하기</p>
     </div>
   );
 
@@ -172,11 +172,12 @@ function Item({
         onClick={() => setToggle('simple')}
       />
       <div style={{
-        display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: '10px', marginBottom: '80px',
+        display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px', marginBottom: '50px',
       }}
       >
         {/* <img style={{ width: '70px', height: '70px' }} src={item.dog_img} alt="반려견 사진" /> */}
-        <img style={{ width: '70px', height: '70px', borderRadius: '50%' }} src="https://withpetoriginimage.s3.ap-northeast-1.amazonaws.com/02f71a84-7269-4319-8840-7a8a3fe9ea25.jpg" alt="반려견 사진" />
+        <img style={{ width: '70px', height: '70px', borderRadius: '50%' }} src={item.dogImg} alt="반려견 사진" />
+        <p><b>{item.dogName}</b></p>
       </div>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{
