@@ -22,9 +22,7 @@ function UsageList() {
     axios.post('https://withpet.site/api/v1/reservation/user/cancel-reservation', { reservationId }, { withCredentials: true })
       .then(() => {
         // 목록에서도 삭제
-        setWaitList(
-          waitList.filter((item) => item.reservationId !== reservationId),
-        );
+        setWaitList(waitList.filter((item) => (item.reservationId !== reservationId)));
       });
   };
 
@@ -55,10 +53,7 @@ function UsageList() {
       grade: reviewContent.rate,
       reservationId,
     };
-    axios
-      .post('https://withpet.site/api/v1/review/create-review', temp, {
-        withCredentials: true,
-      })
+    axios.post('https://withpet.site/api/v1/review/create-review', temp, { withCredentials: true })
       .then(() => {
         // eslint-disable-next-line no-alert
         alert('리뷰 작성이 완료되었습니다.');
@@ -152,14 +147,9 @@ function UsageList() {
   };
 
   return (
-    <div
-      style={{
-        width: '600px',
-        margin: '30px auto 0px auto',
-        display: 'flex',
-        justifyContent: 'center',
-        flexDirection: 'column',
-      }}
+    <div style={{
+      width: '600px', margin: '30px auto 0px auto', display: 'flex', justifyContent: 'center', flexDirection: 'column',
+    }}
     >
       <div style={{ margin: '0px auto' }}>
         <p style={{ fontSize: '30px', fontWeight: 'bold' }}>이용 내역</p>

@@ -63,13 +63,13 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={
+          element={(
             <Navbar
               state={state}
               userInfo={userInfo}
               setUserInfo={setUserInfo}
             />
-          }
+          )}
         >
           <Route index element={<MainPage />} />
           <Route
