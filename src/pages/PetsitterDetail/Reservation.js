@@ -117,7 +117,8 @@ function Reservation({
           });
           setReset((prev) => !prev);
           // eslint-disable-next-line no-alert
-          alert('해당 반려견은 이미 해당 일자에 다른 예약이 있습니다.');
+          alert(err.response.data.message);
+          // alert('해당 반려견은 이미 해당 일자에 다른 예약이 있습니다.');
         }
       });
   };

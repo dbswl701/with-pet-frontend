@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import WaitList from './WaitList';
 
@@ -8,18 +9,43 @@ function UsageList() {
   const [approveList, setApproveList] = useState([]);
   const [useList, setUseList] = useState([]);
   const [doneList, setDoneList] = useState([]);
+  const [popup, setPopup] = useState('false');
+  const [kakaoPay, setKakaoPay] = useState({ tid: '', pg_token: '' });
+  const searchParams = useSearchParams()[0];
+  const pgToken = searchParams.get('pg_token'); // 2
+  const [ready, setReady] = useState(false);
+  // const [isSuccess, setIsSuccess] = useState(false);
+  const [initPgToken] = useState(localStorage.getItem('pg_token'));
+  const [saveReservationId, setSaveReservationId] = useState('');
 
   const handleCancel = (reservationId) => {
-    axios
-      .post(
-        `https://withpet.site/api/v1/reservation/user/cancel-reservation?reservationId=${reservationId}`,
-        { withCredentials: true },
-      )
+    axios.post('https://withpet.site/api/v1/reservation/user/cancel-reservation', { reservationId }, { withCredentials: true })
       .then(() => {
         // 목록에서도 삭제
         setWaitList(
           waitList.filter((item) => item.reservationId !== reservationId),
         );
+      });
+  };
+
+  const handleWaitRefund = (reservationId) => {
+    axios.post('https://withpet.site/payment/refund', { reservationId }, { withCredentials: true })
+      .then(() => {
+        // eslint-disable-next-line no-alert
+        alert('예약이 취소되었습니다.');
+        // console.log(payedList);
+        // console.log(reservationId);
+        setPayedList(payedList.filter((item) => (item.reservationId !== reservationId)));
+      });
+  };
+  // console.log(payedList);
+
+  const handleApproveRefund = (reservationId) => {
+    axios.post('https://withpet.site/payment/refund', { reservationId }, { withCredentials: true })
+      .then(() => {
+        // eslint-disable-next-line no-alert
+        alert('예약이 취소되었습니다.');
+        setApproveList(approveList.filter((item) => (item.reservationId !== reservationId)));
       });
   };
 
@@ -40,27 +66,24 @@ function UsageList() {
   };
 
   const handleDone = (reservationId) => {
-    axios
-      .post(
-        `https://withpet.site/api/v1/reservation/user/done-reservation?reservationId=${reservationId}`,
-        { withCredentials: true },
-      )
-      .then((res) => {
+    axios.post('https://withpet.site/api/v1/reservation/user/done-reservation', { reservationId }, { withCredentials: true })
+      .then(() => {
         // 목록에서도 삭제
-        setUseList(
-          useList.filter((item) => item.reservationId !== reservationId),
-        );
-        setDoneList(doneList.concat(res.data.result));
+        setUseList(useList.filter((item) => (item.reservationId !== reservationId)));
+        const select = useList.filter((item) => (item.reservationId === reservationId));
+        setDoneList(doneList.concat(select));
       });
   };
 
   useEffect(() => {
-    axios
-      .get('https://withpet.site/api/v1/reservation/user/show-reservations', {
-        withCredentials: true,
-      })
+    if (pgToken !== null) {
+      setPopup('complete');
+      localStorage.setItem('pg_token', searchParams.get('pg_token'));
+      window.close();
+    }
+    axios.get('https://withpet.site/api/v1/reservation/user/show-reservations', { withCredentials: true })
       .then((res) => {
-        console.log(res.data.result);
+        // console.log(res.data.result);
         setWaitList(res.data.result.waitReservations);
         setPayedList(res.data.result.payedReservations);
         setApproveList(res.data.result.approveReservations);
@@ -68,6 +91,65 @@ function UsageList() {
         setDoneList(res.data.result.doneReservations);
       });
   }, []);
+
+  useEffect(() => {
+    if (popup === 'false') {
+      return;
+    }
+    let timer = null; // 타이머 변수를 선언하고 null로 초기화합니다.
+
+    timer = setInterval(() => {
+      const pgToken2 = localStorage.getItem('pg_token');
+
+      if (pgToken2 !== initPgToken) {
+        // console.log('timer complete2');
+        timer = clearInterval(timer);
+        setKakaoPay({ ...kakaoPay, pg_token: pgToken2 });
+        setReady(true);
+      }
+    }, 500);
+  }, [popup]);
+
+  useEffect(() => {
+    if (!ready) {
+      return;
+    }
+
+    axios.get(`https://withpet.site/payment/success?pg_token=${kakaoPay.pg_token}&tid=${kakaoPay.tid}`, { withCredentials: true })
+      .then(() => {
+        // setIsSuccess(true);
+        // eslint-disable-next-line no-alert
+        alert('예약이 완료되었습니다.');
+        // 결제 대기에서 예약 대기로 이동
+        setWaitList(waitList.filter((item) => (item.reservationId !== saveReservationId)));
+        const select = waitList.filter((item) => (item.reservationId === saveReservationId));
+        setPayedList(payedList.concat(select));
+      })
+      .catch(() => {
+        // eslint-disable-next-line no-alert
+        alert('카카오페이 결제에 실패했습니다.');
+      });
+  }, [ready, kakaoPay]);
+
+  const width = 600;
+  const height = 800;
+  const left = window.screenX + (window.outerWidth - width) / 2;
+  const top = window.screenY + (window.outerHeight - height) / 2;
+
+  const onPaying = (reservationId) => {
+    // 카카오페이 api
+    axios.post('https://withpet.site/payment/ready', { reservationId }, { withCredentials: true })
+      .then((res) => {
+        setPopup(window.open(
+          res.data.result.next_redirect_pc_url,
+          '카카오페이 결제',
+          `width=${width},height=${height},left=${left},top=${top}`,
+        ));
+        // console.log(res.data.result.tid);
+        setKakaoPay({ ...kakaoPay, tid: res.data.result.tid });
+        setSaveReservationId(reservationId);
+      });
+  };
 
   return (
     <div
@@ -79,22 +161,14 @@ function UsageList() {
         flexDirection: 'column',
       }}
     >
-      <div>반려인 이용내역 페이지</div>
-      <WaitList list={waitList} handleCancel={handleCancel} stepValue="1" />
-      <WaitList list={payedList} handleCancel={handleCancel} stepValue="2" />
-      <WaitList list={approveList} handleCancel={handleCancel} stepValue="3" />
-      <WaitList
-        list={useList}
-        handleCancel={handleCancel}
-        stepValue="4"
-        handleDone={handleDone}
-      />
-      <WaitList
-        list={doneList}
-        handleCancel={handleCancel}
-        stepValue="5"
-        handleReview={handleReview}
-      />
+      <div style={{ margin: '0px auto' }}>
+        <p style={{ fontSize: '30px', fontWeight: 'bold' }}>이용 내역</p>
+      </div>
+      <WaitList list={waitList} handleCancel={handleCancel} stepValue="1" onPaying={onPaying} />
+      <WaitList list={payedList} handleCancel={handleWaitRefund} stepValue="2" />
+      <WaitList list={approveList} handleCancel={handleApproveRefund} stepValue="3" />
+      <WaitList list={useList} handleCancel={handleCancel} stepValue="4" handleDone={handleDone} />
+      <WaitList list={doneList} handleCancel={handleCancel} stepValue="5" handleReview={handleReview} />
     </div>
   );
 }

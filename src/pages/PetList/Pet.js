@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import './Pets.css';
 // import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
 import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
 import PetModify from './PetModify';
 import PetDetail from './PetDetail';
 
-function Pet({ pet, onSubmitModify, partyId }) {
+function Pet({
+  pet, onSubmitModify, partyId, setGroupList, isLeader,
+}) {
+  const [removeDog, setRemoveDog] = useState(false);
   const [toggle, setToggle] = useState('simple');
   const simple = (
     <div style={{ alignItems: 'center', display: 'flex' }}>
@@ -25,11 +29,24 @@ function Pet({ pet, onSubmitModify, partyId }) {
     setToggle(state);
   };
 
+  const handleRemoveDog = (dogId) => {
+    axios.delete(`https://withpet.site/api/v1/dogs/${dogId}`, { withCredentials: true })
+      .then((res) => {
+        // 개 삭제하고 groupList에서 삭제
+        setRemoveDog(true);
+
+        // 만약 그룹의 마지막 개라면, 그룹 삭제
+        if (res.data.result) {
+          setGroupList((prev) => prev.filter((group) => group.partyId !== partyId));
+        }
+      });
+  };
+
   let print = simple;
 
   switch (toggle) {
     case 'detail':
-      print = <PetDetail pet={pet} onToggle={onToggle} />;
+      print = <PetDetail pet={pet} onToggle={onToggle} handleRemoveDog={handleRemoveDog} isLeader={isLeader} />;
       break;
     case 'modify':
       print = (
@@ -49,7 +66,7 @@ function Pet({ pet, onSubmitModify, partyId }) {
       break;
   }
   return (
-    <div className={`${toggle === 'simple' ? 'pet-block' : 'pet-detail'}`}>
+    <div className={`${toggle === 'simple' ? 'pet-block' : 'pet-detail'}`} style={{ display: removeDog ? 'none' : 'flex' }}>
       {print}
     </div>
   );

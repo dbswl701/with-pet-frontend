@@ -183,10 +183,14 @@ export const Dealt = styled.div`
     background-color: #FF3B3B;
     border: 1px solid #FF3B3B;
   }
-    .social {
-        background-color: #caa969;
-        border: 1px solid #caa969;
-    }
+  .social {
+      background-color: #caa969;
+      border: 1px solid #caa969;
+  }
+  .socialUser {
+    background-color: #64C8F3;
+    border: 1px solid #64C8F3;
+  }
 `;
 
 export const Content = styled.div`

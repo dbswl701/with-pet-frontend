@@ -32,7 +32,7 @@ export default function Orders() {
       });
   }, []);
 
-  const handleImageUpload = async (e) => {
+  const handleImageUpload = async (e, listName) => {
     const img = e.target.files[0];
     const formData = new FormData();
     formData.append('file', img);
@@ -43,13 +43,20 @@ export default function Orders() {
     };
     axios.post('https://withpet.site/api/v1/file/upload', formData, config)
       .then((res) => {
-        setData({
-          ...data,
-          serviceImg: res.data.result[0],
-        });
+        if (listName === 'service') {
+          setData({
+            ...data,
+            serviceImg: res.data.result[0],
+          });
+        } else {
+          setCriticalData({
+            ...cridicalData,
+            serviceImg: res.data.result[0],
+          });
+        }
       });
   };
-
+  // console.log(cridicalData);
   const onChange = (e) => {
     if (e.target.files) {
       handleImageUpload(e);
@@ -68,7 +75,7 @@ export default function Orders() {
     } else {
       const { name, value } = e.target;
       setCriticalData({
-        ...data,
+        ...cridicalData,
         [name]: value,
       });
     }
@@ -76,7 +83,7 @@ export default function Orders() {
 
   const onSubmit = (e, listName) => { // 하나 등록 시
     e.preventDefault();
-    const temp = listName === 'service' ? data : setCriticalData;
+    const temp = listName === 'service' ? data : cridicalData;
     nextId.current += 1;
     axios.post(`https://withpet.site/api/v1/admin/add-${listName}`, temp, { withCredentials: true })
       .then((res) => {
@@ -89,6 +96,11 @@ export default function Orders() {
       .catch(() => {
       });
     setData({
+      serviceName: '',
+      serviceImg: '',
+      serviceIntro: '',
+    });
+    setCriticalData({
       serviceName: '',
       serviceImg: '',
       serviceIntro: '',

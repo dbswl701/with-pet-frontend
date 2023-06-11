@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 import React from 'react';
 import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
 import Grid from '@mui/material/Grid';
@@ -35,8 +36,12 @@ const Button = styled.button`
   color: white;
 `;
 
-function PetDetail({ pet, onToggle }) {
+function PetDetail({
+  pet, onToggle, handleRemoveDog, isLeader,
+}) {
   // const [isModify, setIsModify] = useState(false);
+  // console.log(pet);
+  // const [removeDog, setRemoveDog] = useState(false);
   const navigate = useNavigate();
   const petSpec = [
     { name: '견종', value: pet.dog_breed },
@@ -49,6 +54,14 @@ function PetDetail({ pet, onToggle }) {
   const onClickSocilization = () => {
     navigate(`./userEvaluation/${pet.dog_id}`);
   };
+
+  // const handleRemoveDog = (dogId) => {
+  //   axios.delete(`https://withpet.site/api/v1/dogs/${dogId}`, { withCredentials: true })
+  //     .then(() => {
+  //       // 개 삭제하고 groupList에서 삭제
+  //       setRemoveDog(true);
+  //     });
+  // };
   // console.log(pet);
   const detail = (
     <>
@@ -75,6 +88,24 @@ function PetDetail({ pet, onToggle }) {
                 <p style={{ fontSize: '11px', margin: '0px', color: '#CAA969' }}>{pet.socializationDegree}%</p>
               </div>
               <Button onClick={onClickSocilization}>반려견 사회성 등록</Button>
+            </div>
+            <div>
+              <button
+                onClick={() => handleRemoveDog(pet.dog_id)}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = 'red';
+                  e.target.style.color = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = 'white';
+                  e.target.style.color = 'black';
+                }}
+                style={{
+                  display: isLeader ? 'inline-block' : 'none', backgroundColor: 'white', border: 'none', color: 'black', marginTop: '20px', width: '120px', height: '30px',
+                }}
+              >
+                반려견 삭제하기
+              </button>
             </div>
           </div>
           <div className="pet-info">

@@ -4,7 +4,7 @@ import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
 import UserDiaryModify from './UserDiaryModify';
 import UserDiaryDetail from './UserDiaryDetail';
 
-function UserDiary({ diary, onSubmitModify }) {
+function UserDiary({ diary, onSubmitModify, handleRemove }) {
   const [toggle, setToggle] = useState('simple');
   const simple = (
     <>
@@ -33,7 +33,7 @@ function UserDiary({ diary, onSubmitModify }) {
 
   switch (toggle) {
     case 'detail':
-      print = <UserDiaryDetail diary={diary} onToggle={onToggle} />;
+      print = <UserDiaryDetail diary={diary} onToggle={onToggle} handleRemove={handleRemove} />;
       break;
     case 'modify':
       print = (

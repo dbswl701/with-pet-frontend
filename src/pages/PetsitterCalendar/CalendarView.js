@@ -79,7 +79,7 @@ function CalendarView({ setSelectedMonth, eventsData }) {
     // axios.get('https://withpet.site/api/v1/userdiaries/day?categoryId=&day=2023-05-20&dogId=', { withCredentials: true })
       .then((res) => {
         setDogInfo(res.data.result);
-        console.log(res.data.result);
+        // console.log(res.data.result);
       })
       .catch(() => {
         // console.error(err);

@@ -5,12 +5,11 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
-// import Grid from '@mui/material/Grid';
-// import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
+import paymentIconYellowMedium from '../../assets/paymentIconYellowMedium.png';
 
 function Item({
-  item, handleCancel, stepValue, handleDone, handleReview,
+  item, handleCancel, stepValue, handleDone, handleReview, onPaying,
 }) {
   const [toggle, setToggle] = useState('simple');
   const [reviewToggle, setReviewToggle] = useState(false);
@@ -50,6 +49,7 @@ function Item({
         style={{
           backgroundColor: '#E3D5C2', border: 'none', width: '60px', height: '20px',
         }}
+        disabled={reviewContent.content !== ''}
       >
         <p style={{ fontSize: '6px', margin: '0px', cursor: 'pointer' }}>후기작성</p>
       </button>
@@ -63,7 +63,7 @@ function Item({
     >
       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
         {/* <img style={{ width: '70px', height: '70px' }} src={item.dog_img} alt="반려견 사진" /> */}
-        <img style={{ width: '50px', height: '50px', borderRadius: '50%' }} src="https://withpetoriginimage.s3.ap-northeast-1.amazonaws.com/02f71a84-7269-4319-8840-7a8a3fe9ea25.jpg" alt="반려견 사진" />
+        <img style={{ width: '50px', height: '50px', borderRadius: '50%' }} src={item.dogImg} alt="반려견 사진" />
         <p>{item.petSitterName}</p>
       </div>
       <div>
@@ -111,6 +111,24 @@ function Item({
     },
   ];
 
+  const handleLocalReview = () => {
+    handleReview(item.reservationId, reviewContent);
+    setReviewToggle(false);
+    // setReviewContent({
+    //   rate: 0,
+    //   content: '',
+    // });
+  };
+
+  const paying = (
+    <div>
+      <button style={{ backgroundColor: 'transparent', border: 'none' }}>
+        <img src={paymentIconYellowMedium} alt="대체 텍스트" onClick={() => onPaying(item.reservationId)} />
+      </button>
+      <p>결제 다시 진행하기</p>
+    </div>
+  );
+
   const reviewBody = (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
 
@@ -119,15 +137,31 @@ function Item({
         onChange={(event, newValue) => {
           setReviewContent({ ...reviewContent, rate: newValue });
         }}
+        precision={0.5}
+        style={{ marginLeft: '10px', marginTop: '20px' }}
       />
-      <textarea value={reviewContent.content} onChange={(e) => setReviewContent({ ...reviewContent, content: e.target.value })} />
-      <button onClick={() => handleReview(item.reservationId, reviewContent)}>제출</button>
+      <textarea
+        style={{
+          width: '400px', border: '1.5px solid #CAA969', resize: 'none', margin: '10px', outline: 'none', borderRadius: '5px',
+        }}
+        rows="3"
+        value={reviewContent.content}
+        onChange={(e) => setReviewContent({ ...reviewContent, content: e.target.value })}
+      />
+      {/* <textarea value={reviewContent.content} onChange={(e) => setReviewContent({ ...reviewContent, content: e.target.value })} /> */}
+      <button
+        style={{
+          backgroundColor: '#E3D5C2', width: '200px', border: 'none', margin: 'auto', marginBottom: '20px', marginTop: '20px', cursor: 'pointer',
+        }}
+        onClick={handleLocalReview}
+      >제출
+      </button>
     </div>
   );
-  console.log(reviewContent);
+  // console.log(reviewContent);
   const detail = (
     <div style={{
-      position: 'relative', backgroundColor: '#FFFAF0', alignItems: 'center', justifyContent: 'center', margin: 'auto', marginBottom: '30px', width: '500px', display: 'flex', flexDirection: 'column', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px',
+      position: 'relative', backgroundColor: '#FFFAF0', alignItems: 'center', justifyContent: 'center', margin: 'auto', paddingBottom: '30px', marginBottom: '30px', width: '500px', display: 'flex', flexDirection: 'column', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px',
     }}
     >
       <ChevronLeftOutlinedIcon
@@ -138,11 +172,12 @@ function Item({
         onClick={() => setToggle('simple')}
       />
       <div style={{
-        display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: '10px', marginBottom: '80px',
+        display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px', marginBottom: '50px',
       }}
       >
         {/* <img style={{ width: '70px', height: '70px' }} src={item.dog_img} alt="반려견 사진" /> */}
-        <img style={{ width: '70px', height: '70px', borderRadius: '50%' }} src="https://withpetoriginimage.s3.ap-northeast-1.amazonaws.com/02f71a84-7269-4319-8840-7a8a3fe9ea25.jpg" alt="반려견 사진" />
+        <img style={{ width: '70px', height: '70px', borderRadius: '50%' }} src={item.dogImg} alt="반려견 사진" />
+        <p><b>{item.dogName}</b></p>
       </div>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{
@@ -182,6 +217,7 @@ function Item({
           })}
         </div>
       </div>
+      { stepValue === '1' && paying }
       { reviewToggle && reviewBody}
 
     </div>
@@ -201,9 +237,9 @@ function Item({
 }
 
 function WaitList({
-  list, handleCancel, stepValue, handleDone, handleReview,
+  list, handleCancel, stepValue, handleDone, handleReview, onPaying,
 }) {
-  console.log(stepValue);
+  // console.log(stepValue);
   const steps = [
     '결제 대기',
     '예약 대기',
@@ -212,12 +248,20 @@ function WaitList({
     '이용 완료',
   ];
 
+  const stepInfo = [
+    '결제가 되어야 펫시터가 수락할 수 있습니다.',
+    '결제가 완료되었고 펫시터의 수락을 기다리고 있습니다.',
+    '예약이 확정되었습니다.',
+    '펫시터가 돌봄을 하고 있습니다.',
+    '후기를 작성해주세요',
+  ];
+
   return (
     <div style={{
       display: 'flex', alignItems: 'center', flexDirection: 'column',
     }}
     >
-      <div style={{ width: '400px' }}>
+      <div style={{ width: '400px', marginTop: '30px' }}>
         <Box sx={{ width: '100%' }}>
           <Stepper activeStep={stepValue} alternativeLabel>
             {steps.map((label) => (
@@ -228,10 +272,18 @@ function WaitList({
           </Stepper>
         </Box>
       </div>
-
+      <p style={{ fontSize: '11px', color: 'gray' }}>{stepInfo[stepValue - 1]}</p>
       { list && list.map((item) => {
-        return <Item key={item.reservationId} item={item} handleCancel={handleCancel} stepValue={stepValue} handleDone={handleDone} handleReview={handleReview} />;
+        return <Item key={item.reservationId} item={item} handleCancel={handleCancel} stepValue={stepValue} handleDone={handleDone} handleReview={handleReview} onPaying={onPaying} />;
       })}
+      { list.length === 0 && (
+        <div style={{
+          backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', margin: 'auto', marginBottom: '30px', width: '500px', height: '80px', display: 'flex', flexDirection: 'row', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px',
+        }}
+        >
+          <p style={{ color: 'gray' }}>비어있습니다</p>
+        </div>
+      )}
     </div>
   );
 }

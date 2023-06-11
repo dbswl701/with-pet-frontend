@@ -27,6 +27,7 @@ import PetsitterInfoModify from './pages/PetsitterInfoManage/PetsitterInfoModify
 import Chat from './pages/Chat/Chat';
 import Notification from './pages/Notification/Notification';
 import NotificationPage from './pages/Notification/NotificationPage';
+import ApplicantDetail from './pages/AdminMainPage/ApplicantDetail';
 
 function App() {
   const [state, setState] = useState('false');
@@ -110,6 +111,7 @@ function App() {
 
           {/* 관리자 페이지 */}
           <Route path="/adminmainpage" element={<AdminMainPage />} />
+          <Route path="/adminmainpage/detail/:id" element={<ApplicantDetail />} />
           <Route path="/servicemanage" element={<AdminServicManage />} />
           <Route path="/adminapplyInfo" element={<AdminApplyInfo />} />
 
