@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 const Bubble = styled.div`
   background-color: #CAA969;
-  // width: 200px;
   min-width: 200px;
   height: 40px;
   margin: 5px;
@@ -23,8 +22,6 @@ const Sender = styled(Bubble)`
   float: right:
 `;
 function ChatBubble({ msg }) {
-  // console.log(msg);
-  // const time = msg.time.split('T')[1];
   const time = dayjs(msg.time).format('HH:mm');
 
   let print = '';

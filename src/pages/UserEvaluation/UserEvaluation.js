@@ -62,15 +62,11 @@ function UserEvaluation() {
       [name]: value,
     });
   };
-  // console.log(answer);
-  // console.log(id);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // 데이터 전송 및 페이지 이동
     axios.put(`https://withpet.site/api/v1/dogs/temperature/${id}`, answer, { withCredentials: true })
       .then(() => {
-        // console.log(res.data.result);
         navigate('../petlist');
       });
   };

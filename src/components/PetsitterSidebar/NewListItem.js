@@ -1,57 +1,20 @@
 import React from 'react';
 import axios from 'axios';
-// import styled from 'styled-components';
 import social from '../../assets/social.png';
 import heart from '../../assets/heart.png';
 import {
   ItemContainer, Dealt, Progress, ProfileImg, BarContainer, IconImg, InfoContainer, ProfileContainer, EvalContainer, Button,
 } from '../../styles/sidebar/SidebarStyle';
 
-// const Progress = styled.div`
-//   width: 148px;
-//   height: 10px;
-//   background-color: red;
-//   border-radius: 5px;
-//   margin: auto 10px;
-// `;
-
-// const Dealt = styled.div`
-//   background-color: yellow;
-//   width: ${(props) => `${props.dealt}%`};
-//   height: 100%;
-//   border-radius: 5px;
-// `;
-
-// const Container = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   margin-bottom: 10px;
-//   border-radius:10px;
-//   margin: 20px 0px;
-// `;
-
 function CurrentListItem({ item, handleRemoveNew, handleApprove }) {
-  // console.log(item);
-  // const [showDiv, setShowDiv] = useState(false);
-
   const onAccept = (e) => {
     const reservationStatus = {
       reservationId: item.reservationId,
       status: e.target.value,
     };
-    // console.log(reservationStatus);
     axios.put('https://withpet.site/api/v1/reservation/reservation-accept', reservationStatus, { withCredentials: true })
       .then((res) => {
-        // console.log(res);
-        // 이제 어쨌든 newlist에서 삭제하고, 승인이면 이용자 목록으로 올림!
-        // 일단 삭제
-        // console.log(res.data.result);
-        // console.log(item);
-        // setNewReservations(item.filter((temp) => (temp.reservationId !== res.data.result.reservationId)));
         handleRemoveNew(res.data.result.reservationId);
-
-        // 그리고 만약 승인이면 이용자목록에 붙여버린다.
-        // 붙이는거 걍 함수로 전달
         if (e.target.value === 'APPROVAL') {
           handleApprove(res.data.result.reservationId, res.data.result);
         }
@@ -63,31 +26,14 @@ function CurrentListItem({ item, handleRemoveNew, handleApprove }) {
       reservationId: item.reservationId,
       status: e.target.value,
     };
-    // console.log(reservationStatus);
     axios.post('https://withpet.site/api/v1/reservation/reservation-refuse', reservationStatus, { withCredentials: true })
       .then((res) => {
-        // console.log(res);
-        // 이제 어쨌든 newlist에서 삭제하고, 승인이면 이용자 목록으로 올림!
-        // 일단 삭제
-        // console.log(res.data.result);
-        // console.log(item);
-        // setNewReservations(item.filter((temp) => (temp.reservationId !== res.data.result.reservationId)));
         handleRemoveNew(item.reservationId);
-
-        // 그리고 만약 승인이면 이용자목록에 붙여버린다.
-        // 붙이는거 걍 함수로 전달
         if (e.target.value === 'APPROVAL') {
           handleApprove(item.reservationId, res.data.result);
         }
       });
   };
-
-  // const showButton = (
-  //   <>
-  //     <SideButton>일지</SideButton>
-  //     <SideButton>상세</SideButton>
-  //   </>
-  // );
   return (
     <>
       <ItemContainer>
@@ -127,9 +73,6 @@ function CurrentListItem({ item, handleRemoveNew, handleApprove }) {
                 </EvalContainer>
               </BarContainer>
             </div>
-            {/* <div>
-              {showDiv && showButton}
-            </div> */}
           </div>
           <EvalContainer style={{ flexDirection: 'column' }}>
             <Button onClick={onAccept} value="APPROVAL">승인</Button>

@@ -57,7 +57,6 @@ export default function Orders() {
         }
       });
   };
-  // console.log(cridicalData);
   const onChange = (e) => {
     if (e.target.files) {
       handleImageUpload(e, 'service');

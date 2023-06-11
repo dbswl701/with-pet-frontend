@@ -6,14 +6,11 @@ import {
 } from './InfoStyle';
 
 function Item({ service }) {
-  // console.log(service);
-  // console.log(service.price);
   return (
     <div style={{
       backgroundColor: `${service.isIncluded === true ? '#FAF6F0' : '#F2F2F2'}`, color: `${service.isIncluded === true ? '#CAA969' : 'gray'}`, width: '130px', height: '150px', marginRight: '5px', borderRadius: '20px', padding: '10px', fontSize: '12px',
     }}
     >
-      {/* 사진, 이름, 내용 */}
       <div style={{ textAlign: 'center' }}>
         <img src={service.serviceImg} alt="서비스 이미지" style={{ width: '30px', height: '30px', marginTop: '5px' }} />
       </div>
@@ -34,7 +31,6 @@ function PetsitterShowInfo() {
     axios.get('https://withpet.site/api/v1/petsitter/show-myinfo', { withCredentials: true })
       .then((res) => {
         setInfo(res.data.result);
-        // console.log(res.data.result);
       })
       .catch(() => {
       });
@@ -123,8 +119,6 @@ function PetsitterShowInfo() {
     </Container>
   );
 
-  // console.log(isServiceIdIncluded);
-  // console.log(isCriticalServiceIdIncluded);
   const initPrint = (
     <div style={{
       width: '500px', height: '200px', border: '1px solid gray', margin: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '150px', borderRadius: '5px',
@@ -140,7 +134,6 @@ function PetsitterShowInfo() {
     </div>
   );
 
-  // 만약 펫시터의 정보가 하나도 없다면
   let print = '';
   if (info.introduction === null) {
     print = initPrint;
@@ -151,7 +144,6 @@ function PetsitterShowInfo() {
   return (
     <>
       { print }
-      {/* {info} */}
     </>
   );
 }

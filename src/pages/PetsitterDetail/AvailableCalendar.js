@@ -23,20 +23,18 @@ function ReservationPage({ petsitterId }) {
   };
 
   const isReservationDateBlocked = (day) => {
-    const today = new Date(); // 오늘 날짜
+    const today = new Date();
     return (
       blockedDates.some((date) => isSameDay(date, day)) || day.isBefore(today, 'day') // 오늘 이전의 날짜
     );
   };
 
   const handleMonthChange = (item) => {
-    // console.log(dayjs(new Date(item)).format('YYYY-MM'));
     setSelectedMonth(dayjs(new Date(item)).format('YYYY-MM'));
   };
   useEffect(() => {
     axios.get(`https://withpet.site/api/v1/reservation?month=${selectedMonth}&petsitterId=${petsitterId}`, { withCredentials: true })
       .then((res) => {
-        // console.log(res.data.result);
         setUnavailable(res.data.result);
       });
   }, [selectedMonth]);
@@ -47,7 +45,7 @@ function ReservationPage({ petsitterId }) {
         <DayPickerRangeController
           numberOfMonths={1}
           isDayBlocked={(day) => isReservationDateBlocked(day)}
-          onPrevMonthClick={handleMonthChange} // 이전 달로 이동할 때 이벤트 발생
+          onPrevMonthClick={handleMonthChange}
           onNextMonthClick={handleMonthChange}
         />
       </div>

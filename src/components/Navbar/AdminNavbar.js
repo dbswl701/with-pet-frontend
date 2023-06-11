@@ -18,7 +18,7 @@ function Nav({ setUserInfo }) {
       });
     navigate('/');
   };
-  // console.log('관리자');
+
   const before = (
     <div className="nav-bar">
       <Link to="/">

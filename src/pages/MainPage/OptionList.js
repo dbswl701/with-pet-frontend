@@ -18,10 +18,6 @@ const MenuProps = {
   },
 };
 
-// const optionlist = [
-//   '목욕', '배변', '산책', '미용',
-// ];
-
 function getStyles(name, option, theme) {
   return {
     fontWeight:
@@ -33,23 +29,17 @@ function getStyles(name, option, theme) {
 
 export default function MultipleSelectChip({ services, setOptions, options }) {
   const theme = useTheme();
-  // const [option, setoption] = useState([]);
 
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
-    // setoption(
-    //   // On autofill we get a stringified value.
-    //   typeof value === 'string' ? value.split(',') : value,
-    // );
-    // console.log(options);
+
     setOptions({
       ...options,
       services: typeof value === 'string' ? value.split(',') : value,
     });
   };
-  // console.log(options);
   return (
     <SelectWrapper className="option">
       <FormControl sx={{ m: 1, width: 4 / 5, display: 'flex' }}>

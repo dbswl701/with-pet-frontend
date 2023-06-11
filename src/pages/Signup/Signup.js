@@ -201,7 +201,6 @@ function SignupForm() {
   // eslint-disable-next-line consistent-return
   const handleSubmit = (e) => {
     e.preventDefault();
-    // 회원가입 시 백엔드로 보내는 로직
     if (!completeCertification) {
       return alert('전화번호 인증이 필요합니다.');
     }
@@ -287,12 +286,10 @@ function SignupForm() {
   };
 
   const onClick = () => {
-    // console.log(phone);
     if (!toggle) {
       setToggle(true);
       axios.get(`https://withpet.site/api/v1/certification?to=${phone}`)
         .then((res) => {
-          // console.log(res.data.result);
           alert('인증번호가 발급되었습니다.');
           setSaveCertifiation(res.data.result);
         });
@@ -304,13 +301,11 @@ function SignupForm() {
       alert('인증번호가 일치하지 않습니다. 인증번호가 다시 발급되었습니다');
       axios.get(`https://withpet.site/api/v1/certification?to=${phone}`)
         .then((res) => {
-          // console.log(res.data.result);
           setSaveCertifiation(res.data.result);
           setCertifiation('');
         });
     }
   };
-  // console.log(phone);
 
   return (
     <>

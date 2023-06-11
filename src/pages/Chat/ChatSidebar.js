@@ -24,18 +24,15 @@ const RoomWrapper = styled.div`
   margin-top: 10px;
   padding: 0px 15px 0px 15px;
   border: 1px solid #CAA969;
-  // box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
   align-items: center;
 `;
 
 function RoomItem({ room }) {
-  // console.log(room);
   const navigate = useNavigate();
   const date = room.recentMessageTime.split('T')[0];
 
   return (
     <RoomWrapper onClick={() => navigate(`../chat?roomId=${room.chatRoomId}`)}>
-      {/* <img src={room.otherProfileImg} alt="상대방 프로필 사진" /> */}
       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
         <img
           style={{

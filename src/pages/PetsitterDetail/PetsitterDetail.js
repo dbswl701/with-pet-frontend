@@ -10,7 +10,6 @@ import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-// import Grid from '@mui/material/Grid';
 import Content from './Content';
 import Reservation from './Reservation';
 import paymentIconYellowMedium from '../../assets/paymentIconYellowMedium.png';
@@ -27,7 +26,6 @@ const HouseImgWrapper = styled.div`
 const ContentWrapper = styled.div`
   display: flex;
   flex-direciton: row;
-  // background-color: red;
   height: 100%;
   margin: 70px auto 0px auto;
   width: 1027px;
@@ -36,7 +34,7 @@ const ContentWrapper = styled.div`
 
 function PetsitterDetial() {
   const searchParams = useSearchParams()[0];
-  const pgToken = searchParams.get('pg_token'); // 2
+  const pgToken = searchParams.get('pg_token');
   const [popup, setPopup] = useState('false');
   const [kakaoPay, setKakaoPay] = useState({ tid: '', pg_token: '' });
   const [initPgToken] = useState(localStorage.getItem('pg_token'));
@@ -45,7 +43,7 @@ function PetsitterDetial() {
   const [info, setInfo] = useState({});
   const [dogList, setDogList] = useState([]);
   const [houseImg, setHouseImg] = useState();
-  const [open, setOpen] = useState(false); // 모달창
+  const [open, setOpen] = useState(false);
   const [payInfo, setPayInfo] = useState([]);
   const [ready, setReady] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -73,7 +71,6 @@ function PetsitterDetial() {
   }, []);
 
   const onPaying = (reservationId) => {
-    // 카카오페이 api
     axios.post('https://withpet.site/payment/ready', { reservationId }, { withCredentials: true })
       .then((res) => {
         setPopup(window.open(
@@ -81,7 +78,6 @@ function PetsitterDetial() {
           '카카오페이 결제',
           `width=${width},height=${height},left=${left},top=${top}`,
         ));
-        // console.log(res.data.result.tid);
         setKakaoPay({ ...kakaoPay, tid: res.data.result.tid });
       });
   };
@@ -90,13 +86,12 @@ function PetsitterDetial() {
     if (popup === 'false') {
       return;
     }
-    let timer = null; // 타이머 변수를 선언하고 null로 초기화합니다.
+    let timer = null;
 
     timer = setInterval(() => {
       const pgToken2 = localStorage.getItem('pg_token');
 
       if (pgToken2 !== initPgToken) {
-        // console.log('timer complete2');
         timer = clearInterval(timer);
         setKakaoPay({ ...kakaoPay, pg_token: pgToken2 });
         setReady(true);
@@ -205,7 +200,6 @@ function PetsitterDetial() {
           ))}
         </div>
         <div style={{ borderBottom: '1px solid gray' }}>
-          {/* <p>확인</p> */}
           <ListItem sx={{ py: 1, px: 0 }}>
             <ListItemText primary={payInfo.criticalServiceName} />
             <Typography variant="body2">{payInfo.criticalServicePrice} 원</Typography>
@@ -237,8 +231,6 @@ function PetsitterDetial() {
       <Container>
         <HouseImgWrapper>
           <img src={houseImg} alt="집사진" style={{ width: '1200px', height: '500px' }} />
-          {/* {info.homeImg && info.homeImg.map((img) => <img src={img.url} alt="집사진" key={img.id} />)} */}
-          {/* { info.petSitterHouses && info.petSitterHouses.find((item) => item.representative === true)} */}
         </HouseImgWrapper>
         <ContentWrapper>
           <Content data={info} petsitterUserId={info.petSitterUserId} reviews={info.reviewResponses} />

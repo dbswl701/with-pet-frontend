@@ -4,12 +4,6 @@ import Autocomplete from '@mui/material/Autocomplete';
 import FormControl from '@mui/material/FormControl/FormControl';
 import { SelectWrapper } from '../../styles/main/MainPageStyle';
 
-// function sleep(delay = 0) {
-//   return new Promise((resolve) => {
-//     setTimeout(resolve, delay);
-//   });
-// }
-
 const regionList = [
   { region: '팔달구', city: '수원' },
   { region: '영통구', city: '수원' },
@@ -38,7 +32,6 @@ export default function Asynchronous({ options, setOptions }) {
       });
     }
   };
-  // console.log(options);
   return (
     <SelectWrapper>
       <FormControl sx={{ m: 1, width: 4 / 5, display: 'flex' }}>

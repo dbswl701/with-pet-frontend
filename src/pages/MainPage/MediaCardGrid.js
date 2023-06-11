@@ -1,28 +1,10 @@
 import React from 'react';
-// import axios from 'axios';
-// import './MediaCard.css'; // Import the CSS file that styles the media cards
-// import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-
-// const Grid = styled.div`
-//     display: grid;
-//     // grid-template-columns: repeat(5, 1fr);
-//     justify-items: center;
-//     padding: 20px;
-//     gap: 20px;
-//     margin: 0 auto;
-// `;
-
-// const Card = styled.div`
-//     background-color: #fff;
-// `;
 
 function MediaCard({ data }) {
   const navigate = useNavigate();
 
   const onClick = (id) => {
-    // 눌렀을 때, 페이지 이동, petSitterId와 함께!
-    // console.log('!!');
     navigate(`./petsitterdetail/${id}`);
   };
   return (

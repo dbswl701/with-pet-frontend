@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './Pets.css';
-// import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
 import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
 import PetModify from './PetModify';
 import PetDetail from './PetDetail';
@@ -32,7 +31,6 @@ function Pet({
   const handleRemoveDog = (dogId) => {
     axios.delete(`https://withpet.site/api/v1/dogs/${dogId}`, { withCredentials: true })
       .then((res) => {
-        // 개 삭제하고 groupList에서 삭제
         setRemoveDog(true);
 
         // 만약 그룹의 마지막 개라면, 그룹 삭제

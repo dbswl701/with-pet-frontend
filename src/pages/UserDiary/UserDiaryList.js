@@ -29,7 +29,6 @@ function UserDiaryList({
     if (petsitterId === null) {
       axios.delete(`https://withpet.site/api/v1/userdiaries/${diaryId}`, { withCredentials: true })
         .then(() => {
-          // 일지 리스트에서
           setDiaries((prev) => prev.filter((item) => item.userDiaryId !== diaryId));
         })
         .catch((err) => {
@@ -41,7 +40,6 @@ function UserDiaryList({
     } else {
       axios.delete(`https://withpet.site/api/v1//api/v1/petsitter-diaries/${diaryId}`, { withCredentials: true })
         .then(() => {
-          // 일지 리스트에서
           setDiaries((prev) => prev.filter((item) => item.userDiaryId !== diaryId));
         })
         .catch((err) => {
@@ -60,7 +58,6 @@ function UserDiaryList({
           sx={{
             width: 800,
             height: 550,
-            // maxHeight: '80vh',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'top',

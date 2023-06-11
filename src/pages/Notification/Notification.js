@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import { useNavigate } from 'react-router';
-// import Button from '@mui/material/Button';
 
 /* eslint-disable no-console */
 const Alert = React.forwardRef((props, ref) => {
@@ -65,9 +64,6 @@ function NotificationComponent() {
 
   return (
     <>
-      {/* <Button variant="outlined" onClick={handleClick}>
-        Open success snackbar
-      </Button> */}
       <Snackbar onClick={handleClick} open={open} autoHideDuration={3000} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
           <p>{noti.notificationType}</p>

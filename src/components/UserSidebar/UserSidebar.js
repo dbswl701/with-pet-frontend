@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import dayjs from 'dayjs';
-// import styled from 'styled-components';
 import axios from 'axios';
 import {
   SideBar, Button, ListContainer, ItemContainer, Items,
@@ -39,7 +38,6 @@ function UserSideBar({
     axios.get(`https://withpet.site/api/v1/userdiaries/month?categoryId=${updatedFilter.categoryId}&dogId=${updatedFilter.dogId}&month=${updatedFilter.month}&petsitterCheck=${updatedFilter.petsitterCheck}`, { withCredentials: true })
       .then((res) => {
         const { result } = res.data;
-        // 이제 달력 보여줄거 업데이트 하자
         const temp = result.map((item) => ({
           start: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
           end: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
@@ -52,7 +50,6 @@ function UserSideBar({
 
       });
   };
-  // console.log(filteredDiaries);
   useEffect(() => {
     axios.get('https://withpet.site/api/v1/calendar', { withCredentials: true })
       .then((res) => {
@@ -65,7 +62,6 @@ function UserSideBar({
           categoryId: category.categoryId.toString(),
           name: category.name,
         }));
-        // console.log(updatedCategories);
         setCategories(updatedCategories);
       })
       .catch((err) => {
@@ -80,7 +76,6 @@ function UserSideBar({
     axios.get(`https://withpet.site/api/v1/userdiaries/month?categoryId=&dogId=&month=${filter.month}`, { withCredentials: true })
       .then((res) => {
         const { result } = res.data;
-        // 이제 달력 보여줄거 업데이트 하자
         const temp = result.map((item) => ({
           start: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
           end: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
@@ -93,8 +88,7 @@ function UserSideBar({
 
       });
   }, []);
-  // console.log(dogs);
-  // console.log(categories);
+
   return (
     <>
       <SideBar>

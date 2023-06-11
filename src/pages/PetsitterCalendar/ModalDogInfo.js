@@ -146,7 +146,6 @@ function ModalDogInfo({ open, setOpen, dogInfo }) {
                     </div>
                   );
                 })}
-                {/* <Typography style={{ color: '#999999', fontWeight: 'bold', margin: '10px' }}>선택 옵션</Typography> */}
               </div>
             </div>
             <div>
@@ -187,9 +186,7 @@ function ModalDogInfo({ open, setOpen, dogInfo }) {
         <Box
           sx={{
             width: 550,
-            // height: 750,
             borderRadius: '30px',
-            // maxHeight: '80vh',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'top',
@@ -197,7 +194,6 @@ function ModalDogInfo({ open, setOpen, dogInfo }) {
             bgcolor: 'background.paper',
             boxShadow: 24,
             margin: 'auto',
-            // overflowY: 'scroll',
             p: 2,
             backgroundColor: '#FAF6F0',
           }}

@@ -25,11 +25,6 @@ function ReservationPage({ onChange, petsitterId, reset }) {
     setFocusedInputType(focusedInput);
   };
 
-  // const blockedDates = [
-  //   new Date(2023, 4, 23), // May 13, 2023
-  //   new Date(2023, 4, 26), // May 26, 2023
-  //   new Date(2023, 4, 18), // May 18, 2023 (임의로 추가한 블록된 날짜)
-  // ];
   const blockedDates = unavailable ? unavailable.map((date) => {
     const [year, month, day] = date.split('-');
     return new Date(year, month - 1, day);
@@ -70,25 +65,19 @@ function ReservationPage({ onChange, petsitterId, reset }) {
     return false;
   };
 
-  // const handleMonthChange = (month) => {
-  //   console.log(month);
-  // };
   useEffect(() => {
     setCheckInDate(null);
     setCheckOutDate(null);
   }, [reset]);
 
-  // 예약 불가능한 날짜 확인
   useEffect(() => {
     axios.get(`https://withpet.site/api/v1/reservation?month=${selectedMonth}&petsitterId=${petsitterId}`, { withCredentials: true })
       .then((res) => {
-        // console.log(res.data.result);
         setUnavailable(res.data.result);
       });
   }, [selectedMonth]);
 
   const handleMonthChange = (item) => {
-    // console.log(dayjs(new Date(item)).format('YYYY-MM'));
     setSelectedMonth(dayjs(new Date(item)).format('YYYY-MM'));
   };
 
@@ -106,7 +95,7 @@ function ReservationPage({ onChange, petsitterId, reset }) {
         numberOfMonths={1}
         startDatePlaceholderText="체크인 날짜"
         endDatePlaceholderText="체크아웃 날짜"
-        onPrevMonthClick={handleMonthChange} // 이전 달로 이동할 때 이벤트 발생
+        onPrevMonthClick={handleMonthChange}
         onNextMonthClick={handleMonthChange}
         isDayBlocked={(day) => isReservationDateBlocked(day)
           || blockBeforeStartDate(day)

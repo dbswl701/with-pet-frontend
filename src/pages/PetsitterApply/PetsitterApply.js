@@ -36,7 +36,6 @@ function PetsitterApply() {
         });
       });
   };
-  // console.log(imageSrc);
   const onChange = (e) => {
     if (e.target.files) {
       handleImageUpload(e);

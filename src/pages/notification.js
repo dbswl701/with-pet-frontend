@@ -1,8 +1,8 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
-import Snackbar from "@mui/material/Snackbar";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function SimpleSnackbar() {
   const [open, setOpen] = React.useState(false);
@@ -12,7 +12,7 @@ export default function SimpleSnackbar() {
   };
 
   const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return;
     }
 
@@ -20,7 +20,7 @@ export default function SimpleSnackbar() {
   };
 
   const action = (
-    <React.Fragment>
+    <>
       <IconButton
         size="small"
         aria-label="close"
@@ -29,7 +29,7 @@ export default function SimpleSnackbar() {
       >
         <CloseIcon fontSize="small" />
       </IconButton>
-    </React.Fragment>
+    </>
   );
 
   return (
@@ -41,10 +41,10 @@ export default function SimpleSnackbar() {
         onClose={handleClose}
         message="내용"
         sx={{
-          "& .MuiSnackbarContent-root": {
-            border: "2px solid #CAA969", // 테두리
-            backgroundColor: "#FAF6F0", // 배경색
-            color: "#000000", // 글자 색
+          '& .MuiSnackbarContent-root': {
+            border: '2px solid #CAA969',
+            backgroundColor: '#FAF6F0',
+            color: '#000000',
           },
         }}
         action={action}

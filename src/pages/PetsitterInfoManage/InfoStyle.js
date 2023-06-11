@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-    // padding: 10% 0 10% 0;
     position: relative;
     display: flex;
     justify-content: flex-start;
@@ -9,11 +8,7 @@ export const Container = styled.div`
     align-items: center;
     flex-direction: column;
     font-family: 'Noto Sans KR', sans-serif;
-    // color: #caa969;
     margin: 5% 0 5% 0;
-    // width: 100vw;
-    // height: 100vh;
-    // margin: auto;
 `;
 
 export const Label = styled.label`
@@ -45,7 +40,6 @@ export const Content = styled.div`
     display: flex;
     justify-content: flex-start;
     width: 70vw;
-    // height: 100vh;
     background-opacity: 100;
     align-items: center;
     flex-direction: column;

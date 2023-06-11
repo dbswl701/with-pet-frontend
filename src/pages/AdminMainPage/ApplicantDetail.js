@@ -7,47 +7,33 @@ function ApplicantDetail() {
   const { id } = useParams();
   const [info, setInfo] = useState({});
   const navigate = useNavigate();
-  // console.log(id);
 
   useEffect(() => {
     axios.get(`https://withpet.site/api/v1/show-applicant/${id}`, { withCredentials: true })
       .then((res) => {
         setInfo(res.data.result);
-        // console.log(res.data.result);
-        // console.log(applicantList);
       });
   }, []);
 
   const handleApprove = () => {
-    // console.log(row);
     const temp = {
       userId: id,
     };
-    // console.log(temp);
-    // console.log(row.applicant_id);
-    // setList(list.filter((item2) => (item2.serviceId !== item.serviceId)));
 
     axios.post('https://withpet.site/api/v1/admin/accept-petsitter', temp, { withCredentials: true })
       .then(() => {
-        // console.log(res.data.result);
-        // setApplicantList(applicantList.filter((item2) => (item2.applicant_user_id !== row.applicant_user_id)));
-        // setPetsitterList(petsitterList.concat(res.data.result));
         // eslint-disable-next-line no-alert
         alert('승인되었습니다.');
         navigate(-1);
       })
       .catch(() => {});
   };
-  // console.log(petsitterList);
   const handleCancle = (row) => {
     const temp = {
       userId: row.applicant_user_id,
     };
-    // console.log(temp);
     axios.post('https://withpet.site/api/v1/admin/refuse-applicant', temp, { withCredentials: true })
       .then(() => {
-        // setApplicantList(applicantList.filter((item2) => (item2.applicant_user_id !== row.applicant_user_id)));
-        // console.log(res.data);
         // eslint-disable-next-line no-alert
         alert('거절되었습니다.');
         navigate(-1);
@@ -55,7 +41,6 @@ function ApplicantDetail() {
       .catch(() => {});
   };
 
-  // console.log(info);
   return (
     <div>
       <div style={{

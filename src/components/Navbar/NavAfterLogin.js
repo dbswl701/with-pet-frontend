@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import axios from 'axios';
 import logo from '../../assets/logo_withpet.png';
-// import profile from '../../assets/user_default_profile.png';
 
 function Nav({ userInfo, setUserInfo }) {
   const [toggle, setToggle] = useState(false);

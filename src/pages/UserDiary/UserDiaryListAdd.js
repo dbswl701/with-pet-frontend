@@ -281,7 +281,6 @@ function UserDiaryListAdd({
             bgcolor: 'background.paper',
             boxShadow: 24,
             margin: 'auto',
-            // overflow: 'scroll',
             p: 2,
           }}
         >

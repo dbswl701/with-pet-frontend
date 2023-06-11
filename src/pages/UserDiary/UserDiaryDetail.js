@@ -1,19 +1,8 @@
 import React from 'react';
 import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
-// import axios from 'axios';
-// import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
 function UserDiaryDetail({ diary, onToggle, handleRemove }) {
-// function UserDiaryDetail({ diary }) {
-  // const diarySpec = [
-  //   { name: '날짜', value: diary.createdAt },
-  //   { name: '이름', value: diary.dogName },
-  //   { name: '카테고리', value: diary.categoryName },
-  //   { name: '제목', value: diary.title },
-  // ];
-  // console.log(diary);
-
   const detail = (
     <>
       <div style={{ display: 'flex', flexDirection: 'column', width: '500px' }}>

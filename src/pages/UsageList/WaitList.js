@@ -114,10 +114,6 @@ function Item({
   const handleLocalReview = () => {
     handleReview(item.reservationId, reviewContent);
     setReviewToggle(false);
-    // setReviewContent({
-    //   rate: 0,
-    //   content: '',
-    // });
   };
 
   const paying = (
@@ -158,7 +154,6 @@ function Item({
       </button>
     </div>
   );
-  // console.log(reviewContent);
   const detail = (
     <div style={{
       position: 'relative', backgroundColor: '#FFFAF0', alignItems: 'center', justifyContent: 'center', margin: 'auto', paddingBottom: '30px', marginBottom: '30px', width: '500px', display: 'flex', flexDirection: 'column', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px',
@@ -239,7 +234,6 @@ function Item({
 function WaitList({
   list, handleCancel, stepValue, handleDone, handleReview, onPaying,
 }) {
-  // console.log(stepValue);
   const steps = [
     '결제 대기',
     '예약 대기',

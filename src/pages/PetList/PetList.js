@@ -22,7 +22,7 @@ const Button = styled.button`
 function PetList() {
   const [pets, setPets] = useState([]);
   const [groupList, setGroupList] = useState([]);
-  const [openParty, setOpenParty] = useState(false); // 모달창
+  const [openParty, setOpenParty] = useState(false);
   const [openCreate, setOpenCreate] = useState(false);
   const dateNow = new Date();
   const today = dateNow.toISOString().slice(0, 10);
@@ -114,7 +114,6 @@ function PetList() {
           }
           return item;
         });
-        // console.log(updatedResult);
         setGroupList(updatedResult);
       })
       .catch(() => {
@@ -157,28 +156,6 @@ function PetList() {
           return item;
         });
         setGroupList(updatedResult);
-
-        // const updatedResult = groupList.map((item) => {
-        //   if (item.partyId === partyId) {
-        //     // 해당 그룹 내에서 dogInfoResponseList에 id 보고 수정
-        //     const updatedPets = item.dogInfoResponseList.map((pet) => {
-        //       if (pet.dog_id === id) {
-        //         return res.data.result;
-        //       }
-        //       return pet;
-        //     });
-
-        //     return { ...item, dogInfoResponseList: item.dogInfoResponseList.concat(res.data.result) };
-        //   }
-        //   return item;
-        // });
-        // const updatedPets = pets.map((pet) => {
-        //   if (pet.dog_id === res.data.result.dog_id) {
-        //     return res.data.result;
-        //   }
-        //   return pet;
-        // });
-        // setPets(updatedPets);
       })
       .catch(() => {
       });

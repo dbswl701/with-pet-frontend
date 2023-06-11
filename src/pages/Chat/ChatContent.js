@@ -23,7 +23,6 @@ function ChatContent({ chatInfo, roomId }) {
     ws.current = Stomp.over(socket);
     ws.current.connect({}, () => {
       ws.current.subscribe(`/sub/chat/receive/${roomId}`, (event) => {
-        // console.log(event.body);
         const data = JSON.parse(event.body);
         const sender = data.senderId;
         const { message } = data;
@@ -47,7 +46,6 @@ function ChatContent({ chatInfo, roomId }) {
         time: msg.sendTime,
       })),
     );
-    // console.log(chatInfo.chatMessages);
     connectStomp();
 
     // 컴포넌트 언마운트 시 WebSocket 연결 해제
@@ -64,7 +62,6 @@ function ChatContent({ chatInfo, roomId }) {
     e.preventDefault();
     const message = messageContent.replace(/\n/g, '\n'); // 개행 문자('\n')을 '<br>' 태그로 치환
 
-    // const message = messageContent; // 메시지 입력 방식에 맞게 수정 필요
     const time = new Date().toISOString();
     ws.current.send(
       `/pub/sendMessage/${roomId}`,
@@ -76,15 +73,10 @@ function ChatContent({ chatInfo, roomId }) {
         sendTime: time,
       }),
     );
-    // console.log(time);
     setMessageContent('');
   }
-  // console.log(messageContent);
   return (
     <div style={{ marginTop: '20px' }}>
-      <div>
-        {/* <p>{chatInfo.}</p> */}
-      </div>
       <div
         ref={chatContentRef}
         style={{
@@ -109,7 +101,6 @@ function ChatContent({ chatInfo, roomId }) {
       >
         <form onSubmit={sendMessage}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            {/* <input type="text" style={{ width: '500px' }} placeholder='입력....' value={messageContent} onChange={(e) => setMessageContent(e.target.value)} /> */}
             <textarea
               style={{
                 width: '700px', border: 'none', resize: 'none', margin: '10px', outline: 'none',

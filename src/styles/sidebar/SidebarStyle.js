@@ -15,38 +15,10 @@ export const SideBar = styled.div`
         background-color: #caa969;
         color: white;
     }
-// .select2 input[type=radio] {
-    //     position: absolute;
-    //     left: -9999px;
-    // }
-    // .select2 input[type=radio]+label {
-    //     display: inline-block;
-    //     cursor: pointer;
-    //     height: 40px;
-    //     width: 60px;
-    //     border: 2px solid white;
-    //     border-radius: 5px;
-    //     text-align: center;
-    //     vertical-align: center;
-    //     padding: 5px;
-    //     margin-left: 5px;
-    //     background-color: white;
-    // }
-    // .select2 input[type=radio]+label:hover {
-    //     background-color: #caa969;
-    //     border: 2px solid #caa969;
-    //     color: white;
-    // }
-    
-    // .select2 input[type=radio]:checked+label:after {
-    //     border: 2px solid rgb(153, 121, 85);
-    //     background-color: #caa969;
-    // }
 `;
 
 export const Title = styled.div`
     display: flex;
-    // font-size: 20px;
     margin: 10px 0px 10px 0px;
     text-align: left;
 `;
@@ -58,7 +30,6 @@ export const Items = styled.div`
 
 export const ItemContainer = styled.div`
     display: flex;
-    // flex-direction: column;
     flex-direction: row;
     position: relative;
     margin: 20px 0px;

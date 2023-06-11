@@ -11,7 +11,6 @@ export default function Orders({ rows }) {
   const navigate = useNavigate();
 
   const onClick = (id) => {
-    // 지원자 아이디와 함께 지원자 상세정보보기로 이동
     navigate(`./detail/${id}`);
   };
 
@@ -27,7 +26,6 @@ export default function Orders({ rows }) {
             <TableCell>계정</TableCell>
             <TableCell>전화번호</TableCell>
             <TableCell>상태</TableCell>
-            {/* <TableCell align="right">자세히 보기</TableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -39,10 +37,6 @@ export default function Orders({ rows }) {
               <TableCell>{row.applicant_user_auth_id}</TableCell>
               <TableCell>{row.applicant_user_phone}</TableCell>
               <TableCell>{row.applicant_status}</TableCell>
-              {/* <TableCell align="right">
-                <button onClick={() => handleApprove(row)}>승낙</button>
-                <button onClick={() => handleCancle(row)}>거절</button>
-              </TableCell> */}
             </TableRow>
           ))}
         </TableBody>

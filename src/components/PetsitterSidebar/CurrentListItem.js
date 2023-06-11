@@ -1,7 +1,4 @@
-// import React from 'react';
-// import styled from 'styled-components';
 import React, { useState } from 'react';
-// import styled from 'styled-components';
 import social from '../../assets/social.png';
 import heart from '../../assets/heart.png';
 import {
@@ -17,7 +14,6 @@ function CurrentListItem({ item, setPrintBody }) {
     </>
   );
 
-  // console.log(item);
   return (
     <>
       <ItemContainer onMouseEnter={() => setShowDiv(true)} onMouseLeave={() => setShowDiv(false)}>

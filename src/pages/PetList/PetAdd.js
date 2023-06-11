@@ -4,7 +4,6 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import dayjs from 'dayjs';
-// import axios from 'axios';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -21,8 +20,6 @@ function PetAdd({
   };
 
   const onChangeCalendar = (date) => {
-    // console.log(date);
-    // console.log(dayjs(date).format('YYYY-MM-DD'));
     const e = {
       target: {
         name: 'dog_birth',

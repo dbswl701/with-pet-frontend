@@ -19,7 +19,6 @@ const Progress = styled.div`
 
 const Dealt = styled.div`
   background-color: red;
-  // border: 2px solid gray;
   width: ${(props) => `${props.dealt}%`};
   height: 100%;
   border-radius: 5px;
@@ -39,9 +38,6 @@ const Button = styled.button`
 function PetDetail({
   pet, onToggle, handleRemoveDog, isLeader,
 }) {
-  // const [isModify, setIsModify] = useState(false);
-  // console.log(pet);
-  // const [removeDog, setRemoveDog] = useState(false);
   const navigate = useNavigate();
   const petSpec = [
     { name: '견종', value: pet.dog_breed },
@@ -55,14 +51,6 @@ function PetDetail({
     navigate(`./userEvaluation/${pet.dog_id}`);
   };
 
-  // const handleRemoveDog = (dogId) => {
-  //   axios.delete(`https://withpet.site/api/v1/dogs/${dogId}`, { withCredentials: true })
-  //     .then(() => {
-  //       // 개 삭제하고 groupList에서 삭제
-  //       setRemoveDog(true);
-  //     });
-  // };
-  // console.log(pet);
   const detail = (
     <>
       <div style={{ display: 'flex', flexDirection: 'column' }}>

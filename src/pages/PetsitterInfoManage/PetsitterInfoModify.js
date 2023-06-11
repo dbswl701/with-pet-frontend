@@ -8,26 +8,17 @@ import PetsitterInfoModifyService from './PetsitterInfoModifyService';
 import PetsitterInfoModifyCritical from './PetsitterInfoModifyCritical';
 
 function PetsitterInfoModify() {
-  // const [info, setInfo] = useState({});
-
-  // 해시태그(petSitterHashTags)
   const [hashTags, setHashTags] = useState([]);
-  // const [hashTag, setHashTag] = useState('');
 
-  // 소개글(introduction)
   const [introduction, setIntroduction] = useState('');
 
-  // 펫시터 집사진(petSitterHouseRequests)
   const [houseImgList, setHouseImgList] = useState([]);
 
-  // 자격증 사진
   const [petSitterLicenseImg, setPetSitterLicenseImg] = useState('');
 
-  // 펫시텃 서비스
   const [serviceSelectList, setServiceSelectList] = useState([]);
   const [withPetServices, setWithPetServices] = useState([]);
 
-  // 필수 서비스
   const [criticalServices, setCriticalServices] = useState([]);
   const [criticalSelectList, setCriticalSelectList] = useState([]);
 
@@ -36,7 +27,6 @@ function PetsitterInfoModify() {
   useEffect(() => {
     axios.get('https://withpet.site/api/v1/petsitter/show-myinfo', { withCredentials: true })
       .then((res) => {
-        // setInfo(res.data.result);
         setHouseImgList(res.data.result.petSitterHouses);
         setHashTags(res.data.result.petSitterHashTags);
         setIntroduction(res.data.result.introduction);
@@ -47,8 +37,6 @@ function PetsitterInfoModify() {
 
         setCriticalServices(res.data.result.criticalServices);
         setCriticalSelectList(res.data.result.petSitterCriticalServices);
-
-        // console.log(res.data.result.petSitterCriticalServices);
       })
       .catch(() => {
       });

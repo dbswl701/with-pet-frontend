@@ -3,15 +3,12 @@ import axios from 'axios';
 import { InputButton, Button } from './InfoStyle';
 
 function Item1({ service, onRemove }) {
-  // 1. 활성화 (isInclude === true)
   const includeed = (
     <div style={{
-      // cursor: 'pointer', backgroundColor: '#caa969', width: '300px', marginRight: '20px',
       backgroundColor: `${service.isIncluded === true ? '#FAF6F0' : '#F2F2F2'}`, color: `${service.isIncluded === true ? '#CAA969' : 'gray'}`, width: '130px', height: '190px', borderRadius: '20px', padding: '10px', fontSize: '12px', justifyContent: 'center', margin: '20px',
     }}
     >
       <div style={{ textAlign: 'center' }}>
-        {/* 사진, 이름, 내용, 가격, 삭제 버튼 */}
         <img src={service.serviceImg} alt="서비스 이미지" style={{ width: '30px', height: '30px', marginTop: '5px' }} />
       </div>
       <div style={{ paddingLeft: '5px' }}>
@@ -34,7 +31,6 @@ function Item1({ service, onRemove }) {
 
 function Item2({ service, onAdd }) {
   const [price, setPrice] = useState(0);
-  // 2. 비활성화 (isInclude === false)
   const notIncluded = (
     <div
       style={{
@@ -42,7 +38,6 @@ function Item2({ service, onAdd }) {
       }}
     >
       <div style={{ textAlign: 'center' }}>
-        {/* 사진, 이름, 내용, 가격, 삭제 버튼 */}
         <img src={service.serviceImg} alt="서비스 이미지" style={{ width: '30px', height: '30px', marginTop: '5px' }} />
       </div>
       <div style={{ paddingLeft: '5px' }}>
@@ -75,20 +70,16 @@ function PetsitterInfoModifyCritical({ criticalServices, criticalSelectList, set
     setIsCriticalServiceIdIncluded(includedServices);
   }, [criticalSelectList]);
 
-  const onRemoveCriticalService = (id) => { // sercieId 건너옴
-    // 활성화된 서비스 삭제 눌렀을 경우
+  const onRemoveCriticalService = (id) => {
     setCriticalSelectList(criticalSelectList.filter((service) => service.serviceId !== id));
   };
 
-  const onAddCriticalService = (id, price) => { // sercieId 건너옴
-    // 활성화된 서비스 삭제 눌렀을 경우
+  const onAddCriticalService = (id, price) => {
     setCriticalSelectList([...criticalSelectList, { serviceId: id, price: parseInt(price, 10) }]);
   };
-  // console.log(criticalSelectList);
   const onSubmit = () => {
     axios.put('https://withpet.site/api/v1/petsitter/update-criticalservice', { petSitterCriticalServiceRequests: criticalSelectList }, { withCredentials: true })
       .then((res) => {
-        // console.log(res.data.result);
         // eslint-disable-next-line no-alert
         alert(res.data.result);
       })

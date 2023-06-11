@@ -114,7 +114,6 @@ function UserEvaluation({ id, setPrintBody }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // 데이터 전송 및 페이지 이동
     axios
       .put(
         `https://withpet.site/api/v1/reservation/update-dogSocialTemperature/${id}`,
@@ -122,9 +121,6 @@ function UserEvaluation({ id, setPrintBody }) {
         { withCredentials: true },
       )
       .then(() => {
-        // 캘린더뷰로 이동
-
-        // 모달창
         // eslint-disable-next-line no-alert
         alert(
           '평가가 완료되었습니다. 해당 평가는 다른 펫시터가 반려견을 알아가는데 많은 도움을 줄 것입니다.',

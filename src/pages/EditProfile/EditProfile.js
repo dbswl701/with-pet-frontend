@@ -138,23 +138,8 @@ const ButtonContainer = styled.div`
 const url = 'https://withpet.site/api/v1/users/my-info';
 
 function EditProfile() {
-  // const [imageSrc, setImageSrc] = useState('');
   const [modifyInfo, setModifyInfo] = useState({});
   const navigate = useNavigate();
-  // const handleChangeImage = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setImageSrc(reader.result);
-  //       setModifyInfo({
-  //         ...modifyInfo,
-  //         profileImg: reader.result,
-  //       });
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
 
   const handleImageUpload = async (e) => {
     const img = e.target.files[0];
@@ -204,7 +189,6 @@ function EditProfile() {
           userId: info.userId,
           userName: info.userName,
         });
-        // setImageSrc(info.profileImg);
       })
       .catch(() => {});
   }, []);
@@ -238,7 +222,6 @@ function EditProfile() {
         // eslint-disable-next-line no-alert
         alert('회원정보 수정이 완료되었습니다.');
         navigate('../');
-        // localstorage update
         window.location.reload(); // 페이지 새로고침
         localStorage.setItem('userInfo', JSON.stringify(res.data.result));
       })

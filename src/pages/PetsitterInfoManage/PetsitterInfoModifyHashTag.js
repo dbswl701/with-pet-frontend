@@ -6,7 +6,6 @@ import { CancelButton, InputButton, Button } from './InfoStyle';
 function PetsitterInfoModifyHashTag({ hashTags, setHashTags }) {
   const [hashTag, setHashTag] = useState('');
   const onRemoveHashtag = (id) => {
-    // 해시태그 하나 삭제
     setHashTags(hashTags.filter((tag) => (tag !== id)));
   };
   const handleHashtag = () => {
@@ -20,7 +19,6 @@ function PetsitterInfoModifyHashTag({ hashTags, setHashTags }) {
   const onSubmit = () => {
     axios.put('https://withpet.site/api/v1/petsitter/update-hashtags', { petSitterHashTagRequests: hashTags }, { withCredentials: true })
       .then((res) => {
-        // console.log(res.data.result);
         // eslint-disable-next-line no-alert
         alert(res.data.result);
       })
@@ -39,8 +37,6 @@ function PetsitterInfoModifyHashTag({ hashTags, setHashTags }) {
             }}
           >
             #{tag.hashTagName}&ensp;
-            {/* <span># {tag.hashTagName}</span> */}
-            {/* <input type="button" value="x" onClick={() => onRemoveHashtag(tag.petSitterHashTagId)} /> */}
             <CancelButton type="button" className="cancel" value="X" onClick={() => onRemoveHashtag(tag)} />&ensp;
           </div>
         ))}
@@ -58,11 +54,9 @@ function PetsitterInfoModifyHashTag({ hashTags, setHashTags }) {
           onChange={(e) => setHashTag(e.target.value)}
           value={hashTag}
         />
-        {/* <TextField sx={{ m: 1 }} label="해시태그" variant="outlined" size="small" name="hashTagName" onChange={(e) => setHashTag(e.target.value)} value={hashTag} /> */}
         <InputButton type="button" onClick={handleHashtag} value="추가" />
       </div>
       <Button onClick={onSubmit}>저장</Button>
-      {/* <Button onClick={handleHashtag} value="추가">추가</Button> */}
     </>
   );
 }

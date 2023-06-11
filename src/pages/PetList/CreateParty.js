@@ -2,7 +2,6 @@ import React from 'react';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-// import axios from 'axios';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -199,7 +198,6 @@ function CreateParty({
           sx={{
             width: 800,
             height: 550,
-            // maxHeight: '80vh',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'top',

@@ -5,7 +5,6 @@ import axios from 'axios';
 import CalendarView from './CalendarView';
 import PetsitterSidebar from '../../components/PetsitterSidebar/PetsitterSidebar';
 import PetsitterEvaluation from './PetsitterEvaluation';
-// import PetsitterDiary from './PetsitterDiary';
 import PetsitterDiaries from '../PetsitterDiaries/PetsitterDiaries';
 
 function PetsitterCalendar() {
@@ -18,7 +17,6 @@ function PetsitterCalendar() {
   useEffect(() => {
     axios.get(`https://withpet.site/api/v1/reservation/petsitter/reservations?month=${selectedMonth}`, { withCredentials: true })
       .then((res) => {
-        // setEventsData(res.data.result);
         const { result } = res.data;
         const filtered = result.filter((item) => item.reservationStatus !== 'CANCEL');
         const temp = filtered.map((item) => ({
@@ -28,8 +26,6 @@ function PetsitterCalendar() {
           title: item.dogName,
           reservationId: item.reservationId,
         }));
-        // console.log(res.data.result);
-        // console.log(temp);
         setEventsData(temp);
       })
       .catch((err) => {
@@ -42,7 +38,6 @@ function PetsitterCalendar() {
   }, [selectedMonth]);
 
   let print = <CalendarView />;
-  // console.log(selectedMonth);
   if (printBody[0] === 'main') {
     print = <CalendarView setSelectedMonth={setSelectedMonth} selectedMonth={selectedMonth} eventsData={eventsData} />;
   } else if (printBody[0] === 'eval') {

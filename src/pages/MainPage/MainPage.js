@@ -11,8 +11,6 @@ import {
 
 const Button = styled.button`
   border: none;
-  // width: 22px;
-  // height: 22px;
   border-radius: 50%;
   padding: 8px;
   margin: 0;
@@ -29,8 +27,6 @@ const Button = styled.button`
 
 const NumButton = styled.div`
   border: 1px solid gray;
-  // width: 22px;
-  // height: 22px;
   border-radius: 50%;
   padding: 8px;
   margin: 0;
@@ -55,12 +51,6 @@ function MainPage() {
   });
   const [currentPage, setCurrentPage] = useState(0);
   useEffect(() => {
-    // axios.get('https://withpet.site/api/v1/show-petsitter?address=&dogSize=&service=', { withCredentials: true })
-    //   .then((res) => {
-    //     setTemp(res.data.result.content);
-    //     // console.log(res.data.result.content);
-    //     // console.log(temp);
-    //   });
     axios.get('https://withpet.site/api/v1/show-services', { withCredentials: true })
       .then((res) => {
         setServiceList(res.data.result);
@@ -68,27 +58,17 @@ function MainPage() {
   }, []);
 
   useEffect(() => {
-    // console.log(options);
-    // console.log(options.services);
-    // console.log(options.services[0]);
-
     axios.get(`https://withpet.site/api/v1/show-petsitter?address=${options.region}&dogSize=${options.size}&service=${options.services !== undefined ? options.services : ''}&page=${currentPage}`, { withCredentials: true })
       .then((res) => {
         setTemp(res.data.result);
-        // console.log(res.data.result);
-        // console.log(temp);
       });
   }, [options, currentPage]);
-  // console.log(temp);
-  // console.log(temp.totalPages);
 
   const handleClick = (page) => {
-    // 페이지 다시 랜더링
     setCurrentPage(page - 1);
   };
 
   const handlePrevious = () => {
-    // 만약 맨 처음이라면
     if (currentPage === 0) return;
     setCurrentPage((prev) => prev - 1);
   };

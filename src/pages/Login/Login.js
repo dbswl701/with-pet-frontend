@@ -90,7 +90,6 @@ function Login({ setState, setUserInfo }) {
         setState('login');
         alert('로그인에 성공했습니다.'); // eslint-disable-line no-alert
         setUserInfo(res.data.result);
-        // console.log(res.data.result);
         localStorage.setItem('userInfo', JSON.stringify(res.data.result));
         navigate(-1);
       })

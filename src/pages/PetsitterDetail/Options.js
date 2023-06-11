@@ -40,12 +40,10 @@ export default function MultipleSelectChip({ services, reset, onChange }) {
       target: { value },
     } = event;
     setPersonName(
-      // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
     onChange(typeof value === 'string' ? value.split(',') : value);
   };
-  // console.log(personName);
   return (
     <div>
       <FormControl sx={{ m: 1, width: 300 }}>
