@@ -67,6 +67,14 @@ function Nav({ userInfo, setUserInfo }) {
         style={{
           listStyle: 'none', display: 'flex', height: '40px', color: 'black', fontSize: '15px', alignItems: 'center',
         }}
+        onClick={() => navigate('/usagelist')}
+      >
+        이용내역 확인
+      </div>
+      <div
+        style={{
+          listStyle: 'none', display: 'flex', height: '40px', color: 'black', fontSize: '15px', alignItems: 'center',
+        }}
         onClick={() => navigate('/petsitterapply')}
       >
         펫시터 지원
