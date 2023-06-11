@@ -98,8 +98,6 @@ function UserEvaluation({ id, setPrintBody }) {
       [name]: value,
     });
   };
-  // console.log(answer);
-  // console.log(id);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -111,11 +109,9 @@ function UserEvaluation({ id, setPrintBody }) {
         { withCredentials: true },
       )
       .then(() => {
-        // console.log(res.data.result);
         // 캘린더뷰로 이동
 
         // 모달창
-        // eslint-disable-next-line no-alert
         alert(
           '평가가 완료되었습니다. 해당 평가는 다른 펫시터가 반려견을 알아가는데 많은 도움을 줄 것입니다.',
         );
