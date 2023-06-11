@@ -18,6 +18,43 @@ function ApplicantDetail() {
       });
   }, []);
 
+  const handleApprove = () => {
+    // console.log(row);
+    const temp = {
+      userId: id,
+    };
+    // console.log(temp);
+    // console.log(row.applicant_id);
+    // setList(list.filter((item2) => (item2.serviceId !== item.serviceId)));
+
+    axios.post('https://withpet.site/api/v1/admin/accept-petsitter', temp, { withCredentials: true })
+      .then(() => {
+        // console.log(res.data.result);
+        // setApplicantList(applicantList.filter((item2) => (item2.applicant_user_id !== row.applicant_user_id)));
+        // setPetsitterList(petsitterList.concat(res.data.result));
+        // eslint-disable-next-line no-alert
+        alert('승인되었습니다.');
+        navigate(-1);
+      })
+      .catch(() => {});
+  };
+  // console.log(petsitterList);
+  const handleCancle = (row) => {
+    const temp = {
+      userId: row.applicant_user_id,
+    };
+    // console.log(temp);
+    axios.post('https://withpet.site/api/v1/admin/refuse-applicant', temp, { withCredentials: true })
+      .then(() => {
+        // setApplicantList(applicantList.filter((item2) => (item2.applicant_user_id !== row.applicant_user_id)));
+        // console.log(res.data);
+        // eslint-disable-next-line no-alert
+        alert('거절되었습니다.');
+        navigate(-1);
+      })
+      .catch(() => {});
+  };
+
   // console.log(info);
   return (
     <div>
@@ -65,7 +102,26 @@ function ApplicantDetail() {
           <p style={{ fontSize: '24px', margin: '30px 0px 16px 0px', fontWeight: 'bold' }}>펫시터 경력</p>
           <p style={{ fontSize: '14px', color: '#999999' }}>{info.applicant_animal_career}</p>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <div style={{
+          display: 'flex', justifyContent: 'center', flexDirection: 'column', marginTop: '30px',
+        }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <button
+              style={{
+                width: '100px', height: '40px', backgroundColor: '#CAA969', color: 'white', border: '1px solid white',
+              }}
+              onClick={handleApprove}
+            >승낙
+            </button>
+            <button
+              style={{
+                width: '100px', height: '40px', backgroundColor: 'white', color: '#CAA969', border: '1px solid #CAA969',
+              }}
+              onClick={handleCancle}
+            >거절
+            </button>
+          </div>
           <Button type="button" onClick={() => navigate(-1)}>
             <p style={{ fontSize: '20px' }}>돌아가기</p>
           </Button>

@@ -41,6 +41,7 @@ export default function Orders() {
         'Content-Type': 'multipart/form-data',
       },
     };
+
     axios.post('https://withpet.site/api/v1/file/upload', formData, config)
       .then((res) => {
         if (listName === 'service') {
@@ -59,7 +60,7 @@ export default function Orders() {
   // console.log(cridicalData);
   const onChange = (e) => {
     if (e.target.files) {
-      handleImageUpload(e);
+      handleImageUpload(e, 'service');
     } else {
       const { name, value } = e.target;
       setData({
@@ -71,7 +72,7 @@ export default function Orders() {
 
   const onCriticalChange = (e) => {
     if (e.target.files) {
-      handleImageUpload(e);
+      handleImageUpload(e, 'criticalservice');
     } else {
       const { name, value } = e.target;
       setCriticalData({

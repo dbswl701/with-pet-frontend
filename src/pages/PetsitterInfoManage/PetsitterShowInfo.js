@@ -6,6 +6,8 @@ import {
 } from './InfoStyle';
 
 function Item({ service }) {
+  // console.log(service);
+  // console.log(service.price);
   return (
     <div style={{
       backgroundColor: `${service.isIncluded === true ? '#FAF6F0' : '#F2F2F2'}`, color: `${service.isIncluded === true ? '#CAA969' : 'gray'}`, width: '130px', height: '150px', marginRight: '5px', borderRadius: '20px', padding: '10px', fontSize: '12px',
@@ -54,7 +56,7 @@ function PetsitterShowInfo() {
   });
 
   const isCriticalServiceIdIncluded = info.criticalServices && info.criticalServices.map((service) => {
-    const selected = info.petSitterServices.find((sitterService) => sitterService.serviceId === service.serviceId);
+    const selected = info.petSitterCriticalServices.find((sitterService) => sitterService.serviceId === service.serviceId);
     return {
       ...service,
       isIncluded: info.petSitterCriticalServices.some(
@@ -121,6 +123,8 @@ function PetsitterShowInfo() {
     </Container>
   );
 
+  // console.log(isServiceIdIncluded);
+  // console.log(isCriticalServiceIdIncluded);
   const initPrint = (
     <div style={{
       width: '500px', height: '200px', border: '1px solid gray', margin: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '150px', borderRadius: '5px',
