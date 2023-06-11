@@ -100,6 +100,10 @@ function ApplicantDetail() {
         </div>
         <div>
           <p style={{ fontSize: '24px', margin: '30px 0px 16px 0px', fontWeight: 'bold' }}>펫시터 경력</p>
+          <p style={{ fontSize: '14px', color: '#999999' }}>{info.applicant_petsitter_career}</p>
+        </div>
+        <div>
+          <p style={{ fontSize: '24px', margin: '30px 0px 16px 0px', fontWeight: 'bold' }}>그 외 반려동물 관련 경력 또는 경험</p>
           <p style={{ fontSize: '14px', color: '#999999' }}>{info.applicant_animal_career}</p>
         </div>
         <div style={{
