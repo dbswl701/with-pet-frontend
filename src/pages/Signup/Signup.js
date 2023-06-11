@@ -286,12 +286,12 @@ function SignupForm() {
   };
 
   const onClick = () => {
-    console.log(phone);
+    // console.log(phone);
     if (!toggle) {
       setToggle(true);
       axios.get(`https://withpet.site/api/v1/certification?to=${phone}`)
         .then((res) => {
-          console.log(res.data.result);
+          // console.log(res.data.result);
           alert('인증번호가 발급되었습니다.');
           setSaveCertifiation(res.data.result);
         });
@@ -303,7 +303,7 @@ function SignupForm() {
       alert('인증번호가 일치하지 않습니다. 인증번호가 다시 발급되었습니다');
       axios.get(`https://withpet.site/api/v1/certification?to=${phone}`)
         .then((res) => {
-          console.log(res.data.result);
+          // console.log(res.data.result);
           setSaveCertifiation(res.data.result);
           setCertifiation('');
         });

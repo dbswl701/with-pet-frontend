@@ -5,7 +5,7 @@ import crown from '../../assets/crown.png';
 function UserItem({
   user, isLeader, handleExpelMember, noneDisplay,
 }) {
-  console.log(user);
+  // console.log(user);
   const [showDiv, setShowDiv] = useState(false);
   const content = (
     <>
@@ -19,8 +19,8 @@ function UserItem({
       <p>{user.userName}</p>
     </>
   );
-  console.log(noneDisplay);
-  console.log(noneDisplay[user.userId]);
+  // console.log(noneDisplay);
+  // console.log(noneDisplay[user.userId]);
   return (
     <div
       onMouseEnter={() => setShowDiv(true)}
@@ -36,7 +36,7 @@ function UserItem({
 }
 
 function Party({ group, isLeader, handleLeaveParty }) {
-  console.log(isLeader);
+  // console.log(isLeader);
   const [noneDisplay, setNoneDisplay] = useState({});
   const handleExpelMember = (userId) => {
     if (isLeader) {

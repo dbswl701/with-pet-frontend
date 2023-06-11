@@ -7,7 +7,7 @@ function ApplicantDetail() {
   const { id } = useParams();
   const [info, setInfo] = useState({});
   const navigate = useNavigate();
-  console.log(id);
+  // console.log(id);
 
   useEffect(() => {
     axios.get(`https://withpet.site/api/v1/show-applicant/${id}`, { withCredentials: true })
@@ -18,7 +18,7 @@ function ApplicantDetail() {
       });
   }, []);
 
-  console.log(info);
+  // console.log(info);
   return (
     <div>
       <div style={{
