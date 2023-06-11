@@ -27,7 +27,7 @@ function ApplicantDetail() {
       >
         <p style={{ fontSize: '35px', fontWeight: 'bold' }}>지원자 상세정보</p>
         <div style={{
-          display: 'flex', flexDirection: 'row', width: '600px', height: '80px',
+          display: 'flex', flexDirection: 'row', width: '600px', alignItems: 'center',
         }}
         >
           <div style={{ marginRight: '30px' }}>
@@ -38,27 +38,31 @@ function ApplicantDetail() {
               display: 'flex', flexDirection: 'row', alignItems: 'center',
             }}
             >
-              <p style={{ fontSize: '20px', margin: '0px' }}>{info.applicant_user_name}</p>
-              <p style={{ fontSize: '16px', margin: '0px', color: '#999999' }}>{info.applicant_streetAdr}</p>
+              <p style={{ fontSize: '20px', margin: '0px', marginRight: '10px' }}><b>{info.applicant_user_name}</b></p>
+              <p style={{
+                fontSize: '16px', margin: '0px', color: '#999999', letterSpacing: '-0.05em',
+              }}
+              >{info.applicant_streetAdr}
+              </p>
             </div>
             <div>
-              <p style={{ fontSize: '15px', color: '#7C7C7C' }}>흡연 여부: {info.applicant_is_smoking ? 'O' : 'X'}</p>
+              <p style={{ fontSize: '15px', color: '#7C7C7C', letterSpacing: '-0.05em' }}>흡연 여부: {info.applicant_is_smoking ? 'O' : 'X'}</p>
             </div>
             <div>
-              <p style={{ fontSize: '15px', color: '#7C7C7C' }}>타인의 반려견을 돌봐준 경험: {info.applicant_having_with_pet ? 'O' : 'X'}</p>
+              <p style={{ fontSize: '15px', color: '#7C7C7C', letterSpacing: '-0.05em' }}>타인의 반려견을 돌봐준 경험: {info.applicant_having_with_pet ? 'O' : 'X'}</p>
             </div>
           </div>
         </div>
         <div>
-          <p style={{ fontSize: '24px', margin: '50px 0px 50px 0px', fontWeight: 'bold' }}>자격증</p>
+          <p style={{ fontSize: '24px', margin: '30px 0px 16px 0px', fontWeight: 'bold' }}>자격증</p>
           <img style={{ height: '300px' }} src={info.applicant_license_img} alt="지원자 자격증 사진" />
         </div>
         <div>
-          <p style={{ fontSize: '24px', margin: '50px 0px 50px 0px', fontWeight: 'bold' }}>지원 동기</p>
+          <p style={{ fontSize: '24px', margin: '30px 0px 16px 0px', fontWeight: 'bold' }}>지원 동기</p>
           <p style={{ fontSize: '14px', color: '#999999' }}>{info.applicant_motivate}</p>
         </div>
         <div>
-          <p style={{ fontSize: '24px', margin: '50px 0px 50px 0px', fontWeight: 'bold' }}>펫시터 경력</p>
+          <p style={{ fontSize: '24px', margin: '30px 0px 16px 0px', fontWeight: 'bold' }}>펫시터 경력</p>
           <p style={{ fontSize: '14px', color: '#999999' }}>{info.applicant_animal_career}</p>
         </div>
         <div style={{ display: 'flex', justifyContent: 'center' }}>

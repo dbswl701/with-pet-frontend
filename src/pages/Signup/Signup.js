@@ -242,7 +242,8 @@ function SignupForm() {
         userPasswordCheck: passwordConfirm,
       })
       .then(() => {
-        navigate('/login');
+        alert('회원가입에 성공했습니다.');
+        navigate('/');
       })
       .catch(() => {
         alert('회원가입에 실패했습니다. 다시 시도해주세요.');
@@ -309,6 +310,7 @@ function SignupForm() {
         });
     }
   };
+  // console.log(phone);
 
   return (
     <>
@@ -347,7 +349,8 @@ function SignupForm() {
                 type="text"
                 id="phone"
                 value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                maxLength={13}
+                onChange={(e) => setPhone(String(e.target.value).replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'))}
                 placeholder="010-1234-5678"
               />
               { toggle

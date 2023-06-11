@@ -75,8 +75,11 @@ function Party({ group, isLeader, handleLeaveParty }) {
           </div>
           { group.userPartyList && group.userPartyList.map((user) => <UserItem key={user.userId} user={user} isLeader={isLeader} handleExpelMember={handleExpelMember} noneDisplay={noneDisplay} />)}
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <p style={{ margin: '0px' }}>그룹 코드 : {group.partyIsbn}</p>
+        <div style={{
+          display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
+        }}
+        >
+          <p style={{ margin: '0px', fontSize: '13px' }}>그룹 코드: <b>{group.partyIsbn}</b></p>
           <button
             onClick={() => handleLeaveParty(group.partyId)}
             onMouseEnter={(e) => {
@@ -88,7 +91,7 @@ function Party({ group, isLeader, handleLeaveParty }) {
               e.target.style.color = 'black';
             }}
             style={{
-              backgroundColor: 'white', border: 'none', color: 'black', marginTop: '20px', width: '120px', height: '30px',
+              border: '1px solid red', backgroundColor: 'white', color: 'black', marginTop: '10px', width: '100px', height: '25px',
             }}
           >
             그룹 탈퇴
