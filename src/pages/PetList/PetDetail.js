@@ -40,7 +40,7 @@ function PetDetail({
   pet, onToggle, handleRemoveDog, isLeader,
 }) {
   // const [isModify, setIsModify] = useState(false);
-  console.log(pet);
+  // console.log(pet);
   // const [removeDog, setRemoveDog] = useState(false);
   const navigate = useNavigate();
   const petSpec = [
