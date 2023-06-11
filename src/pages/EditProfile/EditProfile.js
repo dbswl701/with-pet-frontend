@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import SearchIcon from '@mui/icons-material/Search';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router';
 
 const Container = styled.div`
   display: flex;
@@ -137,22 +138,40 @@ const ButtonContainer = styled.div`
 const url = 'https://withpet.site/api/v1/users/my-info';
 
 function EditProfile() {
-  const [imageSrc, setImageSrc] = useState('');
+  // const [imageSrc, setImageSrc] = useState('');
   const [modifyInfo, setModifyInfo] = useState({});
+  const navigate = useNavigate();
+  // const handleChangeImage = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setImageSrc(reader.result);
+  //       setModifyInfo({
+  //         ...modifyInfo,
+  //         profileImg: reader.result,
+  //       });
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
-  const handleChangeImage = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImageSrc(reader.result);
+  const handleImageUpload = async (e) => {
+    const img = e.target.files[0];
+    const formData = new FormData();
+    formData.append('file', img);
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+    axios.post('https://withpet.site/api/v1/file/upload', formData, config)
+      .then((res) => {
         setModifyInfo({
           ...modifyInfo,
-          profileImg: reader.result,
+          profileImg: res.data.result[0],
         });
-      };
-      reader.readAsDataURL(file);
-    }
+      });
   };
 
   const handleClickFindAddress = () => {
@@ -185,7 +204,7 @@ function EditProfile() {
           userId: info.userId,
           userName: info.userName,
         });
-        setImageSrc(info.profileImg);
+        // setImageSrc(info.profileImg);
       })
       .catch(() => {});
   }, []);
@@ -215,7 +234,13 @@ function EditProfile() {
 
     axios
       .put(url, info, { withCredentials: true })
-      .then(() => {})
+      .then((res) => {
+        // eslint-disable-next-line no-alert
+        alert('회원정보 수정이 완료되었습니다.');
+        navigate('../');
+        // localstorage update
+        localStorage.setItem('userInfo', JSON.stringify(res.data.result));
+      })
       .catch(() => {});
   };
 
@@ -226,7 +251,7 @@ function EditProfile() {
         <GridContainer>
           <ImageContainer>
             <label htmlFor="image-select">
-              {imageSrc && <img src={imageSrc} alt="preview-img" />}
+              <img src={modifyInfo.profileImg} alt="preview-img" />
             </label>
           </ImageContainer>
           <input
@@ -234,7 +259,7 @@ function EditProfile() {
             accept="image/*"
             id="image-select"
             style={{ display: 'none' }}
-            onChange={handleChangeImage}
+            onChange={handleImageUpload}
           />
           <InputContainer>
             <p>이름</p>
