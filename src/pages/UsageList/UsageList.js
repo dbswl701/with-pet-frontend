@@ -26,11 +26,24 @@ function UsageList() {
       });
   };
 
-  const handleRefund = (reservationId) => {
+  const handleWaitRefund = (reservationId) => {
     axios.post('https://withpet.site/payment/refund', { reservationId }, { withCredentials: true })
       .then(() => {
-        setWaitList(waitList.filter((item) => (item.reservationId !== reservationId)));
-        // 취소된 내역에 추가
+        // eslint-disable-next-line no-alert
+        alert('예약이 취소되었습니다.');
+        // console.log(payedList);
+        // console.log(reservationId);
+        setPayedList(payedList.filter((item) => (item.reservationId !== reservationId)));
+      });
+  };
+  // console.log(payedList);
+
+  const handleApproveRefund = (reservationId) => {
+    axios.post('https://withpet.site/payment/refund', { reservationId }, { withCredentials: true })
+      .then(() => {
+        // eslint-disable-next-line no-alert
+        alert('예약이 취소되었습니다.');
+        setApproveList(approveList.filter((item) => (item.reservationId !== reservationId)));
       });
   };
 
@@ -142,8 +155,8 @@ function UsageList() {
         <p style={{ fontSize: '30px', fontWeight: 'bold' }}>이용 내역</p>
       </div>
       <WaitList list={waitList} handleCancel={handleCancel} stepValue="1" onPaying={onPaying} />
-      <WaitList list={payedList} handleCancel={handleRefund} stepValue="2" />
-      <WaitList list={approveList} handleCancel={handleRefund} stepValue="3" />
+      <WaitList list={payedList} handleCancel={handleWaitRefund} stepValue="2" />
+      <WaitList list={approveList} handleCancel={handleApproveRefund} stepValue="3" />
       <WaitList list={useList} handleCancel={handleCancel} stepValue="4" handleDone={handleDone} />
       <WaitList list={doneList} handleCancel={handleCancel} stepValue="5" handleReview={handleReview} />
     </div>

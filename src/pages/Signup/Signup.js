@@ -194,12 +194,22 @@ function SignupForm() {
   const [addressDtail, setAddressDtail] = useState('');
   const [email, setEmail] = useState('');
 
+  const [toggle, setToggle] = useState(false);
+  const [certification, setCertifiation] = useState('');
+  const [saveCertification, setSaveCertifiation] = useState('');
+  const [completeCertification, setCompleteCertification] = useState(false);
+  // eslint-disable-next-line consistent-return
   const handleSubmit = (e) => {
     e.preventDefault();
     // 회원가입 시 백엔드로 보내는 로직
+    if (!completeCertification) {
+      return alert('전화번호 인증이 필요합니다.');
+    }
+
     if (password !== passwordConfirm) {
       alert('비밀번호가 일치하지 않습니다.');
       setPasswordConfirm('');
+      // eslint-disable-next-line consistent-return
       return;
     }
     if (
@@ -213,6 +223,7 @@ function SignupForm() {
       || email === ''
     ) {
       alert('빈 칸을 모두 입력해주세요.');
+      // eslint-disable-next-line consistent-return
       return;
     }
     axios
@@ -274,6 +285,31 @@ function SignupForm() {
       });
   };
 
+  const onClick = () => {
+    console.log(phone);
+    if (!toggle) {
+      setToggle(true);
+      axios.get(`https://withpet.site/api/v1/certification?to=${phone}`)
+        .then((res) => {
+          console.log(res.data.result);
+          alert('인증번호가 발급되었습니다.');
+          setSaveCertifiation(res.data.result);
+        });
+    } else if (saveCertification === certification) {
+      alert('인증이 완료되었습니다.');
+      setCompleteCertification(true);
+      setToggle(false);
+    } else {
+      alert('인증번호가 일치하지 않습니다. 인증번호가 다시 발급되었습니다');
+      axios.get(`https://withpet.site/api/v1/certification?to=${phone}`)
+        .then((res) => {
+          console.log(res.data.result);
+          setSaveCertifiation(res.data.result);
+          setCertifiation('');
+        });
+    }
+  };
+
   return (
     <>
       <GlobalStyle />
@@ -314,6 +350,17 @@ function SignupForm() {
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="010-1234-5678"
               />
+              { toggle
+                && (
+                <input
+                  type="text"
+                  value={certification}
+                  onChange={(e) => setCertifiation(e.target.value)}
+                  placeholder="인증번호 입력"
+                  disabled={completeCertification}
+                />
+                )}
+              <input type="button" value="인증하기" onClick={onClick} disabled={completeCertification} />
               <label htmlFor="email">이메일</label>
               <input
                 type="email"
