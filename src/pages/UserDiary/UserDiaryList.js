@@ -25,12 +25,32 @@ function UserDiaryList({
       })
       .catch(() => {});
   };
-  const handleRemove = (diaryId) => {
-    axios.delete(`https://withpet.site/api/v1/userdiaries/${diaryId}`, { withCredentials: true })
-      .then(() => {
-        // 일지 리스트에서
-        setDiaries((prev) => prev.filter((item) => item.userDiaryId !== diaryId));
-      });
+  const handleRemove = (diaryId, petsitterId) => {
+    if (petsitterId === null) {
+      axios.delete(`https://withpet.site/api/v1/userdiaries/${diaryId}`, { withCredentials: true })
+        .then(() => {
+          // 일지 리스트에서
+          setDiaries((prev) => prev.filter((item) => item.userDiaryId !== diaryId));
+        })
+        .catch((err) => {
+          if (err.response && err.response.status === 403) {
+            // eslint-disable-next-line no-alert
+            alert('일지는 작성자만 삭제할 수 있습니다.');
+          }
+        });
+    } else {
+      axios.delete(`https://withpet.site/api/v1//api/v1/petsitter-diaries/${diaryId}`, { withCredentials: true })
+        .then(() => {
+          // 일지 리스트에서
+          setDiaries((prev) => prev.filter((item) => item.userDiaryId !== diaryId));
+        })
+        .catch((err) => {
+          if (err.response && err.response.status === 403) {
+            // eslint-disable-next-line no-alert
+            alert('일지는 작성자만 삭제할 수 있습니다.');
+          }
+        });
+    }
   };
 
   return (
