@@ -28,10 +28,10 @@ const Form = styled.form`
 `;
 
 const CustomTextField = styled(TextField)`
+  background-color: #fff;
   .MuiOutlinedInput-root {
     fieldset {
       border-color: #caa969;
-      background-color: #fff;
     }
   }
   .MuiInputLabel-root {
@@ -40,18 +40,31 @@ const CustomTextField = styled(TextField)`
 `;
 
 const Button = styled.button`
+  margin-top: 20px;
   background-color: #caa969;
   color: #fff;
-  padding: 10px 50px;
+  padding: 5px 20px;
   border-radius: 5px;
   border: none;
   cursor: pointer;
 `;
 
+const CloseButton = styled.button`
+  font-size: 20px;
+  color: #caa969;
+  background-color: Transparent;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  align-self: flex-end;
+  margin-top: 10px;
+`;
+
 function UserEvaluation({ id, setPrintBody }) {
   const q1 = [
     { value: 5, name: '거부감 없이 금세 적응해요' },
-    { value: 4, name: '처음에 낯을 가리지만 , 1-2일이 지나면 괜찮아요' },
+    { value: 4, name: '처음에 낯을 가리지만, 1-2일이 지나면 괜찮아요' },
     { value: 1, name: '계속 불안해하거나 스트레스를 받아요' },
     { value: 3, name: '잘 모르겠어요' },
   ];
@@ -74,7 +87,7 @@ function UserEvaluation({ id, setPrintBody }) {
   const q4 = [
     { value: 5, name: '거의 짖지 않아요' },
     { value: 3, name: '상황에 따라 가끔 짖어요' },
-    { value: 2, name: '외부소음에 꽤 짖는 편이에요 / 헛짖음이 있어요' },
+    { value: 2, name: '외부 소음에 꽤 짖는 편이에요 / 헛짖음이 있어요' },
   ];
 
   const q5 = [
@@ -119,6 +132,10 @@ function UserEvaluation({ id, setPrintBody }) {
       });
   };
 
+  const onClose = () => {
+    setPrintBody(['main', 0]);
+  };
+
   const print = (
     <div
       style={{
@@ -129,8 +146,11 @@ function UserEvaluation({ id, setPrintBody }) {
     >
       <Container>
         <Form onSubmit={onSubmit}>
+          <CloseButton type="button" onClick={onClose}>
+            ✕
+          </CloseButton>
           <Title>
-            Q1. 호텔 등 낯선 공간에 맡겨지면,어떤 반응을 보이나요 ? *
+            Q1. 호텔 등 낯선 공간에 맡겨지면, 어떤 반응을 보이나요? *
           </Title>
           <CustomTextField
             sx={{ m: 1 }}
@@ -168,9 +188,8 @@ function UserEvaluation({ id, setPrintBody }) {
                 {item.name}
               </MenuItem>
             ))}
-            ㅊ
           </CustomTextField>
-          <Title>Q3. 낯선 사람이 스킨쉽하면 어떤 반응을 보이나요 ? *</Title>
+          <Title>Q3. 낯선 사람이 스킨쉽하면 어떤 반응을 보이나요? *</Title>
           <CustomTextField
             sx={{ m: 1 }}
             select
@@ -189,7 +208,7 @@ function UserEvaluation({ id, setPrintBody }) {
               </MenuItem>
             ))}
           </CustomTextField>
-          <Title>Q4. 평소 집에서 짖음은 어느정도인가요 ? *</Title>
+          <Title>Q4. 평소 집에서 짖음은 어느 정도인가요? *</Title>
           <CustomTextField
             sx={{ m: 1 }}
             select
@@ -208,7 +227,7 @@ function UserEvaluation({ id, setPrintBody }) {
               </MenuItem>
             ))}
           </CustomTextField>
-          <Title>Q5. 배변 습관은 어떤 편인가요 ? *</Title>
+          <Title>Q5. 배변 습관은 어떤 편인가요? *</Title>
           <CustomTextField
             sx={{ m: 1 }}
             select
@@ -228,7 +247,7 @@ function UserEvaluation({ id, setPrintBody }) {
             ))}
           </CustomTextField>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <Button type="submit">완료하기</Button>
+            <Button type="submit">반려견 사회화 온도 등록</Button>
           </div>
         </Form>
       </Container>
