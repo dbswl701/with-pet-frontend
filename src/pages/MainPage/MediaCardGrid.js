@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import Rating from '@mui/material/Rating';
 
 function MediaCard({ data }) {
   const navigate = useNavigate();
@@ -8,12 +9,13 @@ function MediaCard({ data }) {
     navigate(`./petsitterdetail/${id}`);
   };
   return (
-    <div onClick={() => onClick(data.petSitterId)} style={{ marginRight: '14px' }}>
+    <div onClick={() => onClick(data.petSitterId)} style={{ marginRight: '14px', marginTop: '30px' }}>
       <div>
         <img src={data.petSitterRepresentativeHouse} alt={data.userName} style={{ width: '190px', height: '130px', borderRadius: '5px' }} />
       </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h3>{data.userName}</h3>
+        <Rating name="read-only" value={data.star_rate} precision={0.1} readOnly size="small" />
         <h4>({data.review_count})</h4>
       </div>
     </div>
