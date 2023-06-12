@@ -1,73 +1,51 @@
-import React, { useState } from 'react';
-// import styled from 'styled-components';
+import React from 'react';
 import social from '../../assets/social.png';
 import heart from '../../assets/heart.png';
 import {
-  ItemContainer, Dealt, Progress, Button, ProfileImg, IconImg, InfoContainer, EvalContainer, ProfileContainer,
+  ItemContainer, Dealt, Progress, Button, ProfileImg, IconImg, InfoContainer, EvalContainer, ProfileContainer, BarContainer,
 } from '../../styles/sidebar/SidebarStyle';
 
-// const ItemContainer = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   margin-bottom: 10px;
-//   border-radius:10px;
-//   margin: 20px 0px;
-// `;
-
-// const Button = styled.button`
-//   width: 190px;
-//   height: 40px;
-//   background-color: white;
-//   border: 1px solid #CAA969;
-//   border-radius: 3px;
-// `;
-
 function DoneListItem({ item, setPrintBody }) {
-  // console.log(item);
-  const [showDiv, setShowDiv] = useState(false);
-  const showButton = (
-    <>
-      <button>일지</button>
-      <button>상세</button>
-    </>
-  );
-
   const onClick = () => {
     setPrintBody(['eval', item.reservationId]);
   };
   return (
     <>
-      <ItemContainer onMouseEnter={() => setShowDiv(true)} onMouseLeave={() => setShowDiv(false)}>
-        <ProfileContainer>
-          <ProfileImg src={item.dogImg} alt="img" />
-          <InfoContainer>
-            <p className="info">
-              {item.dogName} | {item.cost}
-            </p>
-            <p className="period">{item.checkIn} ~ {item.checkOut}</p>
-          </InfoContainer>
-        </ProfileContainer>
-        <EvalContainer>
-          <IconImg src={social} alt="social" />
-          <Button onClick={onClick}>평가하기</Button>
-        </EvalContainer>
-        <EvalContainer>
-          <IconImg className="heart" src={heart} alt="heart" />
-          <Progress className="heart">
-            <Dealt className="heart" dealt={item.affectionTemperature} />
-          </Progress>
-          <p className="heart">{item.affectionTemperature}%</p>
-        </EvalContainer>
-        <EvalContainer>
-          <IconImg className="social" src={social} alt="social" />
-          <Progress className="social">
-            <Dealt className="social" dealt={item.socializationTemperature} />
-          </Progress>
-          <p className="social">{item.socializationTemperature}%</p>
-        </EvalContainer>
+      <ItemContainer>
         <div>
-          {showDiv && showButton}
+          <ProfileContainer>
+            <ProfileImg src={item.dogImg} alt="img" />
+            <InfoContainer>
+              <p className="info">
+                {item.dogName} | {item.cost}
+              </p>
+              <p className="period">{item.checkIn} ~ {item.checkOut}</p>
+            </InfoContainer>
+          </ProfileContainer>
+          <BarContainer>
+            <EvalContainer>
+              <IconImg src={social} alt="social" />
+              <Button onClick={onClick}>평가하기</Button>
+            </EvalContainer>
+            <EvalContainer>
+              <IconImg className="heart" src={heart} alt="heart" />
+              <Progress className="heart">
+                <Dealt className="heart" dealt={item.affectionTemperature} />
+              </Progress>
+              <p className="heart">{item.affectionTemperature}%</p>
+            </EvalContainer>
+            <EvalContainer>
+              <IconImg className="social" src={social} alt="social" />
+              <Progress className="social">
+                <Dealt className="social" dealt={item.socializationTemperature} />
+              </Progress>
+              <p className="social">{item.socializationTemperature}%</p>
+            </EvalContainer>
+          </BarContainer>
         </div>
+        {/* <div>
+          {showDiv && showButton}
+        </div> */}
       </ItemContainer>
     </>
   );

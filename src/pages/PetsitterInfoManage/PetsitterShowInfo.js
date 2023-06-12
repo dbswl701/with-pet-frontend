@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
-  Button, Container, DivContainer, Title,
+  Container, DivContainer, Title, Button,
 } from './InfoStyle';
 
 function Item({ service }) {
@@ -11,7 +11,6 @@ function Item({ service }) {
       backgroundColor: `${service.isIncluded === true ? '#FAF6F0' : '#F2F2F2'}`, color: `${service.isIncluded === true ? '#CAA969' : 'gray'}`, width: '130px', height: '150px', marginRight: '5px', borderRadius: '20px', padding: '10px', fontSize: '12px',
     }}
     >
-      {/* 사진, 이름, 내용 */}
       <div style={{ textAlign: 'center' }}>
         <img src={service.serviceImg} alt="서비스 이미지" style={{ width: '30px', height: '30px', marginTop: '5px' }} />
       </div>
@@ -32,7 +31,6 @@ function PetsitterShowInfo() {
     axios.get('https://withpet.site/api/v1/petsitter/show-myinfo', { withCredentials: true })
       .then((res) => {
         setInfo(res.data.result);
-        // console.log(res.data.result);
       })
       .catch(() => {
       });
@@ -54,7 +52,7 @@ function PetsitterShowInfo() {
   });
 
   const isCriticalServiceIdIncluded = info.criticalServices && info.criticalServices.map((service) => {
-    const selected = info.petSitterServices.find((sitterService) => sitterService.serviceId === service.serviceId);
+    const selected = info.petSitterCriticalServices.find((sitterService) => sitterService.serviceId === service.serviceId);
     return {
       ...service,
       isIncluded: info.petSitterCriticalServices.some(
@@ -117,7 +115,7 @@ function PetsitterShowInfo() {
           }
         </div>
       </DivContainer>
-      <Button onClick={onModify} style={{ height: '50px' }}>수정</Button>
+      <Button onClick={onModify}>수정</Button>
     </Container>
   );
 
@@ -136,7 +134,6 @@ function PetsitterShowInfo() {
     </div>
   );
 
-  // 만약 펫시터의 정보가 하나도 없다면
   let print = '';
   if (info.introduction === null) {
     print = initPrint;
@@ -147,7 +144,6 @@ function PetsitterShowInfo() {
   return (
     <>
       { print }
-      {/* {info} */}
     </>
   );
 }

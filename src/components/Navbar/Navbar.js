@@ -6,17 +6,16 @@ import NavAfterLogin from './NavAfterLogin';
 import AdminNavbar from './AdminNavbar';
 import NavPetsitter from './NavPetsitter';
 
-function Nav({ userInfo }) {
-  // console.log(userInfo);
+function Nav({ userInfo, setUserInfo }) {
   let print = <NavNoLogin />;
   if (userInfo.userName === '') {
     print = <NavNoLogin />;
   } else if (userInfo.role === 'ROLE_PETSITTER') {
-    print = <NavPetsitter name={userInfo.userName} />;
-  } else if (userInfo.role === 'ROLE_USER') {
-    print = <NavAfterLogin name={userInfo.userName} />;
+    print = <NavPetsitter userInfo={userInfo} setUserInfo={setUserInfo} />;
+  } else if (userInfo.role === 'ROLE_USER' || userInfo.role === 'ROLE_APPLICANT') {
+    print = <NavAfterLogin userInfo={userInfo} setUserInfo={setUserInfo} />;
   } else if (userInfo.role === 'ROLE_ADMIN') {
-    print = <AdminNavbar />;
+    print = <AdminNavbar setUserInfo={setUserInfo} />;
   }
   return (
     <>

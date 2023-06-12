@@ -6,10 +6,8 @@ import axios from 'axios';
 import Options from './Options';
 import CheckCalendar from './CheckCalendar';
 import AvailableCalendar from './AvailableCalendar';
-// import Pay from './Pay';
 
 const Container = styled.div`
-  // background-color: orange;
   width: 375px;
   display: flex;
   flex-direction: column;
@@ -29,7 +27,7 @@ const Wrapper1 = styled.div`
 `;
 
 function Reservation({
-  dogList, data, petsitterId,
+  dogList, data, petsitterId, setOpen, setPayInfo,
 }) {
   const [info, setInfo] = useState({
     startDate: '',
@@ -39,9 +37,8 @@ function Reservation({
     dogId: '',
     optionId: [],
   });
-  // const [payInfo, setPayInfo] = useState([]);
-  // const [unavailable, setUnavailable] = useState([]);
-  // const [unavailable2, setUnavailable2] = useState([]);
+
+  const [reset, setReset] = useState(false);
   const onChange = (e) => {
     const { name, value } = e.target;
     setInfo({
@@ -56,21 +53,8 @@ function Reservation({
       optionId: list,
     });
   };
-  // console.log(data.dogs);
-  // console.log(data);
-  // console.log(dogList);
-  // // 예약 불가능한 날짜 확인
-  // useEffect(() => {
-  //   axios.get(`https://withpet.site/api/v1/reservation?month=2023-05&petsitterId=${petsitterId}`, { withCredentials: true })
-  //     .then((res) => {
-  //       // console.log(res.data.result);
-  //       setUnavailable(res.data.result);
-  //     });
-  // }, []);
 
   const onSubmit = (e) => {
-    // 예약 api
-    // console.log(info);
     e.preventDefault();
     const temp = {
       checkIn: `${info.startDate}T${info.checkinTime}:00:00`,
@@ -79,16 +63,41 @@ function Reservation({
       optionId: info.optionId,
       petsitterId: Number(petsitterId),
     };
-    // console.log(temp);
+    if (!info.startDate || !info.endDate) {
+      // eslint-disable-next-line no-alert
+      alert('체크인 체크아웃 날짜를 선택해주세요.');
+      return;
+    }
     axios.post('https://withpet.site/api/v1/reservation', temp, { withCredentials: true })
-      .then(() => {
-        // console.log(res.data.result);
-        // eslint-disable-next-line no-alert
-        alert('예약이 완료되었습니다.');
-        // setPayInfo(res.data.result);
+      .then((res) => {
+        setInfo({
+          startDate: '',
+          endDate: '',
+          checkinTime: '',
+          checkoutTime: '',
+          dogId: '',
+          optionId: [],
+        });
+        setReset((prev) => !prev);
+        setPayInfo(res.data.result);
+        setOpen(true);
+      })
+      .catch((err) => {
+        if (err.response && err.response.status === 409) {
+          setInfo({
+            startDate: '',
+            endDate: '',
+            checkinTime: '',
+            checkoutTime: '',
+            dogId: '',
+            optionId: [],
+          });
+          setReset((prev) => !prev);
+          // eslint-disable-next-line no-alert
+          alert(err.response.data.message);
+        }
       });
   };
-  // console.log(info);
   const onChangeCalender = (start, end) => {
     if (start && end) {
       setInfo({
@@ -99,16 +108,12 @@ function Reservation({
     }
   };
 
-  // const onPaing = () => {
-  //   setOpen(true);
-  // };
-
   return (
     <>
       <Container>
-        <Wrapper1> { /* 예약 정보 입력 */ }
+        <Wrapper1>
           <Title>체크인 / 체크아웃 날짜</Title>
-          <CheckCalendar onChange={onChangeCalender} petsitterId={petsitterId} />
+          <CheckCalendar onChange={onChangeCalender} petsitterId={petsitterId} reset={reset} />
           <form onSubmit={onSubmit}>
             <div>
               <Title>체크인 / 체크아웃 시간</Title>
@@ -168,13 +173,10 @@ function Reservation({
               </TextField>
               <Title>반려동물 선택</Title>
               <TextField sx={{ m: 1 }} select label="반려견 선택" variant="outlined" name="dogId" style={{ width: '300px' }} onChange={onChange} value={info.dogId} required>
-                {/* <MenuItem value="23">오후 11:00</MenuItem> */}
                 { dogList.map((dog) => <MenuItem key={dog.dogId} value={dog.dogId} disabled={!dog.petReservationAvailable}>{dog.name}</MenuItem>)}
               </TextField>
               <Title>옵션 선택</Title>
-              {/* 여기 서비스 넘겨줌 */}
-              <Options services={data.petSitterServices} onChange={onChangeOption} />
-              {/* <Pay /> */}
+              <Options services={data.petSitterServices} reset={reset} onChange={onChangeOption} />
             </div>
             <input
               type="submit"
@@ -182,7 +184,6 @@ function Reservation({
               style={{
                 width: '285px', height: '50px', margin: 'auto', borderRadius: '10px', backgroundColor: '#CAA969', color: 'white', marginBottom: '30px',
               }}
-              // onClick={onPaing}
             />
           </form>
         </Wrapper1>

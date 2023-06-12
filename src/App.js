@@ -24,19 +24,38 @@ import UserDiaryList from './pages/UserDiary/UserDiaryList';
 import UserEvaluation from './pages/UserEvaluation/UserEvaluation';
 import PetsitterDiaries from './pages/PetsitterDiaries/PetsitterDiaries';
 import PetsitterInfoModify from './pages/PetsitterInfoManage/PetsitterInfoModify';
+import Chat from './pages/Chat/Chat';
+// import Notification from './pages/Notification/Notification';
+import NotificationPage from './pages/Notification/NotificationPage';
+import ApplicantDetail from './pages/AdminMainPage/ApplicantDetail';
 
 function App() {
   const [state, setState] = useState('false');
-  const [userInfo, setUserInfo] = useState({
-    role: '',
-    userName: '',
-  });
+
+  const [userInfo, setUserInfo] = useState(
+    localStorage.getItem('userInfo')
+      ? JSON.parse(localStorage.getItem('userInfo'))
+      : '',
+  );
+
   return (
     <>
       <Routes>
-        <Route path="/" element={<Navbar state={state} userInfo={userInfo} />}>
+        <Route
+          path="/"
+          element={(
+            <Navbar
+              state={state}
+              userInfo={userInfo}
+              setUserInfo={setUserInfo}
+            />
+          )}
+        >
           <Route index element={<MainPage />} />
-          <Route path="/login" element={<Login setState={setState} setUserInfo={setUserInfo} />} />
+          <Route
+            path="/login"
+            element={<Login setState={setState} setUserInfo={setUserInfo} />}
+          />
           <Route path="/signup" element={<Signup />} />
 
           {/* 반려인 페이지 */}
@@ -47,7 +66,10 @@ function App() {
           <Route path="/petList" element={<PetList />} />
           <Route path="/petsitterdetail/:id" element={<PetsitterDetail />} />
           <Route path="/userdiaryList" element={<UserDiaryList />} />
-          <Route path="/petList/userEvaluation/:id" element={<UserEvaluation />} />
+          <Route
+            path="/petList/userEvaluation/:id"
+            element={<UserEvaluation />}
+          />
 
           {/* 펫시터 페이지 */}
           <Route path="/petsitterapply" element={<PetsitterApply />} />
@@ -55,17 +77,28 @@ function App() {
           <Route path="/petsittersdoginfo" element={<PetsittersDogInfo />} />
           <Route path="/petsitternewdog" element={<PetsitterNewDog />} />
           <Route path="/profit" element={<Profit />} />
-          <Route path="/petsitterInfoManage" element={<PetsitterInfoManage />} />
+          <Route
+            path="/petsitterInfoManage"
+            element={<PetsitterInfoManage />}
+          />
           <Route path="/petsitterShowInfo" element={<PetsitterShowInfo />} />
           <Route path="/petsitterDiaries" element={<PetsitterDiaries />} />
-          <Route path="/petsitterInfoModify" element={<PetsitterInfoModify />} />
+          <Route
+            path="/petsitterInfoModify"
+            element={<PetsitterInfoModify />}
+          />
+          <Route path="/chat" element={<Chat />} />
 
           {/* 관리자 페이지 */}
           <Route path="/adminmainpage" element={<AdminMainPage />} />
+          <Route path="/adminmainpage/detail/:id" element={<ApplicantDetail />} />
           <Route path="/servicemanage" element={<AdminServicManage />} />
           <Route path="/adminapplyInfo" element={<AdminApplyInfo />} />
+
+          <Route path="/notification" element={<NotificationPage />} />
         </Route>
       </Routes>
+      {/* <Notification /> */}
     </>
   );
 }

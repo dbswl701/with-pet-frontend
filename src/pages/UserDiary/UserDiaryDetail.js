@@ -1,16 +1,8 @@
 import React from 'react';
 import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
-// import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
-function UserDiaryDetail({ diary, onToggle }) {
-// function UserDiaryDetail({ diary }) {
-  // const diarySpec = [
-  //   { name: '날짜', value: diary.createdAt },
-  //   { name: '이름', value: diary.dogName },
-  //   { name: '카테고리', value: diary.categoryName },
-  //   { name: '제목', value: diary.title },
-  // ];
+function UserDiaryDetail({ diary, onToggle, handleRemove }) {
   const detail = (
     <>
       <div style={{ display: 'flex', flexDirection: 'column', width: '500px' }}>
@@ -26,6 +18,7 @@ function UserDiaryDetail({ diary, onToggle }) {
               }}
               >
                 <Typography style={{ width: '100px' }}>{diary.createdAt}</Typography>
+                <Typography style={{ width: '100px' }}>{diary.userName}</Typography>
                 <Typography style={{ width: '100px', border: '1px solid gray', borderRadius: '10px' }}>{diary.dogName}</Typography>
                 <Typography style={{ width: '100px', border: '1px solid gray', borderRadius: '10px' }}>{diary.categoryName}</Typography>
               </div>
@@ -42,6 +35,8 @@ function UserDiaryDetail({ diary, onToggle }) {
           </div>
         </div>
         <button className="diary-add-btn" onClick={() => onToggle('modify')}>수정</button>
+        <button className="diary-add-btn" style={{ backgroundColor: '#F36464' }} onClick={() => handleRemove(diary.userDiaryId, diary.petsitterId)}>삭제</button>
+
       </div>
       <div>
         <ChevronLeftOutlinedIcon

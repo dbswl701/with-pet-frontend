@@ -4,7 +4,6 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import dayjs from 'dayjs';
-// import axios from 'axios';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -14,14 +13,13 @@ function PetAdd({
   onSubmit, onChange, petInfo, onCancle, partyId,
 }) {
   const [isClick, setisClick] = useState(false);
+
   const onLocalSubmit = (e) => {
     onSubmit(e, partyId);
     setisClick(false);
   };
 
   const onChangeCalendar = (date) => {
-    // console.log(date);
-    // console.log(dayjs(date).format('YYYY-MM-DD'));
     const e = {
       target: {
         name: 'dog_birth',
@@ -51,6 +49,7 @@ function PetAdd({
           id="image-select"
           style={{ display: 'none' }}
           onChange={onChange}
+          required
         />
       </div>
       <div className="pet-info-regist">
@@ -89,7 +88,6 @@ function PetAdd({
           <MenuItem value="치와와">치와와</MenuItem>
           <MenuItem value="보더콜리">보더콜리</MenuItem>
         </TextField>
-
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             sx={{ m: 1 }}

@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 import React from 'react';
 import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
 import Grid from '@mui/material/Grid';
@@ -18,7 +19,6 @@ const Progress = styled.div`
 
 const Dealt = styled.div`
   background-color: red;
-  // border: 2px solid gray;
   width: ${(props) => `${props.dealt}%`};
   height: 100%;
   border-radius: 5px;
@@ -35,8 +35,9 @@ const Button = styled.button`
   color: white;
 `;
 
-function PetDetail({ pet, onToggle }) {
-  // const [isModify, setIsModify] = useState(false);
+function PetDetail({
+  pet, onToggle, handleRemoveDog, isLeader,
+}) {
   const navigate = useNavigate();
   const petSpec = [
     { name: '견종', value: pet.dog_breed },
@@ -49,7 +50,7 @@ function PetDetail({ pet, onToggle }) {
   const onClickSocilization = () => {
     navigate(`./userEvaluation/${pet.dog_id}`);
   };
-  // console.log(pet);
+
   const detail = (
     <>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -76,6 +77,24 @@ function PetDetail({ pet, onToggle }) {
               </div>
               <Button onClick={onClickSocilization}>반려견 사회성 등록</Button>
             </div>
+            <div>
+              <button
+                onClick={() => handleRemoveDog(pet.dog_id)}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = 'red';
+                  e.target.style.color = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = 'white';
+                  e.target.style.color = 'black';
+                }}
+                style={{
+                  display: isLeader ? 'inline-block' : 'none', backgroundColor: 'white', border: 'none', color: 'black', marginTop: '20px', width: '120px', height: '30px',
+                }}
+              >
+                반려견 삭제하기
+              </button>
+            </div>
           </div>
           <div className="pet-info">
             <div className="pet-name">
@@ -97,10 +116,6 @@ function PetDetail({ pet, onToggle }) {
             </div>
             <button onClick={() => onToggle('modify')}>수정</button>
           </div>
-        </div>
-        <div className="pet-second">
-          {/* <button onClick={onClickSocilization}>사회화</button> */}
-          <button>건강수첩</button>
         </div>
       </div>
       <div>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
-// import dogimgdefault from '../../assets/dogProfileImage.png';
+import axios from 'axios';
 
 function PetModify({
   onSubmit, petInfo, onToggle, categories,
@@ -14,17 +14,27 @@ function PetModify({
     dogImgToday: petInfo.dogImgToday,
     title: petInfo.title,
   });
-  const onChange = (e) => {
-    if (e.target.files) {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
+
+  const handleImageUpload = async (e) => {
+    const img = e.target.files[0];
+    const formData = new FormData();
+    formData.append('file', img);
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+    axios.post('https://withpet.site/api/v1/file/upload', formData, config)
+      .then((res) => {
         setModifyPetInfo({
           ...modifyPetInfo,
-          dog_img: reader.result,
+          dog_img: res.data.result[0],
         });
-      };
+      });
+  };
+  const onChange = (e) => {
+    if (e.target.files) {
+      handleImageUpload(e);
     } else {
       const { value, name } = e.target;
       setModifyPetInfo({
@@ -43,7 +53,6 @@ function PetModify({
     });
     onSubmit(petInfo.petSitterDiaryId, modifyPetInfo);
   };
-  // console.log(petInfo);
 
   const onLocalCancle = () => {
     onToggle(false);

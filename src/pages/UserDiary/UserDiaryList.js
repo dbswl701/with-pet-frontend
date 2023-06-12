@@ -25,6 +25,31 @@ function UserDiaryList({
       })
       .catch(() => {});
   };
+  const handleRemove = (diaryId, petsitterId) => {
+    if (petsitterId === null) {
+      axios.delete(`https://withpet.site/api/v1/userdiaries/${diaryId}`, { withCredentials: true })
+        .then(() => {
+          setDiaries((prev) => prev.filter((item) => item.userDiaryId !== diaryId));
+        })
+        .catch((err) => {
+          if (err.response && err.response.status === 403) {
+            // eslint-disable-next-line no-alert
+            alert('일지는 작성자만 삭제할 수 있습니다.');
+          }
+        });
+    } else {
+      axios.delete(`https://withpet.site/api/v1//api/v1/petsitter-diaries/${diaryId}`, { withCredentials: true })
+        .then(() => {
+          setDiaries((prev) => prev.filter((item) => item.userDiaryId !== diaryId));
+        })
+        .catch((err) => {
+          if (err.response && err.response.status === 403) {
+            // eslint-disable-next-line no-alert
+            alert('일지는 작성자만 삭제할 수 있습니다.');
+          }
+        });
+    }
+  };
 
   return (
     <div>
@@ -33,7 +58,6 @@ function UserDiaryList({
           sx={{
             width: 800,
             height: 550,
-            // maxHeight: '80vh',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'top',
@@ -48,7 +72,7 @@ function UserDiaryList({
         >
           <div className="diary_container">
             {diaries.map((diary) => {
-              return <UserDiary key={diary.userDiaryId} diary={diary} onSubmitModify={onSubmitModify} />;
+              return <UserDiary key={diary.userDiaryId} diary={diary} onSubmitModify={onSubmitModify} handleRemove={handleRemove} />;
             })}
           </div>
           <Button type="button" onClick={() => setOpen(false)}>

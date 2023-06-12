@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
-// import Typography from '@mui/material/Typography';
 import Modify from './Modify';
 
 function Service({
@@ -11,7 +10,7 @@ function Service({
   const basic = (
     <TableRow>
       <TableCell>{item.serviceId}</TableCell>
-      <TableCell><img src={item.serviceImg} alt="img" style={{ width: '50px' }} /></TableCell>
+      <TableCell><img src={item.serviceImg} alt="img" style={{ width: '50px', height: '50px', borderRadius: '50%' }} /></TableCell>
       <TableCell>{item.serviceName}</TableCell>
       <TableCell>{item.serviceIntroduction}</TableCell>
       <TableCell>

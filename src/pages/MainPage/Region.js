@@ -4,22 +4,14 @@ import Autocomplete from '@mui/material/Autocomplete';
 import FormControl from '@mui/material/FormControl/FormControl';
 import { SelectWrapper } from '../../styles/main/MainPageStyle';
 
-// function sleep(delay = 0) {
-//   return new Promise((resolve) => {
-//     setTimeout(resolve, delay);
-//   });
-// }
-
 const regionList = [
+  { region: '팔달구', city: '수원' },
   { region: '영통구', city: '수원' },
-  { region: '영동구', city: '수원' },
-  { region: '용답동', city: '서울' },
-  { region: '성수동', city: '서울' },
-  { region: '상수동', city: '서울' },
-  { region: '별양동', city: '과천' },
-  { region: '중앙동', city: '과천' },
-  { region: '문원동', city: '과천' },
-  { region: '원문동', city: '과천' },
+  { region: '장안구', city: '수원' },
+  { region: '권선구', city: '수원' },
+  { region: '양천구', city: '서울' },
+  { region: '강서구', city: '서울' },
+  { region: '서대문구', city: '서울' },
 ];
 
 export default function Asynchronous({ options, setOptions }) {
@@ -38,7 +30,6 @@ export default function Asynchronous({ options, setOptions }) {
       });
     }
   };
-  // console.log(options);
   return (
     <SelectWrapper>
       <FormControl sx={{ m: 1, width: 4 / 5, display: 'flex' }}>

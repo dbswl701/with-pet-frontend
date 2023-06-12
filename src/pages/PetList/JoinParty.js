@@ -13,19 +13,11 @@ function JoinParty({
   const onJoinParty = () => {
     axios.post('https://withpet.site/api/v1/groups/member', { partyIsbn: partyCode }, { withCredentials: true })
       .then((res) => {
-        // console.log(res.data.result);
         setGroupList(groupList.concat(res.data.result));
-        // setPets(res.data.result);
         setOpen(false);
         setPartyCode('');
       })
       .catch(() => {
-        // const temp = res.request.response;
-        // const temp = { errorCode: 'DUPLICATED_GROUP_MEMBER', message: '해당 그룹에 존재하는 유저입니다.' };
-
-        // console.log(temp);
-        // eslint-disable-next-line dot-notation
-        // console.log(temp['message']);
       });
   };
 
@@ -36,7 +28,6 @@ function JoinParty({
           sx={{
             width: 500,
             height: 300,
-            // maxHeight: '80vh',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',

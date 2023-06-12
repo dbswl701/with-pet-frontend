@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import dayjs from 'dayjs';
-// import styled from 'styled-components';
 import axios from 'axios';
 import {
   SideBar, Button, ListContainer, ItemContainer, Items,
@@ -23,6 +23,7 @@ function Item({
 function UserSideBar({
   setFilteredDiaries, filter, setFilter, open, setOpen, filteredDiaries,
 }) {
+  const navigate = useNavigate();
   const [dogs, setDogs] = useState([]);
   const [categories, setCategories] = useState([]);
   const colorList = ['#64C8F3', '#F36464', '#57DF86', '#DFDA57', '#CAA969', 'violet', 'gray'];
@@ -37,7 +38,6 @@ function UserSideBar({
     axios.get(`https://withpet.site/api/v1/userdiaries/month?categoryId=${updatedFilter.categoryId}&dogId=${updatedFilter.dogId}&month=${updatedFilter.month}&petsitterCheck=${updatedFilter.petsitterCheck}`, { withCredentials: true })
       .then((res) => {
         const { result } = res.data;
-        // 이제 달력 보여줄거 업데이트 하자
         const temp = result.map((item) => ({
           start: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
           end: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
@@ -50,7 +50,6 @@ function UserSideBar({
 
       });
   };
-  // console.log(filteredDiaries);
   useEffect(() => {
     axios.get('https://withpet.site/api/v1/calendar', { withCredentials: true })
       .then((res) => {
@@ -63,17 +62,20 @@ function UserSideBar({
           categoryId: category.categoryId.toString(),
           name: category.name,
         }));
-        // console.log(updatedCategories);
         setCategories(updatedCategories);
       })
-      .catch(() => {
+      .catch((err) => {
+        if (err.response && err.response.status === 401) {
+          // eslint-disable-next-line no-alert
+          alert('로그인이 필요한 서비스입니다.');
+          navigate('/login');
+        }
       });
 
     // 필터링 안했을 때 정보 불러옴
     axios.get(`https://withpet.site/api/v1/userdiaries/month?categoryId=&dogId=&month=${filter.month}`, { withCredentials: true })
       .then((res) => {
         const { result } = res.data;
-        // 이제 달력 보여줄거 업데이트 하자
         const temp = result.map((item) => ({
           start: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
           end: dayjs(new Date(item.createdAt)).format('YYYY-MM-DD'),
@@ -86,8 +88,7 @@ function UserSideBar({
 
       });
   }, []);
-  // console.log(dogs);
-  // console.log(categories);
+
   return (
     <>
       <SideBar>
@@ -104,8 +105,8 @@ function UserSideBar({
         <ListContainer>
           작성자 선택
           <ItemContainer>
-            <Button value="PETSITTER" name="petsitterCheck" onClick={onChange}>반려인</Button>
-            <Button value="USER" name="petsitterCheck" onClick={onChange}>펫시터</Button>
+            <Button value="USER" name="petsitterCheck" onClick={onChange}>반려인</Button>
+            <Button value="PETSITTER" name="petsitterCheck" onClick={onChange}>펫시터</Button>
           </ItemContainer>
         </ListContainer>
         <ListContainer>

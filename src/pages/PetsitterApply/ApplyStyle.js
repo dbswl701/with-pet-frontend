@@ -1,20 +1,25 @@
 import styled from 'styled-components';
 
 export const FormContainer = styled.form`
-    padding: 10% 0 10% 0;
     position: relative;
+    width: 75vw;;
+    padding: 10% 20% 10% 20%;
     display: flex;
-    // justify-content: center;
+    justify-content: flex-start ;
+    margin: auto;
     background-opacity: 100;
-    align-items: center;
+    align-content: center;
     flex-direction: column;
     font-family: 'Noto Sans KR', sans-serif;
     color: #caa969;
+    p {
+        align: left;
+    }
 `;
 
 export const StyledInput = styled.input`
-    width: 12rem;
-    height: 3rem;
+    width: 60px;
+    height: 40px;
     background-color: #CAA969;
     border: none;
     border-radius: 5px;

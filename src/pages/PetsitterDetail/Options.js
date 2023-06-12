@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -28,21 +28,22 @@ function getStyles(name, personName, theme) {
   };
 }
 
-export default function MultipleSelectChip({ services, onChange }) {
+export default function MultipleSelectChip({ services, reset, onChange }) {
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState([]);
+  const [personName, setPersonName] = useState([]);
 
+  useEffect(() => {
+    setPersonName([]);
+  }, [reset]);
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
     setPersonName(
-      // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
     onChange(typeof value === 'string' ? value.split(',') : value);
   };
-
   return (
     <div>
       <FormControl sx={{ m: 1, width: 300 }}>

@@ -18,7 +18,6 @@ export const Background = styled.div`
     background-size: contain;
 `;
 
-// 전체 레이아웃
 export const Content = styled.div`
     position: relative;
     display: flex;
@@ -63,9 +62,7 @@ export const CardContainer = styled.div`
     grid-gap: 15px;
     width: 80vw;
     height: 60vh;
-    // align-content: center;
     justify-content: space-evenly;
-    // background-color: red;
     align-items: center;
     gap: 3px;
     justify-items: center;
@@ -75,7 +72,6 @@ export const CardContainer = styled.div`
 `;
 
 export const CardWrapper = styled.div`
-    // background-color: pink;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -92,6 +88,4 @@ export const ImgWrapper = styled.img`
     width: 90%;
     height: 70%;
     background-color: orange;
-    // width: 224px;
-    // height: 150px;
 `;

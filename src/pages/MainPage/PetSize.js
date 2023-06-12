@@ -2,20 +2,15 @@ import * as React from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-// import OutlinedInput from '@mui/material/OutlinedInput';
 import { SelectWrapper } from '../../styles/main/MainPageStyle';
 
 export default function SelectLabels({ setOptions, options }) {
-  // const [size, setSize] = React.useState('');
-
   const handleChange = (event) => {
-    // setSize(event.target.value);
     setOptions({
       ...options,
       size: event.target.value,
     });
   };
-  // console.log(size);
 
   return (
     <SelectWrapper id="petsize">

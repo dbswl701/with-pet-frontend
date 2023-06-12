@@ -3,15 +3,9 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import DiaryAdd from './DiaryAdd';
 import Diary from './Diary';
-// import Pet from './Pet';
-// import PetAdd from './PetAdd';
-// import dogimgdefault from '../../assets/dogProfileImage.png';
-// import dogdiaryimgsample from '../../assets/dogdiaryimgsample.png';
 
 function PetList({ id }) {
   const [diaries, setDiaries] = useState([]);
-  // const dateNow = new Date();
-  // const today = dateNow.toISOString().slice(0, 10);
   const [categories, setCategories] = useState([]);
 
   const [petInfo, setPetInfo] = useState({
@@ -21,19 +15,27 @@ function PetList({ id }) {
     dogImgToday: '',
     title: '',
   });
-  // const nextId = useRef(3);
 
-  const onChange = (e) => {
-    if (e.target.files) {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
+  const handleImageUpload = async (e) => {
+    const img = e.target.files[0];
+    const formData = new FormData();
+    formData.append('file', img);
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+    axios.post('https://withpet.site/api/v1/file/upload', formData, config)
+      .then((res) => {
         setPetInfo({
           ...petInfo,
-          dogImgToday: reader.result,
+          dogImgToday: res.data.result[0],
         });
-      };
+      });
+  };
+  const onChange = (e) => {
+    if (e.target.files) {
+      handleImageUpload(e);
     } else {
       const { value, name } = e.target;
       setPetInfo({
@@ -45,16 +47,11 @@ function PetList({ id }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // let img = petInfo.dog_img;
-    // if (img === '') {
-    //   img = dogimgdefault;
-    // }
     const pet = {
       ...petInfo,
       dogId: id,
     };
-    // nextId.current += 1;
-    // console.log(pet);
+
     axios.post('https://withpet.site/api/v1/petsitter-diaries', pet, { withCredentials: true })
       .then((res) => {
         setDiaries({
@@ -65,34 +62,21 @@ function PetList({ id }) {
       .catch(() => {
       });
   };
-  // console.log(diaries);
 
   useEffect(() => {
     axios.get(`https://withpet.site/api/v1/petsitter-diaries?dogId=${id}`, { withCredentials: true })
       .then((res) => {
         setDiaries(res.data.result);
-        // console.log(res.data.result);
       })
       .catch(() => {
       });
     axios.get('https://withpet.site/api/v1/category', { withCredentials: true })
       .then((res) => {
         setCategories(res.data.result);
-        // console.log(res.data.result);
       });
   }, []);
 
-  // useEffect(() => {
-  //   axios.get('https://withpet.site/api/v1/category', { withCredentials: true })
-  //     .then((res) => {
-  //       setCategories(res.data.result);
-  //       console.log(res.data.result);
-  //     });
-  // }, []);
-
   const onSubmitModify = (id2, modifyPetInfo) => {
-    // setPets(pets.map((pet) => (pet.id === id ? modifyPetInfo : pet)));
-    // console.log(diaries.petSitterDiaryResponses);
     axios.put(`https://withpet.site/api/v1/petsitter-diaries/${id2}`, modifyPetInfo, { withCredentials: true })
       .then((res) => {
         const updatedPets = diaries.petSitterDiaryResponses.map((pet) => {
@@ -101,7 +85,6 @@ function PetList({ id }) {
           }
           return pet;
         });
-        // console.log(updatedPets);
         setDiaries(updatedPets);
       })
       .catch(() => {
@@ -117,7 +100,6 @@ function PetList({ id }) {
       title: '',
     });
   };
-  // console.log(diaries);
   return (
     <>
       <div style={{

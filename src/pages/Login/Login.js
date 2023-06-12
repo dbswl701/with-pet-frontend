@@ -9,7 +9,8 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  background-color: #fff;
+  height: 50px;
 `;
 
 const FormTitle = styled.h3`
@@ -31,7 +32,7 @@ const Card = styled.div`
   padding: 20px;
   outline: 1px solid #f3deb5;
   border-radius: 5px;
-  margin-top: -30%;
+  margin-top: 10px;
   justify-content="center"
   z-index: 1;
   background-color: #fff;
@@ -89,7 +90,8 @@ function Login({ setState, setUserInfo }) {
         setState('login');
         alert('로그인에 성공했습니다.'); // eslint-disable-line no-alert
         setUserInfo(res.data.result);
-        navigate('../');
+        localStorage.setItem('userInfo', JSON.stringify(res.data.result));
+        navigate(-1);
       })
       .catch(() => {
         alert('로그인에 실패했습니다.'); // eslint-disable-line no-alert
@@ -105,7 +107,7 @@ function Login({ setState, setUserInfo }) {
       </div>
       <div>
         <Container>
-          <Card>
+          <Card style={{ zIndex: '1' }}>
             <FormTitle>로그인</FormTitle>
             <Form>
               <div style={{ textAlign: 'center' }}>
@@ -142,7 +144,6 @@ function Login({ setState, setUserInfo }) {
           </Card>
         </Container>
       </div>
-      ``
     </>
   );
 }
