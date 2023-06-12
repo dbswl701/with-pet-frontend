@@ -7,13 +7,11 @@ import { SelectWrapper } from '../../styles/main/MainPageStyle';
 const regionList = [
   { region: '팔달구', city: '수원' },
   { region: '영통구', city: '수원' },
-  { region: '용답동', city: '서울' },
-  { region: '성수동', city: '서울' },
-  { region: '상수동', city: '서울' },
-  { region: '별양동', city: '과천' },
-  { region: '중앙동', city: '과천' },
-  { region: '문원동', city: '과천' },
-  { region: '원문동', city: '과천' },
+  { region: '장안구', city: '수원' },
+  { region: '권선구', city: '수원' },
+  { region: '양천구', city: '서울' },
+  { region: '강서구', city: '서울' },
+  { region: '서대문구', city: '서울' },
 ];
 
 export default function Asynchronous({ options, setOptions }) {
