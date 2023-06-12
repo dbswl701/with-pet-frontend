@@ -37,6 +37,12 @@ function Pet({
         if (res.data.result) {
           setGroupList((prev) => prev.filter((group) => group.partyId !== partyId));
         }
+      })
+      .catch((err) => {
+        if (err.response && err.response.status === 400) {
+          // eslint-disable-next-line no-alert
+          alert(err.response.data.message);
+        }
       });
   };
 

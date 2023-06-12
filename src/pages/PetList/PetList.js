@@ -179,6 +179,12 @@ function PetList() {
       .then(() => {
         // 자신의 groupList에서 해당 그룹 삭제
         setGroupList((prev) => prev.filter((group) => group.partyId !== partyId));
+      })
+      .catch((err) => {
+        if (err.response && err.response.status === 401) {
+          // eslint-disable-next-line no-alert
+          alert(err.response.data.message);
+        }
       });
   };
 
