@@ -287,11 +287,16 @@ function SignupForm() {
 
   const onClick = () => {
     if (!toggle) {
-      setToggle(true);
       axios.get(`https://withpet.site/api/v1/certification?to=${phone}`)
         .then((res) => {
           alert('인증번호가 발급되었습니다.');
           setSaveCertifiation(res.data.result);
+          setToggle(true);
+        })
+        .catch((err) => {
+          if (err.response && err.response.status === 409) {
+            alert(err.response.data.message);
+          }
         });
     } else if (saveCertification === certification) {
       alert('인증이 완료되었습니다.');
