@@ -1,22 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import social from '../../assets/social.png';
 import heart from '../../assets/heart.png';
 import {
-  ItemContainer, Dealt, Progress, ProfileImg, IconImg, InfoContainer, ProfileContainer, EvalContainer, BarContainer, SideButton,
+  ItemContainer, Dealt, Progress, ProfileImg, IconImg, InfoContainer, ProfileContainer, EvalContainer, BarContainer,
 } from '../../styles/sidebar/SidebarStyle';
 
 function CurrentListItem({ item, setPrintBody }) {
-  const [showDiv, setShowDiv] = useState(false);
-  const showButton = (
-    <>
-      <SideButton onClick={() => setPrintBody(['diary', item.dogId])}>일지</SideButton>
-      <SideButton>상세</SideButton>
-    </>
-  );
-
   return (
     <>
-      <ItemContainer onMouseEnter={() => setShowDiv(true)} onMouseLeave={() => setShowDiv(false)}>
+      <ItemContainer>
         <div>
           <ProfileContainer>
             <ProfileImg src={item.dogImg} alt="img" />
@@ -49,10 +41,14 @@ function CurrentListItem({ item, setPrintBody }) {
               </Progress>
               <p className="social">{item.socializationDegree}%</p>
             </EvalContainer>
+            <button
+              style={{
+                backgroundColor: 'white', border: '1px solid #CAA969', borderRadius: '10PX', cursor: 'pointer',
+              }}
+              onClick={() => setPrintBody(['diary', item.dogId])}
+            >일지
+            </button>
           </BarContainer>
-        </div>
-        <div>
-          {showDiv && showButton}
         </div>
       </ItemContainer>
     </>
