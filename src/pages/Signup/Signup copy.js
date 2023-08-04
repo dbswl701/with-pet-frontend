@@ -16,11 +16,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 800px;
-  // height: 90vh;
-  background-color: #fffaf0;
-  outline: 1px solid #caa969;
-  margin: auto;
+  height: 90vh;
 `;
 
 const Form = styled.form`
@@ -28,14 +24,27 @@ const Form = styled.form`
   grid-template-rows: auto 1fr auto;
   grid-gap: 20px;
   align-items: center;
-  // background-color: #fffaf0;
+  background-color: #fffaf0;
   border-radius: 5px;
-  // outline: 1px solid #caa969;
+  outline: 1px solid #caa969;
   padding: 20px;
   width: flex;
 `;
 
+const GridContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 20px;
+`;
+
+const Title = styled.h1`
+  grid-row: 1;
+  text-align: center;
+  font-family: 'Noto Sans KR', sans-serif;
+`;
+
 const ImageContainer = styled.div`
+  grid-row: 2;
   justify-self: center;
   background-color: #fff;
   border: 1px solid #caa969;
@@ -52,6 +61,96 @@ const ImageContainer = styled.div`
     height: 100%;
     object-fit: cover;
     cursor: pointer;
+  }
+`;
+
+const InputContainer = styled.div`
+  grid-row: 3;
+  grid-column: 1;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Noto Sans KR', sans-serif;
+  input::placeholder {
+    color: #ddd;
+  }
+
+  label {
+    font-size: 12px;
+  }
+
+  input {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #caa969;
+  }
+
+  span {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #888;
+    text-align: left;
+  }
+`;
+
+const InputContainer2 = styled.div`
+  grid-row: 3;
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Noto Sans KR', sans-serif;
+  input::placeholder {
+    color: #ddd;
+  }
+
+  label {
+    font-size: 12px;
+  }
+
+  input {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #caa969;
+  }
+
+  span {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #777;
+    text-align: left;
+  }
+`;
+
+const InputContainer3 = styled.div`
+  grid-row: 3;
+  grid-column: 3;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Noto Sans KR', sans-serif;
+  input::placeholder {
+    color: #ddd;
+  }
+
+  input {
+    margin-top: 5px;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #caa969;
+  }
+
+  label {
+    font-size: 12px;
+  }
+
+  input {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: #777;
+    text-align: left;
   }
 `;
 
@@ -78,17 +177,14 @@ const Button = styled.button`
 `;
 
 const ButtonContainer = styled.div`
+  grid-row: 4;
   justify-self: center;
-`;
-
-const Input = styled.input`
-  width: 326px;
-  height: 47px;
 `;
 
 function SignupForm() {
   const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [name, setName] = useState('');
@@ -116,7 +212,8 @@ function SignupForm() {
       return;
     }
     if (
-      password === ''
+      username === ''
+      || password === ''
       || name === ''
       || phone === ''
       || addressRoad === ''
@@ -130,6 +227,7 @@ function SignupForm() {
     }
     axios
       .post('https://withpet.site/api/v1/users/signup', {
+        userId: username,
         userPassword: password,
         userName: name,
         phoneNum: phone,
@@ -219,7 +317,7 @@ function SignupForm() {
       <GlobalStyle />
       <Container>
         <Form onSubmit={handleSubmit}>
-          {/* 프로필 사진 */}
+          <Title>회원가입</Title>
           <ImageContainer>
             <label htmlFor="image-select">
               {imageSrc ? (
@@ -228,58 +326,34 @@ function SignupForm() {
                 <img src={userimgdefault} alt="userimgdefault" />
               )}
             </label>
-            <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} onChange={handleImageUpload} />
           </ImageContainer>
-
-          {/* <img id="preview-image" alt="이미지 미리보기" src={data.serviceImg} />
-          <label htmlFor="image-select">프로필 이미지 선택</label>
-          <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} onChange={onChange} /> */}
-
-          <label htmlFor="email">
-            이메일
-          </label>
-          <Input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="withpet1@gmail.com"
-          />
-
-          <label htmlFor="password">비밀번호</label>
-          <Input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="영문자 + 숫자 + 특수문자 8자리 이상"
-          />
-          <label htmlFor="passwordConfirm">비밀번호 확인</label>
-          <Input
-            type="password"
-            id="passwordConfirm"
-            value={passwordConfirm}
-            onChange={(e) => setPasswordConfirm(e.target.value)}
-          />
-
-          <label htmlFor="name">이름</label>
-          <Input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="위드펫"
-          />
-          <label htmlFor="phone">전화번호</label>
-          <Input
-            type="text"
-            id="phone"
-            value={phone}
-            maxLength={13}
-            onChange={(e) => setPhone(String(e.target.value).replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'))}
-            placeholder="010-1234-5678"
-          />
-          { toggle
+          <GridContainer>
+            <input
+              type="file"
+              accept="image/*"
+              id="image-select"
+              style={{ display: 'none' }}
+              onChange={handleImageUpload}
+            />
+            <InputContainer>
+              <label htmlFor="name">이름</label>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="위드펫"
+              />
+              <label htmlFor="phone">전화번호</label>
+              <input
+                type="text"
+                id="phone"
+                value={phone}
+                maxLength={13}
+                onChange={(e) => setPhone(String(e.target.value).replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'))}
+                placeholder="010-1234-5678"
+              />
+              { toggle
                 && (
                 <input
                   type="text"
@@ -289,39 +363,74 @@ function SignupForm() {
                   disabled={completeCertification}
                 />
                 )}
-          <Input type="button" value="인증하기" onClick={onClick} disabled={completeCertification} />
-
-          <div>
-            <p>주소</p>
-            <SearchButton type="button" onClick={openPostcodeSearch}>
-              <SearchIcon />
-            </SearchButton>
-          </div>
-          <Input
-            type="text"
-            id="addressPost"
-            value={addressPost}
-            readOnly
-            placeholder="우편번호"
-            onChange={(e) => setAddressPost(e.target.value)}
-          />
-          <label htmlFor="addressRoad" />
-          <Input
-            type="text"
-            id="addressRoad"
-            value={addressRoad}
-            readOnly
-            placeholder="도로명 주소"
-            onChange={(e) => setAddressRoad(e.target.value)}
-          />
-          <label htmlFor="addressDtail" />
-          <Input
-            type="text"
-            id="addressDtail"
-            value={addressDtail}
-            placeholder="상세주소"
-            onChange={(e) => setAddressDtail(e.target.value)}
-          />
+              <input type="button" value="인증하기" onClick={onClick} disabled={completeCertification} />
+              <label htmlFor="email">이메일</label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="withpet1@gmail.com"
+              />
+            </InputContainer>
+            <InputContainer2>
+              <label htmlFor="username">아이디</label>
+              <input
+                type="text"
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <label htmlFor="password">비밀번호</label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="영문자 + 숫자 + 특수문자 8자리 이상"
+              />
+              <label htmlFor="passwordConfirm">비밀번호 확인</label>
+              <input
+                type="password"
+                id="passwordConfirm"
+                value={passwordConfirm}
+                onChange={(e) => setPasswordConfirm(e.target.value)}
+              />
+            </InputContainer2>
+            <InputContainer3>
+              <div>
+                <p>주소</p>
+                <SearchButton type="button" onClick={openPostcodeSearch}>
+                  <SearchIcon />
+                </SearchButton>
+              </div>
+              <input
+                type="text"
+                id="addressPost"
+                value={addressPost}
+                readOnly
+                placeholder="우편번호"
+                onChange={(e) => setAddressPost(e.target.value)}
+              />
+              <label htmlFor="addressRoad" />
+              <input
+                type="text"
+                id="addressRoad"
+                value={addressRoad}
+                readOnly
+                placeholder="도로명 주소"
+                onChange={(e) => setAddressRoad(e.target.value)}
+              />
+              <label htmlFor="addressDtail" />
+              <input
+                type="text"
+                id="addressDtail"
+                value={addressDtail}
+                placeholder="상세주소"
+                onChange={(e) => setAddressDtail(e.target.value)}
+              />
+            </InputContainer3>
+          </GridContainer>
           <ButtonContainer>
             <Button type="submit">회원가입</Button>
           </ButtonContainer>
