@@ -53,16 +53,16 @@ const Button = styled.button`
 
 function Login({ setState, setUserInfo }) {
   const [loginInfo, setLoginInfo] = useState({
-    id: '',
+    email: '',
     password: '',
   });
   const navigate = useNavigate();
   const onSubmit = (e) => {
     e.preventDefault();
     axios.post(
-      'https://withpet.site/api/v1/users/login',
+      'https://withpet.site/api/v2/users/login',
       {
-        id: loginInfo.id,
+        email: loginInfo.email,
         password: loginInfo.password,
       },
       { withCredentials: true },
@@ -94,8 +94,8 @@ function Login({ setState, setUserInfo }) {
         <img src={logoName} alt="로고 이름" style={{ width: '229px', height: '98px' }} />
       </LogoContainer>
       <Content>
-        <Input placeholder="ID 입력" value={loginInfo.id} name="id" onChange={onChange} />
-        <Input type="password" placeholder="PW 입력" value={loginInfo.password} name="password" onChange={onChange} />
+        <Input placeholder="이메일 입력" value={loginInfo.email} name="email" onChange={onChange} />
+        <Input type="password" placeholder="비밀먼호 입력" value={loginInfo.password} name="password" onChange={onChange} />
         <IDSave>
           {/* 아이디 저장하기 */}
           <input type="checkbox" id="id_save" />
