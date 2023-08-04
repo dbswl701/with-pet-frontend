@@ -3,8 +3,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
-import SearchIcon from '@mui/icons-material/Search';
 import userimgdefault from '../../assets/forAddPic.png';
+import logo from '../../assets/logo.png';
+import logoName from '../../assets/logo_name.png';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -20,17 +21,19 @@ const Container = styled.div`
   // height: 90vh;
   background-color: #fffaf0;
   outline: 1px solid #caa969;
-  margin: auto;
+  margin: 30px auto 60px auto;
+  padding: 64px;
 `;
 
 const Form = styled.form`
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  grid-gap: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  // background-color: #fffaf0;
+  // grid-template-rows: auto 1fr auto;
+  // grid-gap: 20px;
+  align-items: center;
   border-radius: 5px;
-  // outline: 1px solid #caa969;
   padding: 20px;
   width: flex;
 `;
@@ -55,35 +58,48 @@ const ImageContainer = styled.div`
   }
 `;
 
-const SearchButton = styled.button`
-  background-color: transparent;
-  cursor: pointer;
-  outline: none;
-  border-radius: 3px;
-  border: 0px;
-  float: right;
-  svg {
-    color: #caa969;
-  }
-`;
-
 const Button = styled.button`
   font-family: 'Noto Sans KR', sans-serif;
   background-color: #caa969;
   color: #fff;
   padding: 10px 50px;
-  border-radius: 5px;
+  border-radius: 8px;
   border: none;
   cursor: pointer;
-`;
-
-const ButtonContainer = styled.div`
-  justify-self: center;
+  margin-top: 31px;
+  width: 318px;
+  height: 44px;
 `;
 
 const Input = styled.input`
   width: 326px;
   height: 47px;
+  margin-top: 8px;
+`;
+
+const LogoContainer = styled.div`
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const CheckButton = styled.button`
+  background-color: #CAA969;
+  color: white;
+  border: none;
+  width: 72px;
+  height: 24px;
+  margin-top: 31px;
+`;
+
+const Title = styled.p`
+  margin: 31px 0 0 0;
+  font-weight: bold;
+  font-size: 16px;
+  color: #696969;
+  text-align: left;
+  display: flex;
 `;
 
 function SignupForm() {
@@ -217,6 +233,10 @@ function SignupForm() {
   return (
     <>
       <GlobalStyle />
+      <LogoContainer>
+        <img src={logo} alt="로고" style={{ width: '98px', height: '98px' }} />
+        <img src={logoName} alt="로고 이름" style={{ width: '229px', height: '98px' }} />
+      </LogoContainer>
       <Container>
         <Form onSubmit={handleSubmit}>
           {/* 프로필 사진 */}
@@ -235,18 +255,21 @@ function SignupForm() {
           <label htmlFor="image-select">프로필 이미지 선택</label>
           <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} onChange={onChange} /> */}
 
-          <label htmlFor="email">
-            이메일
-          </label>
+          <div style={{ display: 'flex', justifyContent: 'space-between', width: '326px' }}>
+            <Title htmlFor="email">이메일</Title>
+            <CheckButton>중복확인</CheckButton>
+          </div>
           <Input
             type="email"
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="withpet1@gmail.com"
+            placeholder="example@gmail.com"
           />
 
-          <label htmlFor="password">비밀번호</label>
+          <div style={{ width: '326px' }}>
+            <Title htmlFor="password">비밀번호</Title>
+          </div>
           <Input
             type="password"
             id="password"
@@ -254,15 +277,18 @@ function SignupForm() {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="영문자 + 숫자 + 특수문자 8자리 이상"
           />
-          <label htmlFor="passwordConfirm">비밀번호 확인</label>
+          <div style={{ width: '326px' }}>
+            <Title htmlFor="passwordConfirm">비밀번호 확인</Title>
+          </div>
           <Input
             type="password"
             id="passwordConfirm"
             value={passwordConfirm}
             onChange={(e) => setPasswordConfirm(e.target.value)}
           />
-
-          <label htmlFor="name">이름</label>
+          <div style={{ width: '326px' }}>
+            <Title htmlFor="name">이름</Title>
+          </div>
           <Input
             type="text"
             id="name"
@@ -270,7 +296,10 @@ function SignupForm() {
             onChange={(e) => setName(e.target.value)}
             placeholder="위드펫"
           />
-          <label htmlFor="phone">전화번호</label>
+          <div style={{ display: 'flex', justifyContent: 'space-between', width: '326px' }}>
+            <Title htmlFor="phone">전화번호</Title>
+            <CheckButton>인증하기</CheckButton>
+          </div>
           <Input
             type="text"
             id="phone"
@@ -281,7 +310,8 @@ function SignupForm() {
           />
           { toggle
                 && (
-                <input
+                <Input
+                  style={{ width: '248px' }}
                   type="text"
                   value={certification}
                   onChange={(e) => setCertifiation(e.target.value)}
@@ -291,40 +321,44 @@ function SignupForm() {
                 )}
           <Input type="button" value="인증하기" onClick={onClick} disabled={completeCertification} />
 
-          <div>
-            <p>주소</p>
-            <SearchButton type="button" onClick={openPostcodeSearch}>
-              <SearchIcon />
-            </SearchButton>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <Title>주소</Title>
+            <div style={{ display: 'flex', justifyContent: 'space-between', width: '326px' }}>
+              <Input
+                style={{ width: '152px' }}
+                type="text"
+                id="addressPost"
+                value={addressPost}
+                readOnly
+                placeholder="우편번호"
+                onChange={(e) => setAddressPost(e.target.value)}
+              />
+              <input
+                type="button"
+                style={{
+                  background: '#CAA969', width: '152px', height: '47px', border: 'none', color: 'white', marginTop: '8px',
+                }}
+                onClick={openPostcodeSearch}
+                value="주소검색"
+              />
+            </div>
+
+            <Input
+              type="text"
+              value={addressRoad}
+              readOnly
+              placeholder="도로명 주소"
+              onChange={(e) => setAddressRoad(e.target.value)}
+            />
+
+            <Input
+              type="text"
+              value={addressDtail}
+              placeholder="상세주소"
+              onChange={(e) => setAddressDtail(e.target.value)}
+            />
           </div>
-          <Input
-            type="text"
-            id="addressPost"
-            value={addressPost}
-            readOnly
-            placeholder="우편번호"
-            onChange={(e) => setAddressPost(e.target.value)}
-          />
-          <label htmlFor="addressRoad" />
-          <Input
-            type="text"
-            id="addressRoad"
-            value={addressRoad}
-            readOnly
-            placeholder="도로명 주소"
-            onChange={(e) => setAddressRoad(e.target.value)}
-          />
-          <label htmlFor="addressDtail" />
-          <Input
-            type="text"
-            id="addressDtail"
-            value={addressDtail}
-            placeholder="상세주소"
-            onChange={(e) => setAddressDtail(e.target.value)}
-          />
-          <ButtonContainer>
-            <Button type="submit">회원가입</Button>
-          </ButtonContainer>
+          <Button type="submit">회원가입</Button>
         </Form>
       </Container>
     </>
