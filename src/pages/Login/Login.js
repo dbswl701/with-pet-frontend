@@ -1,9 +1,7 @@
-import React from 'react';
-// import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-// import { useNavigate } from 'react-router-dom';
-// import axios from 'axios';
+import axios from 'axios';
 import styled from 'styled-components';
 // import dogBanner from '../../assets/dog_banner.png';
 import logo from '../../assets/logo.png';
@@ -53,33 +51,41 @@ const Button = styled.button`
   color: white;
 `;
 
-// function Login({ setState, setUserInfo }) {
-function Login() {
-  // const [username, setUsername] = useState('');
-  // const [password, setPassword] = useState('');
-  // const navigate = useNavigate();
-  // const onSubmit = (e) => {
-  //   e.preventDefault();
-  //   axios
-  //     .post(
-  //       'https://withpet.site/api/v1/users/login',
-  //       {
-  //         id: username,
-  //         password,
-  //       },
-  //       { withCredentials: true },
-  //     )
-  //     .then((res) => {
-  //       setState('login');
-  //       alert('로그인에 성공했습니다.'); // eslint-disable-line no-alert
-  //       setUserInfo(res.data.result);
-  //       localStorage.setItem('userInfo', JSON.stringify(res.data.result));
-  //       navigate(-1);
-  //     })
-  //     .catch(() => {
-  //       alert('로그인에 실패했습니다.'); // eslint-disable-line no-alert
-  //     });
-  // };
+function Login({ setState, setUserInfo }) {
+  const [loginInfo, setLoginInfo] = useState({
+    id: '',
+    password: '',
+  });
+  const navigate = useNavigate();
+  const onSubmit = (e) => {
+    e.preventDefault();
+    axios.post(
+      'https://withpet.site/api/v1/users/login',
+      {
+        id: loginInfo.id,
+        password: loginInfo.password,
+      },
+      { withCredentials: true },
+    )
+      .then((res) => {
+        setState('login');
+        alert('로그인에 성공했습니다.'); // eslint-disable-line no-alert
+        setUserInfo(res.data.result);
+        localStorage.setItem('userInfo', JSON.stringify(res.data.result));
+        navigate(-1);
+      })
+      .catch(() => {
+        alert('로그인에 실패했습니다.'); // eslint-disable-line no-alert
+      });
+  };
+
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    setLoginInfo({
+      ...loginInfo,
+      [name]: value,
+    });
+  };
 
   return (
     <>
@@ -88,14 +94,14 @@ function Login() {
         <img src={logoName} alt="로고 이름" style={{ width: '229px', height: '98px' }} />
       </LogoContainer>
       <Content>
-        <Input placeholder="ID 입력" />
-        <Input type="password" placeholder="PW 입력" />
+        <Input placeholder="ID 입력" value={loginInfo.id} name="id" onChange={onChange} />
+        <Input type="password" placeholder="PW 입력" value={loginInfo.password} name="password" onChange={onChange} />
         <IDSave>
           {/* 아이디 저장하기 */}
           <input type="checkbox" id="id_save" />
           <label htmlFor="id_save">아이디 저장하기</label>
         </IDSave>
-        <Button>로그인</Button>
+        <Button onClick={onSubmit}>로그인</Button>
         <img src={googleSininImg} alt="구글 로그인 이미지" style={{ width: '283px', height: '68px' }} />
         <Link to="../signup">회원가입</Link>
       </Content>
