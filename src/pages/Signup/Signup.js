@@ -145,18 +145,18 @@ function SignupForm() {
       return;
     }
     axios
-      .post('https://withpet.site/api/v1/users/signup', {
-        userPassword: password,
-        userName: name,
-        phoneNum: phone,
+      .post('https://withpet.site/api/v2/users/signup', {
+        password,
+        name,
+        phone,
         address: {
           streetAdr: addressRoad,
           zipcode: addressPost,
           detailAdr: addressDtail,
         },
-        userEmail: email,
+        email,
         profileImg: imageSrc[0],
-        userPasswordCheck: passwordConfirm,
+        passwordCheck: passwordConfirm,
       })
       .then(() => {
         alert('회원가입에 성공했습니다.');
