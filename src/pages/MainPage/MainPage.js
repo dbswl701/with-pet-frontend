@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import MultipleSelectChip from './OptionList';
+import OptionList from './OptionList';
 import RenderGroup from './Region';
 import MediaCardGrid from './MediaCardGrid';
 import PetSize from './PetSize';
@@ -45,7 +45,7 @@ function MainPage() {
   const [temp, setTemp] = useState([]);
   const [serviceList, setServiceList] = useState([]);
   const [options, setOptions] = useState({
-    size: '',
+    size: [],
     services: [],
     region: '',
   });
@@ -96,7 +96,7 @@ function MainPage() {
       <Content>
         <SelectContainer>
           <PetSize setOptions={setOptions} options={options} />
-          <MultipleSelectChip services={serviceList} setOptions={setOptions} options={options} />
+          <OptionList services={serviceList} setOptions={setOptions} options={options} />
           <RenderGroup setOptions={setOptions} options={options} />
         </SelectContainer>
         <MediaCardGrid cards={temp.content} />
