@@ -1,5 +1,4 @@
 import React from 'react';
-import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -18,18 +17,7 @@ const MenuProps = {
   },
 };
 
-function getStyles(name, option, theme) {
-  return {
-    fontWeight:
-      option.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
-
 export default function MultipleSelectChip({ services, setOptions, options }) {
-  const theme = useTheme();
-
   const handleChange = (event) => {
     const {
       target: { value },
@@ -45,9 +33,6 @@ export default function MultipleSelectChip({ services, setOptions, options }) {
       <FormControl sx={{ m: 1, width: 4 / 5, display: 'flex' }}>
         <span>옵션</span>
         <Select
-          className="select"
-          labelId="demo-multiple-chip-label"
-          id="demo-multiple-chip"
           multiple
           value={options.services}
           onChange={handleChange}
@@ -64,7 +49,6 @@ export default function MultipleSelectChip({ services, setOptions, options }) {
             <MenuItem
               key={service.serviceId}
               value={service.serviceName}
-              style={getStyles(service.serviceName, options.services, theme)}
             >
               {service.serviceName}
             </MenuItem>
