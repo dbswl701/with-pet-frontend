@@ -298,7 +298,6 @@ function SignupForm() {
           />
           <div style={{ display: 'flex', justifyContent: 'space-between', width: '326px' }}>
             <Title htmlFor="phone">전화번호</Title>
-            <CheckButton>인증하기</CheckButton>
           </div>
           <Input
             type="text"
@@ -309,17 +308,28 @@ function SignupForm() {
             placeholder="010-1234-5678"
           />
           { toggle
-                && (
+            ? (
+              <div style={{ display: 'flex', justifyContent: 'space-between', width: '326px' }}>
                 <Input
-                  style={{ width: '248px' }}
+                  style={{ width: '152px' }}
                   type="text"
                   value={certification}
                   onChange={(e) => setCertifiation(e.target.value)}
                   placeholder="인증번호 입력"
                   disabled={completeCertification}
                 />
-                )}
-          <Input type="button" value="인증하기" onClick={onClick} disabled={completeCertification} />
+                <Input
+                  style={{
+                    backgroundColor: '#CAA969', border: 'none', color: 'white', width: '152px',
+                  }}
+                  type="button"
+                  value="인증하기"
+                  onClick={onClick}
+                />
+              </div>
+
+            )
+            : <Input style={{ backgroundColor: completeCertification ? '#C6C6C6' : '#CAA969', border: 'none', color: 'white' }} type="button" value="인증하기" onClick={onClick} disabled={completeCertification} />}
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <Title>주소</Title>
