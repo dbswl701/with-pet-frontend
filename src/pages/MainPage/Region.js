@@ -33,7 +33,7 @@ export default function Asynchronous({ options, setOptions }) {
   return (
     <SelectWrapper>
       <FormControl sx={{ m: 1, width: 4 / 5, display: 'flex' }}>
-        <span>지역</span>
+        <p style={{ fontWeight: 'bold' }}>지역</p>
         <Autocomplete
           className="select"
           id="asynchronous-demo"

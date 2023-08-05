@@ -38,7 +38,7 @@ export default function SelectLabels({ setOptions, options }) {
   return (
     <SelectWrapper className="option">
       <FormControl sx={{ m: 1, width: 4 / 5, display: 'flex' }}>
-        <span>반려견 크기</span>
+        <p style={{ fontWeight: 'bold' }}>반려견 크기</p>
         <Select
           multiple
           value={options.size}

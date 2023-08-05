@@ -31,7 +31,7 @@ export default function MultipleSelectChip({ services, setOptions, options }) {
   return (
     <SelectWrapper className="option">
       <FormControl sx={{ m: 1, width: 4 / 5, display: 'flex' }}>
-        <span>옵션</span>
+        <p style={{ fontWeight: 'bold' }}>옵션</p>
         <Select
           multiple
           value={options.services}
