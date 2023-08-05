@@ -34,7 +34,7 @@ export const SelectContainer = styled.div`
     display: flex;
     margin-top: 22%;
     width: 80vw;
-    height: 15vh;
+    height: 121px;
     justify-content: space-around;
     border-radius: 5px;
     background-color: #ffffff;

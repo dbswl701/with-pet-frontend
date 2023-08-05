@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import SearchIcon from '@mui/icons-material/Search';
 import OptionList from './OptionList';
 import RenderGroup from './Region';
 import MediaCardGrid from './MediaCardGrid';
@@ -95,9 +96,17 @@ function MainPage() {
     <Background>
       <Content>
         <SelectContainer>
-          <PetSize setOptions={setOptions} options={options} />
-          <OptionList services={serviceList} setOptions={setOptions} options={options} />
-          <RenderGroup setOptions={setOptions} options={options} />
+          <div style={{
+            display: 'flex', flexDirection: 'row', width: '1024px',
+          }}
+          >
+            <PetSize setOptions={setOptions} options={options} />
+            <OptionList services={serviceList} setOptions={setOptions} options={options} />
+            <RenderGroup setOptions={setOptions} options={options} />
+          </div>
+          <div style={{ display: 'flex', alignItems: 'flex-end', marginBottom: '20px' }}>
+            <SearchIcon fontSize="large" />
+          </div>
         </SelectContainer>
         <MediaCardGrid cards={temp.content} />
         <div style={{ display: 'flex', flexDirection: 'row' }}>
