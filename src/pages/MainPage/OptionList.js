@@ -44,6 +44,7 @@ export default function MultipleSelectChip({ services, setOptions, options }) {
             </Box>
           )}
           MenuProps={MenuProps}
+          style={{ width: '250px' }}
         >
           {services.map((service) => (
             <MenuItem

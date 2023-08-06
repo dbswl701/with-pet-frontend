@@ -22,6 +22,7 @@ export default function Asynchronous({ options, setOptions }) {
           sx={{ width: 1 }}
           onChange={onChange}
           value={options.region}
+          style={{ width: '250px' }}
         />
       </FormControl>
     </SelectWrapper>

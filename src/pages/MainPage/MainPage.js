@@ -5,6 +5,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import OptionList from './OptionList';
 import RenderGroup from './Region';
 import MediaCardGrid from './MediaCardGrid';
+import CheckDate from './CheckDate';
 import PetSize from './PetSize';
 import {
   Background, Content, SelectContainer,
@@ -97,10 +98,11 @@ function MainPage() {
       <Content>
         <SelectContainer>
           <div style={{
-            display: 'flex', flexDirection: 'row', width: '1024px',
+            display: 'flex', flexDirection: 'row', width: '1200px',
           }}
           >
             <PetSize setOptions={setOptions} options={options} />
+            <CheckDate setOptions={setOptions} options={options} />
             <OptionList services={serviceList} setOptions={setOptions} options={options} />
             <RenderGroup setOptions={setOptions} options={options} />
           </div>

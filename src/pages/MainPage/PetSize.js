@@ -51,6 +51,7 @@ export default function SelectLabels({ setOptions, options }) {
             </Box>
           )}
           MenuProps={MenuProps}
+          style={{ width: '250px' }}
         >
           {petSize.map((size) => (
             <MenuItem
