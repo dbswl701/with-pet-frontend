@@ -93,6 +93,13 @@ function MainPage() {
     return buttons;
   };
 
+  const onClick = () => {
+    axios.get(`https://withpet.site/api/v1/show-petsitter?address=${options.region}&dogSize=${options.size}&service=${options.services !== undefined ? options.services : ''}&page=${currentPage}`, { withCredentials: true })
+      .then((res) => {
+        setTemp(res.data.result);
+      });
+  };
+
   return (
     <Background>
       <Content>
@@ -107,7 +114,7 @@ function MainPage() {
             <RenderGroup setOptions={setOptions} options={options} />
           </div>
           <div style={{ display: 'flex', alignItems: 'flex-end', marginBottom: '20px' }}>
-            <SearchIcon fontSize="large" />
+            <SearchIcon fontSize="large" onClick={onClick} />
           </div>
         </SelectContainer>
         <MediaCardGrid cards={temp.content} />
