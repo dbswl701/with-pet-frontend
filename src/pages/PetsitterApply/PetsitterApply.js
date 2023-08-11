@@ -107,6 +107,27 @@ function PetsitterApply() {
             />
             <label htmlFor="X">X</label>
           </div>
+          <div className="select">
+            <p>3. 성별</p>
+            <input
+              type="radio"
+              name="applicantGender"
+              id="female"
+              value="female"
+              onChange={onChange}
+              checked={info.applicantGender === 'female'}
+            />
+            <label htmlFor="female">여성</label>
+            <input
+              type="radio"
+              name="applicantGender"
+              id="male"
+              value="male"
+              onChange={onChange}
+              checked={info.applicantGender === 'male'}
+            />
+            <label htmlFor="male">남성</label>
+          </div>
         </Container>
         <Typography component="h2" variant="h6" color="primary" gutterBottom sx={{ color: '#caa969' }} align="left">2. 반려 경험 및 경력</Typography>
         <Container>
