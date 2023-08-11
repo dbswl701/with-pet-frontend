@@ -73,9 +73,6 @@ function PetsitterApply() {
       });
   };
   const onChange = (e, option) => {
-    // console.log(e.target.files);
-    // if (e.target.files) {
-    console.log(option);
     if (option === 'img') {
       handleImageUpload(e);
     } else if (option === 'birth') {
@@ -168,7 +165,7 @@ function PetsitterApply() {
         </Container>
         <Typography component="h2" variant="h6" color="primary" gutterBottom sx={{ color: '#caa969' }} align="left">2. 반려 경험 및 경력</Typography>
         <Container>
-          <div>
+          <div style={{ marginBottom: '100px' }}>
             <p>1. 강아지 반려 경험 유무</p>
             <input
               type="radio"
@@ -191,11 +188,15 @@ function PetsitterApply() {
             />
             <Label htmlFor="not" style={{ border: '1px solid #CAA969' }}>X</Label>
           </div>
-          <TextField sx={{ m: 1 }} label="2. 반려 동물 관련 경력 또는 경험" variant="outlined" name="applicantAnimalCareer" onChange={onChange} value={info.applicantAnimalCareer} required />
+          <p>2. 반려 동물 관련 경력 또는 경험</p>
+          <TextField style={{ width: '1190px' }} rows={8} placeholder="반려 동물 관련 경력 또는 경험에 대해서 알려주세요." variant="outlined" multiline name="applicantAnimalCareer" onChange={onChange} value={info.applicantAnimalCareer} required />
         </Container>
         <Typography component="h2" variant="h6" color="primary" gutterBottom sx={{ color: '#caa969' }} align="left">3. 기타 정보</Typography>
         <Container>
-          <TextField sx={{ m: 1 }} label="1. 지원 동기" variant="outlined" name="applicantMotivation" onChange={onChange} value={info.applicantMotivation} required />
+          <div style={{ marginBottom: '100px' }}>
+            <p>1. 지원동기</p>
+            <TextField style={{ width: '1190px' }} rows={8} placeholder="이곳에 직접 입력해주세요." multiline variant="outlined" name="applicantMotivation" onChange={onChange} value={info.applicantMotivation} required />
+          </div>
           <p>2. 자격증</p>
           <div style={{
             width: '180px', height: '150px', overflow: 'hidden', display: 'flex', justifyContent: 'center', margin: 'auto',
