@@ -27,6 +27,7 @@ function PetsitterApply() {
     applicant_license_img: '',
     applicant_motivate: '',
     applicant_petsitter_career: '',
+    applicantBirth: '',
   });
 
   const handleImageUpload = async (e) => {
@@ -46,9 +47,17 @@ function PetsitterApply() {
         });
       });
   };
-  const onChange = (e) => {
-    if (e.target.files) {
+  const onChange = (e, option) => {
+    // console.log(e.target.files);
+    // if (e.target.files) {
+    console.log(option);
+    if (option === 'img') {
       handleImageUpload(e);
+    } else if (option === 'birth') {
+      setInfo({
+        ...info,
+        applicantBirth: dayjs(e).format('YYYY-MM-DD'),
+      });
     } else {
       const { value, name } = e.target;
       setInfo({
@@ -60,7 +69,7 @@ function PetsitterApply() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    axios.post('https://withpet.site/api/v1/users/applicate-petsitter', info, { withCredentials: true })
+    axios.post('https://withpet.site/api/v2/applicants', info, { withCredentials: true })
       .then(() => {
         // eslint-disable-next-line no-alert
         alert('펫시터 지원이 완료되었습니다.');
