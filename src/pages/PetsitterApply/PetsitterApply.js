@@ -19,15 +19,13 @@ const Container = styled.div`
 function PetsitterApply() {
   const navigate = useNavigate();
   const [info, setInfo] = useState({
-    applicant_animal_career: '',
-    applicant_care_experience: '',
-    applicant_having_with_pet: '',
-    applicant_identification: '',
-    applicant_is_smoking: '',
-    applicant_license_img: '',
-    applicant_motivate: '',
-    applicant_petsitter_career: '',
+    applicantAnimalCareer: '',
     applicantBirth: '',
+    applicantGender: '',
+    applicantHavingWithPet: '',
+    applicantIsSmoking: '',
+    applicantLicenseImg: '',
+    applicantMotivation: '',
   });
 
   const handleImageUpload = async (e) => {
@@ -43,7 +41,7 @@ function PetsitterApply() {
       .then((res) => {
         setInfo({
           ...info,
-          applicant_license_img: res.data.result[0],
+          applicantLicenseImg: res.data.result[0],
         });
       });
   };
@@ -78,7 +76,7 @@ function PetsitterApply() {
       .catch(() => {
       });
   };
-
+  console.log(info);
   return (
     <>
       <FormContainer onSubmit={onSubmit}>
@@ -92,20 +90,20 @@ function PetsitterApply() {
             <p>2. 흡연 여부</p>
             <input
               type="radio"
-              name="applicant_is_smoking"
+              name="applicantIsSmoking"
               id="O"
               value="true"
               onChange={onChange}
-              checked={info.applicant_is_smoking === 'true'}
+              checked={info.applicantIsSmoking === 'true'}
             />
             <label htmlFor="O">O</label>
             <input
               type="radio"
-              name="applicant_is_smoking"
+              name="applicantIsSmoking"
               id="X"
               value="false"
               onChange={onChange}
-              checked={info.applicant_is_smoking === 'false'}
+              checked={info.applicantIsSmoking === 'false'}
             />
             <label htmlFor="X">X</label>
           </div>
@@ -116,35 +114,35 @@ function PetsitterApply() {
             <p>1. 강아지 반려 경험 유무</p>
             <input
               type="radio"
-              name="applicant_having_with_pet"
+              name="applicantHavingWithPet"
               id="having"
               value="true"
               onChange={onChange}
-              checked={info.applicant_having_with_pet === 'true'}
+              checked={info.applicantHavingWithPet === 'true'}
             />
             <label htmlFor="having">O</label>
             <input
               type="radio"
-              name="applicant_having_with_pet"
+              name="applicantHavingWithPet"
               id="not"
               value="false"
               onChange={onChange}
-              checked={info.applicant_having_with_pet === 'false'}
+              checked={info.applicantHavingWithPet === 'false'}
             />
             <label htmlFor="not">X</label>
           </div>
-          <TextField sx={{ m: 1 }} label="2. 반려 동물 관련 경력 또는 경험" variant="outlined" name="applicant_petsitter_career" onChange={onChange} value={info.applicant_petsitter_career} required />
+          <TextField sx={{ m: 1 }} label="2. 반려 동물 관련 경력 또는 경험" variant="outlined" name="applicantAnimalCareer" onChange={onChange} value={info.applicantAnimalCareer} required />
         </Container>
         <Typography component="h2" variant="h6" color="primary" gutterBottom sx={{ color: '#caa969' }} align="left">3. 기타 정보</Typography>
         <Container>
-          <TextField sx={{ m: 1 }} label="1. 지원 동기" variant="outlined" name="applicant_motivate" onChange={onChange} value={info.applicant_motivate} required />
+          <TextField sx={{ m: 1 }} label="1. 지원 동기" variant="outlined" name="applicantMotivation" onChange={onChange} value={info.applicantMotivation} required />
           <p>2. 자격증</p>
           <div style={{
             width: '180px', height: '150px', overflow: 'hidden', display: 'flex', justifyContent: 'center', margin: 'auto',
           }}
           >
-            { info.applicant_license_img ? (
-              <img alt="이미지 미리 보기" src={info.applicant_license_img} style={{ width: '300px' }} />
+            { info.applicantLicenseImg ? (
+              <img alt="이미지 미리 보기" src={info.applicantLicenseImg} style={{ width: '300px' }} />
             ) : (
               <img alt="이미지 미리 보기" src={camera} style={{ width: '100%', height: 'auto' }} />
             )}
@@ -152,7 +150,7 @@ function PetsitterApply() {
           <label htmlFor="image-select" style={{ display: 'flex', justifyContent: 'center', padding: '5px' }}>
             <p style={{ color: '#caa969', border: '1px solid #caa969', display: 'block' }}>사진 등록하기</p>
           </label>
-          <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} name="applicant_license_img" onChange={(e) => onChange(e, 'img')} />
+          <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} name="applicantLicenseImg" onChange={(e) => onChange(e, 'img')} />
         </Container>
 
         <StyledInput style={{ margin: 'auto', width: '200px', marginTop: '30px' }} type="submit" value="제출" />
