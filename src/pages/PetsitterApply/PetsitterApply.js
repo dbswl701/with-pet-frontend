@@ -8,8 +8,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import { FormContainer, StyledInput } from './ApplyStyle';
-import camera from '../../assets/camera.png';
+// import camera from '../../assets/camera.png';
 
 const Container = styled.div`
   border: 1px solid #999999;
@@ -198,18 +199,29 @@ function PetsitterApply() {
             <TextField style={{ width: '1190px' }} rows={8} placeholder="이곳에 직접 입력해주세요." multiline variant="outlined" name="applicantMotivation" onChange={onChange} value={info.applicantMotivation} required />
           </div>
           <p>2. 자격증</p>
-          <div style={{
-            width: '180px', height: '150px', overflow: 'hidden', display: 'flex', justifyContent: 'center', margin: 'auto',
-          }}
-          >
-            { info.applicantLicenseImg ? (
-              <img alt="이미지 미리 보기" src={info.applicantLicenseImg} style={{ width: '300px' }} />
-            ) : (
-              <img alt="이미지 미리 보기" src={camera} style={{ width: '100%', height: 'auto' }} />
-            )}
-          </div>
-          <label htmlFor="image-select" style={{ display: 'flex', justifyContent: 'center', padding: '5px' }}>
-            <p style={{ color: '#caa969', border: '1px solid #caa969', display: 'block' }}>사진 등록하기</p>
+
+          <label htmlFor="image-select" style={{ display: 'flex', justifyContent: 'flex-start', padding: '5px' }}>
+            <div style={{ }}>
+              { info.applicantLicenseImg ? (
+                <img
+                  alt="이미지 미리 보기"
+                  src={info.applicantLicenseImg}
+                  style={{
+                    width: '320px', height: '180px', border: '1px solid #CAA969', borderRadius: '10px',
+                  }}
+                />
+              ) : (
+                // <svg data-testid="CameraAltIcon" />
+                <div style={{
+                  backgroundColor: '#CAA969', opacity: '15%', display: 'flex', width: '320px', height: '180px', borderRadius: '10px',
+                }}
+                >
+                  <CameraAltIcon style={{ margin: 'auto', width: '96px', height: '96px' }} />
+                </div>
+                // <img alt="이미지 미리 보기" src={CameraAltIcon} style={{ width: '100%', height: 'auto' }} />
+              )}
+            </div>
+            {/* <p style={{ color: '#caa969', border: '1px solid #caa969', display: 'block' }}>사진 등록하기</p> */}
           </label>
           <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} name="applicantLicenseImg" onChange={(e) => onChange(e, 'img')} />
         </Container>
