@@ -6,9 +6,9 @@ import { SelectWrapper } from '../../styles/main/MainPageStyle';
 export default function Asynchronous({ options, setOptions }) {
   // const [open, setOpen] = React.useState(false);
   // const [region, setRegion] = useState('');
-  console.log(options);
+  // console.log(options);
   const onChange = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setOptions({
       ...options,
       region: e.target.value,

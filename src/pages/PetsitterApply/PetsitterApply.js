@@ -106,7 +106,7 @@ function PetsitterApply() {
       .catch(() => {
       });
   };
-  console.log(info);
+  // console.log(info);
   return (
     <>
       <FormContainer onSubmit={onSubmit}>
