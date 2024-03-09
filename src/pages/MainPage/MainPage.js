@@ -53,6 +53,10 @@ function MainPage() {
   });
   const [currentPage, setCurrentPage] = useState(0);
   useEffect(() => {
+    fetch('/posts')
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+
     axios.get('https://withpet.site/api/v1/show-services', { withCredentials: true })
       .then((res) => {
         setServiceList(res.data.result);

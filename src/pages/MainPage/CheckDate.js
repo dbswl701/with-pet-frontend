@@ -100,7 +100,7 @@ export default function CheckDate({ options, setOptions }) {
         <p style={{ fontWeight: 'bold' }}>체크인 / 체크아웃</p>
         <DateRangePicker
           required
-          style={{ width: '500px', backgroundColor: 'green' }}
+          // style={{ width: '500px', backgroundColor: 'green' }}
           small
           startDate={checkInDate}
           startDateId="start_date"
