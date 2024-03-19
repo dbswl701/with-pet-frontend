@@ -10,7 +10,8 @@ import PetSize from './PetSize';
 import {
   Background, Content, SelectContainer,
 } from '../../styles/main/MainPageStyle';
-
+// const baseUrl = 'https://withpet.site/api/v1/';
+// const baseUrl = 'http://ec2-13-125-250-89.ap-northeast-2.compute.amazonaws.com:8080/'
 const Button = styled.button`
   border: none;
   border-radius: 50%;
@@ -44,6 +45,8 @@ const NumButton = styled.div`
 `;
 
 function MainPage() {
+  // const baseUrl = ''https://withpet.site';
+
   const [temp, setTemp] = useState([]);
   const [serviceList, setServiceList] = useState([]);
   const [options, setOptions] = useState({
@@ -53,21 +56,43 @@ function MainPage() {
   });
   const [currentPage, setCurrentPage] = useState(0);
   useEffect(() => {
-    fetch('/posts')
-      .then((response) => response.json())
-      .then((data) => console.log(data));
+    // axios.get('https://withpet.site/api/v1/show-services', { withCredentials: true })
+    //   .then((res) => {
+    //     console.log('show-services:', res);
+    //     setServiceList(res.data.result);
+    //   });
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://withpet.site/api/v1/show-services', { withCredentials: true });
+        console.log('show-services:', response);
+        setServiceList(response.data.result);
+      } catch (error) {
+        console.error('Error fetching show-services:', error);
+        // 에러 처리 로직 추가
+      }
+    };
 
-    axios.get('https://withpet.site/api/v1/show-services', { withCredentials: true })
-      .then((res) => {
-        setServiceList(res.data.result);
-      });
+    fetchData();
   }, []);
 
   useEffect(() => {
-    axios.get(`https://withpet.site/api/v1/show-petsitter?address=${options.region}&dogSize=${options.size}&service=${options.services !== undefined ? options.services : ''}&page=${currentPage}`, { withCredentials: true })
-      .then((res) => {
-        setTemp(res.data.result);
-      });
+    // axios.get(`https://withpet.site/api/v1/show-petsitter?address=${options.region}&dogSize=${options.size}&service=${options.services !== undefined ? options.services : ''}&page=${currentPage}`, { withCredentials: true })
+    //   .then((res) => {
+    //     console.log('show-pesitter:', res);
+    //     setTemp(res.data.result);
+    //   });
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`https://withpet.site/api/v1/show-petsitter?address=${options.region}&dogSize=${options.size}&service=${options.services !== undefined ? options.services : ''}&page=${currentPage}`, { withCredentials: true });
+        console.log('show-pesitter:', response);
+        setTemp(response.data.result);
+      } catch (error) {
+        console.error('Error fetching show-pesitter:', error);
+        // 에러 처리 로직 추가
+      }
+    };
+
+    fetchData();
   }, [options, currentPage]);
 
   const handleClick = (page) => {
