@@ -2,105 +2,17 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import styled, { createGlobalStyle } from 'styled-components';
+// import styled, { createGlobalStyle } from 'styled-components';
 import userimgdefault from '../../assets/forAddPic.png';
 import logo from '../../assets/logo.png';
 import logoName from '../../assets/logo_name.png';
+import * as S from './Signup.styles';
 
-const GlobalStyle = createGlobalStyle`
-  body {
-    font-family: 'Noto Sans KR', sans-serif;
-  }
-`;
-
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 800px;
-  // height: 90vh;
-  background-color: #fffaf0;
-  outline: 1px solid #caa969;
-  margin: 30px auto 60px auto;
-  padding: 64px;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  // grid-template-rows: auto 1fr auto;
-  // grid-gap: 20px;
-  align-items: center;
-  border-radius: 5px;
-  padding: 20px;
-  width: flex;
-`;
-
-const ImageContainer = styled.div`
-  justify-self: center;
-  background-color: #fff;
-  border: 1px solid #caa969;
-  width: 200px;
-  height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  border-radius: 50%;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    cursor: pointer;
-  }
-`;
-
-const Button = styled.button`
-  font-family: 'Noto Sans KR', sans-serif;
-  background-color: #caa969;
-  color: #fff;
-  padding: 10px 50px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  margin-top: 31px;
-  width: 318px;
-  height: 44px;
-`;
-
-const Input = styled.input`
-  width: 326px;
-  height: 47px;
-  margin-top: 8px;
-`;
-
-const LogoContainer = styled.div`
-  margin-top: 50px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const CheckButton = styled.button`
-  background-color: #CAA969;
-  color: white;
-  border: none;
-  width: 72px;
-  height: 24px;
-  margin-top: 31px;
-`;
-
-const Title = styled.p`
-  margin: 31px 0 0 0;
-  font-weight: bold;
-  font-size: 16px;
-  color: #696969;
-  text-align: left;
-  display: flex;
-`;
+// const GlobalStyle = createGlobalStyle`
+//   body {
+//     font-family: 'Noto Sans KR', sans-serif;
+//   }
+// `;
 
 function SignupForm() {
   const navigate = useNavigate();
@@ -232,15 +144,14 @@ function SignupForm() {
 
   return (
     <>
-      <GlobalStyle />
-      <LogoContainer>
+      <S.LogoContainer>
         <img src={logo} alt="로고" style={{ width: '98px', height: '98px' }} />
         <img src={logoName} alt="로고 이름" style={{ width: '229px', height: '98px' }} />
-      </LogoContainer>
-      <Container>
-        <Form onSubmit={handleSubmit}>
+      </S.LogoContainer>
+      <S.Container>
+        <S.Form onSubmit={handleSubmit}>
           {/* 프로필 사진 */}
-          <ImageContainer>
+          <S.ImageContainer>
             <label htmlFor="image-select">
               {imageSrc ? (
                 <img src={imageSrc} alt="프로필 사진 미리보기" />
@@ -249,17 +160,17 @@ function SignupForm() {
               )}
             </label>
             <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} onChange={handleImageUpload} />
-          </ImageContainer>
+          </S.ImageContainer>
 
           {/* <img id="preview-image" alt="이미지 미리보기" src={data.serviceImg} />
           <label htmlFor="image-select">프로필 이미지 선택</label>
           <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} onChange={onChange} /> */}
 
           <div style={{ display: 'flex', justifyContent: 'space-between', width: '326px' }}>
-            <Title htmlFor="email">이메일</Title>
-            <CheckButton>중복확인</CheckButton>
+            <S.Title htmlFor="email">이메일</S.Title>
+            <S.CheckButton>중복확인</S.CheckButton>
           </div>
-          <Input
+          <S.Input
             type="email"
             id="email"
             value={email}
@@ -268,9 +179,9 @@ function SignupForm() {
           />
 
           <div style={{ width: '326px' }}>
-            <Title htmlFor="password">비밀번호</Title>
+            <S.Title htmlFor="password">비밀번호</S.Title>
           </div>
-          <Input
+          <S.Input
             type="password"
             id="password"
             value={password}
@@ -278,18 +189,18 @@ function SignupForm() {
             placeholder="영문자 + 숫자 + 특수문자 8자리 이상"
           />
           <div style={{ width: '326px' }}>
-            <Title htmlFor="passwordConfirm">비밀번호 확인</Title>
+            <S.Title htmlFor="passwordConfirm">비밀번호 확인</S.Title>
           </div>
-          <Input
+          <S.Input
             type="password"
             id="passwordConfirm"
             value={passwordConfirm}
             onChange={(e) => setPasswordConfirm(e.target.value)}
           />
           <div style={{ width: '326px' }}>
-            <Title htmlFor="name">이름</Title>
+            <S.Title htmlFor="name">이름</S.Title>
           </div>
-          <Input
+          <S.Input
             type="text"
             id="name"
             value={name}
@@ -297,9 +208,9 @@ function SignupForm() {
             placeholder="위드펫"
           />
           <div style={{ display: 'flex', justifyContent: 'space-between', width: '326px' }}>
-            <Title htmlFor="phone">전화번호</Title>
+            <S.Title htmlFor="phone">전화번호</S.Title>
           </div>
-          <Input
+          <S.Input
             type="text"
             id="phone"
             value={phone}
@@ -310,7 +221,7 @@ function SignupForm() {
           { toggle
             ? (
               <div style={{ display: 'flex', justifyContent: 'space-between', width: '326px' }}>
-                <Input
+                <S.Input
                   style={{ width: '152px' }}
                   type="text"
                   value={certification}
@@ -318,7 +229,7 @@ function SignupForm() {
                   placeholder="인증번호 입력"
                   disabled={completeCertification}
                 />
-                <Input
+                <S.Input
                   style={{
                     backgroundColor: '#CAA969', border: 'none', color: 'white', width: '152px',
                   }}
@@ -329,12 +240,12 @@ function SignupForm() {
               </div>
 
             )
-            : <Input style={{ backgroundColor: completeCertification ? '#C6C6C6' : '#CAA969', border: 'none', color: 'white' }} type="button" value="인증하기" onClick={onClick} disabled={completeCertification} />}
+            : <S.Input style={{ backgroundColor: completeCertification ? '#C6C6C6' : '#CAA969', border: 'none', color: 'white' }} type="button" value="인증하기" onClick={onClick} disabled={completeCertification} />}
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <Title>주소</Title>
+            <S.Title>주소</S.Title>
             <div style={{ display: 'flex', justifyContent: 'space-between', width: '326px' }}>
-              <Input
+              <S.Input
                 style={{ width: '152px' }}
                 type="text"
                 id="addressPost"
@@ -353,7 +264,7 @@ function SignupForm() {
               />
             </div>
 
-            <Input
+            <S.Input
               type="text"
               value={addressRoad}
               readOnly
@@ -361,16 +272,16 @@ function SignupForm() {
               onChange={(e) => setAddressRoad(e.target.value)}
             />
 
-            <Input
+            <S.Input
               type="text"
               value={addressDtail}
               placeholder="상세주소"
               onChange={(e) => setAddressDtail(e.target.value)}
             />
           </div>
-          <Button type="submit">회원가입</Button>
-        </Form>
-      </Container>
+          <S.Button type="submit">회원가입</S.Button>
+        </S.Form>
+      </S.Container>
     </>
   );
 }
