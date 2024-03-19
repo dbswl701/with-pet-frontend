@@ -1,0 +1,17 @@
+{
+  "short_name": "위드펫",
+  "name": "withPet",
+  "start_url": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "./favicon.ico",
+      "sizes": "64x64",
+      "type": "/image/icon",
+      "purpose": "any maskable"
+    }
+  ]
+}
