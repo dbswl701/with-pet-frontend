@@ -4,12 +4,13 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 800px;
+  width: 60rem;
   // height: 90vh;
   background-color: #fffaf0;
   outline: 1px solid #caa969;
-  margin: 30px auto 60px auto;
-  padding: 64px;
+  // margin: 30px auto 60px auto;
+  margin: 70px auto;
+  padding: 40px 64px;
 `;
 
 export const Form = styled.form`
@@ -36,6 +37,8 @@ export const ImageContainer = styled.div`
   justify-content: center;
   overflow: hidden;
   border-radius: 50%;
+  margin-bottom: 20px;
+  position: relative;
 
   img {
     width: 100%;
@@ -43,6 +46,17 @@ export const ImageContainer = styled.div`
     object-fit: cover;
     cursor: pointer;
   }
+`;
+
+export const ModifyIcon = styled.span`
+  display: flex;
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  z-index: 10;
+  background-color: #bcbcbc;
+  border-radius: 50%;
+  cursor: pointer;
 `;
 
 export const Button = styled.button`
@@ -61,7 +75,8 @@ export const Button = styled.button`
 export const Input = styled.input`
   width: 326px;
   height: 47px;
-  margin-top: 8px;
+  padding-left: 10px;
+  // margin-top: 8px;
 `;
 
 export const LogoContainer = styled.div`
@@ -75,16 +90,36 @@ export const CheckButton = styled.button`
   background-color: #CAA969;
   color: white;
   border: none;
-  width: 72px;
-  height: 24px;
-  margin-top: 31px;
+  width: 80px;
+  // height: 24px;
+  // margin-top: 31px;
 `;
 
 export const Title = styled.p`
-  margin: 31px 0 0 0;
+  // margin: 31px 0 0 0;
+  margin: 0;
   font-weight: bold;
   font-size: 16px;
   color: #696969;
   text-align: left;
+  // display: flex;
+`;
+
+export const InputContainer = styled.div`
+  width: 500px;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // background-color: red;
+  margin-top: 20px;
+  `;
+
+export const CheckContainer = styled.div`
+  display: flex;
+  width: 326px;
+`;
+
+export const AddressContainer = styled.div`
+  display: flex;
+  flex-direction: column;
 `;

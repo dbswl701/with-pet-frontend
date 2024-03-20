@@ -2,17 +2,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-// import styled, { createGlobalStyle } from 'styled-components';
 import userimgdefault from '../../assets/forAddPic.png';
-import logo from '../../assets/logo.png';
-import logoName from '../../assets/logo_name.png';
 import * as S from './Signup.styles';
-
-// const GlobalStyle = createGlobalStyle`
-//   body {
-//     font-family: 'Noto Sans KR', sans-serif;
-//   }
-// `;
 
 function SignupForm() {
   const navigate = useNavigate();
@@ -144,12 +135,9 @@ function SignupForm() {
 
   return (
     <>
-      <S.LogoContainer>
-        <img src={logo} alt="로고" style={{ width: '98px', height: '98px' }} />
-        <img src={logoName} alt="로고 이름" style={{ width: '229px', height: '98px' }} />
-      </S.LogoContainer>
       <S.Container>
         <S.Form onSubmit={handleSubmit}>
+          <h1>회원가입</h1>
           {/* 프로필 사진 */}
           <S.ImageContainer>
             <label htmlFor="image-select">
@@ -160,125 +148,139 @@ function SignupForm() {
               )}
             </label>
             <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} onChange={handleImageUpload} />
+            <S.ModifyIcon className="material-symbols-outlined">
+              edit
+            </S.ModifyIcon>
           </S.ImageContainer>
 
-          {/* <img id="preview-image" alt="이미지 미리보기" src={data.serviceImg} />
-          <label htmlFor="image-select">프로필 이미지 선택</label>
-          <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} onChange={onChange} /> */}
-
-          <div style={{ display: 'flex', justifyContent: 'space-between', width: '326px' }}>
+          <S.InputContainer>
             <S.Title htmlFor="email">이메일</S.Title>
-            <S.CheckButton>중복확인</S.CheckButton>
-          </div>
-          <S.Input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="example@gmail.com"
-          />
-
-          <div style={{ width: '326px' }}>
-            <S.Title htmlFor="password">비밀번호</S.Title>
-          </div>
-          <S.Input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="영문자 + 숫자 + 특수문자 8자리 이상"
-          />
-          <div style={{ width: '326px' }}>
-            <S.Title htmlFor="passwordConfirm">비밀번호 확인</S.Title>
-          </div>
-          <S.Input
-            type="password"
-            id="passwordConfirm"
-            value={passwordConfirm}
-            onChange={(e) => setPasswordConfirm(e.target.value)}
-          />
-          <div style={{ width: '326px' }}>
-            <S.Title htmlFor="name">이름</S.Title>
-          </div>
-          <S.Input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="위드펫"
-          />
-          <div style={{ display: 'flex', justifyContent: 'space-between', width: '326px' }}>
-            <S.Title htmlFor="phone">전화번호</S.Title>
-          </div>
-          <S.Input
-            type="text"
-            id="phone"
-            value={phone}
-            maxLength={13}
-            onChange={(e) => setPhone(String(e.target.value).replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'))}
-            placeholder="010-1234-5678"
-          />
-          { toggle
-            ? (
-              <div style={{ display: 'flex', justifyContent: 'space-between', width: '326px' }}>
-                <S.Input
-                  style={{ width: '152px' }}
-                  type="text"
-                  value={certification}
-                  onChange={(e) => setCertifiation(e.target.value)}
-                  placeholder="인증번호 입력"
-                  disabled={completeCertification}
-                />
-                <S.Input
-                  style={{
-                    backgroundColor: '#CAA969', border: 'none', color: 'white', width: '152px',
-                  }}
-                  type="button"
-                  value="인증하기"
-                  onClick={onClick}
-                />
-              </div>
-
-            )
-            : <S.Input style={{ backgroundColor: completeCertification ? '#C6C6C6' : '#CAA969', border: 'none', color: 'white' }} type="button" value="인증하기" onClick={onClick} disabled={completeCertification} />}
-
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <S.Title>주소</S.Title>
-            <div style={{ display: 'flex', justifyContent: 'space-between', width: '326px' }}>
+            <S.CheckContainer>
               <S.Input
-                style={{ width: '152px' }}
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="example@gmail.com"
+              />
+              <S.CheckButton>중복확인</S.CheckButton>
+
+            </S.CheckContainer>
+          </S.InputContainer>
+
+          <S.InputContainer>
+            <S.Title htmlFor="password">비밀번호</S.Title>
+            <S.Input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="영문자 + 숫자 + 특수문자 8자리 이상"
+            />
+          </S.InputContainer>
+
+          <S.InputContainer>
+            <S.Title htmlFor="passwordConfirm">비밀번호 확인</S.Title>
+
+            <S.Input
+              type="password"
+              id="passwordConfirm"
+              value={passwordConfirm}
+              onChange={(e) => setPasswordConfirm(e.target.value)}
+            />
+          </S.InputContainer>
+
+          <S.InputContainer>
+            <S.Title htmlFor="name">이름</S.Title>
+            <S.Input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="위드펫"
+            />
+          </S.InputContainer>
+
+          <S.InputContainer>
+            <S.Title htmlFor="phone">전화번호</S.Title>
+            <S.CheckContainer>
+              <S.Input
                 type="text"
-                id="addressPost"
-                value={addressPost}
+                id="phone"
+                value={phone}
+                maxLength={13}
+                onChange={(e) => setPhone(String(e.target.value).replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'))}
+                placeholder="010-1234-5678"
+              />
+              { toggle
+                ? (
+                  <div style={{ display: 'flex', justifyContent: 'space-between', width: '326px' }}>
+                    <S.Input
+                      style={{ width: '72px' }}
+                      type="text"
+                      value={certification}
+                      onChange={(e) => setCertifiation(e.target.value)}
+                      placeholder="인증번호 입력"
+                      disabled={completeCertification}
+                    />
+                    <S.Input
+                      style={{
+                        backgroundColor: '#CAA969', border: 'none', color: 'white', width: '72px',
+                      }}
+                      type="button"
+                      value="인증하기"
+                      onClick={onClick}
+                    />
+                  </div>
+
+                )
+                : (
+                  <S.Input
+                    style={{
+                      backgroundColor: completeCertification ? '#C6C6C6' : '#CAA969', border: 'none', color: 'white', width: '72px',
+                    }}
+                    type="button"
+                    value="인증하기"
+                    onClick={onClick}
+                    disabled={completeCertification}
+                  />
+                )}
+
+            </S.CheckContainer>
+          </S.InputContainer>
+
+          <S.InputContainer>
+            <S.Title>주소</S.Title>
+            <S.AddressContainer>
+              <S.CheckContainer>
+                <S.Input
+                  type="text"
+                  id="addressPost"
+                  value={addressPost}
+                  readOnly
+                  placeholder="우편번호"
+                  onChange={(e) => setAddressPost(e.target.value)}
+                />
+                <S.CheckButton onClick={openPostcodeSearch}>주소검색</S.CheckButton>
+              </S.CheckContainer>
+
+              <S.Input
+                type="text"
+                value={addressRoad}
                 readOnly
-                placeholder="우편번호"
-                onChange={(e) => setAddressPost(e.target.value)}
+                placeholder="도로명 주소"
+                onChange={(e) => setAddressRoad(e.target.value)}
               />
-              <input
-                type="button"
-                style={{
-                  background: '#CAA969', width: '152px', height: '47px', border: 'none', color: 'white', marginTop: '8px',
-                }}
-                onClick={openPostcodeSearch}
-                value="주소검색"
+
+              <S.Input
+                type="text"
+                value={addressDtail}
+                placeholder="상세주소"
+                onChange={(e) => setAddressDtail(e.target.value)}
               />
-            </div>
+            </S.AddressContainer>
+          </S.InputContainer>
 
-            <S.Input
-              type="text"
-              value={addressRoad}
-              readOnly
-              placeholder="도로명 주소"
-              onChange={(e) => setAddressRoad(e.target.value)}
-            />
-
-            <S.Input
-              type="text"
-              value={addressDtail}
-              placeholder="상세주소"
-              onChange={(e) => setAddressDtail(e.target.value)}
-            />
-          </div>
           <S.Button type="submit">회원가입</S.Button>
         </S.Form>
       </S.Container>
