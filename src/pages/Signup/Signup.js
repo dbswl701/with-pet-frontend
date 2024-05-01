@@ -1,12 +1,14 @@
 /* eslint-disable no-alert */
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import userimgdefault from '../../assets/forAddPic.png';
 import * as S from './Signup.styles';
+import PostSignUp from '../../services/user';
+import PostFileUpload from '../../services/upload';
 
 function SignupForm() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
@@ -47,27 +49,7 @@ function SignupForm() {
       // eslint-disable-next-line consistent-return
       return;
     }
-    axios
-      .post('https://withpet.site/api/v2/users/signup', {
-        password,
-        name,
-        phone,
-        address: {
-          streetAdr: addressRoad,
-          zipcode: addressPost,
-          detailAdr: addressDtail,
-        },
-        email,
-        profileImg: imageSrc[0],
-        passwordCheck: passwordConfirm,
-      })
-      .then(() => {
-        alert('회원가입에 성공했습니다.');
-        navigate('/');
-      })
-      .catch(() => {
-        alert('회원가입에 실패했습니다. 다시 시도해주세요.');
-      });
+    PostSignUp();
   };
 
   const onAddressDetail = (detail) => {
@@ -93,17 +75,13 @@ function SignupForm() {
     const formData = new FormData();
     formData.append('file', img);
 
-    const config = {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    };
-
-    axios
-      .post('https://withpet.site/api/v1/file/upload', formData, config)
-      .then((res) => {
-        setImageSrc(res.data.result);
-      });
+    try {
+      const result = await PostFileUpload(formData);
+      console.log('Upload successful. Result:', result);
+      setImageSrc(result.data.result);
+    } catch (error) {
+      console.error('Upload failed:', error);
+    }
   };
 
   const onClick = () => {
