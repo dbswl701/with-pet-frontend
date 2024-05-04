@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import logo from '../../assets/logo.png';
 import logoName from '../../assets/logo_name.png';
 import googleSininImg from '../../assets/btn_google_signin_light_normal_web.png';
+import baseUrl from '../../services/api';
 
 const LogoContainer = styled.div`
   margin-top: 50px;
@@ -60,7 +61,7 @@ function Login({ setState, setUserInfo }) {
   const onSubmit = (e) => {
     e.preventDefault();
     axios.post(
-      'https://withpet.site/api/v2/users/login',
+      `${baseUrl}/v2/users/sign-in`,
       {
         email: loginInfo.email,
         password: loginInfo.password,
