@@ -1,55 +1,112 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-alert */
 import React, { useState } from 'react';
 import axios from 'axios';
 // import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import * as S from './Signup.styles';
-import PostSignUp from '../../services/user';
+// import PostSignUp from '../../services/user';
 import PostFileUpload from '../../services/upload';
 import baseProfile from '../../constants/image';
+import baseUrl from '../../services/api';
+
+const emailRegex = /^[a-z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/i;
+const nameRegex = /^[ㄱ-ㅎ가-힣a-z0-9_-]+$/;
+const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W).{8,}$/;
+const phoneRegex = /^01([0|1|6|7|8|9])-([0-9]{3,4})-([0-9]{4})$/;
+
+// Zod 스키마 정의
+const signUpSchema = z.object({
+  email: z
+    .string()
+    .regex(emailRegex, '이메일 형식에 맞게 입력해주세요.')
+    .email('이메일 형식을 입력해주세요.'),
+  name: z
+    .string()
+    .min(3, '3글자 이상 입력해주세요')
+    .max(20, '20글자 이하로 입력해주세요')
+    .regex(nameRegex, '이름을 입력해주세요'),
+  password: z
+    .string()
+    .min(8, '8자 이상 입력해주세요')
+    .max(20, '20자 이하로 입력해주세요')
+    .regex(passwordRegex, '영문, 특수문자, 숫자를 포함하여 입력해주세요'),
+  passwordCheck: z
+    .string()
+    .min(8, '8자 이상 입력해주세요')
+    .max(20, '20자 이하로 입력해주세요')
+    .regex(passwordRegex, '영문, 특수문자, 숫자를 포함하여 입력해주세요'),
+  phone: z
+    .string()
+    .regex(phoneRegex, '알맞은 휴대폰 번호를 입력해주세요'),
+  // profile: z.string().url(),
+});
 
 function SignupForm() {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    getValues,
+  } = useForm({
+    resolver: zodResolver(signUpSchema),
+  });
+  console.log(watch('password')); // watch input value by passing the name of it
+  console.log('error:', errors);
   // const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+  // const [password, setPassword] = useState('');
+  // const [passwordConfirm, setPasswordConfirm] = useState('');
+  // const [name, setName] = useState('');
+  // const [phone, setPhone] = useState('');
   const [addressRoad, setAddressRoad] = useState('');
   const [addressPost, setAddressPost] = useState('');
   const [addressDtail, setAddressDtail] = useState('');
-  const [email, setEmail] = useState('');
+  // const [email, setEmail] = useState('');
 
   const [toggle, setToggle] = useState(false);
   const [certification, setCertifiation] = useState('');
   const [saveCertification, setSaveCertifiation] = useState('');
   const [completeCertification, setCompleteCertification] = useState(false);
-  // eslint-disable-next-line consistent-return
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!completeCertification) {
-      return alert('전화번호 인증이 필요합니다.');
-    }
 
-    if (password !== passwordConfirm) {
-      alert('비밀번호가 일치하지 않습니다.');
-      setPasswordConfirm('');
-      // eslint-disable-next-line consistent-return
-      return;
-    }
-    if (
-      password === ''
-      || name === ''
-      || phone === ''
-      || addressRoad === ''
-      || addressPost === ''
-      || addressDtail === ''
-      || email === ''
-    ) {
-      alert('빈 칸을 모두 입력해주세요.');
-      // eslint-disable-next-line consistent-return
-      return;
-    }
-    PostSignUp();
+  // eslint-disable-next-line consistent-return
+  const onSubmit = (data) => {
+    // e.preventDefault();
+
+    // 인증
+    signUpSchema.parse(data);
+    console.log('폼 데이터 유효성 검사 통과:', data);
+
+    // 수정 전 인증
+    // if (!completeCertification) {
+    //   return alert('전화번호 인증이 필요합니다.');
+    // }
+
+    // if (password !== passwordConfirm) {
+    //   alert('비밀번호가 일치하지 않습니다.');
+    //   setPasswordConfirm('');
+    //   // eslint-disable-next-line consistent-return
+    //   return;
+    // }
+    // if (
+    //   password === ''
+    //   || name === ''
+    //   || phone === ''
+    //   || addressRoad === ''
+    //   || addressPost === ''
+    //   || addressDtail === ''
+    //   // || email === ''
+    // ) {
+    //   alert('빈 칸을 모두 입력해주세요.');
+    //   // eslint-disable-next-line consistent-return
+    //   return;
+    // }
+
+    // 이건 살려야 함
+    // PostSignUp();
   };
 
   const onAddressDetail = (detail) => {
@@ -85,8 +142,9 @@ function SignupForm() {
   };
 
   const onClick = () => {
+    const phone = getValues('phone');
     if (!toggle) {
-      axios.get(`https://withpet.site/api/v1/certification?to=${phone}`)
+      axios.get(`${baseUrl}/v2/sms-authentication?to=${phone}`)
         .then((res) => {
           alert('인증번호가 발급되었습니다.');
           setSaveCertifiation(res.data.result);
@@ -111,10 +169,15 @@ function SignupForm() {
     }
   };
 
+  const handleCheckEmailDuplicate = () => {
+    const email = getValues('email'); // 이메일 값 얻기
+    console.log('이메일을 출력해보자!', email);
+  };
+
   return (
     <>
       <S.Container>
-        <S.Form onSubmit={handleSubmit}>
+        <S.Form onSubmit={handleSubmit(onSubmit)}>
           <h1>회원가입</h1>
           {/* 프로필 사진 */}
           <S.ImageContainer>
@@ -131,101 +194,106 @@ function SignupForm() {
             </S.ModifyIcon>
           </S.ImageContainer>
 
-          <S.InputContainer>
-            <S.Title htmlFor="email">이메일</S.Title>
-            <S.CheckContainer>
-              <S.Input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="example@gmail.com"
-              />
-              <S.CheckButton>중복확인</S.CheckButton>
+          <S.InputContainerWrapper>
+            <S.InputContainer>
+              <S.Title htmlFor="email">이메일</S.Title>
+              <S.CheckContainer>
+                <S.Input type="email" id="email" placeholder="example@gmail.com" {...register('email', { required: true })} />
+                <S.CheckButton onClick={handleCheckEmailDuplicate}>중복확인</S.CheckButton>
+              </S.CheckContainer>
+            </S.InputContainer>
+            {errors.email && <S.ErrorMessage>{errors?.email.message}</S.ErrorMessage>}
+          </S.InputContainerWrapper>
 
-            </S.CheckContainer>
-          </S.InputContainer>
-
-          <S.InputContainer>
-            <S.Title htmlFor="password">비밀번호</S.Title>
-            <S.Input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="영문자 + 숫자 + 특수문자 8자리 이상"
-            />
-          </S.InputContainer>
-
-          <S.InputContainer>
-            <S.Title htmlFor="passwordConfirm">비밀번호 확인</S.Title>
-
-            <S.Input
-              type="password"
-              id="passwordConfirm"
-              value={passwordConfirm}
-              onChange={(e) => setPasswordConfirm(e.target.value)}
-            />
-          </S.InputContainer>
-
-          <S.InputContainer>
-            <S.Title htmlFor="name">이름</S.Title>
-            <S.Input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="위드펫"
-            />
-          </S.InputContainer>
-
-          <S.InputContainer>
-            <S.Title htmlFor="phone">전화번호</S.Title>
-            <S.CheckContainer>
+          <S.InputContainerWrapper>
+            <S.InputContainer>
+              <S.Title htmlFor="name">이름</S.Title>
               <S.Input
                 type="text"
-                id="phone"
-                value={phone}
-                maxLength={13}
-                onChange={(e) => setPhone(String(e.target.value).replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'))}
-                placeholder="010-1234-5678"
+                id="name"
+                placeholder="위드펫"
+                {...register('name', { required: true })}
               />
-              { toggle
-                ? (
-                  <div style={{ display: 'flex', justifyContent: 'space-between', width: '326px' }}>
-                    <S.Input
-                      style={{ width: '72px' }}
-                      type="text"
-                      value={certification}
-                      onChange={(e) => setCertifiation(e.target.value)}
-                      placeholder="인증번호 입력"
-                      disabled={completeCertification}
-                    />
+            </S.InputContainer>
+            {errors.name && <S.ErrorMessage>{errors.name.message}</S.ErrorMessage>}
+          </S.InputContainerWrapper>
+
+          <S.InputContainerWrapper>
+            <S.InputContainer>
+              <S.Title htmlFor="password">비밀번호</S.Title>
+              <S.Input
+                type="password"
+                id="password"
+                {...register('password', { required: true })}
+                placeholder="영문자 + 숫자 + 특수문자 8자리 이상"
+              />
+            </S.InputContainer>
+            {errors.password && <S.ErrorMessage>{errors.password.message}</S.ErrorMessage>}
+          </S.InputContainerWrapper>
+
+          <S.InputContainerWrapper>
+            <S.InputContainer>
+              <S.Title htmlFor="passwordCheck">비밀번호 확인</S.Title>
+              <S.Input
+                type="password"
+                id="passwordCheck"
+                {...register('passwordCheck', { required: true })}
+              />
+            </S.InputContainer>
+            {errors.passwordCheck && <S.ErrorMessage>{errors.passwordCheck.message}</S.ErrorMessage>}
+          </S.InputContainerWrapper>
+
+          <S.InputContainerWrapper>
+            <S.InputContainer>
+              <S.Title htmlFor="phone">전화번호</S.Title>
+              <S.CheckContainer>
+                <S.Input
+                  type="text"
+                  id="phone"
+                  // value={phone}
+                  maxLength={13}
+                  {...register('phone', { require: true })}
+                  // onChange={(e) => setPhone(String(e.target.value).replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'))}
+                  placeholder="010-1234-5678"
+                />
+                { toggle
+                  ? (
+                    <div style={{ display: 'flex', justifyContent: 'space-between', width: '326px' }}>
+                      <S.Input
+                        style={{ width: '72px' }}
+                        type="text"
+                        value={certification}
+                        onChange={(e) => setCertifiation(e.target.value)}
+                        placeholder="인증번호 입력"
+                        disabled={completeCertification}
+                      />
+                      <S.Input
+                        style={{
+                          backgroundColor: '#CAA969', border: 'none', color: 'white', width: '72px',
+                        }}
+                        type="button"
+                        value="인증하기"
+                        onClick={onClick}
+                      />
+                    </div>
+
+                  )
+                  : (
                     <S.Input
                       style={{
-                        backgroundColor: '#CAA969', border: 'none', color: 'white', width: '72px',
+                        backgroundColor: completeCertification ? '#C6C6C6' : '#CAA969', border: 'none', color: 'white', width: '72px',
                       }}
                       type="button"
                       value="인증하기"
                       onClick={onClick}
+                      disabled={completeCertification}
                     />
-                  </div>
+                  )}
 
-                )
-                : (
-                  <S.Input
-                    style={{
-                      backgroundColor: completeCertification ? '#C6C6C6' : '#CAA969', border: 'none', color: 'white', width: '72px',
-                    }}
-                    type="button"
-                    value="인증하기"
-                    onClick={onClick}
-                    disabled={completeCertification}
-                  />
-                )}
-
-            </S.CheckContainer>
-          </S.InputContainer>
+              </S.CheckContainer>
+            </S.InputContainer>
+            {errors.phone && <S.ErrorMessage>{errors.phone.message}</S.ErrorMessage>}
+          </S.InputContainerWrapper>
 
           <S.InputContainer>
             <S.Title>주소</S.Title>

@@ -123,3 +123,15 @@ export const AddressContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
+export const ErrorMessage = styled.p`
+  font-size: 0.8rem;
+  color: #d61717;
+  margin: 0;
+  margin: 0.2rem 0 0 11rem;
+`;
+
+export const InputContainerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
