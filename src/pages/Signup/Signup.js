@@ -2,10 +2,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 // import { useNavigate } from 'react-router-dom';
-import userimgdefault from '../../assets/forAddPic.png';
 import * as S from './Signup.styles';
 import PostSignUp from '../../services/user';
 import PostFileUpload from '../../services/upload';
+import baseProfile from '../../constants/image';
 
 function SignupForm() {
   // const navigate = useNavigate();
@@ -122,7 +122,7 @@ function SignupForm() {
               {imageSrc ? (
                 <img src={imageSrc} alt="프로필 사진 미리보기" />
               ) : (
-                <img src={userimgdefault} alt="userimgdefault" />
+                <img src={baseProfile} alt="baseProfile" />
               )}
             </label>
             <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} onChange={handleImageUpload} />
