@@ -172,6 +172,13 @@ function SignupForm() {
   const handleCheckEmailDuplicate = () => {
     const email = getValues('email'); // 이메일 값 얻기
     console.log('이메일을 출력해보자!', email);
+    axios.post(`${baseUrl}/v2/users/email-duplicates`, { email })
+      .then((res) => {
+        console.log('성공!,', res);
+      })
+      .catch((err) => {
+        console.log('실패!', err);
+      });
   };
 
   return (
