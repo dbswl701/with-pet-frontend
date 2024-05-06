@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 // import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as S from './Signup.styles';
@@ -51,8 +51,10 @@ function SignupForm() {
     watch,
     formState: { errors },
     getValues,
+    control,
   } = useForm({
     resolver: zodResolver(signUpSchema),
+    mode: 'onChange',
   });
   console.log(watch('password')); // watch input value by passing the name of it
   console.log('error:', errors);
@@ -78,7 +80,7 @@ function SignupForm() {
   const [completeCertification, setCompleteCertification] = useState(false);
 
   // 이메일 중복 검사
-  const [notDuplicateEmail, setNotDuplicateEmail] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(false);
 
   // eslint-disable-next-line consistent-return
   const onSubmit = (data) => {
@@ -180,16 +182,27 @@ function SignupForm() {
   const handleCheckEmailDuplicate = () => {
     const email = getValues('email'); // 이메일 값 얻기
     console.log('이메일을 출력해보자!', email);
+    // 유효한 이메일 형식이 아니면 막는다
+    console.log('errors.email:', errors.email);
+    if (!email || errors.email) {
+      return;
+    }
     axios.post(`${baseUrl}/v2/users/email-duplicates`, { email })
       .then((res) => {
         console.log('성공!,', res);
-        setNotDuplicateEmail(true);
+        setIsEmailValid(true);
       })
       .catch((err) => {
         console.log('실패!', err);
       });
   };
-  console.log('notDuplicateEmail:', notDuplicateEmail);
+
+  const handleEmailChange = () => {
+    setIsEmailValid(false);
+    console.log('change!!!');
+    // 유효성 검사 통과 확인
+  };
+  console.log('notDuplicateEmail:', isEmailValid);
 
   return (
     <>
@@ -215,8 +228,23 @@ function SignupForm() {
             <S.InputContainer>
               <S.Title htmlFor="email">이메일</S.Title>
               <S.CheckContainer>
-                <S.Input type="email" id="email" placeholder="example@gmail.com" {...register('email', { required: true })} />
-                <S.CheckButton disabled={notDuplicateEmail} onClick={handleCheckEmailDuplicate}>중복확인</S.CheckButton>
+                <Controller
+                  name="email"
+                  control={control}
+                  render={({ field }) => (
+                    <S.Input
+                      {...field}
+                      type="email"
+                      id="email"
+                      placeholder="example@gmail.com"
+                      onChange={(e) => {
+                        field.onChange(e);
+                        handleEmailChange(e.target.value);
+                      }}
+                    />
+                  )}
+                />
+                <S.CheckButton disabled={isEmailValid} onClick={handleCheckEmailDuplicate}>중복확인</S.CheckButton>
               </S.CheckContainer>
             </S.InputContainer>
             {errors.email && <S.ErrorMessage>{errors?.email.message}</S.ErrorMessage>}
