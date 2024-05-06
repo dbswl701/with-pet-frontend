@@ -42,6 +42,9 @@ const signUpSchema = z.object({
     .string()
     .regex(phoneRegex, '알맞은 휴대폰 번호를 입력해주세요'),
   // profile: z.string().url(),
+}).refine((data) => data.passwordCheck === data.password, {
+  path: ['passwordCheck'],
+  message: '비밀번호가 일치하지 않습니다.',
 });
 
 function SignupForm() {
