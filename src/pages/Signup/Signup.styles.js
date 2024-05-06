@@ -87,9 +87,9 @@ export const LogoContainer = styled.div`
 `;
 
 export const CheckButton = styled.button`
-  background-color: #CAA969;
-  color: white;
-  border: none;
+  background-color: ${(props) => (props.disabled ? 'transparent' : '#CAA969')};
+  color: ${(props) => (props.disabled ? '#CAA969' : 'white')};
+  border: ${(props) => (props.disabled ? '1px solid #CAA969' : 'none')};
   width: 80px;
   // height: 24px;
   // margin-top: 31px;

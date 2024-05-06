@@ -56,6 +56,11 @@ function SignupForm() {
   });
   console.log(watch('password')); // watch input value by passing the name of it
   console.log('error:', errors);
+
+  // 에러 검증
+  const isError = Object.keys(errors).length !== 0;
+
+  console.log('에러 있는지 확인:', isError);
   // const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState('');
   // const [password, setPassword] = useState('');
@@ -71,6 +76,9 @@ function SignupForm() {
   const [certification, setCertifiation] = useState('');
   const [saveCertification, setSaveCertifiation] = useState('');
   const [completeCertification, setCompleteCertification] = useState(false);
+
+  // 이메일 중복 검사
+  const [notDuplicateEmail, setNotDuplicateEmail] = useState(false);
 
   // eslint-disable-next-line consistent-return
   const onSubmit = (data) => {
@@ -175,11 +183,13 @@ function SignupForm() {
     axios.post(`${baseUrl}/v2/users/email-duplicates`, { email })
       .then((res) => {
         console.log('성공!,', res);
+        setNotDuplicateEmail(true);
       })
       .catch((err) => {
         console.log('실패!', err);
       });
   };
+  console.log('notDuplicateEmail:', notDuplicateEmail);
 
   return (
     <>
@@ -206,7 +216,7 @@ function SignupForm() {
               <S.Title htmlFor="email">이메일</S.Title>
               <S.CheckContainer>
                 <S.Input type="email" id="email" placeholder="example@gmail.com" {...register('email', { required: true })} />
-                <S.CheckButton onClick={handleCheckEmailDuplicate}>중복확인</S.CheckButton>
+                <S.CheckButton disabled={notDuplicateEmail} onClick={handleCheckEmailDuplicate}>중복확인</S.CheckButton>
               </S.CheckContainer>
             </S.InputContainer>
             {errors.email && <S.ErrorMessage>{errors?.email.message}</S.ErrorMessage>}
