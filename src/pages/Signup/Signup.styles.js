@@ -135,3 +135,11 @@ export const InputContainerWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
+export const Time = styled.p`
+  position: absolute;
+  right: 80px;
+  color: red;
+  font-size: 0.8rem;
+  font-weight: bold;
+`;

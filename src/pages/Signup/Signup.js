@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-alert */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 // import { useNavigate } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
@@ -80,10 +80,15 @@ function SignupForm() {
   const [toggle, setToggle] = useState(false);
   const [certification, setCertifiation] = useState('');
   const [saveCertification, setSaveCertifiation] = useState('');
-  const [completeCertification, setCompleteCertification] = useState(false);
 
   // 이메일 중복 검사
   const [isEmailValid, setIsEmailValid] = useState(false);
+
+  // 시간 확인
+  const [time, setTime] = useState(180);
+
+  // 휴대폰 인증
+  const [isPhoneValid, setIsPhoneValid] = useState(false);
 
   // eslint-disable-next-line consistent-return
   const onSubmit = (data) => {
@@ -154,6 +159,20 @@ function SignupForm() {
     }
   };
 
+  useEffect(() => {
+    let intervalId;
+
+    if (toggle && time > 0) {
+      intervalId = setInterval(() => {
+        setTime((prev) => prev - 1);
+      }, 1000);
+    } else if (time === 0) {
+      clearInterval(intervalId);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [toggle, time]);
+
   const onClick = () => {
     const phone = getValues('phone');
     if (!toggle) {
@@ -162,6 +181,8 @@ function SignupForm() {
           alert('인증번호가 발급되었습니다.');
           setSaveCertifiation(res.data.result);
           setToggle(true);
+
+          // 타이머 시작
         })
         .catch((err) => {
           if (err.response && err.response.status === 409) {
@@ -170,7 +191,6 @@ function SignupForm() {
         });
     } else if (saveCertification === certification) {
       alert('인증이 완료되었습니다.');
-      setCompleteCertification(true);
       setToggle(false);
     } else {
       alert('인증번호가 일치하지 않습니다. 인증번호가 다시 발급되었습니다');
@@ -179,6 +199,24 @@ function SignupForm() {
           setSaveCertifiation(res.data.result);
           setCertifiation('');
         });
+    }
+  };
+
+  // 전화번호 인증 확인
+  const CheckPhone = async () => {
+    // 백엔드에 맞는지 확인
+    const phone = getValues('phone');
+    try {
+      const res = await axios.post(`${baseUrl}/v2/sms-authentication`, {
+        authenticationNumber: certification,
+        phone,
+      });
+      console.log('res:', res);
+      setIsPhoneValid(true);
+      setToggle(false);
+      // 맞으면 확인 응답
+    } catch (err) {
+      console.log('err:', err);
     }
   };
 
@@ -206,6 +244,13 @@ function SignupForm() {
     // 유효성 검사 통과 확인
   };
   console.log('notDuplicateEmail:', isEmailValid);
+
+  // 시간 초 -> 분 변환
+  const convertMinutes = () => {
+    const minute = parseInt(time / 60, 10).toString().padStart(2, '0');
+    const second = (time % 60).toString().padStart(2, '0');
+    return `${minute}:${second}`;
+  };
 
   return (
     <>
@@ -294,51 +339,58 @@ function SignupForm() {
           <S.InputContainerWrapper>
             <S.InputContainer>
               <S.Title htmlFor="phone">전화번호</S.Title>
-              <S.CheckContainer>
-                <S.Input
-                  type="text"
-                  id="phone"
-                  // value={phone}
-                  maxLength={13}
-                  {...register('phone', { require: true })}
-                  // onChange={(e) => setPhone(String(e.target.value).replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'))}
-                  placeholder="010-1234-5678"
-                />
-                { toggle
-                  ? (
-                    <div style={{ display: 'flex', justifyContent: 'space-between', width: '326px' }}>
-                      <S.Input
-                        style={{ width: '72px' }}
-                        type="text"
-                        value={certification}
-                        onChange={(e) => setCertifiation(e.target.value)}
-                        placeholder="인증번호 입력"
-                        disabled={completeCertification}
-                      />
-                      <S.Input
-                        style={{
-                          backgroundColor: '#CAA969', border: 'none', color: 'white', width: '72px',
-                        }}
-                        type="button"
-                        value="인증하기"
-                        onClick={onClick}
-                      />
-                    </div>
-
-                  )
-                  : (
-                    <S.Input
-                      style={{
-                        backgroundColor: completeCertification ? '#C6C6C6' : '#CAA969', border: 'none', color: 'white', width: '72px',
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <S.CheckContainer>
+                  <S.Input
+                    type="text"
+                    id="phone"
+                    // value={phone}
+                    maxLength={13}
+                    {...register('phone', { require: true })}
+                    // onChange={(e) => setPhone(String(e.target.value).replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'))}
+                    placeholder="010-1234-5678"
+                  />
+                  <S.Input
+                    style={{
+                      backgroundColor: toggle || isPhoneValid ? '#C6C6C6' : '#CAA969', border: 'none', color: 'white', width: '72px',
+                    }}
+                    type="button"
+                    // value="인증하기"
+                    value={isPhoneValid ? '인증완료' : '인증하기'}
+                    onClick={onClick}
+                    disabled={toggle || isPhoneValid}
+                  />
+                </S.CheckContainer>
+                <S.CheckContainer>
+                  { toggle
+                    ? (
+                      <div style={{
+                        display: 'flex', alignItems: 'center', width: '326px', position: 'relative',
                       }}
-                      type="button"
-                      value="인증하기"
-                      onClick={onClick}
-                      disabled={completeCertification}
-                    />
-                  )}
-
-              </S.CheckContainer>
+                      >
+                        <S.Input
+                          // style={{ width: '72px' }}
+                          type="text"
+                          value={certification}
+                          onChange={(e) => setCertifiation(e.target.value)}
+                          placeholder="인증번호 입력"
+                        />
+                        <S.Time>{convertMinutes(time)}</S.Time>
+                        <S.Input
+                          style={{
+                            backgroundColor: '#CAA969', border: 'none', color: 'white', width: '72px',
+                          }}
+                          type="button"
+                          value="인증 확인"
+                          onClick={CheckPhone}
+                        />
+                      </div>
+                    )
+                    : (
+                      <div>{}</div>
+                    )}
+                </S.CheckContainer>
+              </div>
             </S.InputContainer>
             {errors.phone && <S.ErrorMessage>{errors.phone.message}</S.ErrorMessage>}
           </S.InputContainerWrapper>
