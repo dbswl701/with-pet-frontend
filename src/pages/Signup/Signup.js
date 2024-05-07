@@ -7,7 +7,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as S from './Signup.styles';
-// import PostSignUp from '../../services/user';
+import PostSignUp from '../../services/user';
 import PostFileUpload from '../../services/upload';
 import baseProfile from '../../constants/image';
 import baseUrl from '../../services/api';
@@ -41,6 +41,9 @@ const signUpSchema = z.object({
   phone: z
     .string()
     .regex(phoneRegex, '알맞은 휴대폰 번호를 입력해주세요'),
+  detailAddr: z
+    .string()
+    .nonempty('상세주소를 입력해주세요'),
   // profile: z.string().url(),
 }).refine((data) => data.passwordCheck === data.password, {
   path: ['passwordCheck'],
@@ -55,6 +58,7 @@ function SignupForm() {
     formState: { errors },
     getValues,
     control,
+    setValue,
   } = useForm({
     resolver: zodResolver(signUpSchema),
     mode: 'onChange',
@@ -74,7 +78,7 @@ function SignupForm() {
   // const [phone, setPhone] = useState('');
   const [addressRoad, setAddressRoad] = useState('');
   const [addressPost, setAddressPost] = useState('');
-  const [addressDtail, setAddressDtail] = useState('');
+  // const [addressDtail, setAddressDtail] = useState('');
   // const [email, setEmail] = useState('');
 
   const [toggle, setToggle] = useState(false);
@@ -124,11 +128,30 @@ function SignupForm() {
     // }
 
     // 이건 살려야 함
-    // PostSignUp();
+    // password, name, phone, addressRoad, addressPost, addressDtail, email, imageSrc, passwordConfirm,
+    const email = getValues('email');
+    const name = getValues('name');
+    const password = getValues('password');
+    const passwordConfirm = getValues('passwordCheck');
+    const phone = getValues('phone');
+    const addressDtail = getValues('detailAddr');
+    const requestBody = {
+      email,
+      name,
+      password,
+      passwordConfirm,
+      phone,
+      addressPost,
+      addressRoad,
+      addressDtail,
+      imageSrc: '',
+    };
+    PostSignUp(requestBody);
   };
 
   const onAddressDetail = (detail) => {
-    setAddressDtail(detail);
+    // setAddressDtail(detail);
+    setValue('detailAddr', detail);
   };
 
   const openPostcodeSearch = () => {
@@ -238,11 +261,11 @@ function SignupForm() {
       });
   };
 
-  const handleEmailChange = () => {
-    setIsEmailValid(false);
-    console.log('change!!!');
-    // 유효성 검사 통과 확인
-  };
+  // const handleEmailChange = () => {
+  //   setIsEmailValid(false);
+  //   console.log('change!!!');
+  //   // 유효성 검사 통과 확인
+  // };
   console.log('notDuplicateEmail:', isEmailValid);
 
   // 시간 초 -> 분 변환
@@ -285,14 +308,16 @@ function SignupForm() {
                       type="email"
                       id="email"
                       placeholder="example@gmail.com"
+                      value={field.value || ''}
                       onChange={(e) => {
-                        field.onChange(e);
-                        handleEmailChange(e.target.value);
+                        field.onChange(e.target.value);
+                        // handleEmailChange(e.target.value);
+                        setIsEmailValid(false);
                       }}
                     />
                   )}
                 />
-                <S.CheckButton disabled={isEmailValid} onClick={handleCheckEmailDuplicate}>중복확인</S.CheckButton>
+                <S.CheckButton type="button" disabled={isEmailValid} onClick={handleCheckEmailDuplicate}>중복확인</S.CheckButton>
               </S.CheckContainer>
             </S.InputContainer>
             {errors.email && <S.ErrorMessage>{errors?.email.message}</S.ErrorMessage>}
@@ -395,38 +420,39 @@ function SignupForm() {
             {errors.phone && <S.ErrorMessage>{errors.phone.message}</S.ErrorMessage>}
           </S.InputContainerWrapper>
 
-          <S.InputContainer>
-            <S.Title>주소</S.Title>
-            <S.AddressContainer>
-              <S.CheckContainer>
+          <S.InputContainerWrapper>
+            <S.InputContainer>
+              <S.Title>주소</S.Title>
+              <S.AddressContainer>
+                <S.CheckContainer>
+                  <S.Input
+                    type="text"
+                    id="addressPost"
+                    value={addressPost}
+                    readOnly
+                    placeholder="우편번호"
+                  />
+                  <S.CheckButton type="button" onClick={openPostcodeSearch}>주소검색</S.CheckButton>
+                </S.CheckContainer>
+
                 <S.Input
                   type="text"
-                  id="addressPost"
-                  value={addressPost}
+                  value={addressRoad}
                   readOnly
-                  placeholder="우편번호"
-                  onChange={(e) => setAddressPost(e.target.value)}
+                  placeholder="도로명 주소"
                 />
-                <S.CheckButton onClick={openPostcodeSearch}>주소검색</S.CheckButton>
-              </S.CheckContainer>
 
-              <S.Input
-                type="text"
-                value={addressRoad}
-                readOnly
-                placeholder="도로명 주소"
-                onChange={(e) => setAddressRoad(e.target.value)}
-              />
-
-              <S.Input
-                type="text"
-                value={addressDtail}
-                placeholder="상세주소"
-                onChange={(e) => setAddressDtail(e.target.value)}
-              />
-            </S.AddressContainer>
-          </S.InputContainer>
-
+                <S.Input
+                  type="text"
+                  // value={addressDtail}
+                  placeholder="상세주소"
+                  {...register('detailAddr', { require: true })}
+                  // onChange={(e) => setAddressDtail(e.target.value)}
+                />
+              </S.AddressContainer>
+            </S.InputContainer>
+            {errors.detailAddr && <S.ErrorMessage>{errors.detailAddr.message}</S.ErrorMessage>}
+          </S.InputContainerWrapper>
           <S.Button type="submit">회원가입</S.Button>
         </S.Form>
       </S.Container>

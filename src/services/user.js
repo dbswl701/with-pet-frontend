@@ -1,14 +1,14 @@
 /* eslint-disable no-alert */
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import baseUrl from './api';
+// import { useNavigate } from 'react-router-dom';
 
 const PostSignUp = ({
   password, name, phone, addressRoad, addressPost, addressDtail, email, imageSrc, passwordConfirm,
 }) => {
-  const navigate = useNavigate();
-
+  // const navigate = useNavigate();
   axios
-    .post('https://withpet.site/api/v2/users/signup', {
+    .post(`${baseUrl}/v2/users/sign-up`, {
       password,
       name,
       phone,
@@ -18,12 +18,13 @@ const PostSignUp = ({
         detailAdr: addressDtail,
       },
       email,
-      profileImg: imageSrc[0],
+      // profileImg: imageSrc[0],
+      profileImg: imageSrc,
       passwordCheck: passwordConfirm,
     })
     .then(() => {
       alert('회원가입에 성공했습니다.');
-      navigate('/');
+      // navigate('/');
     })
     .catch(() => {
       alert('회원가입에 실패했습니다. 다시 시도해주세요.');

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import baseUrl from './api';
 
 const PostFileUpload = (formData) => {
   const config = {
@@ -6,7 +7,7 @@ const PostFileUpload = (formData) => {
       'Content-Type': 'multipart/form-data',
     },
   };
-  return axios.post('https://withpet.site/api/v1/file/upload', formData, config);
+  return axios.post(`${baseUrl}/v1/file/upload`, formData, config);
 };
 
 export default PostFileUpload;
