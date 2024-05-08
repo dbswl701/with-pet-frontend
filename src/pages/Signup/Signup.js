@@ -72,14 +72,8 @@ function SignupForm() {
   console.log('에러 있는지 확인:', isError);
   // const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState('');
-  // const [password, setPassword] = useState('');
-  // const [passwordConfirm, setPasswordConfirm] = useState('');
-  // const [name, setName] = useState('');
-  // const [phone, setPhone] = useState('');
   const [addressRoad, setAddressRoad] = useState('');
   const [addressPost, setAddressPost] = useState('');
-  // const [addressDtail, setAddressDtail] = useState('');
-  // const [email, setEmail] = useState('');
 
   const [toggle, setToggle] = useState(false);
   const [certification, setCertifiation] = useState('');
@@ -101,31 +95,6 @@ function SignupForm() {
     // 인증
     signUpSchema.parse(data);
     console.log('폼 데이터 유효성 검사 통과:', data);
-
-    // 수정 전 인증
-    // if (!completeCertification) {
-    //   return alert('전화번호 인증이 필요합니다.');
-    // }
-
-    // if (password !== passwordConfirm) {
-    //   alert('비밀번호가 일치하지 않습니다.');
-    //   setPasswordConfirm('');
-    //   // eslint-disable-next-line consistent-return
-    //   return;
-    // }
-    // if (
-    //   password === ''
-    //   || name === ''
-    //   || phone === ''
-    //   || addressRoad === ''
-    //   || addressPost === ''
-    //   || addressDtail === ''
-    //   // || email === ''
-    // ) {
-    //   alert('빈 칸을 모두 입력해주세요.');
-    //   // eslint-disable-next-line consistent-return
-    //   return;
-    // }
 
     // 이건 살려야 함
     // password, name, phone, addressRoad, addressPost, addressDtail, email, imageSrc, passwordConfirm,
@@ -150,7 +119,6 @@ function SignupForm() {
   };
 
   const onAddressDetail = (detail) => {
-    // setAddressDtail(detail);
     setValue('detailAddr', detail);
   };
 
