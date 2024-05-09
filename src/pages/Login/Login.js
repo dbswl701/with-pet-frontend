@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import axios from 'axios';
 import * as S from './Login.styles';
 // import dogBanner from '../../assets/dog_banner.png';
 import logo from '../../assets/logo.png';
 import logoName from '../../assets/logo_name.png';
 import googleSininImg from '../../assets/btn_google_signin_light_normal_web.png';
-import baseUrl from '../../services/api';
+import useUserStore from '../../store/user';
+import { PostSignIn } from '../../services/user';
 
 function Login({ setState, setUserInfo }) {
   const [loginInfo, setLoginInfo] = useState({
@@ -15,27 +15,24 @@ function Login({ setState, setUserInfo }) {
     password: '',
   });
   const navigate = useNavigate();
-  const onSubmit = (e) => {
+  const { user, setUser } = useUserStore();
+
+  console.log('user:', user);
+  const onSubmit = async (e) => {
     e.preventDefault();
-    axios.post(
-      `${baseUrl}/v2/users/sign-in`,
-      {
-        email: loginInfo.email,
-        password: loginInfo.password,
-      },
-      { withCredentials: true },
-    )
-      .then((res) => {
-        setState('login');
-        alert('로그인에 성공했습니다.'); // eslint-disable-line no-alert
-        setUserInfo(res.data.result);
-        localStorage.setItem('userInfo', JSON.stringify(res.data.result));
-        // navigate(-1);
-        navigate('/');
-      })
-      .catch(() => {
-        alert('로그인에 실패했습니다.'); // eslint-disable-line no-alert
-      });
+    try {
+      const res = await PostSignIn(loginInfo.email, loginInfo.password);
+      setState('login');
+      alert('로그인에 성공했습니다.'); // eslint-disable-line no-alert
+      setUser(res.result);
+      setUserInfo(res.result);
+      localStorage.setItem('userInfo', JSON.stringify(res.result));
+      // navigate(-1);
+      navigate('/');
+    } catch (err) {
+      console.error('로그인 에러 발생:', err);
+      alert('로그인에 실패했습니다.'); // eslint-disable-line no-alert
+    }
   };
 
   const onChange = (e) => {
