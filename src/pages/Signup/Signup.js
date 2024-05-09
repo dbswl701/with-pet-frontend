@@ -1,61 +1,21 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-alert */
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as S from './Signup.styles';
 import PostSignUp from '../../services/user';
 import PostFileUpload from '../../services/upload';
 import baseProfile from '../../constants/image';
-import baseUrl from '../../services/api';
-import getReissuance from '../../services/sms';
-
-const emailRegex = /^[a-z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/i;
-const nameRegex = /^[ㄱ-ㅎ가-힣a-z0-9_-]+$/;
-const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W).{8,}$/;
-const phoneRegex = /^01([0|1|6|7|8|9])-([0-9]{3,4})-([0-9]{4})$/;
-
-// Zod 스키마 정의
-const signUpSchema = z.object({
-  email: z
-    .string()
-    .regex(emailRegex, '이메일 형식에 맞게 입력해주세요.')
-    .email('이메일 형식을 입력해주세요.'),
-  name: z
-    .string()
-    .min(3, '3글자 이상 입력해주세요')
-    .max(20, '20글자 이하로 입력해주세요')
-    .regex(nameRegex, '이름을 입력해주세요'),
-  password: z
-    .string()
-    .min(8, '8자 이상 입력해주세요')
-    .max(20, '20자 이하로 입력해주세요')
-    .regex(passwordRegex, '영문, 특수문자, 숫자를 포함하여 입력해주세요'),
-  passwordCheck: z
-    .string()
-    .min(8, '8자 이상 입력해주세요')
-    .max(20, '20자 이하로 입력해주세요')
-    .regex(passwordRegex, '영문, 특수문자, 숫자를 포함하여 입력해주세요'),
-  phone: z
-    .string()
-    .regex(phoneRegex, '알맞은 휴대폰 번호를 입력해주세요'),
-  detailAddr: z
-    .string()
-    .nonempty('상세주소를 입력해주세요'),
-  // profile: z.string().url(),
-}).refine((data) => data.passwordCheck === data.password, {
-  path: ['passwordCheck'],
-  message: '비밀번호가 일치하지 않습니다.',
-});
+import { getIssuance, PostAuthentication, PostEmailDuplicate } from '../../services/sms';
+import { signUpSchema } from '../../schemas/signup.schemas';
 
 function SignupForm() {
   const {
     register,
     handleSubmit,
-    watch,
+    // watch,
     formState: { errors },
     getValues,
     control,
@@ -64,40 +24,38 @@ function SignupForm() {
     resolver: zodResolver(signUpSchema),
     mode: 'onChange',
   });
-  console.log(watch('password')); // watch input value by passing the name of it
-  console.log('error:', errors);
 
   // 에러 검증
-  const isError = Object.keys(errors).length !== 0;
+  // const isError = Object.keys(errors).length !== 0;
 
-  console.log('에러 있는지 확인:', isError);
   const navigate = useNavigate();
+
   const [imageSrc, setImageSrc] = useState(baseProfile);
   const [addressRoad, setAddressRoad] = useState('');
   const [addressPost, setAddressPost] = useState('');
-
-  const [toggle, setToggle] = useState(false);
   const [certification, setCertifiation] = useState('');
+  const [toggle, setToggle] = useState(false);
 
-  // 이메일 중복 검사
-  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(false); // 이메일 중복 검사
+  const [time, setTime] = useState(180); // 시간 확인
+  const [isPhoneValid, setIsPhoneValid] = useState(false); // 휴대폰 인증
 
-  // 시간 확인
-  const [time, setTime] = useState(180);
+  // 전화번호 인증 타이머
+  useEffect(() => {
+    let intervalId;
 
-  // 휴대폰 인증
-  const [isPhoneValid, setIsPhoneValid] = useState(false);
+    if (toggle && time > 0) {
+      intervalId = setInterval(() => {
+        setTime((prev) => prev - 1);
+      }, 1000);
+    } else if (time === 0 || !toggle) {
+      clearInterval(intervalId);
+    }
 
-  // eslint-disable-next-line consistent-return
-  const onSubmit = async (data) => {
-    // e.preventDefault();
+    return () => clearInterval(intervalId);
+  }, [toggle, time]);
 
-    // 인증
-    signUpSchema.parse(data);
-    console.log('폼 데이터 유효성 검사 통과:', data);
-
-    // 이건 살려야 함
-    // password, name, phone, addressRoad, addressPost, addressDtail, email, imageSrc, passwordConfirm,
+  const onSubmit = async () => {
     const email = getValues('email');
     const name = getValues('name');
     const password = getValues('password');
@@ -113,7 +71,7 @@ function SignupForm() {
       addressPost,
       addressRoad,
       addressDtail,
-      imageSrc: '',
+      imageSrc,
     };
 
     try {
@@ -125,6 +83,7 @@ function SignupForm() {
     }
   };
 
+  // 주소
   const onAddressDetail = (detail) => {
     setValue('detailAddr', detail);
   };
@@ -143,6 +102,7 @@ function SignupForm() {
     }).open();
   };
 
+  // 사진
   const handleImageUpload = async (e) => {
     const img = e.target.files[0];
     const formData = new FormData();
@@ -150,31 +110,17 @@ function SignupForm() {
 
     try {
       const result = await PostFileUpload(formData);
-      console.log('Upload successful. Result:', result);
       setImageSrc(result.data.result);
     } catch (error) {
       console.error('Upload failed:', error);
     }
   };
 
-  useEffect(() => {
-    let intervalId;
-
-    if (toggle && time > 0) {
-      intervalId = setInterval(() => {
-        setTime((prev) => prev - 1);
-      }, 1000);
-    } else if (time === 0) {
-      clearInterval(intervalId);
-    }
-
-    return () => clearInterval(intervalId);
-  }, [toggle, time]);
-
-  const onClick = async () => {
+  // 전화번호 인증번호 발급
+  const handleIssuance = async () => {
     const phone = getValues('phone');
     try {
-      await getReissuance(phone);
+      await getIssuance(phone);
       setToggle(true);
       alert('인증번호가 발급되었습니다.');
       setTime(180);
@@ -188,43 +134,32 @@ function SignupForm() {
 
   // 전화번호 인증 확인
   const CheckPhone = async () => {
-    // 백엔드에 맞는지 확인
     const phone = getValues('phone');
     try {
-      const res = await axios.post(`${baseUrl}/v2/sms-authentication`, {
-        authenticationNumber: certification,
-        phone,
-      });
-      console.log('res:', res);
+      const res = await PostAuthentication(certification, phone);
       setIsPhoneValid(true);
-      alert('인증이 완료되었습니다.');
+      alert(res.result);
       setToggle(false);
-      // 맞으면 확인 응답
     } catch (err) {
       alert('인증번호가 일치하지 않습니다.');
       console.log('err:', err);
     }
   };
 
-  const handleCheckEmailDuplicate = () => {
+  const handleCheckEmailDuplicate = async () => {
     const email = getValues('email'); // 이메일 값 얻기
-    console.log('이메일을 출력해보자!', email);
     // 유효한 이메일 형식이 아니면 막는다
-    console.log('errors.email:', errors.email);
     if (!email || errors.email) {
       return;
     }
-    axios.post(`${baseUrl}/v2/users/email-duplicates`, { email })
-      .then((res) => {
-        console.log('성공!,', res);
-        setIsEmailValid(true);
-      })
-      .catch((err) => {
-        console.log('실패!', err);
-      });
+    try {
+      const res = await PostEmailDuplicate(email);
+      setIsEmailValid(true);
+      alert(res.result);
+    } catch (err) {
+      alert(err.response.data.message);
+    }
   };
-
-  console.log('notDuplicateEmail:', isEmailValid);
 
   // 시간 초 -> 분 변환
   const convertMinutes = () => {
@@ -241,7 +176,6 @@ function SignupForm() {
           {/* 프로필 사진 */}
           <S.ImageContainer>
             <img src={imageSrc} alt="프로필 사진 미리보기" />
-
             <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} onChange={handleImageUpload} />
             <label htmlFor="image-select">
               <S.ModifyIcon className="material-symbols-outlined">
@@ -323,7 +257,6 @@ function SignupForm() {
                   <S.Input
                     type="text"
                     id="phone"
-                    // value={phone}
                     maxLength={13}
                     {...register('phone', { require: true })}
                     placeholder="010-1234-5678"
@@ -333,9 +266,8 @@ function SignupForm() {
                       backgroundColor: toggle || isPhoneValid ? '#C6C6C6' : '#CAA969', border: 'none', color: 'white', width: '72px',
                     }}
                     type="button"
-                    // value="인증하기"
                     value={isPhoneValid ? '인증완료' : '인증하기'}
-                    onClick={onClick}
+                    onClick={handleIssuance}
                     disabled={toggle || isPhoneValid}
                   />
                 </S.CheckContainer>
@@ -364,7 +296,7 @@ function SignupForm() {
                           />
                         </div>
                         <div>
-                          <S.Reissuance onClick={onClick}>재발급</S.Reissuance>
+                          <S.Reissuance onClick={handleIssuance}>재발급</S.Reissuance>
                         </div>
                       </div>
                     )
@@ -401,10 +333,8 @@ function SignupForm() {
 
                 <S.Input
                   type="text"
-                  // value={addressDtail}
                   placeholder="상세주소"
                   {...register('detailAddr', { require: true })}
-                  // onChange={(e) => setAddressDtail(e.target.value)}
                 />
               </S.AddressContainer>
             </S.InputContainer>
