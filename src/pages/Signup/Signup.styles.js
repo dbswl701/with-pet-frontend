@@ -143,3 +143,14 @@ export const Time = styled.p`
   font-size: 0.8rem;
   font-weight: bold;
 `;
+
+export const Reissuance = styled.p`
+  margin: 0;
+  color: #5d5dca;
+  font-weight: bold;
+  font-size: 0.8rem;
+  text-decoration: underline;
+  margin-top: 5px;
+  margin-left: 5px;
+  cursor: pointer;
+`;

@@ -11,6 +11,7 @@ import PostSignUp from '../../services/user';
 import PostFileUpload from '../../services/upload';
 import baseProfile from '../../constants/image';
 import baseUrl from '../../services/api';
+import getReissuance from '../../services/sms';
 
 const emailRegex = /^[a-z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/i;
 const nameRegex = /^[ㄱ-ㅎ가-힣a-z0-9_-]+$/;
@@ -77,7 +78,6 @@ function SignupForm() {
 
   const [toggle, setToggle] = useState(false);
   const [certification, setCertifiation] = useState('');
-  const [saveCertification, setSaveCertifiation] = useState('');
 
   // 이메일 중복 검사
   const [isEmailValid, setIsEmailValid] = useState(false);
@@ -164,32 +164,18 @@ function SignupForm() {
     return () => clearInterval(intervalId);
   }, [toggle, time]);
 
-  const onClick = () => {
+  const onClick = async () => {
     const phone = getValues('phone');
-    if (!toggle) {
-      axios.get(`${baseUrl}/v2/sms-authentication?to=${phone}`)
-        .then((res) => {
-          alert('인증번호가 발급되었습니다.');
-          setSaveCertifiation(res.data.result);
-          setToggle(true);
-
-          // 타이머 시작
-        })
-        .catch((err) => {
-          if (err.response && err.response.status === 409) {
-            alert(err.response.data.message);
-          }
-        });
-    } else if (saveCertification === certification) {
-      alert('인증이 완료되었습니다.');
-      setToggle(false);
-    } else {
-      alert('인증번호가 일치하지 않습니다. 인증번호가 다시 발급되었습니다');
-      axios.get(`https://withpet.site/api/v1/certification?to=${phone}`)
-        .then((res) => {
-          setSaveCertifiation(res.data.result);
-          setCertifiation('');
-        });
+    try {
+      await getReissuance(phone);
+      setToggle(true);
+      alert('인증번호가 발급되었습니다.');
+      setTime(180);
+      setCertifiation('');
+    } catch (err) {
+      if (err.response && err.response.status === 409) {
+        alert(err.response.data.message);
+      }
     }
   };
 
@@ -204,9 +190,11 @@ function SignupForm() {
       });
       console.log('res:', res);
       setIsPhoneValid(true);
+      alert('인증이 완료되었습니다.');
       setToggle(false);
       // 맞으면 확인 응답
     } catch (err) {
+      alert('인증번호가 일치하지 않습니다.');
       console.log('err:', err);
     }
   };
@@ -357,26 +345,31 @@ function SignupForm() {
                 <S.CheckContainer>
                   { toggle
                     ? (
-                      <div style={{
-                        display: 'flex', alignItems: 'center', width: '326px', position: 'relative',
-                      }}
-                      >
-                        <S.Input
-                          // style={{ width: '72px' }}
-                          type="text"
-                          value={certification}
-                          onChange={(e) => setCertifiation(e.target.value)}
-                          placeholder="인증번호 입력"
-                        />
-                        <S.Time>{convertMinutes(time)}</S.Time>
-                        <S.Input
-                          style={{
-                            backgroundColor: '#CAA969', border: 'none', color: 'white', width: '72px',
-                          }}
-                          type="button"
-                          value="인증 확인"
-                          onClick={CheckPhone}
-                        />
+                      <div>
+                        <div style={{
+                          display: 'flex', alignItems: 'center', width: '326px', position: 'relative',
+                        }}
+                        >
+                          <S.Input
+                            // style={{ width: '72px' }}
+                            type="text"
+                            value={certification}
+                            onChange={(e) => setCertifiation(e.target.value)}
+                            placeholder="인증번호 입력"
+                          />
+                          <S.Time>{convertMinutes(time)}</S.Time>
+                          <S.Input
+                            style={{
+                              backgroundColor: '#CAA969', border: 'none', color: 'white', width: '72px',
+                            }}
+                            type="button"
+                            value="인증 확인"
+                            onClick={CheckPhone}
+                          />
+                        </div>
+                        <div>
+                          <S.Reissuance onClick={onClick}>재발급</S.Reissuance>
+                        </div>
                       </div>
                     )
                     : (
