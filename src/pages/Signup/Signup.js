@@ -2,7 +2,7 @@
 /* eslint-disable no-alert */
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -71,8 +71,8 @@ function SignupForm() {
   const isError = Object.keys(errors).length !== 0;
 
   console.log('에러 있는지 확인:', isError);
-  // const navigate = useNavigate();
-  const [imageSrc, setImageSrc] = useState('');
+  const navigate = useNavigate();
+  const [imageSrc, setImageSrc] = useState(baseProfile);
   const [addressRoad, setAddressRoad] = useState('');
   const [addressPost, setAddressPost] = useState('');
 
@@ -89,7 +89,7 @@ function SignupForm() {
   const [isPhoneValid, setIsPhoneValid] = useState(false);
 
   // eslint-disable-next-line consistent-return
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     // e.preventDefault();
 
     // 인증
@@ -115,7 +115,14 @@ function SignupForm() {
       addressDtail,
       imageSrc: '',
     };
-    PostSignUp(requestBody);
+
+    try {
+      await PostSignUp(requestBody);
+      alert('회원가입에 성공했습니다.');
+      navigate('/login');
+    } catch (err) {
+      alert('회원가입에 실패했습니다. 다시 시도해주세요.');
+    }
   };
 
   const onAddressDetail = (detail) => {
@@ -217,11 +224,6 @@ function SignupForm() {
       });
   };
 
-  // const handleEmailChange = () => {
-  //   setIsEmailValid(false);
-  //   console.log('change!!!');
-  //   // 유효성 검사 통과 확인
-  // };
   console.log('notDuplicateEmail:', isEmailValid);
 
   // 시간 초 -> 분 변환
@@ -238,17 +240,14 @@ function SignupForm() {
           <h1>회원가입</h1>
           {/* 프로필 사진 */}
           <S.ImageContainer>
-            <label htmlFor="image-select">
-              {imageSrc ? (
-                <img src={imageSrc} alt="프로필 사진 미리보기" />
-              ) : (
-                <img src={baseProfile} alt="baseProfile" />
-              )}
-            </label>
+            <img src={imageSrc} alt="프로필 사진 미리보기" />
+
             <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} onChange={handleImageUpload} />
-            <S.ModifyIcon className="material-symbols-outlined">
-              edit
-            </S.ModifyIcon>
+            <label htmlFor="image-select">
+              <S.ModifyIcon className="material-symbols-outlined">
+                edit
+              </S.ModifyIcon>
+            </label>
           </S.ImageContainer>
 
           <S.InputContainerWrapper>
@@ -267,7 +266,6 @@ function SignupForm() {
                       value={field.value || ''}
                       onChange={(e) => {
                         field.onChange(e.target.value);
-                        // handleEmailChange(e.target.value);
                         setIsEmailValid(false);
                       }}
                     />
@@ -328,7 +326,6 @@ function SignupForm() {
                     // value={phone}
                     maxLength={13}
                     {...register('phone', { require: true })}
-                    // onChange={(e) => setPhone(String(e.target.value).replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'))}
                     placeholder="010-1234-5678"
                   />
                   <S.Input
@@ -351,7 +348,6 @@ function SignupForm() {
                         }}
                         >
                           <S.Input
-                            // style={{ width: '72px' }}
                             type="text"
                             value={certification}
                             onChange={(e) => setCertifiation(e.target.value)}
