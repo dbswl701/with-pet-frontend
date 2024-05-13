@@ -31,12 +31,12 @@ import ApplicantDetail from './pages/AdminMainPage/ApplicantDetail';
 
 function App() {
   const [state, setState] = useState('false');
-
   const [userInfo, setUserInfo] = useState(
     localStorage.getItem('userInfo')
       ? JSON.parse(localStorage.getItem('userInfo'))
       : '',
   );
+  console.log(state, userInfo);
 
   return (
     <>
@@ -44,11 +44,12 @@ function App() {
         <Route
           path="/"
           element={(
-            <Navbar
-              state={state}
-              userInfo={userInfo}
-              setUserInfo={setUserInfo}
-            />
+            // <Navbar
+            //   state={state}
+            //   userInfo={userInfo}
+            //   setUserInfo={setUserInfo}
+            // />
+            <Navbar />
           )}
         >
           <Route index element={<MainPage />} />

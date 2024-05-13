@@ -17,7 +17,7 @@ function Login({ setState, setUserInfo }) {
   const navigate = useNavigate();
   const { user, setUser } = useUserStore();
 
-  console.log('user:', user);
+  console.log('!!!!!!!!!!!!! user:', user);
   const onSubmit = async (e) => {
     e.preventDefault();
     try {

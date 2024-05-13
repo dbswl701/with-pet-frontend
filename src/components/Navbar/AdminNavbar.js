@@ -3,19 +3,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import logo from '../../assets/logo_withpet.png';
 import baseUrl from '../../services/api';
+import useUserStore from '../../store/user';
 
-function Nav({ setUserInfo }) {
+function Nav() {
   const navigate = useNavigate();
+  const { logout } = useUserStore();
+  console.log('관리자!!!!!');
   const handleLogOut = () => {
     axios.get(`${baseUrl}/v1/users/logout`, { withCredentials: true })
       .then(() => {
         // eslint-disable-next-line no-alert
         alert('로그아웃 되었습니다.');
-        setUserInfo({
-          role: '',
-          userName: '',
-          userProfile: '',
-        });
+        logout();
       });
     navigate('/');
   };
