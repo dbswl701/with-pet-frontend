@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import MainPage from './pages/MainPage/MainPage';
@@ -30,31 +30,14 @@ import NotificationPage from './pages/Notification/NotificationPage';
 import ApplicantDetail from './pages/AdminMainPage/ApplicantDetail';
 
 function App() {
-  const [state, setState] = useState('false');
-
-  const [userInfo, setUserInfo] = useState(
-    localStorage.getItem('userInfo')
-      ? JSON.parse(localStorage.getItem('userInfo'))
-      : '',
-  );
-
   return (
     <>
       <Routes>
-        <Route
-          path="/"
-          element={(
-            <Navbar
-              state={state}
-              userInfo={userInfo}
-              setUserInfo={setUserInfo}
-            />
-          )}
-        >
+        <Route path="/" element={(<Navbar />)}>
           <Route index element={<MainPage />} />
           <Route
             path="/login"
-            element={<Login setState={setState} setUserInfo={setUserInfo} />}
+            element={<Login />}
           />
           <Route path="/signup" element={<Signup />} />
 

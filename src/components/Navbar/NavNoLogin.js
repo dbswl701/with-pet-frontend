@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './Navbar.css';
 import logo from '../../assets/logo_withpet.png';
 
-function Nav() {
+function NavNoLogin() {
   return (
     <>
       <div className="nav-bar">
@@ -23,4 +23,4 @@ function Nav() {
   );
 }
 
-export default Nav;
+export default NavNoLogin;

@@ -5,18 +5,22 @@ import NavNoLogin from './NavNoLogin';
 import NavAfterLogin from './NavAfterLogin';
 import AdminNavbar from './AdminNavbar';
 import NavPetsitter from './NavPetsitter';
+import useUserStore from '../../store/user';
 
-function Nav({ userInfo, setUserInfo }) {
+function Navbar() {
+  const userInfo = useUserStore((state2) => state2.user);
+
   let print = <NavNoLogin />;
   if (userInfo.userName === '') {
     print = <NavNoLogin />;
-  } else if (userInfo.role === 'ROLE_PETSITTER') {
-    print = <NavPetsitter userInfo={userInfo} setUserInfo={setUserInfo} />;
-  } else if (userInfo.role === 'ROLE_USER' || userInfo.role === 'ROLE_APPLICANT') {
-    print = <NavAfterLogin userInfo={userInfo} setUserInfo={setUserInfo} />;
-  } else if (userInfo.role === 'ROLE_ADMIN') {
-    print = <AdminNavbar setUserInfo={setUserInfo} />;
+  } else if (userInfo.userRole === 'ROLE_PETSITTER') {
+    print = <NavPetsitter />;
+  } else if (userInfo.userRole === 'ROLE_USER' || userInfo.userRole === 'ROLE_APPLICANT') {
+    print = <NavAfterLogin />;
+  } else if (userInfo.userRole === 'ROLE_ADMIN') {
+    print = <AdminNavbar />;
   }
+
   return (
     <>
       { print }
@@ -25,4 +29,4 @@ function Nav({ userInfo, setUserInfo }) {
   );
 }
 
-export default Nav;
+export default Navbar;
