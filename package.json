@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
+    "@hookform/resolvers": "^3.3.4",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.3",
     "@mui/x-date-pickers": "^6.4.0",
@@ -21,11 +22,13 @@
     "react-dates": "^21.8.0",
     "react-daum-postcode": "^3.1.1",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.51.4",
     "react-router-dom": "^6.11.0",
     "react-scripts": "5.0.1",
     "sockjs-client": "^1.6.1",
     "styled-components": "^5.3.10",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "zod": "^3.23.6"
   },
   "scripts": {
     "start": "react-scripts start",

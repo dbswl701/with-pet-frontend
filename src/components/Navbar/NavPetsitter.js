@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import axios from 'axios';
 import logo from '../../assets/logo_withpet.png';
+import baseUrl from '../../services/api';
 // import profile from '../../assets/user_default_profile.png';
 
 function Nav({ userInfo, setUserInfo }) {
@@ -14,7 +15,7 @@ function Nav({ userInfo, setUserInfo }) {
   };
 
   const handleLogOut = () => {
-    axios.get('https://withpet.site/api/v1/users/logout', { withCredentials: true })
+    axios.get(`${baseUrl}/v1/users/logout`, { withCredentials: true })
       .then(() => {
         // eslint-disable-next-line no-alert
         alert('로그아웃 되었습니다.');

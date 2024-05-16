@@ -1,174 +1,91 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-alert */
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled, { createGlobalStyle } from 'styled-components';
-import userimgdefault from '../../assets/forAddPic.png';
-import logo from '../../assets/logo.png';
-import logoName from '../../assets/logo_name.png';
-
-const GlobalStyle = createGlobalStyle`
-  body {
-    font-family: 'Noto Sans KR', sans-serif;
-  }
-`;
-
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 800px;
-  // height: 90vh;
-  background-color: #fffaf0;
-  outline: 1px solid #caa969;
-  margin: 30px auto 60px auto;
-  padding: 64px;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  // grid-template-rows: auto 1fr auto;
-  // grid-gap: 20px;
-  align-items: center;
-  border-radius: 5px;
-  padding: 20px;
-  width: flex;
-`;
-
-const ImageContainer = styled.div`
-  justify-self: center;
-  background-color: #fff;
-  border: 1px solid #caa969;
-  width: 200px;
-  height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  border-radius: 50%;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    cursor: pointer;
-  }
-`;
-
-const Button = styled.button`
-  font-family: 'Noto Sans KR', sans-serif;
-  background-color: #caa969;
-  color: #fff;
-  padding: 10px 50px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  margin-top: 31px;
-  width: 318px;
-  height: 44px;
-`;
-
-const Input = styled.input`
-  width: 326px;
-  height: 47px;
-  margin-top: 8px;
-`;
-
-const LogoContainer = styled.div`
-  margin-top: 50px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const CheckButton = styled.button`
-  background-color: #CAA969;
-  color: white;
-  border: none;
-  width: 72px;
-  height: 24px;
-  margin-top: 31px;
-`;
-
-const Title = styled.p`
-  margin: 31px 0 0 0;
-  font-weight: bold;
-  font-size: 16px;
-  color: #696969;
-  text-align: left;
-  display: flex;
-`;
+import { Controller, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as S from './Signup.styles';
+import PostSignUp from '../../services/user';
+import PostFileUpload from '../../services/upload';
+import baseProfile from '../../constants/image';
+import { getIssuance, PostAuthentication, PostEmailDuplicate } from '../../services/sms';
+import { signUpSchema } from '../../schemas/signup.schemas';
 
 function SignupForm() {
+  const {
+    register,
+    handleSubmit,
+    // watch,
+    formState: { errors },
+    getValues,
+    control,
+    setValue,
+  } = useForm({
+    resolver: zodResolver(signUpSchema),
+    mode: 'onChange',
+  });
+
+  // 에러 검증
+  // const isError = Object.keys(errors).length !== 0;
+
   const navigate = useNavigate();
-  const [imageSrc, setImageSrc] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+
+  const [imageSrc, setImageSrc] = useState(baseProfile);
   const [addressRoad, setAddressRoad] = useState('');
   const [addressPost, setAddressPost] = useState('');
-  const [addressDtail, setAddressDtail] = useState('');
-  const [email, setEmail] = useState('');
-
-  const [toggle, setToggle] = useState(false);
   const [certification, setCertifiation] = useState('');
-  const [saveCertification, setSaveCertifiation] = useState('');
-  const [completeCertification, setCompleteCertification] = useState(false);
-  // eslint-disable-next-line consistent-return
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!completeCertification) {
-      return alert('전화번호 인증이 필요합니다.');
+  const [toggle, setToggle] = useState(false);
+
+  const [isEmailValid, setIsEmailValid] = useState(false); // 이메일 중복 검사
+  const [time, setTime] = useState(180); // 시간 확인
+  const [isPhoneValid, setIsPhoneValid] = useState(false); // 휴대폰 인증
+
+  // 전화번호 인증 타이머
+  useEffect(() => {
+    let intervalId;
+
+    if (toggle && time > 0) {
+      intervalId = setInterval(() => {
+        setTime((prev) => prev - 1);
+      }, 1000);
+    } else if (time === 0 || !toggle) {
+      clearInterval(intervalId);
     }
 
-    if (password !== passwordConfirm) {
-      alert('비밀번호가 일치하지 않습니다.');
-      setPasswordConfirm('');
-      // eslint-disable-next-line consistent-return
-      return;
+    return () => clearInterval(intervalId);
+  }, [toggle, time]);
+
+  const onSubmit = async () => {
+    const email = getValues('email');
+    const name = getValues('name');
+    const password = getValues('password');
+    const passwordConfirm = getValues('passwordCheck');
+    const phone = getValues('phone');
+    const addressDtail = getValues('detailAddr');
+    const requestBody = {
+      email,
+      name,
+      password,
+      passwordConfirm,
+      phone,
+      addressPost,
+      addressRoad,
+      addressDtail,
+      imageSrc,
+    };
+
+    try {
+      await PostSignUp(requestBody);
+      alert('회원가입에 성공했습니다.');
+      navigate('/login');
+    } catch (err) {
+      alert('회원가입에 실패했습니다. 다시 시도해주세요.');
     }
-    if (
-      password === ''
-      || name === ''
-      || phone === ''
-      || addressRoad === ''
-      || addressPost === ''
-      || addressDtail === ''
-      || email === ''
-    ) {
-      alert('빈 칸을 모두 입력해주세요.');
-      // eslint-disable-next-line consistent-return
-      return;
-    }
-    axios
-      .post('https://withpet.site/api/v2/users/signup', {
-        password,
-        name,
-        phone,
-        address: {
-          streetAdr: addressRoad,
-          zipcode: addressPost,
-          detailAdr: addressDtail,
-        },
-        email,
-        profileImg: imageSrc[0],
-        passwordCheck: passwordConfirm,
-      })
-      .then(() => {
-        alert('회원가입에 성공했습니다.');
-        navigate('/');
-      })
-      .catch(() => {
-        alert('회원가입에 실패했습니다. 다시 시도해주세요.');
-      });
   };
 
+  // 주소
   const onAddressDetail = (detail) => {
-    setAddressDtail(detail);
+    setValue('detailAddr', detail);
   };
 
   const openPostcodeSearch = () => {
@@ -185,192 +102,247 @@ function SignupForm() {
     }).open();
   };
 
+  // 사진
   const handleImageUpload = async (e) => {
     const img = e.target.files[0];
     const formData = new FormData();
     formData.append('file', img);
 
-    const config = {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    };
-
-    axios
-      .post('https://withpet.site/api/v1/file/upload', formData, config)
-      .then((res) => {
-        setImageSrc(res.data.result);
-      });
+    try {
+      const result = await PostFileUpload(formData);
+      setImageSrc(result.data.result);
+    } catch (error) {
+      console.error('Upload failed:', error);
+    }
   };
 
-  const onClick = () => {
-    if (!toggle) {
-      axios.get(`https://withpet.site/api/v1/certification?to=${phone}`)
-        .then((res) => {
-          alert('인증번호가 발급되었습니다.');
-          setSaveCertifiation(res.data.result);
-          setToggle(true);
-        })
-        .catch((err) => {
-          if (err.response && err.response.status === 409) {
-            alert(err.response.data.message);
-          }
-        });
-    } else if (saveCertification === certification) {
-      alert('인증이 완료되었습니다.');
-      setCompleteCertification(true);
-      setToggle(false);
-    } else {
-      alert('인증번호가 일치하지 않습니다. 인증번호가 다시 발급되었습니다');
-      axios.get(`https://withpet.site/api/v1/certification?to=${phone}`)
-        .then((res) => {
-          setSaveCertifiation(res.data.result);
-          setCertifiation('');
-        });
+  // 전화번호 인증번호 발급
+  const handleIssuance = async () => {
+    const phone = getValues('phone');
+    try {
+      await getIssuance(phone);
+      setToggle(true);
+      alert('인증번호가 발급되었습니다.');
+      setTime(180);
+      setCertifiation('');
+    } catch (err) {
+      if (err.response && err.response.status === 409) {
+        alert(err.response.data.message);
+      }
     }
+  };
+
+  // 전화번호 인증 확인
+  const CheckPhone = async () => {
+    const phone = getValues('phone');
+    try {
+      const res = await PostAuthentication(certification, phone);
+      setIsPhoneValid(true);
+      alert(res.result);
+      setToggle(false);
+    } catch (err) {
+      alert('인증번호가 일치하지 않습니다.');
+      console.log('err:', err);
+    }
+  };
+
+  const handleCheckEmailDuplicate = async () => {
+    const email = getValues('email'); // 이메일 값 얻기
+    // 유효한 이메일 형식이 아니면 막는다
+    if (!email || errors.email) {
+      return;
+    }
+    try {
+      const res = await PostEmailDuplicate(email);
+      setIsEmailValid(true);
+      alert(res.result);
+    } catch (err) {
+      alert(err.response.data.message);
+    }
+  };
+
+  // 시간 초 -> 분 변환
+  const convertMinutes = () => {
+    const minute = parseInt(time / 60, 10).toString().padStart(2, '0');
+    const second = (time % 60).toString().padStart(2, '0');
+    return `${minute}:${second}`;
   };
 
   return (
     <>
-      <GlobalStyle />
-      <LogoContainer>
-        <img src={logo} alt="로고" style={{ width: '98px', height: '98px' }} />
-        <img src={logoName} alt="로고 이름" style={{ width: '229px', height: '98px' }} />
-      </LogoContainer>
-      <Container>
-        <Form onSubmit={handleSubmit}>
+      <S.Container>
+        <S.Form onSubmit={handleSubmit(onSubmit)}>
+          <h1>회원가입</h1>
           {/* 프로필 사진 */}
-          <ImageContainer>
-            <label htmlFor="image-select">
-              {imageSrc ? (
-                <img src={imageSrc} alt="프로필 사진 미리보기" />
-              ) : (
-                <img src={userimgdefault} alt="userimgdefault" />
-              )}
-            </label>
+          <S.ImageContainer>
+            <img src={imageSrc} alt="프로필 사진 미리보기" />
             <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} onChange={handleImageUpload} />
-          </ImageContainer>
+            <label htmlFor="image-select">
+              <S.ModifyIcon className="material-symbols-outlined">
+                edit
+              </S.ModifyIcon>
+            </label>
+          </S.ImageContainer>
 
-          {/* <img id="preview-image" alt="이미지 미리보기" src={data.serviceImg} />
-          <label htmlFor="image-select">프로필 이미지 선택</label>
-          <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} onChange={onChange} /> */}
-
-          <div style={{ display: 'flex', justifyContent: 'space-between', width: '326px' }}>
-            <Title htmlFor="email">이메일</Title>
-            <CheckButton>중복확인</CheckButton>
-          </div>
-          <Input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="example@gmail.com"
-          />
-
-          <div style={{ width: '326px' }}>
-            <Title htmlFor="password">비밀번호</Title>
-          </div>
-          <Input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="영문자 + 숫자 + 특수문자 8자리 이상"
-          />
-          <div style={{ width: '326px' }}>
-            <Title htmlFor="passwordConfirm">비밀번호 확인</Title>
-          </div>
-          <Input
-            type="password"
-            id="passwordConfirm"
-            value={passwordConfirm}
-            onChange={(e) => setPasswordConfirm(e.target.value)}
-          />
-          <div style={{ width: '326px' }}>
-            <Title htmlFor="name">이름</Title>
-          </div>
-          <Input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="위드펫"
-          />
-          <div style={{ display: 'flex', justifyContent: 'space-between', width: '326px' }}>
-            <Title htmlFor="phone">전화번호</Title>
-          </div>
-          <Input
-            type="text"
-            id="phone"
-            value={phone}
-            maxLength={13}
-            onChange={(e) => setPhone(String(e.target.value).replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'))}
-            placeholder="010-1234-5678"
-          />
-          { toggle
-            ? (
-              <div style={{ display: 'flex', justifyContent: 'space-between', width: '326px' }}>
-                <Input
-                  style={{ width: '152px' }}
-                  type="text"
-                  value={certification}
-                  onChange={(e) => setCertifiation(e.target.value)}
-                  placeholder="인증번호 입력"
-                  disabled={completeCertification}
+          <S.InputContainerWrapper>
+            <S.InputContainer>
+              <S.Title htmlFor="email">이메일</S.Title>
+              <S.CheckContainer>
+                <Controller
+                  name="email"
+                  control={control}
+                  render={({ field }) => (
+                    <S.Input
+                      {...field}
+                      type="email"
+                      id="email"
+                      placeholder="example@gmail.com"
+                      value={field.value || ''}
+                      onChange={(e) => {
+                        field.onChange(e.target.value);
+                        setIsEmailValid(false);
+                      }}
+                    />
+                  )}
                 />
-                <Input
-                  style={{
-                    backgroundColor: '#CAA969', border: 'none', color: 'white', width: '152px',
-                  }}
-                  type="button"
-                  value="인증하기"
-                  onClick={onClick}
-                />
-              </div>
+                <S.CheckButton type="button" disabled={isEmailValid} onClick={handleCheckEmailDuplicate}>중복확인</S.CheckButton>
+              </S.CheckContainer>
+            </S.InputContainer>
+            {errors.email && <S.ErrorMessage>{errors?.email.message}</S.ErrorMessage>}
+          </S.InputContainerWrapper>
 
-            )
-            : <Input style={{ backgroundColor: completeCertification ? '#C6C6C6' : '#CAA969', border: 'none', color: 'white' }} type="button" value="인증하기" onClick={onClick} disabled={completeCertification} />}
-
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <Title>주소</Title>
-            <div style={{ display: 'flex', justifyContent: 'space-between', width: '326px' }}>
-              <Input
-                style={{ width: '152px' }}
+          <S.InputContainerWrapper>
+            <S.InputContainer>
+              <S.Title htmlFor="name">이름</S.Title>
+              <S.Input
                 type="text"
-                id="addressPost"
-                value={addressPost}
-                readOnly
-                placeholder="우편번호"
-                onChange={(e) => setAddressPost(e.target.value)}
+                id="name"
+                placeholder="위드펫"
+                {...register('name', { required: true })}
               />
-              <input
-                type="button"
-                style={{
-                  background: '#CAA969', width: '152px', height: '47px', border: 'none', color: 'white', marginTop: '8px',
-                }}
-                onClick={openPostcodeSearch}
-                value="주소검색"
+            </S.InputContainer>
+            {errors.name && <S.ErrorMessage>{errors.name.message}</S.ErrorMessage>}
+          </S.InputContainerWrapper>
+
+          <S.InputContainerWrapper>
+            <S.InputContainer>
+              <S.Title htmlFor="password">비밀번호</S.Title>
+              <S.Input
+                type="password"
+                id="password"
+                {...register('password', { required: true })}
+                placeholder="영문자 + 숫자 + 특수문자 8자리 이상"
               />
-            </div>
+            </S.InputContainer>
+            {errors.password && <S.ErrorMessage>{errors.password.message}</S.ErrorMessage>}
+          </S.InputContainerWrapper>
 
-            <Input
-              type="text"
-              value={addressRoad}
-              readOnly
-              placeholder="도로명 주소"
-              onChange={(e) => setAddressRoad(e.target.value)}
-            />
+          <S.InputContainerWrapper>
+            <S.InputContainer>
+              <S.Title htmlFor="passwordCheck">비밀번호 확인</S.Title>
+              <S.Input
+                type="password"
+                id="passwordCheck"
+                {...register('passwordCheck', { required: true })}
+              />
+            </S.InputContainer>
+            {errors.passwordCheck && <S.ErrorMessage>{errors.passwordCheck.message}</S.ErrorMessage>}
+          </S.InputContainerWrapper>
 
-            <Input
-              type="text"
-              value={addressDtail}
-              placeholder="상세주소"
-              onChange={(e) => setAddressDtail(e.target.value)}
-            />
-          </div>
-          <Button type="submit">회원가입</Button>
-        </Form>
-      </Container>
+          <S.InputContainerWrapper>
+            <S.InputContainer>
+              <S.Title htmlFor="phone">전화번호</S.Title>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <S.CheckContainer>
+                  <S.Input
+                    type="text"
+                    id="phone"
+                    maxLength={13}
+                    {...register('phone', { require: true })}
+                    placeholder="010-1234-5678"
+                  />
+                  <S.Input
+                    style={{
+                      backgroundColor: toggle || isPhoneValid ? '#C6C6C6' : '#CAA969', border: 'none', color: 'white', width: '72px',
+                    }}
+                    type="button"
+                    value={isPhoneValid ? '인증완료' : '인증하기'}
+                    onClick={handleIssuance}
+                    disabled={toggle || isPhoneValid}
+                  />
+                </S.CheckContainer>
+                <S.CheckContainer>
+                  { toggle
+                    ? (
+                      <div>
+                        <div style={{
+                          display: 'flex', alignItems: 'center', width: '326px', position: 'relative',
+                        }}
+                        >
+                          <S.Input
+                            type="text"
+                            value={certification}
+                            onChange={(e) => setCertifiation(e.target.value)}
+                            placeholder="인증번호 입력"
+                          />
+                          <S.Time>{convertMinutes(time)}</S.Time>
+                          <S.Input
+                            style={{
+                              backgroundColor: '#CAA969', border: 'none', color: 'white', width: '72px',
+                            }}
+                            type="button"
+                            value="인증 확인"
+                            onClick={CheckPhone}
+                          />
+                        </div>
+                        <div>
+                          <S.Reissuance onClick={handleIssuance}>재발급</S.Reissuance>
+                        </div>
+                      </div>
+                    )
+                    : (
+                      <div>{}</div>
+                    )}
+                </S.CheckContainer>
+              </div>
+            </S.InputContainer>
+            {errors.phone && <S.ErrorMessage>{errors.phone.message}</S.ErrorMessage>}
+          </S.InputContainerWrapper>
+
+          <S.InputContainerWrapper>
+            <S.InputContainer>
+              <S.Title>주소</S.Title>
+              <S.AddressContainer>
+                <S.CheckContainer>
+                  <S.Input
+                    type="text"
+                    id="addressPost"
+                    value={addressPost}
+                    readOnly
+                    placeholder="우편번호"
+                  />
+                  <S.CheckButton type="button" onClick={openPostcodeSearch}>주소검색</S.CheckButton>
+                </S.CheckContainer>
+
+                <S.Input
+                  type="text"
+                  value={addressRoad}
+                  readOnly
+                  placeholder="도로명 주소"
+                />
+
+                <S.Input
+                  type="text"
+                  placeholder="상세주소"
+                  {...register('detailAddr', { require: true })}
+                />
+              </S.AddressContainer>
+            </S.InputContainer>
+            {errors.detailAddr && <S.ErrorMessage>{errors.detailAddr.message}</S.ErrorMessage>}
+          </S.InputContainerWrapper>
+          <S.Button type="submit">회원가입</S.Button>
+        </S.Form>
+      </S.Container>
     </>
   );
 }

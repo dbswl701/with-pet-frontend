@@ -10,6 +10,7 @@ import PetSize from './PetSize';
 import {
   Background, Content, SelectContainer,
 } from '../../styles/main/MainPageStyle';
+import baseUrl from '../../services/api';
 // const baseUrl = 'https://withpet.site/api/v1/';
 // const baseUrl = 'http://ec2-13-125-250-89.ap-northeast-2.compute.amazonaws.com:8080/'
 const Button = styled.button`
@@ -63,7 +64,8 @@ function MainPage() {
     //   });
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://withpet.site/api/v1/show-services', { withCredentials: true });
+        // const response = await axios.get('https://withpet.site/api/v1/show-services', { withCredentials: true });
+        const response = await axios.get(`${baseUrl}/v1/show-services`, { withCredentials: true });
         console.log('show-services:', response);
         setServiceList(response.data.result);
       } catch (error) {
@@ -83,7 +85,7 @@ function MainPage() {
     //   });
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://withpet.site/api/v1/show-petsitter?address=${options.region}&dogSize=${options.size}&service=${options.services !== undefined ? options.services : ''}&page=${currentPage}`, { withCredentials: true });
+        const response = await axios.get(`${baseUrl}/v1/show-petsitter?address=${options.region}&dogSize=${options.size}&service=${options.services !== undefined ? options.services : ''}&page=${currentPage}`, { withCredentials: true });
         console.log('show-pesitter:', response);
         setTemp(response.data.result);
       } catch (error) {
@@ -123,7 +125,7 @@ function MainPage() {
   };
 
   const onClick = () => {
-    axios.get(`https://withpet.site/api/v1/show-petsitter?address=${options.region}&dogSize=${options.size}&service=${options.services !== undefined ? options.services : ''}&page=${currentPage}`, { withCredentials: true })
+    axios.get(`${baseUrl}/v1/show-petsitter?address=${options.region}&dogSize=${options.size}&service=${options.services !== undefined ? options.services : ''}&page=${currentPage}`, { withCredentials: true })
       .then((res) => {
         setTemp(res.data.result);
       });

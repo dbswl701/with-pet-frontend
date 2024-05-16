@@ -2,11 +2,12 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import logo from '../../assets/logo_withpet.png';
+import baseUrl from '../../services/api';
 
 function Nav({ setUserInfo }) {
   const navigate = useNavigate();
   const handleLogOut = () => {
-    axios.get('https://withpet.site/api/v1/users/logout', { withCredentials: true })
+    axios.get(`${baseUrl}/v1/users/logout`, { withCredentials: true })
       .then(() => {
         // eslint-disable-next-line no-alert
         alert('로그아웃 되었습니다.');
