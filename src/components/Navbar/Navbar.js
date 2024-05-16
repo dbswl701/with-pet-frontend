@@ -5,13 +5,8 @@ import NavNoLogin from './NavNoLogin';
 import NavAfterLogin from './NavAfterLogin';
 import AdminNavbar from './AdminNavbar';
 import NavPetsitter from './NavPetsitter';
-// import useUserStore from '../../store/user';
 
-function Nav({ userInfo }) {
-  // userInfo, setUserInfo
-  // const { user: userInfo } = useUserStore((state) => state);
-  // console.log('user 정보 확인:', userInfo);
-
+function Navbar({ userInfo }) {
   let print = <NavNoLogin />;
   if (userInfo.userName === '') {
     print = <NavNoLogin />;
@@ -22,6 +17,7 @@ function Nav({ userInfo }) {
   } else if (userInfo.userRole === 'ROLE_ADMIN') {
     print = <AdminNavbar />;
   }
+
   return (
     <>
       { print }
@@ -30,4 +26,4 @@ function Nav({ userInfo }) {
   );
 }
 
-export default Nav;
+export default Navbar;

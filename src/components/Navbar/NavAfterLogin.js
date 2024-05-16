@@ -4,30 +4,22 @@ import './Navbar.css';
 import axios from 'axios';
 import logo from '../../assets/logo_withpet.png';
 import baseUrl from '../../services/api';
+import useUserStore from '../../store/user';
 
-function Nav({ userInfo, setUserInfo }) {
+function NavAfterLogin() {
   const [toggle, setToggle] = useState(false);
   const navigate = useNavigate();
-
+  const { user: userInfo, logout } = useUserStore();
   const toggleDropdown = () => {
     setToggle(!toggle);
   };
 
   const handleLogOut = () => {
-    axios.get(`${baseUrl}/v1/users/logout`, { withCredentials: true })
+    axios.post(`${baseUrl}/v2/users/sign-out`, {}, { withCredentials: true })
       .then(() => {
         // eslint-disable-next-line no-alert
         alert('로그아웃 되었습니다.');
-        setUserInfo(JSON.stringify({
-          role: '',
-          userName: '',
-          userProfile: '',
-        }));
-        localStorage.setItem('userInfo', JSON.stringify({
-          role: '',
-          userName: '',
-          userProfile: '',
-        }));
+        logout();
       });
     navigate('/');
   };
@@ -130,4 +122,4 @@ function Nav({ userInfo, setUserInfo }) {
   );
 }
 
-export default Nav;
+export default NavAfterLogin;

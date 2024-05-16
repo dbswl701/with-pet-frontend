@@ -5,12 +5,12 @@ import logo from '../../assets/logo_withpet.png';
 import baseUrl from '../../services/api';
 import useUserStore from '../../store/user';
 
-function Nav() {
+function AdminNavbar() {
   const navigate = useNavigate();
   const { logout } = useUserStore();
-  console.log('관리자!!!!!');
+
   const handleLogOut = () => {
-    axios.get(`${baseUrl}/v1/users/logout`, { withCredentials: true })
+    axios.post(`${baseUrl}/v2/users/sign-out`, {}, { withCredentials: true })
       .then(() => {
         // eslint-disable-next-line no-alert
         alert('로그아웃 되었습니다.');
@@ -45,4 +45,4 @@ function Nav() {
   );
 }
 
-export default Nav;
+export default AdminNavbar;
