@@ -18,6 +18,11 @@ export const postAdminService = async (body) => {
   return axios.post(`${baseUrl}/v2/admins/service`, body, { withCredentials: true });
 };
 
+// 관리자 필수 서비스 추가
+export const postAdminCriticalService = async (body) => {
+  return axios.post(`${baseUrl}/v2/admins/critical-service`, body, { withCredentials: true });
+};
+
 // 관리자 서비스 삭제
 export const deleteAdminService = async (serviceId) => {
   return axios.delete(`${baseUrl}/v2/admins/service/${serviceId}`, { withCredentials: true });
@@ -32,4 +37,15 @@ export const putAdminService = async (modifyPetInfo) => {
     serviceIntroduction: modifyPetInfo.serviceIntroduction,
   };
   return axios.put(`${baseUrl}/v2/admins/service/${modifyPetInfo.serviceId}`, body, { withCredentials: true });
+};
+
+// 관리자 필수 서비스 수정
+export const putAdminCriticalService = async (modifyPetInfo) => {
+  console.log('modifyPetInfo:', modifyPetInfo);
+  const body = {
+    serviceName: modifyPetInfo.serviceName,
+    serviceImg: modifyPetInfo.serviceImg,
+    serviceIntroduction: modifyPetInfo.serviceIntroduction,
+  };
+  return axios.put(`${baseUrl}/v2/admins/critical-service/${modifyPetInfo.serviceId}`, body, { withCredentials: true });
 };

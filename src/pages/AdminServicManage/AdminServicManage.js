@@ -9,6 +9,8 @@ import WithPetServices from './WithPetServices';
 import {
   getAdminCriticalServices, getAdminServices, postAdminService, deleteAdminService,
   putAdminService,
+  putAdminCriticalService,
+  postAdminCriticalService,
 } from '../../services/admin';
 import PostFileUpload from '../../services/upload';
 
@@ -105,10 +107,11 @@ export default function Orders() {
     //   .catch(() => {
     //   });
     try {
-      const res = await postAdminService(body);
       if (listName === 'service') {
+        const res = await postAdminService(body);
         setList(list.concat(res.data.result));
       } else if (listName === 'criticalservice') {
+        const res = await postAdminCriticalService(body);
         setCriticalList(criticalList.concat(res.data.result));
       }
     } catch (err) {
@@ -129,8 +132,8 @@ export default function Orders() {
   const onSubmitModify = async (modifyPetInfo, listName) => {
     console.log('listName:', listName);
     try {
-      const res = await putAdminService(modifyPetInfo);
       if (listName === 'service') {
+        const res = await putAdminService(modifyPetInfo);
         const updatedList = list.map((item) => {
           if (item.serviceId === modifyPetInfo.serviceId) {
             return res.data.result;
@@ -139,6 +142,7 @@ export default function Orders() {
         });
         setList(updatedList);
       } else {
+        const res = await putAdminCriticalService(modifyPetInfo);
         const updatedList = criticalList.map((item) => {
           if (item.serviceId === modifyPetInfo.serviceId) {
             return res.data.result;
