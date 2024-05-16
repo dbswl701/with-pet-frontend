@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
-import axios from 'axios';
 import logo from '../../assets/logo_withpet.png';
-import baseUrl from '../../services/api';
 import useUserStore from '../../store/user';
+import { PostSignOut } from '../../services/user';
 
 function NavAfterLogin() {
   const [toggle, setToggle] = useState(false);
@@ -15,12 +14,10 @@ function NavAfterLogin() {
   };
 
   const handleLogOut = () => {
-    axios.post(`${baseUrl}/v2/users/sign-out`, {}, { withCredentials: true })
-      .then(() => {
-        // eslint-disable-next-line no-alert
-        alert('로그아웃 되었습니다.');
-        logout();
-      });
+    PostSignOut();
+    logout();
+    // eslint-disable-next-line no-alert
+    alert('로그아웃 되었습니다.');
     navigate('/');
   };
 
