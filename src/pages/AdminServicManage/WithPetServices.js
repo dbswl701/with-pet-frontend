@@ -24,8 +24,8 @@ export default function Orders({
           </TableRow>
         </TableHead>
         <TableBody>
-          {list.map((row) => (
-            <Service key={row.serviceId} item={row} listName={listName} onModify={onSubmitModify} onDelete={onDelete} />
+          {list.map((row, idx) => (
+            <Service key={row.serviceId} idx={idx} item={row} listName={listName} onModify={onSubmitModify} onDelete={onDelete} />
           ))}
           <TableRow style={{ height: '50px' }}>
             <TableCell>-</TableCell>

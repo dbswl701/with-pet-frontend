@@ -1,13 +1,19 @@
-import React, { useState, useRef, useEffect } from 'react';
-import axios from 'axios';
+// import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import WithPetServices from './WithPetServices';
+import {
+  getAdminCriticalServices, getAdminServices, postAdminService, deleteAdminService,
+  putAdminService,
+} from '../../services/admin';
+import PostFileUpload from '../../services/upload';
 
 export default function Orders() {
-  const nextId = useRef(5);
+  // const nextId = useRef(5);
   const [list, setList] = useState([]);
   const [data, setData] = useState({
     serviceName: '',
@@ -22,41 +28,43 @@ export default function Orders() {
   const [criticalList, setCriticalList] = useState([]);
 
   useEffect(() => {
-    axios.get('https://withpet.info/api/v2/services', { withCredentials: true })
-      .then((res) => {
-        setList(res.data.result);
-      });
-    axios.get('https://withpet.info/api/v2/critical-services', { withCredentials: true })
-      .then((res) => {
-        setCriticalList(res.data.result);
-      });
+    const fetchData = async () => {
+      try {
+        const serviceRes = await getAdminServices();
+        setList(serviceRes.data.result);
+        const criticalServiceRes = await getAdminCriticalServices();
+        setCriticalList(criticalServiceRes.data.result);
+      } catch (err) {
+        console.error(err);
+        // setError('데이터를 불러오는 중 오류가 발생했습니다.');
+      }
+    };
+
+    fetchData();
   }, []);
 
   const handleImageUpload = async (e, listName) => {
     const img = e.target.files[0];
     const formData = new FormData();
     formData.append('file', img);
-    const config = {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    };
-
-    axios.post('https://withpet.site/api/v1/file/upload', formData, config)
-      .then((res) => {
-        if (listName === 'service') {
-          setData({
-            ...data,
-            serviceImg: res.data.result[0],
-          });
-        } else {
-          setCriticalData({
-            ...cridicalData,
-            serviceImg: res.data.result[0],
-          });
-        }
-      });
+    try {
+      const res = await PostFileUpload(formData);
+      if (listName === 'service') {
+        setData({
+          ...data,
+          serviceImg: res.data.result[0],
+        });
+      } else {
+        setCriticalData({
+          ...cridicalData,
+          serviceImg: res.data.result[0],
+        });
+      }
+    } catch (error) {
+      console.error('Upload failed:', error);
+    }
   };
+
   const onChange = (e) => {
     if (e.target.files) {
       handleImageUpload(e, 'service');
@@ -81,20 +89,31 @@ export default function Orders() {
     }
   };
 
-  const onSubmit = (e, listName) => { // 하나 등록 시
+  const onSubmit = async (e, listName) => { // 하나 등록 시
     e.preventDefault();
-    const temp = listName === 'service' ? data : cridicalData;
-    nextId.current += 1;
-    axios.post(`https://withpet.site/api/v1/admin/add-${listName}`, temp, { withCredentials: true })
-      .then((res) => {
-        if (listName === 'service') {
-          setList(list.concat(res.data.result));
-        } else if (listName === 'criticalservice') {
-          setCriticalList(criticalList.concat(res.data.result));
-        }
-      })
-      .catch(() => {
-      });
+    const body = listName === 'service' ? data : cridicalData;
+    // nextId.current += 1;
+
+    // axios.post(`https://withpet.site/api/v1/admin/add-${listName}`, temp, { withCredentials: true })
+    //   .then((res) => {
+    //     if (listName === 'service') {
+    //       setList(list.concat(res.data.result));
+    //     } else if (listName === 'criticalservice') {
+    //       setCriticalList(criticalList.concat(res.data.result));
+    //     }
+    //   })
+    //   .catch(() => {
+    //   });
+    try {
+      const res = await postAdminService(body);
+      if (listName === 'service') {
+        setList(list.concat(res.data.result));
+      } else if (listName === 'criticalservice') {
+        setCriticalList(criticalList.concat(res.data.result));
+      }
+    } catch (err) {
+      console.error(err);
+    }
     setData({
       serviceName: '',
       serviceImg: '',
@@ -107,38 +126,67 @@ export default function Orders() {
     });
   };
 
-  const onSubmitModify = (modifyPetInfo, listName) => {
-    axios.put(`https://withpet.site/api/v1/admin/${listName}`, modifyPetInfo, { withCredentials: true })
-      .then((res) => {
-        if (listName === 'service') {
-          const updatedList = list.map((item) => {
-            if (item.serviceId === modifyPetInfo.serviceId) {
-              return res.data.result;
-            }
-            return item;
-          });
-          setList(updatedList);
-        } else {
-          const updatedList = criticalList.map((item) => {
-            if (item.serviceId === modifyPetInfo.serviceId) {
-              return res.data.result;
-            }
-            return item;
-          });
-          setCriticalList(updatedList);
-        }
-      })
-      .catch(() => {
-      });
+  const onSubmitModify = async (modifyPetInfo, listName) => {
+    console.log('listName:', listName);
+    try {
+      const res = await putAdminService(modifyPetInfo);
+      if (listName === 'service') {
+        const updatedList = list.map((item) => {
+          if (item.serviceId === modifyPetInfo.serviceId) {
+            return res.data.result;
+          }
+          return item;
+        });
+        setList(updatedList);
+      } else {
+        const updatedList = criticalList.map((item) => {
+          if (item.serviceId === modifyPetInfo.serviceId) {
+            return res.data.result;
+          }
+          return item;
+        });
+        setCriticalList(updatedList);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+    // axios.put(`https://withpet.site/api/v1/admin/${listName}`, modifyPetInfo, { withCredentials: true })
+    //   .then((res) => {
+    //     if (listName === 'service') {
+    //       const updatedList = list.map((item) => {
+    //         if (item.serviceId === modifyPetInfo.serviceId) {
+    //           return res.data.result;
+    //         }
+    //         return item;
+    //       });
+    //       setList(updatedList);
+    //     } else {
+    //       const updatedList = criticalList.map((item) => {
+    //         if (item.serviceId === modifyPetInfo.serviceId) {
+    //           return res.data.result;
+    //         }
+    //         return item;
+    //       });
+    //       setCriticalList(updatedList);
+    //     }
+    //   })
+    //   .catch(() => {
+    //   });
   };
 
-  const onDelete = (item) => {
-    setList(list.filter((item2) => (item2.serviceId !== item.serviceId)));
-
-    axios.post('https://withpet.site/api/v1/admin/service', item, { withCredentials: true })
-      .then(() => {
-        setList(list.filter((item2) => (item2.serviceId !== item.serviceId)));
-      });
+  const onDelete = async (item) => {
+    // setList(list.filter((item2) => (item2.serviceId !== item.serviceId)));
+    console.log('item: ', item);
+    try {
+      await deleteAdminService(item.serviceId);
+      setList(list.filter((item2) => (item2.serviceId !== item.serviceId)));
+    } catch (err) {
+      console.error(err);
+    }
+    // axios.post('https://withpet.site/api/v1/admin/service', item, { withCredentials: true })
+    //   .then(() => {
+    //     setList(list.filter((item2) => (item2.serviceId !== item.serviceId)));
+    //   });
   };
   return (
     <>
