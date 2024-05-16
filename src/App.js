@@ -28,37 +28,12 @@ import Chat from './pages/Chat/Chat';
 // import Notification from './pages/Notification/Notification';
 import NotificationPage from './pages/Notification/NotificationPage';
 import ApplicantDetail from './pages/AdminMainPage/ApplicantDetail';
-import useUserStore from './store/user';
 
 function App() {
-  // const [state, setState] = useState('false');
-  // const [userInfo, setUserInfo] = useState(
-  //   localStorage.getItem('userInfo')
-  //     ? JSON.parse(localStorage.getItem('userInfo'))
-  //     : '',
-  // );
-
-  // 상태 꺼내기
-  const userInfo = useUserStore((state2) => state2.user);
-  // const setUserInfo = useUserStore((state2) => state2.setUser());
-
-  // console.log(state, userInfo);
-
   return (
     <>
       <Routes>
-        <Route
-          path="/"
-          element={(
-            // <Navbar
-            //   state={state}
-            //   userInfo={userInfo}
-            //   setUserInfo={setUserInfo}
-            // />
-            // <Navbar />
-            <Navbar userInfo={userInfo} />
-          )}
-        >
+        <Route path="/" element={(<Navbar />)}>
           <Route index element={<MainPage />} />
           <Route
             path="/login"

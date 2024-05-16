@@ -5,8 +5,11 @@ import NavNoLogin from './NavNoLogin';
 import NavAfterLogin from './NavAfterLogin';
 import AdminNavbar from './AdminNavbar';
 import NavPetsitter from './NavPetsitter';
+import useUserStore from '../../store/user';
 
-function Navbar({ userInfo }) {
+function Navbar() {
+  const userInfo = useUserStore((state2) => state2.user);
+
   let print = <NavNoLogin />;
   if (userInfo.userName === '') {
     print = <NavNoLogin />;
