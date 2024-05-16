@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import MainPage from './pages/MainPage/MainPage';
@@ -28,15 +28,21 @@ import Chat from './pages/Chat/Chat';
 // import Notification from './pages/Notification/Notification';
 import NotificationPage from './pages/Notification/NotificationPage';
 import ApplicantDetail from './pages/AdminMainPage/ApplicantDetail';
+import useUserStore from './store/user';
 
 function App() {
-  const [state, setState] = useState('false');
-  const [userInfo, setUserInfo] = useState(
-    localStorage.getItem('userInfo')
-      ? JSON.parse(localStorage.getItem('userInfo'))
-      : '',
-  );
-  console.log(state, userInfo);
+  // const [state, setState] = useState('false');
+  // const [userInfo, setUserInfo] = useState(
+  //   localStorage.getItem('userInfo')
+  //     ? JSON.parse(localStorage.getItem('userInfo'))
+  //     : '',
+  // );
+
+  // 상태 꺼내기
+  const userInfo = useUserStore((state2) => state2.user);
+  // const setUserInfo = useUserStore((state2) => state2.setUser());
+
+  // console.log(state, userInfo);
 
   return (
     <>
@@ -49,13 +55,14 @@ function App() {
             //   userInfo={userInfo}
             //   setUserInfo={setUserInfo}
             // />
-            <Navbar />
+            // <Navbar />
+            <Navbar userInfo={userInfo} />
           )}
         >
           <Route index element={<MainPage />} />
           <Route
             path="/login"
-            element={<Login setState={setState} setUserInfo={setUserInfo} />}
+            element={<Login />}
           />
           <Route path="/signup" element={<Signup />} />
 

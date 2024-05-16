@@ -9,7 +9,7 @@ import googleSininImg from '../../assets/btn_google_signin_light_normal_web.png'
 import useUserStore from '../../store/user';
 import { PostSignIn } from '../../services/user';
 
-function Login({ setState, setUserInfo }) {
+function Login() {
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: '',
@@ -22,11 +22,8 @@ function Login({ setState, setUserInfo }) {
     e.preventDefault();
     try {
       const res = await PostSignIn(loginInfo.email, loginInfo.password);
-      setState('login');
       alert('로그인에 성공했습니다.'); // eslint-disable-line no-alert
       setUser(res.result);
-      setUserInfo(res.result);
-      localStorage.setItem('userInfo', JSON.stringify(res.result));
       // navigate(-1);
       navigate('/');
     } catch (err) {

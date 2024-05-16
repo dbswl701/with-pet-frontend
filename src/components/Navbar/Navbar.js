@@ -5,12 +5,12 @@ import NavNoLogin from './NavNoLogin';
 import NavAfterLogin from './NavAfterLogin';
 import AdminNavbar from './AdminNavbar';
 import NavPetsitter from './NavPetsitter';
-import useUserStore from '../../store/user';
+// import useUserStore from '../../store/user';
 
-function Nav() {
+function Nav({ userInfo }) {
   // userInfo, setUserInfo
-  const { user: userInfo } = useUserStore((state) => state);
-  console.log('user 정보 확인:', userInfo);
+  // const { user: userInfo } = useUserStore((state) => state);
+  // console.log('user 정보 확인:', userInfo);
 
   let print = <NavNoLogin />;
   if (userInfo.userName === '') {
