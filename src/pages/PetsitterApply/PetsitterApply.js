@@ -2,52 +2,15 @@ import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 // import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 import axios from 'axios';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import { FormContainer, StyledInput } from './ApplyStyle';
+import * as S from './PetssiterApply.styles';
+import { FormContainer, StyledInput } from './PetssiterApply.styles';
 // import camera from '../../assets/camera.png';
-
-const Container = styled.div`
-  border: 1px solid #999999;
-  width: 1500px;
-  padding: 100px 150px;
-  border-radius: 10px;
-`;
-
-const Label = styled.label`
-  display: inline-block;
-  cursor: pointer;
-  height: 48px;
-  width: 211px;
-  border: 2px solid white;
-  border-radius: 5px;
-  text-align: center;
-  vertical-align: center;
-  line-height: 36px;
-  padding: 5px;
-  margin-right: 30px;
-  background-color: white;
-
-  &: hover {
-    background-color: rgb(212, 212, 212);
-    border: 2px solid rgb(212, 212, 212);
-  }
-
-  input[type="radio"]:checked + & {
-    background-color: #CAA969;
-    color: white
-  }
-`;
-
-const Title = styled.p`
-  font-size: 20px;
-  font-weight: bold;
-`;
 
 function PetsitterApply() {
   const navigate = useNavigate();
@@ -111,8 +74,8 @@ function PetsitterApply() {
     <>
       <FormContainer onSubmit={onSubmit}>
         <div style={{ marginTop: '50px' }}>
-          <Title component="h2" variant="h6" color="primary" gutterBottom sx={{ color: '#caa969' }} align="left">1. 기본 정보</Title>
-          <Container>
+          <S.Title component="h2" variant="h6" color="primary" gutterBottom sx={{ color: '#caa969' }} align="left">1. 기본 정보</S.Title>
+          <S.Container>
             <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '100px' }}>
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <p>1. 생년월일</p>
@@ -132,7 +95,7 @@ function PetsitterApply() {
                   checked={info.applicantIsSmoking === 'true'}
                   style={{ display: 'none' }}
                 />
-                <Label htmlFor="O" style={{ border: '1px solid #CAA969' }}>흡연</Label>
+                <S.Label htmlFor="O" style={{ border: '1px solid #CAA969' }}>흡연</S.Label>
                 <input
                   type="radio"
                   name="applicantIsSmoking"
@@ -142,7 +105,7 @@ function PetsitterApply() {
                   checked={info.applicantIsSmoking === 'false'}
                   style={{ display: 'none' }}
                 />
-                <Label htmlFor="X" style={{ border: '1px solid #CAA969' }}>비흡연</Label>
+                <S.Label htmlFor="X" style={{ border: '1px solid #CAA969' }}>비흡연</S.Label>
               </div>
             </div>
 
@@ -157,7 +120,7 @@ function PetsitterApply() {
                 checked={info.applicantGender === 'female'}
                 style={{ display: 'none' }}
               />
-              <Label htmlFor="female" style={{ border: '1px solid #CAA969' }}>여성</Label>
+              <S.Label htmlFor="female" style={{ border: '1px solid #CAA969' }}>여성</S.Label>
               <input
                 type="radio"
                 name="applicantGender"
@@ -167,13 +130,13 @@ function PetsitterApply() {
                 checked={info.applicantGender === 'male'}
                 style={{ display: 'none' }}
               />
-              <Label htmlFor="male" style={{ border: '1px solid #CAA969' }}>남성</Label>
+              <S.Label htmlFor="male" style={{ border: '1px solid #CAA969' }}>남성</S.Label>
             </div>
-          </Container>
+          </S.Container>
         </div>
         <div style={{ marginTop: '50px' }}>
-          <Title component="h2" variant="h6" color="primary" gutterBottom sx={{ color: '#caa969' }} align="left">2. 반려 경험 및 경력</Title>
-          <Container>
+          <S.Title component="h2" variant="h6" color="primary" gutterBottom sx={{ color: '#caa969' }} align="left">2. 반려 경험 및 경력</S.Title>
+          <S.Container>
             <div style={{ marginBottom: '100px' }}>
               <p>1. 강아지 반려 경험 유무</p>
               <input
@@ -185,7 +148,7 @@ function PetsitterApply() {
                 checked={info.applicantHavingWithPet === 'true'}
                 style={{ display: 'none' }}
               />
-              <Label htmlFor="having" style={{ border: '1px solid #CAA969' }}>O</Label>
+              <S.Label htmlFor="having" style={{ border: '1px solid #CAA969' }}>O</S.Label>
               <input
                 type="radio"
                 name="applicantHavingWithPet"
@@ -195,15 +158,15 @@ function PetsitterApply() {
                 checked={info.applicantHavingWithPet === 'false'}
                 style={{ display: 'none' }}
               />
-              <Label htmlFor="not" style={{ border: '1px solid #CAA969' }}>X</Label>
+              <S.Label htmlFor="not" style={{ border: '1px solid #CAA969' }}>X</S.Label>
             </div>
             <p>2. 반려 동물 관련 경력 또는 경험</p>
             <TextField style={{ width: '1190px' }} rows={8} placeholder="반려 동물 관련 경력 또는 경험에 대해서 알려주세요." variant="outlined" multiline name="applicantAnimalCareer" onChange={onChange} value={info.applicantAnimalCareer} required />
-          </Container>
+          </S.Container>
         </div>
         <div style={{ marginTop: '50px' }}>
-          <Title component="h2" variant="h6" color="primary" gutterBottom sx={{ color: '#caa969' }} align="left">3. 기타 정보</Title>
-          <Container>
+          <S.Title component="h2" variant="h6" color="primary" gutterBottom sx={{ color: '#caa969' }} align="left">3. 기타 정보</S.Title>
+          <S.Container>
             <div style={{ marginBottom: '100px' }}>
               <p>1. 지원동기</p>
               <TextField style={{ width: '1190px' }} rows={8} placeholder="이곳에 직접 입력해주세요." multiline variant="outlined" name="applicantMotivation" onChange={onChange} value={info.applicantMotivation} required />
@@ -234,7 +197,7 @@ function PetsitterApply() {
               {/* <p style={{ color: '#caa969', border: '1px solid #caa969', display: 'block' }}>사진 등록하기</p> */}
             </label>
             <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} name="applicantLicenseImg" onChange={(e) => onChange(e, 'img')} />
-          </Container>
+          </S.Container>
         </div>
 
         <StyledInput style={{ margin: '60px auto', width: '302px', marginTop: '72px' }} type="submit" value="제출" />

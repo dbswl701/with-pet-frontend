@@ -31,3 +31,40 @@ export const StyledInput = styled.input`
     border-radius: 5px;
     color: white;
 `;
+
+export const Container = styled.div`
+  border: 1px solid #999999;
+  width: 1500px;
+  padding: 100px 150px;
+  border-radius: 10px;
+`;
+
+export const Label = styled.label`
+  display: inline-block;
+  cursor: pointer;
+  height: 48px;
+  width: 211px;
+  border: 2px solid white;
+  border-radius: 5px;
+  text-align: center;
+  vertical-align: center;
+  line-height: 36px;
+  padding: 5px;
+  margin-right: 30px;
+  background-color: white;
+
+  &: hover {
+    background-color: rgb(212, 212, 212);
+    border: 2px solid rgb(212, 212, 212);
+  }
+
+  input[type="radio"]:checked + & {
+    background-color: #CAA969;
+    color: white
+  }
+`;
+
+export const Title = styled.p`
+  font-size: 20px;
+  font-weight: bold;
+`;
