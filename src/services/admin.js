@@ -1,5 +1,4 @@
 // 관리자 api
-
 import axios from 'axios';
 import baseUrl from './api';
 
@@ -30,7 +29,6 @@ export const deleteAdminService = async (serviceId) => {
 
 // 관리자 서비스 수정
 export const putAdminService = async (modifyPetInfo) => {
-  console.log('modifyPetInfo:', modifyPetInfo);
   const body = {
     serviceName: modifyPetInfo.serviceName,
     serviceImg: modifyPetInfo.serviceImg,
@@ -41,7 +39,6 @@ export const putAdminService = async (modifyPetInfo) => {
 
 // 관리자 필수 서비스 수정
 export const putAdminCriticalService = async (modifyPetInfo) => {
-  console.log('modifyPetInfo:', modifyPetInfo);
   const body = {
     serviceName: modifyPetInfo.serviceName,
     serviceImg: modifyPetInfo.serviceImg,
