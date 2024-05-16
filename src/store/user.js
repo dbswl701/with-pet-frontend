@@ -7,17 +7,12 @@ const defaultUser = {
   userProfile: '',
 };
 
-// const useUserStore = create((set) => ({
-//   user: defaultUser,
-//   setUser: (user) => set({ user }),
-//   logout: () => set({ user: defaultUser }),
-// }));
-
 const useUserStore = create(
   persist(
     (set) => ({
       user: defaultUser,
       // setUser: (value) => set({ user: value }),
+      //   setUser: (user) => set({ user }),
       setUser: (newValue) => set((state) => ({ user: { ...state.user, ...newValue } })),
       logout: () => set({ user: defaultUser }),
     }),
