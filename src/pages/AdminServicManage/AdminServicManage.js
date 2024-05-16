@@ -22,11 +22,11 @@ export default function Orders() {
   const [criticalList, setCriticalList] = useState([]);
 
   useEffect(() => {
-    axios.get('https://withpet.site/api/v1/show-services', { withCredentials: true })
+    axios.get('https://withpet.info/api/v2/services', { withCredentials: true })
       .then((res) => {
         setList(res.data.result);
       });
-    axios.get('https://withpet.site/api/v1/show-criticalservices', { withCredentials: true })
+    axios.get('https://withpet.info/api/v2/critical-services', { withCredentials: true })
       .then((res) => {
         setCriticalList(res.data.result);
       });

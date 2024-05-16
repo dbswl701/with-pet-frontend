@@ -18,7 +18,7 @@ import AdminMainPage from './pages/AdminMainPage/AdminMainPage';
 import AdminApplyInfo from './pages/AdminApplyInfo/AdminApplyInfo';
 import PetsitterInfoManage from './pages/PetsitterInfoManage/PetsitterInfoManage';
 import EditProfile from './pages/EditProfile/EditProfile';
-import AdminServicManage from './pages/AdminServicManage/Main';
+import AdminServicManage from './pages/AdminServicManage/AdminServicManage';
 import PetsitterShowInfo from './pages/PetsitterInfoManage/PetsitterShowInfo';
 import UserDiaryList from './pages/UserDiary/UserDiaryList';
 import UserEvaluation from './pages/UserEvaluation/UserEvaluation';
