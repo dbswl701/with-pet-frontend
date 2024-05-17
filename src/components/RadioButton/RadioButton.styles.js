@@ -28,7 +28,6 @@ export const Label2 = styled.label`
 
 export const RadioInput = styled.input.attrs({
   type: 'radio',
-  name: 'applicantIsSmoking',
 })`
   display: none;
 `;

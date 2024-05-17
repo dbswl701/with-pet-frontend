@@ -1,24 +1,27 @@
 import React from 'react';
 import * as S from './RadioButton.styles';
 
-function RadioButton({ onChange, checked }) {
+function RadioButton({
+  onChange, name, checked, first, second,
+}) {
   return (
     <S.RadioContainer>
       <S.RadioInput
-        id="O"
+        id={`${name}_O`}
         value="true"
         onChange={onChange}
         checked={checked === 'true'}
+        name={name}
       />
-      {/* <S.Label2 htmlFor="O" style={{ border: '1px solid #CAA969' }}>흡연</S.Label2> */}
-      <S.Label2 htmlFor="O">흡연</S.Label2>
+      <S.Label2 htmlFor={`${name}_O`}>{first}</S.Label2>
       <S.RadioInput
-        id="X"
+        id={`${name}_X`}
         value="false"
         onChange={onChange}
         checked={checked === 'false'}
+        name={name}
       />
-      <S.Label2 htmlFor="X">비흡연</S.Label2>
+      <S.Label2 htmlFor={`${name}_X`}>{second}</S.Label2>
     </S.RadioContainer>
   );
 }
