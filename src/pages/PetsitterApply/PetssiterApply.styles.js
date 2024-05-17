@@ -16,11 +16,17 @@ export const FormContainer = styled.form`
     //     align: left;
     // }
 
+    // width: 70%;
+    background-color: red;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-top: 60px;
+`;
+
+export const OuterContainer = styled.div`
+  background-color: green;
 `;
 
 export const StyledInput = styled.input`
@@ -34,9 +40,16 @@ export const StyledInput = styled.input`
 
 export const Container = styled.div`
   border: 1px solid #999999;
-  width: 1500px;
+  // width: 1500px;
   padding: 100px 150px;
   border-radius: 10px;
+`;
+
+export const InnerContainer = styled.div`
+// style={{ display: 'flex', flexDirection: 'row', marginBottom: '100px' }}
+  display: flex;
+  flex-Direction: row;
+  justify-content: space-around
 `;
 
 export const Label = styled.label`
