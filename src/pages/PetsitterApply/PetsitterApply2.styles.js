@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -40,4 +40,19 @@ export const TextArea = styled.textarea`
   border: 1px solid #CAA969;
   outline-color: rgb(200,158,78);
   padding: 10px;
+`;
+
+export const SubmitBtn = styled.button.attrs({
+  type: 'submit',
+})`
+  margin: 60px auto;
+  width: 302px;
+  margin-top: 72px;
+
+  height: 40px;
+  background-color: #CAA969;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
 `;

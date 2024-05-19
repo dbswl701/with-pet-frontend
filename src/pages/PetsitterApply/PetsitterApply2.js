@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import { useNavigate } from 'react-router-dom';
 import * as S from './PetsitterApply2.styles';
 import RadioButton from '../../components/RadioButton/RadioButton';
+import PostFileUpload from '../../services/upload';
+import postPetsitterApplicants from '../../services/user';
 
 function PetsitterApply2() {
+  const navigate = useNavigate();
   const [info, setInfo] = useState({
     applicantAnimalCareer: '',
     applicantBirth: '',
@@ -12,17 +17,42 @@ function PetsitterApply2() {
     applicantLicenseImg: '',
     applicantMotivation: '',
   });
+
   const onChange = (e) => {
     const { value, name } = e.target;
-    console.log('value:', value, 'name:', name);
     setInfo({
       ...info,
       [name]: value,
     });
   };
+
+  // 이미지 변경
+  const handleImageUpload = async (e) => {
+    const img = e.target.files[0];
+    const formData = new FormData();
+    formData.append('file', img);
+
+    try {
+      const res = await PostFileUpload(formData);
+      setInfo({
+        ...info,
+        applicantLicenseImg: res.data.result[0],
+      });
+    } catch (error) {
+      console.error('Upload failed:', error);
+    }
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    await postPetsitterApplicants(info);
+    // eslint-disable-next-line no-alert
+    alert('펫시터 지원이 완료되었습니다.');
+    navigate('../');
+  };
   console.log('info:', info);
   return (
-    <S.Wrapper>
+    <S.Wrapper onSubmit={onSubmit}>
       <S.SubTitle>1. 기본 정보</S.SubTitle>
       <S.Container>
         <div>
@@ -59,8 +89,33 @@ function PetsitterApply2() {
         </div>
         <div>
           <p>2. 자격증</p>
+          <label htmlFor="image-select" style={{ display: 'flex', justifyContent: 'flex-start', padding: '5px' }}>
+            <div style={{ }}>
+              { info.applicantLicenseImg ? (
+                <img
+                  alt="이미지 미리 보기"
+                  src={info.applicantLicenseImg}
+                  style={{
+                    width: '320px', height: '180px', border: '1px solid #CAA969', borderRadius: '10px',
+                  }}
+                />
+              ) : (
+                // <svg data-testid="CameraAltIcon" />
+                <div style={{
+                  backgroundColor: '#CAA969', opacity: '15%', display: 'flex', width: '320px', height: '180px', borderRadius: '10px',
+                }}
+                >
+                  <CameraAltIcon style={{ margin: 'auto', width: '96px', height: '96px' }} />
+                </div>
+                // <img alt="이미지 미리 보기" src={CameraAltIcon} style={{ width: '100%', height: 'auto' }} />
+              )}
+            </div>
+            {/* <p style={{ color: '#caa969', border: '1px solid #caa969', display: 'block' }}>사진 등록하기</p> */}
+          </label>
+          <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} name="applicantLicenseImg" onChange={handleImageUpload} />
         </div>
       </S.Container>
+      <S.SubmitBtn>제출</S.SubmitBtn>
     </S.Wrapper>
   );
 }

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as S from './Signup.styles';
-import PostSignUp from '../../services/user';
+import PostSignUp from '../../services/auth';
 import PostFileUpload from '../../services/upload';
 import baseProfile from '../../constants/image';
 import { getIssuance, PostAuthentication, PostEmailDuplicate } from '../../services/sms';

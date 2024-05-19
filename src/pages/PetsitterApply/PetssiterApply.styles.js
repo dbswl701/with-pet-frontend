@@ -17,7 +17,7 @@ export const FormContainer = styled.form`
     // }
 
     // width: 70%;
-    background-color: red;
+    // background-color: red;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -26,7 +26,7 @@ export const FormContainer = styled.form`
 `;
 
 export const OuterContainer = styled.div`
-  background-color: green;
+  // background-color: green;
 `;
 
 export const StyledInput = styled.input`

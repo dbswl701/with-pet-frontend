@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import logo from '../../assets/logo_withpet.png';
 import useUserStore from '../../store/user';
-import { PostSignOut } from '../../services/user';
+import { PostSignOut } from '../../services/auth';
 // import profile from '../../assets/user_default_profile.png';
 
 function NavPetsitter() {
