@@ -16,6 +16,7 @@ export const Container = styled.div`
 
 export const SubTitle = styled.h2`
   font-weight: bold;
+  margin-top: 5rem;
 `;
 
 export const BirthInput = styled.input`
