@@ -9,13 +9,13 @@ import postPetsitterApplicants from '../../services/user';
 function PetsitterApply2() {
   const navigate = useNavigate();
   const [info, setInfo] = useState({
-    applicantAnimalCareer: '',
-    applicantBirth: '',
-    applicantGender: '',
-    applicantHavingWithPet: '',
-    applicantIsSmoking: '',
-    applicantLicenseImg: '',
-    applicantMotivation: '',
+    animalCareer: '',
+    birth: '',
+    gender: '',
+    havingWithPet: '',
+    isSmoking: '',
+    licenseImg: '',
+    motivation: '',
   });
 
   const onChange = (e) => {
@@ -36,7 +36,7 @@ function PetsitterApply2() {
       const res = await PostFileUpload(formData);
       setInfo({
         ...info,
-        applicantLicenseImg: res.data.result[0],
+        licenseImg: res.data.result[0],
       });
     } catch (error) {
       console.error('Upload failed:', error);
@@ -59,22 +59,23 @@ function PetsitterApply2() {
           <p>1. 생년월일</p>
           <S.BirthInput placeholder="ex) 930101" />
           <S.Description>05년생부터(만 18세 이상) 펫시터 지원이 가능합니다. </S.Description>
+          <S.ErrorMSG>에러</S.ErrorMSG>
         </div>
         <div>
           <p>2. 흡연 여부</p>
-          <RadioButton onChange={onChange} name="applicantIsSmoking" checked={info.applicantIsSmoking} first="흡연" second="비흡연" />
+          <RadioButton onChange={onChange} name="isSmoking" checked={info.isSmoking} first="흡연" second="비흡연" />
           <S.Description>직업 특성상 흡연을 하시는 경우, 펫시터 활동이 어려울 수 있습니다.</S.Description>
         </div>
         <div>
           <p>3. 성별</p>
-          <RadioButton onChange={onChange} name="applicantGender" checked={info.applicantGender} first="여성" second="남성" />
+          <RadioButton onChange={onChange} name="gender" checked={info.gender} first="여성" second="남성" />
         </div>
       </S.Container>
       <S.SubTitle>2. 반려 경험 및 경력</S.SubTitle>
       <S.Container>
         <div>
           <p>1. 강아지 반려 경험 유무</p>
-          <RadioButton onChange={onChange} name="applicantHavingWithPet" checked={info.applicantHavingWithPet} first="O" second="X" />
+          <RadioButton onChange={onChange} name="havingWithPet" checked={info.havingWithPet} first="O" second="X" />
         </div>
         <div>
           <p>2. 반려 동물 관련 경력 또는 경험</p>
@@ -91,10 +92,10 @@ function PetsitterApply2() {
           <p>2. 자격증</p>
           <label htmlFor="image-select" style={{ display: 'flex', justifyContent: 'flex-start', padding: '5px' }}>
             <div style={{ }}>
-              { info.applicantLicenseImg ? (
+              { info.licenseImg ? (
                 <img
                   alt="이미지 미리 보기"
-                  src={info.applicantLicenseImg}
+                  src={info.licenseImg}
                   style={{
                     width: '320px', height: '180px', border: '1px solid #CAA969', borderRadius: '10px',
                   }}
@@ -112,7 +113,7 @@ function PetsitterApply2() {
             </div>
             {/* <p style={{ color: '#caa969', border: '1px solid #caa969', display: 'block' }}>사진 등록하기</p> */}
           </label>
-          <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} name="applicantLicenseImg" onChange={handleImageUpload} />
+          <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} name="licenseImg" onChange={handleImageUpload} />
         </div>
       </S.Container>
       <S.SubmitBtn>제출</S.SubmitBtn>
