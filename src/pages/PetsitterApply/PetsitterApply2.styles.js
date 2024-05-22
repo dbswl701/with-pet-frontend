@@ -25,6 +25,19 @@ export const BirthInput = styled.input`
   width: 312px;
   height: 40px;
   padding-left: 10px;
+
+  /* 화살표 숨기기 */
+  /* Chrome, Safari, Edge, Opera */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  &[type=number] {
+    -moz-appearance: textfield;
+  }
 `;
 
 export const Description = styled.p`
@@ -56,4 +69,8 @@ export const SubmitBtn = styled.button.attrs({
   border-radius: 5px;
   color: white;
   cursor: pointer;
+`;
+
+export const ErrorMSG = styled(Description)`
+  color: #d61717;
 `;
