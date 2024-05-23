@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 
-export default function Orders({ rows }) {
+export default function ApplicantList({ rows }) {
   const navigate = useNavigate();
 
   const onClick = (id) => {
@@ -29,9 +29,9 @@ export default function Orders({ rows }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {rows.map((row, idx) => (
             <TableRow key={row.applicantId} onClick={() => onClick(row.applicantId)}>
-              <TableCell>{row.applicantId}</TableCell>
+              <TableCell>{idx + 1}</TableCell>
               <TableCell><img src={row.applicantImg} alt="img" style={{ width: '50px', borderRadius: '50%' }} /></TableCell>
               <TableCell>{row.applicantName}</TableCell>
               <TableCell>{row.applicantEmail}</TableCell>

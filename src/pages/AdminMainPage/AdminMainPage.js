@@ -3,9 +3,9 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
 import axios from 'axios';
-import Orders from './Orders';
-import Orders2 from './Orders2';
 import { getPetsitterApplicantList, getPetsitterList } from '../../services/admin';
+import PetssiterList from './Components/PetssiterList';
+import ApplicantList from './Components/ApplicantList';
 
 function AdminMainPage() {
   const [applicantList, setApplicantList] = useState([]);
@@ -52,12 +52,12 @@ function AdminMainPage() {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-              <Orders2 rows={petsitterList} />
+              <PetssiterList rows={petsitterList} />
             </Paper>
           </Grid>
           <Grid item xs={12}>
             <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-              <Orders rows={applicantList} handleApprove={handleApprove} handleCancle={handleCancle} />
+              <ApplicantList rows={applicantList} handleApprove={handleApprove} handleCancle={handleCancle} />
             </Paper>
           </Grid>
         </Grid>
