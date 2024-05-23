@@ -31,6 +31,7 @@ function PetsitterApply2() {
     motivation: '',
   });
   const [imagePreview, setImagePreview] = useState('');
+  const [errorImg, setErrorImg] = useState(true);
 
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -57,21 +58,18 @@ function PetsitterApply2() {
   useEffect(() => {
     if (licenseImg && licenseImg.length > 0) {
       handleImageUpload(licenseImg[0]);
-      // const file = licenseImg[0];
-      // const imageUrl = URL.createObjectURL(file).slice(5);
-      // setImagePreview(imageUrl);
+      setErrorImg(false);
     }
   }, [licenseImg]);
 
   const onSubmit = async (data) => {
-    console.log('data:', data);
+    if (errorImg) return;
+
     await postPetsitterApplicants({ ...data, licenseImg: imagePreview });
     // eslint-disable-next-line no-alert
     alert('펫시터 지원이 완료되었습니다.');
     navigate('../');
   };
-
-  console.log('error:', errors);
 
   return (
     <S.Wrapper onSubmit={handleSubmit(onSubmit)}>
@@ -79,7 +77,6 @@ function PetsitterApply2() {
       <S.Container>
         <div>
           <p>1. 생년월일</p>
-          {/* <S.BirthInput placeholder="ex) 930101" /> */}
           <S.BirthInput placeholder="ex) 2024-05-22" maxlength="10" {...register('birth', { required: true })} />
           <S.Description>05년생부터(만 18세 이상) 펫시터 지원이 가능합니다. </S.Description>
           {errors.birth && <S.ErrorMSG>{errors.birth.message}</S.ErrorMSG>}
@@ -129,20 +126,18 @@ function PetsitterApply2() {
                   }}
                 />
               ) : (
-                // <svg data-testid="CameraAltIcon" />
                 <div style={{
                   backgroundColor: '#CAA969', opacity: '15%', display: 'flex', width: '320px', height: '180px', borderRadius: '10px',
                 }}
                 >
                   <CameraAltIcon style={{ margin: 'auto', width: '96px', height: '96px' }} />
                 </div>
-                // <img alt="이미지 미리 보기" src={CameraAltIcon} style={{ width: '100%', height: 'auto' }} />
               )}
             </div>
             {/* <p style={{ color: '#caa969', border: '1px solid #caa969', display: 'block' }}>사진 등록하기</p> */}
           </label>
           <input type="file" accept="image/*" id="image-select" style={{ display: 'none' }} {...register('licenseImg', { required: true })} />
-          {errors.licenseImg && <S.ErrorMSG>{errors.licenseImg.message}</S.ErrorMSG>}
+          {errorImg && <S.ErrorMSG>자격증을 등록해주세요.</S.ErrorMSG>}
         </div>
       </S.Container>
       <S.SubmitBtn>제출</S.SubmitBtn>
