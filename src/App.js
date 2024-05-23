@@ -27,7 +27,7 @@ import PetsitterInfoModify from './pages/PetsitterInfoManage/PetsitterInfoModify
 import Chat from './pages/Chat/Chat';
 // import Notification from './pages/Notification/Notification';
 import NotificationPage from './pages/Notification/NotificationPage';
-import ApplicantDetail from './pages/AdminMainPage/Components/ApplicantDetail';
+import ApplicantDetail from './pages/AdminApplicantDetail/ApplicantDetail';
 import PetsitterApply2 from './pages/PetsitterApply/PetsitterApply2';
 
 function App() {
