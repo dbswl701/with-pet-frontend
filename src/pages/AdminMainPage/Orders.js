@@ -30,13 +30,13 @@ export default function Orders({ rows }) {
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <TableRow key={row.applicant_user_id} onClick={() => onClick(row.applicant_user_id)}>
-              <TableCell>{row.applicant_user_id}</TableCell>
-              <TableCell><img src={row.applicant_user_profileImg} alt="img" style={{ width: '50px', borderRadius: '50%' }} /></TableCell>
-              <TableCell>{row.applicant_user_name}</TableCell>
-              <TableCell>{row.applicant_user_auth_id}</TableCell>
-              <TableCell>{row.applicant_user_phone}</TableCell>
-              <TableCell>{row.applicant_status}</TableCell>
+            <TableRow key={row.applicantId} onClick={() => onClick(row.applicantId)}>
+              <TableCell>{row.applicantId}</TableCell>
+              <TableCell><img src={row.applicantImg} alt="img" style={{ width: '50px', borderRadius: '50%' }} /></TableCell>
+              <TableCell>{row.applicantName}</TableCell>
+              <TableCell>{row.applicantEmail}</TableCell>
+              <TableCell>{row.applicantPhone}</TableCell>
+              <TableCell>{row.applicantStatus}</TableCell>
             </TableRow>
           ))}
         </TableBody>

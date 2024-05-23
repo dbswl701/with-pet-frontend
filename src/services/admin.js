@@ -46,3 +46,13 @@ export const putAdminCriticalService = async (modifyPetInfo) => {
   };
   return axios.put(`${baseUrl}/v2/admins/critical-service/${modifyPetInfo.serviceId}`, body, { withCredentials: true });
 };
+
+// 관리자 펫시터 리스트 조회
+export const getPetsitterList = async () => {
+  return axios.get(`${baseUrl}/v2/admins/pet-sitters`, { withCredentials: true });
+};
+
+// 관리자 펫시터 지원자 리스트 조회
+export const getPetsitterApplicantList = async () => {
+  return axios.get(`${baseUrl}/v2/admins/applicants`, { withCredentials: true });
+};

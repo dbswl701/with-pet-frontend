@@ -25,10 +25,10 @@ export default function Orders({ rows }) {
           {rows.map((row) => (
             <TableRow key={row.petSitterId}>
               <TableCell>{row.petSitterId}</TableCell>
-              <TableCell><img src={row.userProfileImg} alt="img" style={{ width: '50px', borderRadius: '50%' }} /></TableCell>
-              <TableCell>{row.userName}</TableCell>
-              <TableCell>{row.userId}</TableCell>
-              <TableCell>{row.userPhone}</TableCell>
+              <TableCell><img src={row.petSitterImg} alt="img" style={{ width: '50px', borderRadius: '50%' }} /></TableCell>
+              <TableCell>{row.petSitterName}</TableCell>
+              <TableCell>{row.petSitterEmail}</TableCell>
+              <TableCell>{row.petSitterPhone}</TableCell>
               <TableCell align="right">
                 <button>x</button>
               </TableCell>
