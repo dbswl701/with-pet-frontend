@@ -4,12 +4,12 @@ import TableRow from '@mui/material/TableRow';
 import Modify from './Modify';
 
 function Service({
-  listName, item, onModify, onDelete,
+  listName, item, onModify, onDelete, idx,
 }) {
   const [toggle, setToggle] = useState(false);
   const basic = (
     <TableRow>
-      <TableCell>{item.serviceId}</TableCell>
+      <TableCell>{idx + 1}</TableCell>
       <TableCell><img src={item.serviceImg} alt="img" style={{ width: '50px', height: '50px', borderRadius: '50%' }} /></TableCell>
       <TableCell>{item.serviceName}</TableCell>
       <TableCell>{item.serviceIntroduction}</TableCell>
