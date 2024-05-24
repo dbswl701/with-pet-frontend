@@ -1,39 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import {
   Container, DivContainer, Title, Button,
 } from './InfoStyle';
-
-function Item({ service }) {
-  return (
-    <div style={{
-      backgroundColor: `${service.isIncluded === true ? '#FAF6F0' : '#F2F2F2'}`, color: `${service.isIncluded === true ? '#CAA969' : 'gray'}`, width: '130px', height: '150px', marginRight: '5px', borderRadius: '20px', padding: '10px', fontSize: '12px',
-    }}
-    >
-      <div style={{ textAlign: 'center' }}>
-        <img src={service.serviceImg} alt="서비스 이미지" style={{ width: '30px', height: '30px', marginTop: '5px' }} />
-      </div>
-      <div style={{ paddingLeft: '5px' }}>
-        <p>{service.serviceName}</p>
-        <p>{service.serviceIntroduction}</p>
-        <p>{service.price ? `가격 : ${service.price}원` : null}</p>
-      </div>
-    </div>
-  );
-}
+import { getPetsitterMyInfo } from '../../services/petsitter';
+import Item from './Components/Item';
 
 function PetsitterShowInfo() {
   const [info, setInfo] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('https://withpet.site/api/v1/petsitter/show-myinfo', { withCredentials: true })
-      .then((res) => {
-        setInfo(res.data.result);
-      })
-      .catch(() => {
-      });
+    const fetchData = async () => {
+      const res = await getPetsitterMyInfo();
+      setInfo(res.data.result);
+    };
+
+    fetchData();
   }, []);
 
   const onModify = () => {
@@ -41,10 +24,10 @@ function PetsitterShowInfo() {
   };
 
   const isServiceIdIncluded = info.withPetServices && info.withPetServices.map((service) => {
-    const selected = info.petSitterServices.find((sitterService) => sitterService.serviceId === service.serviceId);
+    const selected = info.petSitterWithPetServices.find((sitterService) => sitterService.serviceId === service.serviceId);
     return {
       ...service,
-      isIncluded: info.petSitterServices.some(
+      isIncluded: info.petSitterWithPetServices.some(
         (sitterService) => sitterService.serviceId === service.serviceId,
       ),
       price: selected ? selected.price : null,
@@ -70,7 +53,7 @@ function PetsitterShowInfo() {
           <Title>집사진</Title>
           {
             info.petSitterHouses && info.petSitterHouses.map((img) => {
-              return <img key={img.houseId} src={img.houseImg} alt="집사진" style={{ width: '200px', height: '200px' }} />;
+              return <img key={img.petSitterHouseId} src={img.houseImg} alt="집사진" style={{ width: '200px', height: '200px' }} />;
             })
           }
         </div>
@@ -100,7 +83,7 @@ function PetsitterShowInfo() {
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           {
             isServiceIdIncluded && isServiceIdIncluded.map((service) => {
-              return <Item key={service.serviceId} service={service} />;
+              return <Item key={service.withPetServiceId} service={service} />;
             })
           }
         </div>
@@ -110,7 +93,7 @@ function PetsitterShowInfo() {
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           {
             isCriticalServiceIdIncluded && isCriticalServiceIdIncluded.map((service) => {
-              return <Item key={service.serviceId} service={service} />;
+              return <Item key={service.criticalServiceId} service={service} />;
             })
           }
         </div>

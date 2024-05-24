@@ -1,7 +1,7 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
 import axios from 'axios';
-import { Button } from './InfoStyle';
+import { Button } from '../../PetsitterInfoManage/InfoStyle';
 
 function PetsitterInfoModifyIntro({ introduction, setIntroduction }) {
   const onSubmit = () => {

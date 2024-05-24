@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import axios from 'axios';
-import { CancelButton, InputButton, Button } from './InfoStyle';
+import { CancelButton, InputButton, Button } from '../../PetsitterInfoManage/InfoStyle';
 
 function PetsitterInfoModifyHashTag({ hashTags, setHashTags }) {
   const [hashTag, setHashTag] = useState('');

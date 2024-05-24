@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import PetsitterInfoModifySidebar from './PetsitterInfoModifySidebar';
-import PetsitterInfoModifyHouse from './PetsitterInfoModifyHouse';
-import PetsitterInfoModifyHashTag from './PetsitterInfoModifyHashTag';
-import PetsitterInfoModifyIntro from './PetsitterInfoModifyIntro';
-import PetsitterInfoModifyService from './PetsitterInfoModifyService';
-import PetsitterInfoModifyCritical from './PetsitterInfoModifyCritical';
+import PetsitterInfoModifySidebar from './Components/PetsitterInfoModifySidebar';
+import PetsitterInfoModifyHouse from './Components/PetsitterInfoModifyHouse';
+import PetsitterInfoModifyHashTag from './Components/PetsitterInfoModifyHashTag';
+import PetsitterInfoModifyIntro from './Components/PetsitterInfoModifyIntro';
+import PetsitterInfoModifyService from './Components/PetsitterInfoModifyService';
+import PetsitterInfoModifyCritical from './Components/PetsitterInfoModifyCritical';
 
 function PetsitterInfoModify() {
   const [hashTags, setHashTags] = useState([]);

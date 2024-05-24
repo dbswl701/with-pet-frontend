@@ -4,7 +4,7 @@ import axios from 'axios';
 import TextField from '@mui/material/TextField';
 import {
   Container, Label, DivContainer, InputButton, CancelButton, Title,
-} from './InfoStyle';
+} from '../InfoStyle';
 
 function Item1({ service, onRemove }) {
   const includeed = (

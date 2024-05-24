@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { CancelButton, Button, LabelContainer } from './InfoStyle';
+import { CancelButton, Button, LabelContainer } from '../../PetsitterInfoManage/InfoStyle';
 
 function PetsitterInfoModifyHouse({ houseImgList, setHouseImgList }) {
   const handleImageUpload = async (e) => {
