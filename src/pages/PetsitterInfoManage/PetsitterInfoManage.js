@@ -7,6 +7,7 @@ import {
 } from './InfoStyle';
 import Item1 from './Components/Item1';
 import Item2 from './Components/Item2';
+import { getPetsitterMyInfo } from '../../services/petsitter';
 
 function PetsitterInfoManage() {
   const navigate = useNavigate();
@@ -14,27 +15,23 @@ function PetsitterInfoManage() {
 
   const [hashTags, setHashTags] = useState([]);
   const [hashTag, setHashTag] = useState('');
-
   const [introduction, setIntroduction] = useState('');
-
   const [houseImgList, setHouseImgList] = useState([]);
-
   const [serviceSelectList, setServiceSelectList] = useState([]);
-
   const [criticalServices, setCriticalServices] = useState([]);
-
   const [petSitterLicenseImg, setPetSitterLicenseImg] = useState('');
 
   useEffect(() => {
-    axios.get('https://withpet.site/api/v1/petsitter/show-myinfo', { withCredentials: true })
-      .then((res) => {
-        setInfo(res.data.result);
-        setCriticalServices(res.data.result.petSitterCriticalServices);
-        setServiceSelectList(res.data.result.petSitterServices);
-        setPetSitterLicenseImg(res.data.result.petSitterLicenseImg);
-      })
-      .catch(() => {
-      });
+    const fetchData = async () => {
+      const res = await getPetsitterMyInfo();
+      setInfo(res.data.result);
+      setCriticalServices(res.data.result.petSitterCriticalServices);
+      setServiceSelectList(res.data.result.petSitterWithPetServices);
+
+      console.log('info:', res.data.result);
+      setPetSitterLicenseImg(res.data.result.petSitterLicenseImg);
+    };
+    fetchData();
   }, []);
 
   const onSubmit = (e) => {
@@ -83,14 +80,14 @@ function PetsitterInfoManage() {
     axios.post('https://withpet.site/api/v1/file/upload', formData, config)
       .then((res) => {
         res.data.result.forEach((img, index) => {
-          const temp = { houseId: 0, representative: index === 0, houseImg: img };
+          const temp = { petSitterHouseId: 0, petSitterHouseRepresentative: index === 0, petSitterHouseImg: img };
           setHouseImgList((prevImages) => [...prevImages, temp]);
         });
       });
   };
   const onRemoveHousImg = (id) => {
-    const removeHouseImg = houseImgList.filter((img) => (img.houseImg === id));
-    const updateHouseImg = houseImgList.filter((img) => (img.houseImg !== id));
+    const removeHouseImg = houseImgList.filter((img) => (img.petSitterHouseImg === id));
+    const updateHouseImg = houseImgList.filter((img) => (img.petSitterHouseImg !== id));
 
     if (removeHouseImg[0].representative === true) {
       setHouseImgList(updateHouseImg.map((img, index) => {
@@ -108,8 +105,8 @@ function PetsitterInfoManage() {
   // 이용 가능 서비스
   useEffect(() => {
     const includedServices = info.withPetServices && info.withPetServices.map((service) => {
-      const isIncluded = serviceSelectList.some((sitterService) => sitterService.serviceId === service.serviceId);
-      const selected = serviceSelectList.find((sitterService) => sitterService.serviceId === service.serviceId);
+      const isIncluded = serviceSelectList.some((sitterService) => sitterService.withPetServiceId === service.withPetServiceId);
+      const selected = serviceSelectList.find((sitterService) => sitterService.withPetServiceId === service.withPetServiceId);
       const price = selected ? selected.price : null;
       return { ...service, isIncluded, price };
     });
@@ -119,8 +116,8 @@ function PetsitterInfoManage() {
   // 필수 서비스
   useEffect(() => {
     const includedServices = info.criticalServices && info.criticalServices.map((service) => {
-      const isIncluded = criticalServices.some((sitterService) => sitterService.serviceId === service.serviceId);
-      const selected = criticalServices.find((sitterService) => sitterService.serviceId === service.serviceId);
+      const isIncluded = criticalServices.some((sitterService) => sitterService.criticalServiceId === service.criticalServiceId);
+      const selected = criticalServices.find((sitterService) => sitterService.criticalServiceId === service.criticalServiceId);
       const price = selected ? selected.price : null;
       return { ...service, isIncluded, price };
     });
@@ -128,20 +125,22 @@ function PetsitterInfoManage() {
   }, [criticalServices]);
 
   const onRemoveService = (id) => {
-    setServiceSelectList(serviceSelectList.filter((service) => service.serviceId !== id));
+    setServiceSelectList(serviceSelectList.filter((service) => service.withPetServiceId !== id));
   };
 
   const onAddService = (id, price, serviceName) => {
-    setServiceSelectList([...serviceSelectList, { serviceId: id, price: parseInt(price, 10), serviceName }]);
+    setServiceSelectList([...serviceSelectList, { withPetServiceId: id, price: parseInt(price, 10), serviceName }]);
   };
 
   const onRemoveCriticalService = (id) => {
-    setCriticalServices(criticalServices.filter((service) => service.serviceId !== id));
+    setCriticalServices(criticalServices.filter((service) => service.criticalServiceId !== id));
   };
 
   const onAddCriticalService = (id, price, serviceName) => {
-    setCriticalServices([...criticalServices, { serviceId: id, price: parseInt(price, 10), serviceName }]);
+    setCriticalServices([...criticalServices, { criticalServiceId: id, price: parseInt(price, 10), serviceName }]);
   };
+
+  console.log('houseImgList:', houseImgList);
 
   const modify = (
     <Container>
@@ -154,9 +153,9 @@ function PetsitterInfoManage() {
             houseImgList && houseImgList.map((img, index) => (
               // eslint-disable-next-line react/no-array-index-key
               <div key={index}>
-                <img key={img.houseImg} src={img.houseImg} alt="집사진" style={{ width: '200px', height: '200px' }} />
+                <img key={img.petSitterHouseImg} src={img.petSitterHouseImg} alt="집사진" style={{ width: '200px', height: '200px' }} />
                 &ensp;
-                <CancelButton type="button" className="cancel" value="X" onClick={() => onRemoveHousImg(img.houseImg)} />
+                <CancelButton type="button" className="cancel" value="X" onClick={() => onRemoveHousImg(img.petSitterHouseImg)} />
                 { index === 0 ? <p>대표사진</p> : <p> </p>}
               </div>
             ))
@@ -192,9 +191,9 @@ function PetsitterInfoManage() {
           <Title>이용 가능 서비스</Title>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             {isServiceIdIncluded && isServiceIdIncluded.map((service) => (service.isIncluded ? (
-              <Item1 key={service.serviceId} service={service} onRemove={onRemoveService} />
+              <Item1 key={service.withPetServiceId} service={service} onRemove={onRemoveService} />
             ) : (
-              <Item2 key={service.serviceId} service={service} onAdd={onAddService} />
+              <Item2 key={service.withPetServiceId} service={service} onAdd={onAddService} />
             )))}
           </div>
         </DivContainer>
@@ -202,9 +201,9 @@ function PetsitterInfoManage() {
           <Title>필수 서비스</Title>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             {isCriticalServiceIdIncluded && isCriticalServiceIdIncluded.map((service) => (service.isIncluded ? (
-              <Item1 key={service.serviceId} service={service} onRemove={onRemoveCriticalService} />
+              <Item1 key={service.criticalServiceId} service={service} onRemove={onRemoveCriticalService} />
             ) : (
-              <Item2 key={service.serviceId} service={service} onAdd={onAddCriticalService} />
+              <Item2 key={service.criticalServiceId} service={service} onAdd={onAddCriticalService} />
             )))}
           </div>
         </DivContainer>

@@ -118,7 +118,7 @@ function PetsitterShowInfo() {
   );
 
   let print = '';
-  if (info.introduction === null) {
+  if (info.petSitterIntroduction === null) {
     print = initPrint;
   } else {
     print = showInfo;

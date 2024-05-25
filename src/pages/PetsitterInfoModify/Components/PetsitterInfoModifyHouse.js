@@ -1,6 +1,7 @@
 import React from 'react';
-import axios from 'axios';
 import { CancelButton, Button, LabelContainer } from '../../PetsitterInfoManage/InfoStyle';
+import PostFileUpload from '../../../services/upload';
+import { putPetsitterHouseImg } from '../../../services/petsitter';
 
 function PetsitterInfoModifyHouse({ houseImgList, setHouseImgList }) {
   const handleImageUpload = async (e) => {
@@ -9,40 +10,33 @@ function PetsitterInfoModifyHouse({ houseImgList, setHouseImgList }) {
     files.forEach((file) => {
       formData.append('file', file);
     });
-    const config = {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    };
-    axios.post('https://withpet.site/api/v1/file/upload', formData, config)
-      .then((res) => {
-        res.data.result.forEach((img) => {
-          const temp = { houseId: 0, representative: houseImgList.length === 0, houseImg: img };
-          setHouseImgList((prevImages) => [...prevImages, temp]);
-        });
-      });
-  };
-  const onRemoveHousImg = (id) => {
-    const removeHouseImg = houseImgList.filter((img) => (img.houseImg === id));
-    const updateHouseImg = houseImgList.filter((img) => (img.houseImg !== id));
 
-    if (removeHouseImg[0].representative === true) {
+    const res = await PostFileUpload(formData);
+    res.data.result.forEach((img) => {
+      const temp = { petSitterHouseRepresentative: houseImgList.length === 0, petSitterHouseImg: img };
+      setHouseImgList((prevImages) => [...prevImages, temp]);
+    });
+  };
+
+  console.log('이미지: ', houseImgList);
+  const onRemoveHousImg = (id) => {
+    const removeHouseImg = houseImgList.filter((img) => (img.petSitterHouseImg === id));
+    const updateHouseImg = houseImgList.filter((img) => (img.petSitterHouseImg !== id));
+
+    if (removeHouseImg[0].petSitterHouseRepresentative === true) {
       setHouseImgList(updateHouseImg.map((img, index) => {
         if (index === 0) {
-          return { ...img, representative: true };
+          return { ...img, petSitterHouseRepresentative: true };
         }
         return img;
       }));
     }
   };
 
-  const onSubmit = () => {
-    axios.put('https://withpet.site/api/v1/petsitter/update-houses', { petSitterHousesRequests: houseImgList }, { withCredentials: true })
-      .then((res) => {
-        // eslint-disable-next-line no-alert
-        alert(res.data.result);
-      })
-      .catch(() => {});
+  const onSubmit = async () => {
+    const res = await putPetsitterHouseImg(houseImgList);
+    // eslint-disable-next-line no-alert
+    alert(res.data.result);
   };
   return (
     <>
@@ -52,8 +46,8 @@ function PetsitterInfoModifyHouse({ houseImgList, setHouseImgList }) {
             // eslint-disable-next-line react/no-array-index-key
             <div key={index} style={{ display: 'flex', flexDirection: 'column' }}>
               <img
-                key={img.houseImg}
-                src={img.houseImg}
+                key={img.petSitterHouseImg}
+                src={img.petSitterHouseImg}
                 alt="집사진"
                 style={{
                   width: '200px', height: '200px', border: index === 0 ? '5px solid rgba(202, 169, 105, .5)' : 'none', borderRadius: '10px', margin: '10px',
