@@ -4,63 +4,9 @@ import axios from 'axios';
 import TextField from '@mui/material/TextField';
 import {
   Container, Label, DivContainer, InputButton, CancelButton, Title,
-} from '../InfoStyle';
-
-function Item1({ service, onRemove }) {
-  const includeed = (
-    <div style={{
-      backgroundColor: `${service.isIncluded === true ? '#FAF6F0' : '#F2F2F2'}`, color: `${service.isIncluded === true ? '#CAA969' : 'gray'}`, width: '130px', height: '200px', marginRight: '5px', borderRadius: '20px', padding: '10px', fontSize: '10px',
-    }}
-    >
-      <div style={{ textAlign: 'center' }}>
-        <img src={service.serviceImg} alt="서비스 이미지" style={{ width: '30px', height: '30px', marginTop: '5px' }} />
-      </div>
-      <div style={{ paddingLeft: '5px' }}>
-        <p>{service.serviceName}</p>
-        <p>{service.serviceIntroduction}</p>
-        <p>가격: {service.price}</p>
-      </div>
-      <div style={{ textAlign: 'center' }}>
-        <InputButton type="button" value="삭제" onClick={() => onRemove(service.serviceId)} />
-      </div>
-    </div>
-  );
-
-  return (
-    <>
-      { includeed }
-    </>
-  );
-}
-
-function Item2({ service, onAdd }) {
-  const [price, setPrice] = useState(0);
-  const notIncluded = (
-    <div
-      style={{
-        cursor: 'pointer', backgroundColor: '#F2F2F2', width: '130px', height: '200px', marginRight: '5px', borderRadius: '20px', padding: '10px', fontSize: '10px',
-      }}
-    >
-      <div style={{ textAlign: 'center' }}>
-        <img src={service.serviceImg} alt="서비스 이미지" style={{ width: '30px', height: '30px' }} />
-      </div>
-      <div>
-        <p>{service.serviceName}</p>
-        <p>{service.serviceIntroduction}</p>
-      </div>
-      <div style={{ textAlign: 'center' }}>
-        <input style={{ width: '80%', marginBottom: '3px' }} type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
-        <InputButton type="button" value="추가" onClick={() => onAdd(service.serviceId, price, service.serviceName)} />
-      </div>
-    </div>
-  );
-
-  return (
-    <>
-      { notIncluded }
-    </>
-  );
-}
+} from './InfoStyle';
+import Item1 from './Components/Item1';
+import Item2 from './Components/Item2';
 
 function PetsitterInfoManage() {
   const navigate = useNavigate();

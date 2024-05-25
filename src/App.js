@@ -16,7 +16,7 @@ import PetsitterNewDog from './pages/PetsitterNewDog/PetsitterNewDog';
 import Profit from './pages/Profit/Profit';
 import AdminMainPage from './pages/AdminMainPage/AdminMainPage';
 import AdminApplyInfo from './pages/AdminApplyInfo/AdminApplyInfo';
-import PetsitterInfoManage from './pages/PetsitterInfoManage/Components/PetsitterInfoManage';
+import PetsitterInfoManage from './pages/PetsitterInfoManage/PetsitterInfoManage';
 import EditProfile from './pages/EditProfile/EditProfile';
 import AdminServicManage from './pages/AdminServicManage/AdminServicManage';
 import PetsitterShowInfo from './pages/PetsitterInfoManage/PetsitterShowInfo';
