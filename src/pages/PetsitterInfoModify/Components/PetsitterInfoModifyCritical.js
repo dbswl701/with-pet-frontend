@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { InputButton, Button } from '../../PetsitterInfoManage/InfoStyle';
+import { InputButton, Button } from '../../PetsitterInfoManage/PetsitterInfoManage.styles';
 
 function Item1({ service, onRemove }) {
   const includeed = (

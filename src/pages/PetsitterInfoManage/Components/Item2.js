@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { InputButton } from '../InfoStyle';
+import { InputButton } from '../PetsitterInfoManage.styles';
 
 function Item2({ service, onAdd }) {
   const [price, setPrice] = useState(0);

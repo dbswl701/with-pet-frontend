@@ -1,5 +1,5 @@
 import React from 'react';
-import { CancelButton, Button, LabelContainer } from '../../PetsitterInfoManage/InfoStyle';
+import { CancelButton, Button, LabelContainer } from '../../PetsitterInfoManage/PetsitterInfoManage.styles';
 import PostFileUpload from '../../../services/upload';
 import { putPetsitterHouseImg } from '../../../services/petsitter';
 

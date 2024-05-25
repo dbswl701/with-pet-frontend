@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Container, DivContainer, Title, Button,
-} from './InfoStyle';
+} from './PetsitterInfoManage.styles';
 import { getPetsitterMyInfo } from '../../services/petsitter';
 import Item from './Components/Item';
 

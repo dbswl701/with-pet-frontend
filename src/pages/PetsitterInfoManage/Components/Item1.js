@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputButton } from '../InfoStyle';
+import { InputButton } from '../PetsitterInfoManage.styles';
 
 function Item1({ service, onRemove }) {
   const includeed = (
