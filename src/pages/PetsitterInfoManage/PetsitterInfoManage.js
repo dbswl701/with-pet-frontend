@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import TextField from '@mui/material/TextField';
 import * as S from './PetsitterInfoManage.styles';
-import Item1 from './Components/Item1';
-import Item2 from './Components/Item2';
-import { getPetsitterMyInfo } from '../../services/petsitter';
+import { getPetsitterMyInfo, postPetsitterRegisterInfo } from '../../services/petsitter';
+import PostFileUpload from '../../services/upload';
+import HouseUpdate from './Components/HouseUpdate';
+import HashTagUpdate from './Components/HashTagUpdate';
+import IntroUpdate from './Components/IntroUpdate';
+import WithPetServiceUpdate from './Components/WithPetServiceUpdate';
+import CriticalServiceUpdate from './Components/CriticalServiceUpdate';
 
 function PetsitterInfoManage() {
   const navigate = useNavigate();
@@ -25,14 +27,12 @@ function PetsitterInfoManage() {
       setInfo(res.data.result);
       setCriticalServices(res.data.result.petSitterCriticalServices);
       setServiceSelectList(res.data.result.petSitterWithPetServices);
-
-      console.log('info:', res.data.result);
       setPetSitterLicenseImg(res.data.result.petSitterLicenseImg);
     };
     fetchData();
   }, []);
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
     const updatedInfo = {
@@ -42,14 +42,18 @@ function PetsitterInfoManage() {
       petSitterHouseRequests: houseImgList,
       petSitterServiceRequests: serviceSelectList,
     };
-    axios.post('https://withpet.site/api/v1/petsitter/register-myinfo', updatedInfo, { withCredentials: true })
-      .then(() => {
-        navigate('../petsitterShowInfo');
-      })
-      .catch(() => {
-        // eslint-disable-next-line no-alert
-        alert('오류');
-      });
+
+    await postPetsitterRegisterInfo(updatedInfo);
+    navigate('../petsitterShowInfo');
+
+    // axios.post('https://withpet.site/api/v1/petsitter/register-myinfo', updatedInfo, { withCredentials: true })
+    //   .then(() => {
+    //     navigate('../petsitterShowInfo');
+    //   })
+    //   .catch(() => {
+    //     // eslint-disable-next-line no-alert
+    //     alert('오류');
+    //   });
   };
 
   const handleHashtag = () => {
@@ -70,23 +74,16 @@ function PetsitterInfoManage() {
     files.forEach((file) => {
       formData.append('file', file);
     });
-    const config = {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    };
-    axios.post('https://withpet.site/api/v1/file/upload', formData, config)
-      .then((res) => {
-        res.data.result.forEach((img, index) => {
-          const temp = { petSitterHouseId: 0, petSitterHouseRepresentative: index === 0, petSitterHouseImg: img };
-          setHouseImgList((prevImages) => [...prevImages, temp]);
-        });
-      });
+    const res = await PostFileUpload(formData);
+    res.data.result.forEach((img, index) => {
+      const temp = { petSitterHouseId: 0, petSitterHouseRepresentative: index === 0, petSitterHouseImg: img };
+      setHouseImgList((prevImages) => [...prevImages, temp]);
+    });
   };
-  const onRemoveHousImg = (id) => {
+  const onRemoveHouseImg = (id) => {
     const removeHouseImg = houseImgList.filter((img) => (img.petSitterHouseImg === id));
     const updateHouseImg = houseImgList.filter((img) => (img.petSitterHouseImg !== id));
-
+    setHouseImgList(updateHouseImg);
     if (removeHouseImg[0].representative === true) {
       setHouseImgList(updateHouseImg.map((img, index) => {
         if (index === 0) {
@@ -138,74 +135,23 @@ function PetsitterInfoManage() {
     setCriticalServices([...criticalServices, { criticalServiceId: id, price: parseInt(price, 10), serviceName }]);
   };
 
-  console.log('houseImgList:', houseImgList);
-
   return (
     <>
       <S.Container>
         <S.Title className="page">펫시터 정보 수정 페이지</S.Title>
         <S.Form onSubmit={onSubmit}>
-          <S.DivContainer>
-            <div style={{ flexDirection: 'row' }}>
-              <S.Title>집사진</S.Title>
-              {
-              houseImgList && houseImgList.map((img, index) => (
-                // eslint-disable-next-line react/no-array-index-key
-                <div key={index}>
-                  <img key={img.petSitterHouseImg} src={img.petSitterHouseImg} alt="집사진" style={{ width: '200px', height: '200px' }} />
-                  &ensp;
-                  <S.CancelButton type="button" className="cancel" value="X" onClick={() => onRemoveHousImg(img.petSitterHouseImg)} />
-                  { index === 0 ? <p>대표사진</p> : <p> </p>}
-                </div>
-              ))
-            }
-            </div>
-            <>
-              <input id="file" multiple style={{ visibility: 'hidden' }} type="file" accept="image/*" onChange={handleImageUpload} />
-              <S.Label htmlFor="file">이미지 추가</S.Label>
-            </>
-          </S.DivContainer>
-          <S.DivContainer>
-            <S.Title>해시태그</S.Title>
-            <div style={{ display: 'flex', flexDirection: 'start' }}>
-              {hashTags && hashTags.map((tag) => (
-                <div className="list" key={tag.hashTagName} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}>
-                  #{tag.hashTagName}&ensp;
-                  <S.CancelButton type="button" className="cancel" value="X" onClick={() => onRemoveHashtag(tag)} />&ensp;
-                </div>
-              ))}
-            </div>
-            <TextField sx={{ m: 1 }} variant="outlined" size="small" name="hashTagName" onChange={(e) => setHashTag(e.target.value)} value={hashTag} />
-            <S.InputButton type="button" onClick={handleHashtag} value="추가" />
-          </S.DivContainer>
-          <S.DivContainer>
-            <S.Title>소개글</S.Title>
-            <TextField multiline rows={3} sx={{ m: 1 }} variant="outlined" size="small" name="introduction" onChange={(e) => setIntroduction(e.target.value)} value={introduction} required />
-          </S.DivContainer>
+          {/* <S.DivContainer>
+          </S.DivContainer> */}
+          <HouseUpdate houseImgList={houseImgList} onRemoveHouseImg={onRemoveHouseImg} handleImageUpload={handleImageUpload} />
+          <HashTagUpdate hashTags={hashTags} handleHashtag={handleHashtag} onRemoveHashtag={onRemoveHashtag} setHashTag={setHashTag} hashTag={hashTag} />
+          <IntroUpdate introduction={introduction} setIntroduction={setIntroduction} />
           <S.DivContainer>
             <S.Title>자격증</S.Title>
             <img alt="이미지 미리보기" src={petSitterLicenseImg} style={{ width: '180px' }} />
           </S.DivContainer>
-          <S.DivContainer>
-            <S.Title>이용 가능 서비스</S.Title>
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-              {isServiceIdIncluded && isServiceIdIncluded.map((service) => (service.isIncluded ? (
-                <Item1 key={service.withPetServiceId} service={service} onRemove={onRemoveService} />
-              ) : (
-                <Item2 key={service.withPetServiceId} service={service} onAdd={onAddService} />
-              )))}
-            </div>
-          </S.DivContainer>
-          <S.DivContainer>
-            <S.Title>필수 서비스</S.Title>
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-              {isCriticalServiceIdIncluded && isCriticalServiceIdIncluded.map((service) => (service.isIncluded ? (
-                <Item1 key={service.criticalServiceId} service={service} onRemove={onRemoveCriticalService} />
-              ) : (
-                <Item2 key={service.criticalServiceId} service={service} onAdd={onAddCriticalService} />
-              )))}
-            </div>
-          </S.DivContainer>
+          <WithPetServiceUpdate isServiceIdIncluded={isServiceIdIncluded} onRemoveService={onRemoveService} onAddService={onAddService} />
+          <CriticalServiceUpdate isCriticalServiceIdIncluded={isCriticalServiceIdIncluded} onRemoveCriticalService={onRemoveCriticalService} onAddCriticalService={onAddCriticalService} />
+
           <S.DivContainer style={{
             width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center',
           }}

@@ -10,3 +10,8 @@ export const getPetsitterMyInfo = async () => {
 export const putPetsitterHouseImg = async (petSitterHousesRequests) => {
   return axios.put(`${baseUrl}/v2/pet-sitters/houses`, { petSitterHousesRequests }, { withCredentials: true });
 };
+
+// 펫시터 정보 초기 등록
+export const postPetsitterRegisterInfo = async (updatedInfo) => {
+  return axios.post(`${baseUrl}/v2/pet-sitters/my-info`, { updatedInfo }, { withCredentials: true });
+};
