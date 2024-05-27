@@ -9,10 +9,13 @@ export const Container = styled.div`
     display: flex;
     justify-content: flex-start;
     background-opacity: 100;
+    border: 1px solid #CAA969;
+    border-radius: 10px;
+    width: 70%;
     align-items: center;
     flex-direction: column;
     font-family: 'Noto Sans KR', sans-serif;
-    margin: 5% 0 5% 0;
+    margin: 150px auto;
 `;
 
 export const Label = styled.label`
@@ -73,7 +76,8 @@ export const Title = styled.div`
 
 export const Button = styled.button`
     height: 40px;
-    width: 60px;
+    width: 100px;
+    cursor: pointer;
     margin-bottom: 10px;
     background-color: #CAA969;
     color: white;
