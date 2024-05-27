@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 export const Form = styled.form`
-
+  display: flex;
+  flex-direction: column;
 `;
 
 export const Container = styled.div`
@@ -16,6 +17,7 @@ export const Container = styled.div`
     flex-direction: column;
     font-family: 'Noto Sans KR', sans-serif;
     margin: 150px auto;
+    padding: auto 200px;
 `;
 
 export const Label = styled.label`
@@ -116,15 +118,13 @@ export const LabelContainer = styled.label`
 `;
 
 // 집 사진 업데이트
-export const HouseUpdateContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-`;
-
 export const HouseImgList = styled.div`
   display: flex;
   flex-direction: row;
   gap: 10px;
+  width: 900px;
+  overflow-x: auto;
+  overflow-y: hidden;
 `;
 
 // 집 사진 아이템
