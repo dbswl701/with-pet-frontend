@@ -127,7 +127,6 @@ export const HouseImgList = styled.div`
   overflow-y: hidden;
 `;
 
-// 집 사진 아이템
 export const HouseImgContainer = styled.div`
   width: 212px;
   height: 138px;
@@ -159,4 +158,56 @@ export const HouseImgLabel = styled.label`
 
 export const HouseImgInput = styled.input`
   display: none;
+`;
+
+// 해시태그
+export const HashTagInput = styled.input`
+  border: 1px solid #CAA969;
+  width: 550px;
+  height: 50px;
+  padding-left: 15px;
+  border-radius: 10px;
+`;
+
+export const HashTagButton = styled.input`
+height: 55px;
+width: 110px;
+cursor: pointer;
+margin-left: 10px;
+background-color: #CAA969;
+color: white;
+box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
+border: none;
+border-radius: 10px;
+`;
+
+export const HashTagList = styled.div`
+display: flex;
+margin-top: 10px;
+gap: 10px;
+`;
+
+export const HashTagItem = styled.div`
+  display: flex;
+  flex-direction: row;
+  background-color: #CAA969;
+  border-radius: 100px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 10px;
+  gap: 5px;
+`;
+
+export const HashTag = styled.p`
+  color: white;
+`;
+
+export const HasTagCancleBtn = styled.input`
+height: 20px;
+width: 20px;
+background-color: transparent;
+border: none;
+opacity: 50%;
+font-weight: bold;
 `;
