@@ -211,3 +211,14 @@ border: none;
 opacity: 50%;
 font-weight: bold;
 `;
+
+// 소개글
+export const IntroTextField = styled.textarea`
+  resize: none;
+  width: 100%;
+  height: 300px;
+  border: 1px solid #CAA969;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 1.2rem;
+`;
