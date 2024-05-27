@@ -86,6 +86,7 @@ export const Button = styled.button`
     border-radius: 5px;
 `;
 
+// 삭제
 export const CancelButton = styled.input`
     height: 20px;
     width: 20px;
@@ -137,14 +138,11 @@ export const HouseImg = styled.img`
   width: 212px;
   height: 138px;
   border-radius: 10px;
-  // border: 1px solid #CAA969;
   border: ${(props) => (props.isRepresentative ? '3px solid rgb(128, 103, 55)' : '1px solid #CAA969')};
-`;
-
-export const HouseImgAddContainer = styled.div`
-width: 212px;
-height: 138px;
-background-color: yellow;
+  cursor: pointer;
+  &: hover {
+    opacity: 0.3;
+  }
 `;
 
 export const HouseImgLabel = styled.label`
@@ -156,6 +154,7 @@ export const HouseImgLabel = styled.label`
   border: 1px solid #CAA969;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 `;
 
 export const HouseImgInput = styled.input`

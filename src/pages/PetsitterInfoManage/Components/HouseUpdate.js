@@ -16,10 +16,8 @@ function HouseUpdate({ houseImgList, onRemoveHouseImg, handleImageUpload }) {
           </S.HouseImgContainer>
           {
             houseImgList && houseImgList.map((img, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <S.HouseImgContainer key={index}>
-                <S.HouseImg key={img.petSitterHouseImg} src={img.petSitterHouseImg} alt="집사진" isRepresentative={index === 0} />
-                <S.CancelButton type="button" className="cancel" value="X" onClick={() => onRemoveHouseImg(img.petSitterHouseImg)} />
+              <S.HouseImgContainer key={img}>
+                <S.HouseImg key={img.petSitterHouseImg} src={img.petSitterHouseImg} alt="집사진" isRepresentative={index === 0} onClick={() => onRemoveHouseImg(img.petSitterHouseImg)} />
               </S.HouseImgContainer>
             ))
           }
