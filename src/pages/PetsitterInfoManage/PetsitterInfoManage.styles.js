@@ -113,3 +113,51 @@ export const LabelContainer = styled.label`
     border: none;
     border-radius: 5px;
 `;
+
+// 집 사진 업데이트
+export const HouseUpdateContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+`;
+
+export const HouseImgList = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+`;
+
+// 집 사진 아이템
+export const HouseImgContainer = styled.div`
+  width: 212px;
+  height: 138px;
+  border-radius: 10px;
+`;
+
+export const HouseImg = styled.img`
+  width: 212px;
+  height: 138px;
+  border-radius: 10px;
+  // border: 1px solid #CAA969;
+  border: ${(props) => (props.isRepresentative ? '3px solid rgb(128, 103, 55)' : '1px solid #CAA969')};
+`;
+
+export const HouseImgAddContainer = styled.div`
+width: 212px;
+height: 138px;
+background-color: yellow;
+`;
+
+export const HouseImgLabel = styled.label`
+  margin: 0px;
+  display: flex;
+  border-radius: 10px;
+  width: 212px;
+  height: 138px;
+  border: 1px solid #CAA969;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const HouseImgInput = styled.input`
+  display: none;
+`;
