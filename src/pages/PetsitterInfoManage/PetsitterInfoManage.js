@@ -147,7 +147,7 @@ function PetsitterInfoManage() {
           <IntroUpdate introduction={introduction} setIntroduction={setIntroduction} />
           <S.DivContainer>
             <S.Title>자격증</S.Title>
-            <img alt="이미지 미리보기" src={petSitterLicenseImg} style={{ width: '180px' }} />
+            <S.LicenseImg alt="이미지 미리보기" src={petSitterLicenseImg} />
           </S.DivContainer>
           <WithPetServiceUpdate isServiceIdIncluded={isServiceIdIncluded} onRemoveService={onRemoveService} onAddService={onAddService} />
           <CriticalServiceUpdate isCriticalServiceIdIncluded={isCriticalServiceIdIncluded} onRemoveCriticalService={onRemoveCriticalService} onAddCriticalService={onAddCriticalService} />

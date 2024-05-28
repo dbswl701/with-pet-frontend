@@ -222,3 +222,10 @@ export const IntroTextField = styled.textarea`
   padding: 10px;
   font-size: 1.2rem;
 `;
+
+// 자격증
+export const LicenseImg = styled.img`
+  height: 300px;
+  width: 500px;
+  border-radius: 5px;
+`;
