@@ -229,3 +229,93 @@ export const LicenseImg = styled.img`
   width: 500px;
   border-radius: 5px;
 `;
+
+// 서비스
+export const ServiceList = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+`;
+
+export const ServiceItem = styled.div`
+  cursor: pointer;
+  background-color: #F2F2F2;
+  width: 214px;
+  height: 95px;
+  border-radius: 10px;
+  padding: 30px;
+  font-size: 10px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+// 서비스
+export const ServiceInnerContainer = styled.div`
+  gap: 13px;
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+`;
+
+export const ServiceImg = styled.img`
+  width: 30px;
+  height: 30px;
+  margin: auto 0px;
+`;
+
+export const ServiceIntroContainer = styled.div``;
+
+export const ServiceTitle = styled.p`
+  font-weight: bold;
+`;
+
+export const ServiceIntro = styled.p`
+  color: #999999;
+`;
+
+export const ServicePriceInput = styled.input`
+  padding-left: 6px;
+  width: 105px;
+  height: 20px;
+  border-radius: 5px;
+  border: none;
+
+  /* 화살표 숨기기 */
+  /* Chrome, Safari, Edge, Opera */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  &[type=number] {
+    -moz-appearance: textfield;
+  }
+`;
+
+export const ServicePriceBtn = styled.input`
+  height: 20px;
+  width: 45px;
+  margin-bottom: 10px;
+  background-color: #CAA969;
+  color: white;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
+  border: none;
+  border-radius: 5px;
+`;
+
+export const ServicePriceContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+`;
+
+// AddedSErviceList
+export const AddedServiceContainer = styled(ServiceItem)`
+  background-color: ${(props) => (props.isIncluded ? '#FAF6F0' : '#F2F2F2')};
+  color: ${(props) => (props.isIncluded ? '#CAA969' : 'gray')};
+`;

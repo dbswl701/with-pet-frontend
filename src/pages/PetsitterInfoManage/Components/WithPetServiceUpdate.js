@@ -1,19 +1,20 @@
 import React from 'react';
 import * as S from '../PetsitterInfoManage.styles';
-import Item1 from './Item1';
-import Item2 from './Item2';
+import NotAddedService from './NotAddedService';
+import AddedService from './AddedService';
 
 function WithPetServiceUpdate({ isServiceIdIncluded, onRemoveService, onAddService }) {
+  console.log('isServiceIdIncluded:', isServiceIdIncluded);
   return (
     <div>
       <S.Title>이용 가능 서비스</S.Title>
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
+      <S.ServiceList>
         {isServiceIdIncluded && isServiceIdIncluded.map((service) => (service.isIncluded ? (
-          <Item1 key={service.withPetServiceId} service={service} onRemove={onRemoveService} />
+          <AddedService key={service.withPetServiceId} isIncluded={service.isIncluded} serviceImg={service.withPetServiceImg} serviceName={service.withPetServiceName} serviceIntroduction={service.withPetServiceIntroduction} price={service.price} serviceId={service.withPetServiceId} onRemove={onRemoveService} />
         ) : (
-          <Item2 key={service.withPetServiceId} service={service} onAdd={onAddService} />
+          <NotAddedService key={service.withPetServiceId} isIncluded={service.isIncluded} serviceImg={service.withPetServiceImg} serviceName={service.withPetServiceName} serviceIntroduction={service.withPetServiceIntroduction} price={service.price} serviceId={service.withPetServiceId} onAdd={onAddService} />
         )))}
-      </div>
+      </S.ServiceList>
     </div>
   );
 }

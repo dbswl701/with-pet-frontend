@@ -108,6 +108,9 @@ function PetsitterInfoManage() {
     setIsServiceIdIncluded(includedServices);
   }, [serviceSelectList]);
 
+  console.log('isServiceIdIncluded:', isServiceIdIncluded);
+  console.log('isCriticalServiceIdIncluded:', isCriticalServiceIdIncluded);
+
   // 필수 서비스
   useEffect(() => {
     const includedServices = info.criticalServices && info.criticalServices.map((service) => {
@@ -124,6 +127,7 @@ function PetsitterInfoManage() {
   };
 
   const onAddService = (id, price, serviceName) => {
+    console.log('서비스 추가 id:', id, 'price:', price, 'serviceName:', serviceName);
     setServiceSelectList([...serviceSelectList, { withPetServiceId: id, price: parseInt(price, 10), serviceName }]);
   };
 
