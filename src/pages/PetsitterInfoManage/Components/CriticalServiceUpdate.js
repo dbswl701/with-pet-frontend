@@ -1,6 +1,6 @@
 import React from 'react';
 import * as S from '../PetsitterInfoManage.styles';
-import Item1 from './AddedService';
+import Item1 from './ServiceItem';
 import Item2 from './NotAddedService';
 
 function CriticalServiceUpdate({ isCriticalServiceIdIncluded, onRemoveCriticalService, onAddCriticalService }) {

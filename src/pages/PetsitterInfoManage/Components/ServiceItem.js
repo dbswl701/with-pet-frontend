@@ -1,9 +1,10 @@
 import React from 'react';
 import * as S from '../PetsitterInfoManage.styles';
 
-function AddedService({
-  isIncluded, serviceImg, serviceName, serviceIntroduction, price, serviceId, onRemove,
+function ServiceItem({
+  isIncluded, serviceImg, serviceName, serviceIntroduction, price, serviceId, onRemove, onAdd,
 }) {
+  console.log('price:', price);
   return (
     <S.AddedServiceContainer isIncluded={isIncluded}>
       <S.ServiceInnerContainer>
@@ -14,11 +15,15 @@ function AddedService({
         </S.ServiceIntroContainer>
       </S.ServiceInnerContainer>
       <S.ServicePriceContainer>
-        <S.ServicePriceInput type="number" value={price} disabled />
-        <S.ServicePriceBtn type="button" value="삭제" onClick={() => onRemove(serviceId)} />
+        <S.ServicePriceInput type="number" value={price} disabled={isIncluded} />
+        {
+          isIncluded ? <S.ServicePriceBtn type="button" value="삭제" onClick={() => onRemove(serviceId)} />
+            : <S.ServicePriceBtn type="button" value="추가" onClick={() => onAdd(serviceId, price, serviceName)} />
+        }
+
       </S.ServicePriceContainer>
     </S.AddedServiceContainer>
   );
 }
 
-export default AddedService;
+export default ServiceItem;
