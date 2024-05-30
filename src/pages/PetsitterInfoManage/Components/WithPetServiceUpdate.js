@@ -1,7 +1,5 @@
 import React from 'react';
 import * as S from '../PetsitterInfoManage.styles';
-// import NotAddedService from './NotAddedService';
-// import AddedService from './ServiceItem';
 import ServiceItem from './ServiceItem';
 
 function WithPetServiceUpdate({ isServiceIdIncluded, onRemoveService, onAddService }) {
