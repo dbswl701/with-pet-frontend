@@ -4,7 +4,6 @@ import * as S from '../PetsitterInfoManage.styles';
 function ServiceItem({
   isIncluded, serviceImg, serviceName, serviceIntroduction, price, serviceId, onRemove, onAdd,
 }) {
-  // console.log('price:', price);
   const [priceValue, setPriceValue] = useState(0);
   return (
     <S.AddedServiceContainer isIncluded={isIncluded}>
