@@ -18,9 +18,9 @@ function PetsitterInfoManage() {
   } = useForm({
     resolver: zodResolver(petsitterInfoResigerSchema),
     defaultValues: {
-      hashTags: [], // 초기 값을 빈 배열로 설정
-      withPetService: [],
-      criticalService: [],
+      petSitterHashTags: [], // 초기 값을 빈 배열로 설정
+      petSitterWithPetServices: [],
+      petSitterCriticalServices: [],
     },
   });
 
@@ -45,29 +45,14 @@ function PetsitterInfoManage() {
     fetchData();
   }, []);
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
+    console.log('data:', data);
 
-    const updatedInfo = {
-      introduction: '',
-      petSitterCriticalServiceRequests: criticalServices,
-      petSitterHashTagRequests: 'hashTags',
-      // petSitterHouseRequests: houseImgList,
-      petSitterHouseRequests: 'houseImgList',
-      petSitterServiceRequests: serviceSelectList,
-    };
-
-    await postPetsitterRegisterInfo(updatedInfo);
+    await postPetsitterRegisterInfo(data);
     navigate('../petsitterShowInfo');
 
-    // axios.post('https://withpet.site/api/v1/petsitter/register-myinfo', updatedInfo, { withCredentials: true })
-    //   .then(() => {
-    //     navigate('../petsitterShowInfo');
-    //   })
-    //   .catch(() => {
-    //     // eslint-disable-next-line no-alert
-    //     alert('오류');
-    //   });
+    // eslint-disable-next-line no-alert
+    alert('펫시터 정보 등록이 완료되었습니다.');
   };
 
   const [isServiceIdIncluded, setIsServiceIdIncluded] = useState([]);
@@ -101,25 +86,25 @@ function PetsitterInfoManage() {
   const onRemoveService = (id) => {
     const newServiceList = serviceSelectList.filter((service) => service.withPetServiceId !== id);
     setServiceSelectList(newServiceList);
-    setValue('withPetService', newServiceList, { shouldValidate: true });
+    setValue('petSitterWithPetServices', newServiceList, { shouldValidate: true });
   };
 
-  const onAddService = (id, price, serviceName) => {
-    const newServiceList = [...serviceSelectList, { withPetServiceId: id, price: parseInt(price, 10), serviceName }];
+  const onAddService = (id, price) => {
+    const newServiceList = [...serviceSelectList, { withPetServiceId: id, petSitterWithPetServicePrice: parseInt(price, 10) }];
     setServiceSelectList(newServiceList);
-    setValue('withPetService', newServiceList, { shouldValidate: true });
+    setValue('petSitterWithPetServices', newServiceList, { shouldValidate: true });
   };
 
   const onRemoveCriticalService = (id) => {
     const newServiceList = criticalServices.filter((service) => service.criticalServiceId !== id);
     setCriticalServices(newServiceList);
-    setValue('criticalService', newServiceList, { shouldValidate: true });
+    setValue('petSitterCriticalServices', newServiceList, { shouldValidate: true });
   };
 
-  const onAddCriticalService = (id, price, serviceName) => {
-    const newServiceList = [...criticalServices, { criticalServiceId: id, price: parseInt(price, 10), serviceName }];
+  const onAddCriticalService = (id, price) => {
+    const newServiceList = [...criticalServices, { criticalServiceId: id, petSitterCriticalServicePrice: parseInt(price, 10) }];
     setCriticalServices(newServiceList);
-    setValue('criticalService', newServiceList, { shouldValidate: true });
+    setValue('petSitterCriticalServices', newServiceList, { shouldValidate: true });
   };
 
   console.log('에러 유무 확인:', Object.keys(errors).length, !!Object.keys(errors).length);

@@ -17,17 +17,17 @@ function HouseUpdate({
     });
     const res = await PostFileUpload(formData);
     res.data.result.forEach((img, index) => {
-      const temp = { petSitterHouseId: 0, petSitterHouseRepresentative: index === 0, petSitterHouseImg: img };
+      const temp = { petSitterHouseRepresentative: index === 0, petSitterHouseImg: img };
       const updatedList = [...houseImgList, temp];
       setHouseImgList(updatedList);
-      setValue('houseImg', updatedList, { shouldValidate: true });
+      setValue('petSitterHouses', updatedList, { shouldValidate: true });
     });
   };
   const onRemoveHouseImg = (id) => {
     const removeHouseImg = houseImgList.filter((img) => (img.petSitterHouseImg === id));
     const updateHouseImg = houseImgList.filter((img) => (img.petSitterHouseImg !== id));
     setHouseImgList(updateHouseImg);
-    setValue('houseImg', updateHouseImg, { shouldValidate: true });
+    setValue('petSitterHouses', updateHouseImg, { shouldValidate: true });
 
     if (removeHouseImg[0].representative === true) {
       const temp = updateHouseImg.map((img, index) => {
@@ -37,7 +37,7 @@ function HouseUpdate({
         return img;
       });
       setHouseImgList(temp);
-      setValue('houseImg', temp);
+      setValue('petSitterHouses', temp);
     }
   };
   return (
@@ -60,7 +60,7 @@ function HouseUpdate({
       </S.HouseImgList>
       {/* 오류 출력 */}
       {
-        errors.houseImg && <S.ErrorMsg>{errors.houseImg.message}</S.ErrorMsg>
+        errors.petSitterHouses && <S.ErrorMsg>{errors.petSitterHouses.message}</S.ErrorMsg>
       }
     </>
   );

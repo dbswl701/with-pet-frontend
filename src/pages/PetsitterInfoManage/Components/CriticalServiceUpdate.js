@@ -16,7 +16,7 @@ function CriticalServiceUpdate({
         }
       </S.ServiceList>
       {
-        errors.criticalService && <S.ErrorMsg>{errors.criticalService.message}</S.ErrorMsg>
+        errors.petSitterCriticalServices && <S.ErrorMsg>{errors.petSitterCriticalServices.message}</S.ErrorMsg>
       }
     </div>
   );

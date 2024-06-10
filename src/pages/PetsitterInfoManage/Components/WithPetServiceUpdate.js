@@ -16,7 +16,7 @@ function WithPetServiceUpdate({
         }
       </S.ServiceList>
       {
-        errors.withPetService && <S.ErrorMsg>{errors.withPetService.message}</S.ErrorMsg>
+        errors.petSitterWithPetServices && <S.ErrorMsg>{errors.petSitterWithPetServices.message}</S.ErrorMsg>
       }
     </div>
   );

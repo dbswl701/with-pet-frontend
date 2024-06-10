@@ -10,16 +10,16 @@ function HashTagUpdate({
 
   const handleHashtag = () => {
     if (!hashTags.includes(hashTag)) {
-      const newTags = [...hashTags, { petSitterHashTagId: 0, hashTagName: hashTag }];
+      const newTags = [...hashTags, { petSitterHashTagName: hashTag }];
       setHashTags(newTags);
       setHashTag('');
-      setValue('hashTags', newTags, { shouldValidate: true });
+      setValue('petSitterHashTags', newTags, { shouldValidate: true });
     }
   };
   const onRemoveHashtag = (id) => {
     const newTags = hashTags.filter((tag) => (tag !== id));
     setHashTags(newTags);
-    setValue('hashTags', newTags, { shouldValidate: true });
+    setValue('petSitterHashTags', newTags, { shouldValidate: true });
   };
 
   return (
@@ -29,13 +29,13 @@ function HashTagUpdate({
       <S.HashTagButton type="button" onClick={handleHashtag} value="추가" />
       <S.HashTagList>
         {hashTags && hashTags.map((tag) => (
-          <S.HashTagItem className="list" key={tag.hashTagName}>
-            <S.HashTag># {tag.hashTagName}</S.HashTag>
+          <S.HashTagItem className="list" key={tag.petSitterHashTagName}>
+            <S.HashTag># {tag.petSitterHashTagName}</S.HashTag>
             <S.HasTagCancleBtn type="button" value="X" onClick={() => onRemoveHashtag(tag)} />
           </S.HashTagItem>
         ))}
         {
-          errors.hashTags && <S.ErrorMsg>{errors.hashTags.message}</S.ErrorMsg>
+          errors.petSitterHashTags && <S.ErrorMsg>{errors.petSitterHashTags.message}</S.ErrorMsg>
         }
       </S.HashTagList>
     </div>
