@@ -10,7 +10,10 @@ export const petsitterInfoResigerSchema = z.object({
   hashTags: z
     // .string()
     // .min(1, { message: '해시태그를 입력해주세요.' }),
-    .array(z.string())
+    .array(z.object({
+      petSitterHashTagId: z.number(),
+      hashTagName: z.string(),
+    }))
     .min(1, { message: '해시태그를 최소 한 개 이상 입력해주세요.' }),
   withPetService: z
     .array(z.object({

@@ -10,7 +10,7 @@ function HashTagUpdate({
 
   const handleHashtag = () => {
     if (!hashTags.includes(hashTag)) {
-      const newTags = [...hashTags, { petSitterhashTagId: 0, hashTagName: hashTag }];
+      const newTags = [...hashTags, { petSitterHashTagId: 0, hashTagName: hashTag }];
       setHashTags(newTags);
       setHashTag('');
       setValue('hashTags', newTags, { shouldValidate: true });
