@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { petsitterInfoResigerSchema } from '../../schemas/petsitterInfoRegister.schemas';
 import * as S from './PetsitterInfoManage.styles';
 import { getPetsitterMyInfo, postPetsitterRegisterInfo } from '../../services/petsitter';
-import PostFileUpload from '../../services/upload';
 import HouseUpdate from './Components/HouseUpdate';
 import HashTagUpdate from './Components/HashTagUpdate';
 import IntroUpdate from './Components/IntroUpdate';
@@ -11,16 +13,25 @@ import CriticalServiceUpdate from './Components/CriticalServiceUpdate';
 
 function PetsitterInfoManage() {
   const navigate = useNavigate();
+  const {
+    register, handleSubmit, setValue, watch, trigger, formState: { errors },
+  } = useForm({
+    resolver: zodResolver(petsitterInfoResigerSchema),
+    defaultValues: {
+      hashTags: [], // 초기 값을 빈 배열로 설정
+    },
+  });
+
   const [info, setInfo] = useState({});
 
-  const [hashTags, setHashTags] = useState([]);
-  const [hashTag, setHashTag] = useState('');
-  const [introduction, setIntroduction] = useState('');
-  const [houseImgList, setHouseImgList] = useState([]);
+  // const [introduction, setIntroduction] = useState('');
+  // const [houseImgList, setHouseImgList] = useState([]);
   const [serviceSelectList, setServiceSelectList] = useState([]);
   const [criticalServices, setCriticalServices] = useState([]);
   const [petSitterLicenseImg, setPetSitterLicenseImg] = useState('');
 
+  console.log('[watch] house: ', watch('houseImg'), 'intro:', watch('introduction'));
+  console.log('에러 확인:', errors);
   useEffect(() => {
     const fetchData = async () => {
       const res = await getPetsitterMyInfo();
@@ -36,10 +47,11 @@ function PetsitterInfoManage() {
     e.preventDefault();
 
     const updatedInfo = {
-      introduction,
+      introduction: '',
       petSitterCriticalServiceRequests: criticalServices,
-      petSitterHashTagRequests: hashTags,
-      petSitterHouseRequests: houseImgList,
+      petSitterHashTagRequests: 'hashTags',
+      // petSitterHouseRequests: houseImgList,
+      petSitterHouseRequests: 'houseImgList',
       petSitterServiceRequests: serviceSelectList,
     };
 
@@ -56,44 +68,6 @@ function PetsitterInfoManage() {
     //   });
   };
 
-  const handleHashtag = () => {
-    if (hashTags.includes(hashTag)) {
-      // console.log('중복된 값입니다.');
-    } else {
-      setHashTags([...hashTags, { petSitterhashTagId: 0, hashTagName: hashTag }]);
-    }
-    setHashTag('');
-  };
-  const onRemoveHashtag = (id) => {
-    setHashTags(hashTags.filter((tag) => (tag !== id)));
-  };
-
-  const handleImageUpload = async (e) => {
-    const files = Array.from(e.target.files);
-    const formData = new FormData();
-    files.forEach((file) => {
-      formData.append('file', file);
-    });
-    const res = await PostFileUpload(formData);
-    res.data.result.forEach((img, index) => {
-      const temp = { petSitterHouseId: 0, petSitterHouseRepresentative: index === 0, petSitterHouseImg: img };
-      setHouseImgList((prevImages) => [...prevImages, temp]);
-    });
-  };
-  const onRemoveHouseImg = (id) => {
-    const removeHouseImg = houseImgList.filter((img) => (img.petSitterHouseImg === id));
-    const updateHouseImg = houseImgList.filter((img) => (img.petSitterHouseImg !== id));
-    setHouseImgList(updateHouseImg);
-    if (removeHouseImg[0].representative === true) {
-      setHouseImgList(updateHouseImg.map((img, index) => {
-        if (index === 0) {
-          return { ...img, representative: true };
-        }
-        return img;
-      }));
-    }
-  };
-
   const [isServiceIdIncluded, setIsServiceIdIncluded] = useState([]);
   const [isCriticalServiceIdIncluded, setIsCriticalServiceIdIncluded] = useState([]);
 
@@ -108,8 +82,8 @@ function PetsitterInfoManage() {
     setIsServiceIdIncluded(includedServices);
   }, [serviceSelectList]);
 
-  console.log('isServiceIdIncluded:', isServiceIdIncluded);
-  console.log('isCriticalServiceIdIncluded:', isCriticalServiceIdIncluded);
+  // console.log('isServiceIdIncluded:', isServiceIdIncluded);
+  // console.log('isCriticalServiceIdIncluded:', isCriticalServiceIdIncluded);
 
   // 필수 서비스
   useEffect(() => {
@@ -144,18 +118,18 @@ function PetsitterInfoManage() {
     <>
       <S.Container>
         <S.Title className="page">펫시터 정보 수정 페이지</S.Title>
-        <S.Form onSubmit={onSubmit}>
+        <S.Form onSubmit={handleSubmit(onSubmit)}>
           {/* <S.DivContainer>
           </S.DivContainer> */}
-          <HouseUpdate houseImgList={houseImgList} onRemoveHouseImg={onRemoveHouseImg} handleImageUpload={handleImageUpload} />
-          <HashTagUpdate hashTags={hashTags} handleHashtag={handleHashtag} onRemoveHashtag={onRemoveHashtag} setHashTag={setHashTag} hashTag={hashTag} />
-          <IntroUpdate introduction={introduction} setIntroduction={setIntroduction} />
+          <HouseUpdate register={register} errors={errors} setValue={setValue} />
+          <HashTagUpdate setValue={setValue} errors={errors} />
+          <IntroUpdate register={register} errors={errors} trigger={trigger} />
           <S.DivContainer>
             <S.Title>자격증</S.Title>
             <S.LicenseImg alt="이미지 미리보기" src={petSitterLicenseImg} />
           </S.DivContainer>
-          <WithPetServiceUpdate isServiceIdIncluded={isServiceIdIncluded} onRemoveService={onRemoveService} onAddService={onAddService} />
-          <CriticalServiceUpdate isCriticalServiceIdIncluded={isCriticalServiceIdIncluded} onRemoveCriticalService={onRemoveCriticalService} onAddCriticalService={onAddCriticalService} />
+          <WithPetServiceUpdate register={register} errors={errors} isServiceIdIncluded={isServiceIdIncluded} onRemoveService={onRemoveService} onAddService={onAddService} />
+          <CriticalServiceUpdate register={register} errors={errors} isCriticalServiceIdIncluded={isCriticalServiceIdIncluded} onRemoveCriticalService={onRemoveCriticalService} onAddCriticalService={onAddCriticalService} />
 
           <S.DivContainer style={{
             width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center',

@@ -319,3 +319,10 @@ export const AddedServiceContainer = styled(ServiceItem)`
   background-color: ${(props) => (props.isIncluded ? '#FAF6F0' : '#F2F2F2')};
   color: ${(props) => (props.isIncluded ? '#CAA969' : 'gray')};
 `;
+
+// 오류 메시지
+export const ErrorMsg = styled.p`
+  font-size: 12px;
+  font-weight: 600;
+  color: #d61717;
+`;
