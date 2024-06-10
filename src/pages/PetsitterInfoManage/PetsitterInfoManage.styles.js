@@ -35,13 +35,18 @@ export const Label = styled.label`
 
 export const InputButton = styled.input`
     height: 40px;
-    width: 60px;
+    width: 100%;
     margin-bottom: 10px;
-    background-color: #CAA969;
     color: white;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
     border: none;
     border-radius: 5px;
+    cursor: pointer;
+    background-color: ${(props) => (props.isError ? '#bbbbbb' : '#CAA969')};
+    &: hover {
+        background-color: ${(props) => (props.isError ? '#dcdcdc' : 'rgb(201,171,1144')};
+    }
+
 `;
 
 export const Content = styled.div`
@@ -64,6 +69,16 @@ export const DivContainer = styled.div`
     .list {
         flex-direction: row;
     }
+`;
+
+export const BtnContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 20px 0px;
+  gap: 30px;
 `;
 
 export const MainTitle = styled.h1`

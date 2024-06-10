@@ -32,7 +32,7 @@ function PetsitterInfoManage() {
   const [criticalServices, setCriticalServices] = useState([]);
   const [petSitterLicenseImg, setPetSitterLicenseImg] = useState('');
 
-  console.log('[watch] house: ', watch('houseImg'), 'intro:', watch('introduction'));
+  console.log('[watch] hashtag: ', watch('hashTags'), 'intro:', watch('introduction'));
   console.log('에러 확인:', errors);
   useEffect(() => {
     const fetchData = async () => {
@@ -122,6 +122,7 @@ function PetsitterInfoManage() {
     setValue('criticalService', newServiceList, { shouldValidate: true });
   };
 
+  console.log('에러 유무 확인:', Object.keys(errors).length, !!Object.keys(errors).length);
   return (
     <>
       <S.Container>
@@ -139,13 +140,13 @@ function PetsitterInfoManage() {
           <WithPetServiceUpdate setValue={setValue} errors={errors} isServiceIdIncluded={isServiceIdIncluded} onRemoveService={onRemoveService} onAddService={onAddService} />
           <CriticalServiceUpdate setValue={setValue} errors={errors} isCriticalServiceIdIncluded={isCriticalServiceIdIncluded} onRemoveCriticalService={onRemoveCriticalService} onAddCriticalService={onAddCriticalService} />
 
-          <S.DivContainer style={{
+          <S.BtnContainer style={{
             width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center',
           }}
           >
-            <S.InputButton type="submit" value="수정" />
+            <S.InputButton type="submit" value="수정" isError={Object.keys(errors).length} />
             <S.InputButton type="button" value="취소" onClick={() => navigate('../petsitterShowInfo')} />
-          </S.DivContainer>
+          </S.BtnContainer>
         </S.Form>
       </S.Container>
     </>
