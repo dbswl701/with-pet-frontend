@@ -2,7 +2,9 @@ import React from 'react';
 import * as S from '../PetsitterInfoManage.styles';
 import ServiceItem from './ServiceItem';
 
-function WithPetServiceUpdate({ isServiceIdIncluded, onRemoveService, onAddService }) {
+function WithPetServiceUpdate({
+  errors, isServiceIdIncluded, onRemoveService, onAddService,
+}) {
   return (
     <div>
       <S.Title>이용 가능 서비스</S.Title>
@@ -13,6 +15,9 @@ function WithPetServiceUpdate({ isServiceIdIncluded, onRemoveService, onAddServi
           ))
         }
       </S.ServiceList>
+      {
+        errors.withPetService && <S.ErrorMsg>{errors.withPetService.message}</S.ErrorMsg>
+      }
     </div>
   );
 }

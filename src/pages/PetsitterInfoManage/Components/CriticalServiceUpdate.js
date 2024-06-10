@@ -2,7 +2,9 @@ import React from 'react';
 import * as S from '../PetsitterInfoManage.styles';
 import ServiceItem from './ServiceItem';
 
-function CriticalServiceUpdate({ isCriticalServiceIdIncluded, onRemoveCriticalService, onAddCriticalService }) {
+function CriticalServiceUpdate({
+  errors, isCriticalServiceIdIncluded, onRemoveCriticalService, onAddCriticalService,
+}) {
   return (
     <div>
       <S.Title>필수 서비스</S.Title>
@@ -13,6 +15,9 @@ function CriticalServiceUpdate({ isCriticalServiceIdIncluded, onRemoveCriticalSe
           ))
         }
       </S.ServiceList>
+      {
+        errors.criticalService && <S.ErrorMsg>{errors.criticalService.message}</S.ErrorMsg>
+      }
     </div>
   );
 }

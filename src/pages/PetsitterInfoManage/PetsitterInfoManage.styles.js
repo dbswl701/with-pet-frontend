@@ -66,6 +66,11 @@ export const DivContainer = styled.div`
     }
 `;
 
+export const MainTitle = styled.h1`
+  color: #caa969;
+  margin: 40px auto 50px auto;
+`;
+
 export const Title = styled.div`
     font-size: 15px;
     color: #caa969;

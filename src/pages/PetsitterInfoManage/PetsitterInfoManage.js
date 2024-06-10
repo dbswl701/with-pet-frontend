@@ -19,6 +19,8 @@ function PetsitterInfoManage() {
     resolver: zodResolver(petsitterInfoResigerSchema),
     defaultValues: {
       hashTags: [], // 초기 값을 빈 배열로 설정
+      withPetService: [],
+      criticalService: [],
     },
   });
 
@@ -97,27 +99,33 @@ function PetsitterInfoManage() {
   }, [criticalServices]);
 
   const onRemoveService = (id) => {
-    setServiceSelectList(serviceSelectList.filter((service) => service.withPetServiceId !== id));
+    const newServiceList = serviceSelectList.filter((service) => service.withPetServiceId !== id);
+    setServiceSelectList(newServiceList);
+    setValue('withPetService', newServiceList, { shouldValidate: true });
   };
 
   const onAddService = (id, price, serviceName) => {
-    console.log('서비스 추가 id:', id, 'price:', price, 'serviceName:', serviceName);
-    setServiceSelectList([...serviceSelectList, { withPetServiceId: id, price: parseInt(price, 10), serviceName }]);
+    const newServiceList = [...serviceSelectList, { withPetServiceId: id, price: parseInt(price, 10), serviceName }];
+    setServiceSelectList(newServiceList);
+    setValue('withPetService', newServiceList, { shouldValidate: true });
   };
 
   const onRemoveCriticalService = (id) => {
-    setCriticalServices(criticalServices.filter((service) => service.criticalServiceId !== id));
+    const newServiceList = criticalServices.filter((service) => service.criticalServiceId !== id);
+    setCriticalServices(newServiceList);
+    setValue('criticalService', newServiceList, { shouldValidate: true });
   };
 
   const onAddCriticalService = (id, price, serviceName) => {
-    console.log('서비스 추가 id:', id, 'price:', price, 'serviceName:', serviceName);
-    setCriticalServices([...criticalServices, { criticalServiceId: id, price: parseInt(price, 10), serviceName }]);
+    const newServiceList = [...criticalServices, { criticalServiceId: id, price: parseInt(price, 10), serviceName }];
+    setCriticalServices(newServiceList);
+    setValue('criticalService', newServiceList, { shouldValidate: true });
   };
 
   return (
     <>
       <S.Container>
-        <S.Title className="page">펫시터 정보 수정 페이지</S.Title>
+        <S.MainTitle className="page">펫시터 정보 등록 페이지</S.MainTitle>
         <S.Form onSubmit={handleSubmit(onSubmit)}>
           {/* <S.DivContainer>
           </S.DivContainer> */}
@@ -128,8 +136,8 @@ function PetsitterInfoManage() {
             <S.Title>자격증</S.Title>
             <S.LicenseImg alt="이미지 미리보기" src={petSitterLicenseImg} />
           </S.DivContainer>
-          <WithPetServiceUpdate register={register} errors={errors} isServiceIdIncluded={isServiceIdIncluded} onRemoveService={onRemoveService} onAddService={onAddService} />
-          <CriticalServiceUpdate register={register} errors={errors} isCriticalServiceIdIncluded={isCriticalServiceIdIncluded} onRemoveCriticalService={onRemoveCriticalService} onAddCriticalService={onAddCriticalService} />
+          <WithPetServiceUpdate setValue={setValue} errors={errors} isServiceIdIncluded={isServiceIdIncluded} onRemoveService={onRemoveService} onAddService={onAddService} />
+          <CriticalServiceUpdate setValue={setValue} errors={errors} isCriticalServiceIdIncluded={isCriticalServiceIdIncluded} onRemoveCriticalService={onRemoveCriticalService} onAddCriticalService={onAddCriticalService} />
 
           <S.DivContainer style={{
             width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center',
