@@ -136,6 +136,7 @@ function PetsitterInfoManage() {
   };
 
   const onAddCriticalService = (id, price, serviceName) => {
+    console.log('서비스 추가 id:', id, 'price:', price, 'serviceName:', serviceName);
     setCriticalServices([...criticalServices, { criticalServiceId: id, price: parseInt(price, 10), serviceName }]);
   };
 
