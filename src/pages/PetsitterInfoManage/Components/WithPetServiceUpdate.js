@@ -17,7 +17,7 @@ function WithPetServiceUpdate({ isServiceIdIncluded, onRemoveService, onAddServi
 
         {
           isServiceIdIncluded && isServiceIdIncluded.map((service) => (
-            <ServiceItem key={service.withPetServiceId} isIncluded={service.isIncluded} serviceImg={service.withPetServiceImg} serviceName={service.withPetServiceName} serviceIntroduction={service.withPetServiceIntroduction} price={service.price} serviceId={service.withPetServiceId} onRemove={onRemoveService} onAdd={onAddService} />
+            <ServiceItem key={service.withPetServiceId} isIncluded={service.isIncluded} serviceImg={service.withPetServiceImg} serviceName={service.withPetServiceName} serviceIntroduction={service.withPetServiceIntroduction} serviceId={service.withPetServiceId} onRemove={onRemoveService} onAdd={onAddService} />
           ))
         }
       </S.ServiceList>
