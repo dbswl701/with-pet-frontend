@@ -1,20 +1,23 @@
 import React from 'react';
+import * as S from '../PetsitterInfoManage.styles';
 
-function Item({ service }) {
+function Item({
+  isIncluded, price, serviceImg, serviceName, serviceIntroduction,
+}) {
+  console.log(serviceName, '가격:', price);
   return (
-    <div style={{
-      backgroundColor: `${service.isIncluded === true ? '#FAF6F0' : '#F2F2F2'}`, color: `${service.isIncluded === true ? '#CAA969' : 'gray'}`, width: '130px', height: '150px', marginRight: '5px', borderRadius: '20px', padding: '10px', fontSize: '12px',
-    }}
-    >
-      <div style={{ textAlign: 'center' }}>
-        <img src={service.serviceImg} alt="서비스 이미지" style={{ width: '30px', height: '30px', marginTop: '5px' }} />
-      </div>
-      <div style={{ paddingLeft: '5px' }}>
-        <p>{service.serviceName}</p>
-        <p>{service.serviceIntroduction}</p>
-        <p>{service.price ? `가격 : ${service.price}원` : null}</p>
-      </div>
-    </div>
+    <S.AddedServiceContainer isIncluded={isIncluded}>
+      <S.ServiceInnerContainer>
+        <S.ServiceImg src={serviceImg} alt="서비스 이미지" />
+        <S.ServiceIntroContainer>
+          <S.ServiceTitle>{serviceName}</S.ServiceTitle>
+          <S.ServiceIntro>{serviceIntroduction}</S.ServiceIntro>
+        </S.ServiceIntroContainer>
+      </S.ServiceInnerContainer>
+      <S.ServicePriceContainer>
+        <S.ServicePriceInput type="number" value={price} disabled={isIncluded} />
+      </S.ServicePriceContainer>
+    </S.AddedServiceContainer>
   );
 }
 

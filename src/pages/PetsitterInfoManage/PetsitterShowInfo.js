@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  Container, DivContainer, Title, Button,
-} from './PetsitterInfoManage.styles';
+import * as S from './PetsitterInfoManage.styles';
 import { getPetsitterMyInfo } from '../../services/petsitter';
 import Item from './Components/Item';
 import InitPage from './Components/InitPage';
+// import ServiceItem from './Components/ServiceItem';
 
 function PetsitterShowInfo() {
   const [info, setInfo] = useState({});
@@ -25,13 +24,13 @@ function PetsitterShowInfo() {
   };
 
   const isServiceIdIncluded = info.withPetServices && info.withPetServices.map((service) => {
-    const selected = info.petSitterWithPetServices.find((sitterService) => sitterService.serviceId === service.serviceId);
+    const selected = info.petSitterWithPetServices.find((sitterService) => sitterService.withPetServiceId === service.withPetServiceId);
     return {
       ...service,
       isIncluded: info.petSitterWithPetServices.some(
-        (sitterService) => sitterService.serviceId === service.serviceId,
+        (sitterService) => sitterService.withPetServiceId === service.withPetServiceId,
       ),
-      price: selected ? selected.price : null,
+      price: selected ? selected.petSitterWithPetServicePrice : null,
     };
   });
 
@@ -46,61 +45,65 @@ function PetsitterShowInfo() {
     };
   });
 
+  console.log('isServiceIdIncluded:', isServiceIdIncluded);
+
   const showInfo = (
-    <Container>
-      <Title className="page">펫시터 정보 관리 페이지</Title>
-      <DivContainer>
-        <div style={{ flexDirection: 'row' }}>
-          <Title>집사진</Title>
+    <S.Container>
+      <S.MainTitle className="page">펫시터 정보 관리 페이지</S.MainTitle>
+      <S.DivContainer>
+        <S.Title>집사진</S.Title>
+        <S.HouseImgList>
           {
-            info.petSitterHouses && info.petSitterHouses.map((img) => {
-              return <img key={img.petSitterHouseId} src={img.houseImg} alt="집사진" style={{ width: '200px', height: '200px' }} />;
-            })
+            info.petSitterHouses && info.petSitterHouses.map((img) => (
+              <S.HouseImgContainer key={img}>
+                <S.HouseImg key={img.petSitterHouseId} src={img.petSitterHouseImg} alt="집사진" isRepresentative={img.petSitterHouseRepresentative} />
+              </S.HouseImgContainer>
+            ))
           }
-        </div>
-      </DivContainer>
-      <DivContainer>
-        <Title>해시태그</Title>
-        <div style={{ display: 'flex' }}>
-          {
-          info.petSitterHashTags && info.petSitterHashTags.map((tag) => {
-            return <p style={{ textAlign: 'left' }} key={tag.petSitterHashTagId}>#{tag.hashTagName}&ensp;</p>;
-          })
-        }
-        </div>
-      </DivContainer>
-      <DivContainer>
-        <Title>소개글</Title>
-        <p>{info.introduction}</p>
-      </DivContainer>
+        </S.HouseImgList>
+      </S.DivContainer>
+      <S.DivContainer>
+        <S.Title>해시태그</S.Title>
+        <S.HashTagList>
+          {info.petSitterHashTags && info.petSitterHashTags.map((tag) => (
+            <S.HashTagItem className="list" key={tag.petSitterHashTagId}>
+              <S.HashTag># {tag.petSitterHashTagName}</S.HashTag>
+            </S.HashTagItem>
+          ))}
+        </S.HashTagList>
+      </S.DivContainer>
+      <S.DivContainer>
+        <S.Title>소개글</S.Title>
+        <p>{info.petSitterIntroduction}</p>
+      </S.DivContainer>
 
-      <DivContainer>
-        <Title>자격증</Title>
+      <S.DivContainer>
+        <S.Title>자격증</S.Title>
         <img src={info.petSitterLicenseImg} alt="자격증 사진" style={{ width: '180px', height: '150px' }} />
-      </DivContainer>
+      </S.DivContainer>
 
-      <DivContainer>
-        <Title>이용 가능 서비스</Title>
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
+      <S.DivContainer>
+        <S.Title>이용 가능 서비스</S.Title>
+        <S.ServiceList>
           {
-            isServiceIdIncluded && isServiceIdIncluded.map((service) => {
-              return <Item key={service.withPetServiceId} service={service} />;
-            })
+            isServiceIdIncluded && isServiceIdIncluded.map((service) => (
+              <Item key={service.withPetServiceId} price={service.price} isIncluded={service.isIncluded} serviceImg={service.withPetServiceImg} serviceName={service.withPetServiceName} serviceIntroduction={service.withPetServiceIntroduction} serviceId={service.withPetServiceId} />
+            ))
           }
-        </div>
-      </DivContainer>
-      <DivContainer>
-        <Title>필수 서비스</Title>
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
+        </S.ServiceList>
+      </S.DivContainer>
+      <S.DivContainer>
+        <S.Title>필수 서비스</S.Title>
+        <S.ServiceList>
           {
-            isCriticalServiceIdIncluded && isCriticalServiceIdIncluded.map((service) => {
-              return <Item key={service.criticalServiceId} service={service} />;
-            })
+            isCriticalServiceIdIncluded && isCriticalServiceIdIncluded.map((service) => (
+              <Item key={service.criticalServiceId} price={service.price} isIncluded={service.isIncluded} serviceImg={service.criticalServiceImg} serviceName={service.criticalServiceName} serviceIntroduction={service.criticalServiceIntroduction} serviceId={service.criticalServiceId} />
+            ))
           }
-        </div>
-      </DivContainer>
-      <Button onClick={onModify}>수정</Button>
-    </Container>
+        </S.ServiceList>
+      </S.DivContainer>
+      <S.Button onClick={onModify}>수정</S.Button>
+    </S.Container>
   );
 
   return (
