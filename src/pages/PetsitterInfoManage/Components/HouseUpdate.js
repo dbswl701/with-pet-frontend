@@ -53,7 +53,7 @@ function HouseUpdate({
         {
           houseImgList && houseImgList.map((img, index) => (
             <S.HouseImgContainer key={img}>
-              <S.HouseImg key={img.petSitterHouseImg} src={img.petSitterHouseImg} alt="집사진" isRepresentative={index === 0} onClick={() => onRemoveHouseImg(img.petSitterHouseImg)} />
+              <S.HouseImg key={img.petSitterHouseImg} src={img.petSitterHouseImg} alt="집사진" isRepresentative={index === 0} onClick={() => onRemoveHouseImg(img.petSitterHouseImg)} isModify />
             </S.HouseImgContainer>
           ))
         }

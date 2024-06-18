@@ -56,7 +56,7 @@ function PetsitterShowInfo() {
           {
             info.petSitterHouses && info.petSitterHouses.map((img) => (
               <S.HouseImgContainer key={img}>
-                <S.HouseImg key={img.petSitterHouseId} src={img.petSitterHouseImg} alt="집사진" isRepresentative={img.petSitterHouseRepresentative} />
+                <S.HouseImg key={img.petSitterHouseId} src={img.petSitterHouseImg} alt="집사진" isRepresentative={img.petSitterHouseRepresentative} isModify={false} />
               </S.HouseImgContainer>
             ))
           }

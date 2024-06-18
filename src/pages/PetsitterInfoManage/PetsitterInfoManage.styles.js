@@ -160,7 +160,7 @@ export const HouseImg = styled.img`
   border: ${(props) => (props.isRepresentative ? '3px solid rgb(128, 103, 55)' : '1px solid #CAA969')};
   cursor: pointer;
   &: hover {
-    opacity: 0.3;
+    opacity: ${(props) => (props.isModify ? 0.3 : 1)};
   }
 `;
 
