@@ -1,25 +1,46 @@
-import React from 'react';
-import TextField from '@mui/material/TextField';
-import axios from 'axios';
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '../../PetsitterInfoManage/PetsitterInfoManage.styles';
+import IntroUpdate from '../../PetsitterInfoManage/Components/IntroUpdate';
+// eslint-disable-next-line import/no-named-as-default
+import petsitterInfoResigerSchema from '../../../schemas/petsitterInfoRegister.schemas';
+import { putPetsitterIntro } from '../../../services/petsitter';
 
-function PetsitterInfoModifyIntro({ introduction, setIntroduction }) {
-  const onSubmit = () => {
-    axios.put('https://withpet.site/api/v1/petsitter/update-intro', { introduction }, { withCredentials: true })
-      .then((res) => {
-        // eslint-disable-next-line no-alert
-        alert(res.data.result);
-      })
-      .catch(() => {});
+function PetsitterInfoModifyIntro({ introduction }) {
+  const {
+    register, handleSubmit, setValue, formState: { errors }, watch, trigger,
+  } = useForm({
+    resolver: zodResolver(petsitterInfoResigerSchema),
+    defaultValues: {
+      petSitterIntroduction: introduction,
+    },
+  });
+  const prevIntro = watch('petSitterIntroduction');
+  const onSubmit = async () => {
+    const res = await putPetsitterIntro(prevIntro);
+    // eslint-disable-next-line no-alert
+    alert(res.data.result);
   };
+  useEffect(() => {
+    if (introduction) {
+      setValue('petSitterIntroduction', introduction);
+    }
+  }, [setValue]);
+
   return (
-    <div style={{
-      display: 'flex', flexDirection: 'column', alignContent: 'center', alignItems: 'center', position: 'relative', marginTop: '100px',
-    }}
-    >
-      <TextField multiline rows={5} sx={{ m: 1, width: '400px', height: '200px' }} variant="outlined" size="small" name="introduction" onChange={(e) => setIntroduction(e.target.value)} value={introduction} required />
-      <Button onClick={onSubmit}>저장</Button>
-    </div>
+    <form onSubmit={handleSubmit(onSubmit)}>
+
+      <div style={{
+        display: 'flex', flexDirection: 'column', alignContent: 'center', alignItems: 'center', position: 'relative', marginTop: '100px',
+      }}
+      >
+        <IntroUpdate trigger={trigger} register={register} errors={errors} value={prevIntro} />
+        <div style={{ display: 'flex', paddingTop: '30px', justifyContent: 'end' }}>
+          <Button onClick={onSubmit}>저장</Button>
+        </div>
+      </div>
+    </form>
   );
 }
 

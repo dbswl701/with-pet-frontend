@@ -23,7 +23,7 @@ function PetsitterInfoModify() {
       const res = await getPetsitterMyInfo();
       setHouseImgList(res.data.result.petSitterHouses);
       setHashTags(res.data.result.petSitterHashTags);
-      setIntroduction(res.data.result.introduction);
+      setIntroduction(res.data.result.petSitterIntroduction);
       setPetSitterLicenseImg(res.data.result.petSitterLicenseImg);
 
       setServiceSelectList(res.data.result.petSitterServices);
@@ -34,7 +34,7 @@ function PetsitterInfoModify() {
     };
     fetchData();
   }, []);
-
+  console.log('introduction:', introduction);
   const licenseComponent = (
     <>
       <p>자격증</p>
