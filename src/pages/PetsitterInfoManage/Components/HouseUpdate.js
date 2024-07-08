@@ -1,13 +1,17 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as S from '../PetsitterInfoManage.styles';
 import AddIcon from '../../../assets/AddIcon.png';
 import PostFileUpload from '../../../services/upload';
 
 function HouseUpdate({
-  register, errors, setValue,
+  register, errors, setValue, value,
 }) {
-  const [houseImgList, setHouseImgList] = useState([]);
+  const [houseImgList, setHouseImgList] = useState(value || []);
+
+  useEffect(() => {
+    if (value) setHouseImgList(value);
+  }, [value]);
 
   const handleImageUpload = async (e) => {
     const files = Array.from(e.target.files);
@@ -40,20 +44,21 @@ function HouseUpdate({
       setValue('petSitterHouses', temp);
     }
   };
+
   return (
     <>
       <S.Title>집사진</S.Title>
       <S.HouseImgList>
         <S.HouseImgContainer>
-          <S.HouseImgInput id="file" multiple type="file" {...register('houseImg', { required: true })} accept="image/*" onChange={handleImageUpload} />
+          <S.HouseImgInput id="file" multiple type="file" {...register('petSitterHouses', { required: true })} accept="image/*" onChange={handleImageUpload} />
           <S.HouseImgLabel htmlFor="file">
             <img src={AddIcon} alt="추가" />
           </S.HouseImgLabel>
         </S.HouseImgContainer>
         {
           houseImgList && houseImgList.map((img, index) => (
-            <S.HouseImgContainer key={img}>
-              <S.HouseImg key={img.petSitterHouseImg} src={img.petSitterHouseImg} alt="집사진" isRepresentative={index === 0} onClick={() => onRemoveHouseImg(img.petSitterHouseImg)} isModify />
+            <S.HouseImgContainer key={img.petSitterHouseImg}>
+              <S.HouseImg src={img.petSitterHouseImg} alt="집사진" isRepresentative={index === 0} onClick={() => onRemoveHouseImg(img.petSitterHouseImg)} isModify />
             </S.HouseImgContainer>
           ))
         }

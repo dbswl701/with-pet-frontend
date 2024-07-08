@@ -18,7 +18,6 @@ function PetsitterInfoModify() {
   const [criticalSelectList, setCriticalSelectList] = useState([]);
   const [menu, setMenu] = useState('house');
 
-  console.log('check menu :', menu);
   useEffect(() => {
     const fetchData = async () => {
       const res = await getPetsitterMyInfo();

@@ -1,47 +1,47 @@
-import React from 'react';
-import { CancelButton, Button, LabelContainer } from '../../PetsitterInfoManage/PetsitterInfoManage.styles';
-import PostFileUpload from '../../../services/upload';
+import React, { useEffect } from 'react';
+// import React from 'react';
+// import { CancelButton, Button, LabelContainer } from '../../PetsitterInfoManage/PetsitterInfoManage.styles';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+// eslint-disable-next-line import/no-named-as-default
+import petsitterInfoResigerSchema from '../../../schemas/petsitterInfoRegister.schemas';
+
+import * as S from '../../PetsitterInfoManage/PetsitterInfoManage.styles';
+
 import { putPetsitterHouseImg } from '../../../services/petsitter';
+import HouseUpdate from '../../PetsitterInfoManage/Components/HouseUpdate';
 
-function PetsitterInfoModifyHouse({ houseImgList, setHouseImgList }) {
-  const handleImageUpload = async (e) => {
-    const files = Array.from(e.target.files);
-    const formData = new FormData();
-    files.forEach((file) => {
-      formData.append('file', file);
-    });
+function PetsitterInfoModifyHouse({ houseImgList }) {
+  const {
+    register, handleSubmit, setValue, formState: { errors }, watch,
+  } = useForm({
+    resolver: zodResolver(petsitterInfoResigerSchema),
+    defaultValues: {
+      petSitterHouses: houseImgList,
+    },
+  });
 
-    const res = await PostFileUpload(formData);
-    res.data.result.forEach((img) => {
-      const temp = { petSitterHouseRepresentative: houseImgList.length === 0, petSitterHouseImg: img };
-      setHouseImgList((prevImages) => [...prevImages, temp]);
-    });
-  };
+  useEffect(() => {
+    setValue('petSitterHouses', houseImgList);
+  }, [setValue, houseImgList]);
 
-  console.log('이미지: ', houseImgList);
-  const onRemoveHousImg = (id) => {
-    const removeHouseImg = houseImgList.filter((img) => (img.petSitterHouseImg === id));
-    const updateHouseImg = houseImgList.filter((img) => (img.petSitterHouseImg !== id));
-
-    if (removeHouseImg[0].petSitterHouseRepresentative === true) {
-      setHouseImgList(updateHouseImg.map((img, index) => {
-        if (index === 0) {
-          return { ...img, petSitterHouseRepresentative: true };
-        }
-        return img;
-      }));
-    }
-  };
+  const prevHouseImgList = watch('petSitterHouses');
 
   const onSubmit = async () => {
-    const res = await putPetsitterHouseImg(houseImgList);
+    const res = await putPetsitterHouseImg(prevHouseImgList);
     // eslint-disable-next-line no-alert
     alert(res.data.result);
   };
   return (
     <>
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
-        {
+      {/* <div style={{ display: 'flex', flexDirection: 'row' }}> */}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <HouseUpdate register={register} errors={errors} setValue={setValue} value={prevHouseImgList} />
+        <div style={{ display: 'flex', paddingTop: '30px', justifyContent: 'end' }}>
+          <S.Button style={{ width: '100px', height: '40px' }} className="submit" onClick={onSubmit}>저장</S.Button>
+        </div>
+      </form>
+      {/* {
           houseImgList && houseImgList.map((img, index) => (
             // eslint-disable-next-line react/no-array-index-key
             <div key={index} style={{ display: 'flex', flexDirection: 'column' }}>
@@ -57,13 +57,24 @@ function PetsitterInfoModifyHouse({ houseImgList, setHouseImgList }) {
               { index === 0 ? <p>대표사진</p> : <p> </p>}
             </div>
           ))
-        }
+        } */}
+      {/* <S.HouseImgList>
+          {
+            info.petSitterHouses && info.petSitterHouses.map((img) => (
+              <S.HouseImgContainer key={img}>
+                <S.HouseImg key={img.petSitterHouseId} src={img.petSitterHouseImg} alt="집사진" isRepresentative={img.petSitterHouseRepresentative} isModify={false} />
+              </S.HouseImgContainer>
+            ))
+          }
+        </S.HouseImgList> */}
+      {/* <HouseUpdate register={register} errors={errors} setValue={setValue} />
+
       </div>
       <>
         <input id="file" multiple style={{ visibility: 'hidden' }} type="file" accept="image/*" onChange={handleImageUpload} />
-        <LabelContainer htmlFor="file">추가</LabelContainer>
-        <Button style={{ width: '100px', height: '40px' }} className="submit" onClick={onSubmit}>저장</Button>
-      </>
+        <S.LabelContainer htmlFor="file">추가</S.LabelContainer>
+        <S.Button style={{ width: '100px', height: '40px' }} className="submit" onClick={onSubmit}>저장</S.Button>
+      </> */}
     </>
   );
 }

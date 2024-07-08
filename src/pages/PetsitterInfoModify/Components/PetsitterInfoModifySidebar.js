@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { Button, SideBar } from '../../../styles/sidebar/SidebarStyle';
 import * as S from '../../../styles/sidebar/SidebarStyle';
 
 function PetsitterInfoModifySidebar({ setMenu, menu }) {
