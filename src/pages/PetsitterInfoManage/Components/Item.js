@@ -4,7 +4,7 @@ import * as S from '../PetsitterInfoManage.styles';
 function Item({
   isIncluded, price, serviceImg, serviceName, serviceIntroduction,
 }) {
-  console.log(serviceName, '가격:', price);
+  console.log(serviceName, '가격:', price, 'isIncluded: ', isIncluded);
   return (
     <S.AddedServiceContainer isIncluded={isIncluded}>
       <S.ServiceInnerContainer>
@@ -15,7 +15,7 @@ function Item({
         </S.ServiceIntroContainer>
       </S.ServiceInnerContainer>
       <S.ServicePriceContainer>
-        <S.ServicePriceInput type="number" value={price} disabled={isIncluded} />
+        <S.ServicePriceInput type="number" value={price} disabled />
       </S.ServicePriceContainer>
     </S.AddedServiceContainer>
   );

@@ -41,11 +41,12 @@ function PetsitterShowInfo() {
       isIncluded: info.petSitterCriticalServices.some(
         (sitterService) => sitterService.serviceId === service.serviceId,
       ),
-      price: selected ? selected.price : null,
+      price: selected ? selected.petSitterCriticalServicePrice : null,
     };
   });
 
   console.log('isServiceIdIncluded:', isServiceIdIncluded);
+  console.log('isCriticalServiceIdIncluded:', isCriticalServiceIdIncluded);
 
   const showInfo = (
     <S.Container>
