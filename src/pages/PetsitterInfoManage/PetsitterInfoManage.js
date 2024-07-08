@@ -116,7 +116,7 @@ function PetsitterInfoManage() {
           {/* <S.DivContainer>
           </S.DivContainer> */}
           <HouseUpdate register={register} errors={errors} setValue={setValue} />
-          <HashTagUpdate setValue={setValue} errors={errors} />
+          <HashTagUpdate register={register} setValue={setValue} errors={errors} />
           <IntroUpdate register={register} errors={errors} trigger={trigger} />
           <S.DivContainer>
             <S.Title>자격증</S.Title>

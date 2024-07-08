@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as S from '../PetsitterInfoManage.styles';
 
 function HashTagUpdate({
-  setValue, errors,
+  setValue, errors, value,
 }) {
   // react-hook-form을 써서 state 제거 가능.
   const [hashTag, setHashTag] = useState('');
-  const [hashTags, setHashTags] = useState([]);
+  const [hashTags, setHashTags] = useState(value || []);
+
+  useEffect(() => {
+    if (value) {
+      setHashTags(value);
+    }
+  }, [value]);
 
   const handleHashtag = () => {
     if (!hashTags.includes(hashTag)) {
@@ -18,6 +24,8 @@ function HashTagUpdate({
   };
   const onRemoveHashtag = (id) => {
     const newTags = hashTags.filter((tag) => (tag !== id));
+    console.log('id:', id, 'hashTags: ', hashTags, 'newTags: ', newTags);
+
     setHashTags(newTags);
     setValue('petSitterHashTags', newTags, { shouldValidate: true });
   };

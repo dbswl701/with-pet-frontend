@@ -15,3 +15,8 @@ export const putPetsitterHouseImg = async (petSitterHousesRequests) => {
 export const postPetsitterRegisterInfo = async (updatedInfo) => {
   return axios.post(`${baseUrl}/v2/pet-sitters/my-info`, updatedInfo, { withCredentials: true });
 };
+
+// 펫시터 해시태그 수정
+export const putPetsitterHashTag = async (petSitterHashTagRequests) => {
+  return axios.put(`${baseUrl}/v2/pet-sitters/hashtags`, { petSitterHashTagRequests }, { withCredentials: true });
+};
