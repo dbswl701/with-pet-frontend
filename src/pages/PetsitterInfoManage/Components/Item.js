@@ -1,10 +1,8 @@
-import React from 'react';
-import * as S from '../PetsitterInfoManage.styles';
+import React from "react";
+import * as S from "../PetsitterInfoManage.styles";
 
-function Item({
-  isIncluded, price, serviceImg, serviceName, serviceIntroduction,
-}) {
-  console.log(serviceName, '가격:', price, 'isIncluded: ', isIncluded);
+function Item({ isIncluded, price, serviceImg, serviceName, serviceIntroduction }) {
+  console.log(serviceName, "가격:", price, "isIncluded: ", isIncluded);
   return (
     <S.AddedServiceContainer isIncluded={isIncluded}>
       <S.ServiceInnerContainer>

@@ -1,0 +1,15 @@
+{
+  "compilerOptions": { // 컴파일러가 코드를 어떻게 변환하고 처리할지에 대한 옵션 정의
+    "target": "es5",
+    "module": "commonjs",
+    "jsx": "react-jsx",
+    "strict": true,
+    "esModuleInterop": true, // CommonJS와 ES 모듈 간의 호환성 개선 위한 설정. import 구문 사용 시 더 유연하게 동작하도록 한다.
+    "skipLibCheck": true, // 외부 라이브러리의 타입 정의 파일읠 검사하지 않도록 한다.(컴파일 시간 단축에 도움)
+    "forceConsistentCasingInFileNames": true, // 파일 이름 대소문자 일관성 강제
+    "outDir": "./dist", // 컴파일된 js 파일이 저장될 디렉토리 지정
+    "rootDir": "./src" // 타스 컴파일러가 파일을 찾을 때 이 경로를 기준으로 한다.
+  },
+  "include": ["src"], // 타스 컴파일러가 포함할 파일 지정
+  "exclude": ["node_modules"] // 컴파일러가 제외할 파일 지정
+}
