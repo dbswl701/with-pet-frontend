@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import * as S from '../PetsitterInfoManage.styles';
 
 function ServiceItem({
-  isIncluded, serviceImg, serviceName, serviceIntroduction, serviceId, onRemove, onAdd,
+  isIncluded, price, serviceImg, serviceName, serviceIntroduction, serviceId, onRemove, onAdd,
 }) {
-  const [priceValue, setPriceValue] = useState(0);
+  const [priceValue, setPriceValue] = useState(price || 0);
 
   // 숫자 입력 시 맨 처음 0 제거
   const handleRemoveZero = (e) => {

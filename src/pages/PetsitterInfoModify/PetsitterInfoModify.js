@@ -26,7 +26,7 @@ function PetsitterInfoModify() {
       setIntroduction(res.data.result.petSitterIntroduction);
       setPetSitterLicenseImg(res.data.result.petSitterLicenseImg);
 
-      setServiceSelectList(res.data.result.petSitterServices);
+      setServiceSelectList(res.data.result.petSitterWithPetServices);
       setWithPetServices(res.data.result.withPetServices);
 
       setCriticalServices(res.data.result.criticalServices);

@@ -25,3 +25,8 @@ export const putPetsitterHashTag = async (petSitterHashTagRequests) => {
 export const putPetsitterIntro = async (petSitterIntroduction) => {
   return axios.put(`${baseUrl}/v2/pet-sitters/intro`, { petSitterIntroduction }, { withCredentials: true });
 };
+
+// 펫시터 소개글 수정
+export const putPetsitterService = async (petSitterServiceRequests) => {
+  return axios.put(`${baseUrl}/v2/pet-sitters/services`, { petSitterServiceRequests }, { withCredentials: true });
+};

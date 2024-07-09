@@ -1,102 +1,57 @@
+/* eslint-disable import/no-named-as-default */
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { InputButton, Button } from '../../PetsitterInfoManage/PetsitterInfoManage.styles';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Button } from '../../PetsitterInfoManage/PetsitterInfoManage.styles';
+import WithPetServiceUpdate from '../../PetsitterInfoManage/Components/WithPetServiceUpdate';
+import petsitterInfoResigerSchema from '../../../schemas/petsitterInfoRegister.schemas';
+import { putPetsitterService } from '../../../services/petsitter';
 
-function Item1({ service, onRemove }) {
-  const includeed = (
-    <div style={{
-      backgroundColor: `${service.isIncluded === true ? '#FAF6F0' : 'F2F2F2'}`, color: `${service.isIncluded === true ? '#CAA969' : 'gray'}`, width: '130px', height: '220px', borderRadius: '20px', padding: '10px', fontSize: '12px', justifyContent: 'center', margin: '20px', overflow: 'auto',
-    }}
-    >
-      <div style={{ textAlign: 'center' }}>
-        <img src={service.serviceImg} alt="서비스 이미지" style={{ width: '30px', height: '30px', marginTop: '5px' }} />
-      </div>
-      <div style={{ paddingLeft: '5px' }}>
-        <p>{service.serviceName}</p>
-        <p>{service.serviceIntroduction}</p>
-        <p>가격: {service.price}</p>
-      </div>
-      <div style={{ textAlign: 'center' }}>
-        <InputButton type="button" value="삭제" onClick={() => onRemove(service.serviceId)} />
-      </div>
-    </div>
-  );
-
-  return (
-    <>
-      { includeed }
-    </>
-  );
-}
-
-function Item2({ service, onAdd }) {
-  const [price, setPrice] = useState(0);
-  const notIncluded = (
-    <div
-      style={{
-        cursor: 'pointer', backgroundColor: '#F2F2F2', color: 'gray', width: '130px', height: '220px', borderRadius: '20px', padding: '10px', fontSize: '12px', justifyContent: 'center', margin: '20px',
-      }}
-    >
-      <div style={{ textAlign: 'center' }}>
-        <img src={service.serviceImg} alt="서비스 이미지" style={{ width: '30px', height: '30px', marginTop: '5px' }} />
-      </div>
-      <div style={{ paddingLeft: '5px' }}>
-        <p>{service.serviceName}</p>
-        <p>{service.serviceIntroduction}</p>
-        <input style={{ marginBottom: '6px', width: '100px' }} type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
-      </div>
-      <div style={{ textAlign: 'center' }}>
-        <InputButton type="button" value="추가" onClick={() => onAdd(service.serviceId, price)} />
-      </div>
-    </div>
-  );
-
-  return (
-    <>
-      { notIncluded }
-    </>
-  );
-}
 function PetsitterInfoModifyService({ serviceSelectList, setServiceSelectList, withPetServices }) {
+  const {
+    handleSubmit, setValue, formState: { errors },
+  } = useForm({
+    resolver: zodResolver(petsitterInfoResigerSchema),
+  });
   const [isServiceIdIncluded, setIsServiceIdIncluded] = useState([]);
+
   useEffect(() => {
     const includedServices = withPetServices && withPetServices.map((service) => {
-      const isIncluded = serviceSelectList.some((sitterService) => sitterService.serviceId === service.serviceId);
-      const selected = serviceSelectList.find((sitterService) => sitterService.serviceId === service.serviceId);
-      const price = selected ? selected.price : null;
+      const isIncluded = serviceSelectList.some((sitterService) => sitterService.withPetServiceId === service.withPetServiceId);
+      const selected = serviceSelectList.find((sitterService) => sitterService.withPetServiceId === service.withPetServiceId);
+      const price = selected ? selected.petSitterWithPetServicePrice : null;
       return { ...service, isIncluded, price };
     });
     setIsServiceIdIncluded(includedServices);
+    setValue('petSitterWithPetServices', includedServices);
   }, [serviceSelectList]);
+
   const onRemoveService = (id) => {
-    setServiceSelectList(serviceSelectList.filter((service) => service.serviceId !== id));
+    setServiceSelectList(serviceSelectList.filter((service) => service.withPetServiceId !== id));
   };
 
   const onAddService = (id, price) => {
-    setServiceSelectList([...serviceSelectList, { serviceId: id, price: parseInt(price, 10) }]);
+    const newServiceList = [...serviceSelectList, { withPetServiceId: id, petSitterWithPetServicePrice: parseInt(price, 10) }];
+    setServiceSelectList(newServiceList);
+    setValue('petSitterWithPetServices', newServiceList, { shouldValidate: true });
   };
 
-  const onSubmit = () => {
-    axios.put('https://withpet.site/api/v1/petsitter/update-service', { petSitterServiceRequests: serviceSelectList }, { withCredentials: true })
-      .then((res) => {
-        // eslint-disable-next-line no-alert
-        alert(res.data.result);
-      })
-      .catch(() => {});
+  const onSubmit = async () => {
+    const petSitterWithPetServicePrice = serviceSelectList.map((item) => ({
+      petSitterWithPetServicePrice: item.petSitterWithPetServicePrice,
+      withPetServiceId: item.withPetServiceId,
+    }));
+    const res = await putPetsitterService(petSitterWithPetServicePrice);
+    // eslint-disable-next-line no-alert
+    alert(res.data.result);
   };
   return (
-    <>
-      <p>이용 가능 서비스</p>
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
-        {isServiceIdIncluded && isServiceIdIncluded.map((service) => (service.isIncluded ? (
-          <Item1 key={service.serviceId} service={service} onRemove={onRemoveService} />
-        ) : (
-          <Item2 key={service.serviceId} service={service} onAdd={onAddService} />
-        )))}
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <WithPetServiceUpdate setValue={setValue} errors={errors} isServiceIdIncluded={isServiceIdIncluded} onRemoveService={onRemoveService} onAddService={onAddService} />
+      <div style={{ display: 'flex', paddingTop: '30px', justifyContent: 'end' }}>
+        <Button onClick={onSubmit}>저장</Button>
       </div>
-      <Button onClick={onSubmit}>저장</Button>
-
-    </>
+    </form>
   );
 }
 export default PetsitterInfoModifyService;
