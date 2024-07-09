@@ -26,7 +26,12 @@ export const putPetsitterIntro = async (petSitterIntroduction) => {
   return axios.put(`${baseUrl}/v2/pet-sitters/intro`, { petSitterIntroduction }, { withCredentials: true });
 };
 
-// 펫시터 소개글 수정
+// 펫시터 이용 가능 서비스 수정
 export const putPetsitterService = async (petSitterServiceRequests) => {
   return axios.put(`${baseUrl}/v2/pet-sitters/services`, { petSitterServiceRequests }, { withCredentials: true });
+};
+
+// 펫시터 필수 서비스 수정
+export const putPetsitterCriticalService = async (petSitterCriticalServiceRequests) => {
+  return axios.put(`${baseUrl}/v2/pet-sitters/critical-service`, { petSitterCriticalServiceRequests }, { withCredentials: true });
 };

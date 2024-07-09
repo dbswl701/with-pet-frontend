@@ -34,7 +34,6 @@ function PetsitterInfoModify() {
     };
     fetchData();
   }, []);
-  console.log('introduction:', introduction);
   const licenseComponent = (
     <>
       <p>자격증</p>

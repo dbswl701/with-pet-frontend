@@ -11,7 +11,7 @@ function CriticalServiceUpdate({
       <S.ServiceList>
         {
           isCriticalServiceIdIncluded && isCriticalServiceIdIncluded.map((service) => (
-            <ServiceItem key={service.criticalServiceId} isIncluded={service.isIncluded} serviceImg={service.criticalServiceImg} serviceName={service.criticalServiceName} serviceIntroduction={service.criticalServiceIntroduction} serviceId={service.criticalServiceId} onRemove={onRemoveCriticalService} onAdd={onAddCriticalService} />
+            <ServiceItem key={service.criticalServiceId} price={service.price} isIncluded={service.isIncluded} serviceImg={service.criticalServiceImg} serviceName={service.criticalServiceName} serviceIntroduction={service.criticalServiceIntroduction} serviceId={service.criticalServiceId} onRemove={onRemoveCriticalService} onAdd={onAddCriticalService} />
           ))
         }
       </S.ServiceList>
