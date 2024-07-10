@@ -19,10 +19,6 @@ module.exports = {
   plugins: ["react", "@typescript-eslint", "prettier"],
   rules: {
     "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
-    "prettier/prettier": [
-      {
-        endOfLine: "auto",
-      },
-    ],
+    "prettier/prettier": "error",
   },
 };

@@ -1,5 +1,6 @@
 {
-  "compilerOptions": { // 컴파일러가 코드를 어떻게 변환하고 처리할지에 대한 옵션 정의
+  "compilerOptions": {
+    // 컴파일러가 코드를 어떻게 변환하고 처리할지에 대한 옵션 정의
     "target": "es5",
     "module": "commonjs",
     "jsx": "react-jsx",

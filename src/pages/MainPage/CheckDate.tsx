@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { DateRangePicker } from 'react-dates';
-import 'react-dates/lib/css/_datepicker.css';
-import 'react-dates/initialize';
+// any
+import React, { useState, useEffect } from "react";
+import { DateRangePicker } from "react-dates";
+import "react-dates/lib/css/_datepicker.css";
+import "react-dates/initialize";
 // import moment from 'moment';
 // import axios from 'axios';
 // import dayjs from 'dayjs';
 // import TextField from '@mui/material/TextField';
-import './datePicker.css';
-import FormControl from '@mui/material/FormControl/FormControl';
-import { SelectWrapper } from '../../styles/main/MainPageStyle';
+import "./datePicker.css";
+import FormControl from "@mui/material/FormControl/FormControl";
+import { SelectWrapper } from "../../styles/main/MainPageStyle";
 
-export default function CheckDate({ options, setOptions }) {
+export default function CheckDate({ options, setOptions }: any) {
   // const [open, setOpen] = React.useState(false);
   const [checkInDate, setCheckInDate] = useState(null);
   const [checkOutDate, setCheckOutDate] = useState(null);
@@ -18,23 +19,23 @@ export default function CheckDate({ options, setOptions }) {
   // const [unavailable, setUnavailable] = useState([]);
   // const [selectedMonth, setSelectedMonth] = useState(dayjs(new Date()).format('YYYY-MM'));
 
-  const onChangeCalender = (start, end) => {
+  const onChangeCalender = (start: any, end: any) => {
     if (start && end) {
       setOptions({
         ...options,
-        startDate: start.format('YYYY-MM-DD'),
-        endDate: end.format('YYYY-MM-DD'),
+        startDate: start.format("YYYY-MM-DD"),
+        endDate: end.format("YYYY-MM-DD"),
       });
     }
   };
 
-  const handleDateChange = ({ startDate, endDate }) => {
+  const handleDateChange = ({ startDate, endDate }: any) => {
     setCheckInDate(startDate);
     setCheckOutDate(endDate);
     onChangeCalender(startDate, endDate);
   };
 
-  const handleFocusChange = (focusedInput) => {
+  const handleFocusChange = (focusedInput: any) => {
     setFocusedInputType(focusedInput);
   };
 
@@ -96,8 +97,8 @@ export default function CheckDate({ options, setOptions }) {
 
   return (
     <SelectWrapper>
-      <FormControl sx={{ m: 1, width: 4 / 5, display: 'flex' }}>
-        <p style={{ fontWeight: 'bold' }}>체크인 / 체크아웃</p>
+      <FormControl sx={{ m: 1, width: 4 / 5, display: "flex" }}>
+        <p style={{ fontWeight: "bold" }}>체크인 / 체크아웃</p>
         <DateRangePicker
           required
           // style={{ width: '500px', backgroundColor: 'green' }}
