@@ -1,7 +1,20 @@
 import React from "react";
 import * as S from "../PetsitterInfoManage.styles";
 
-function Item({ isIncluded, price, serviceImg, serviceName, serviceIntroduction }) {
+interface IProps {
+  isIncluded: boolean;
+  price: number | null;
+  serviceImg: string;
+  serviceName: string;
+  serviceIntroduction: string;
+}
+function Item({
+  isIncluded,
+  price,
+  serviceImg,
+  serviceName,
+  serviceIntroduction,
+}: IProps) {
   console.log(serviceName, "가격:", price, "isIncluded: ", isIncluded);
   return (
     <S.AddedServiceContainer isIncluded={isIncluded}>
@@ -13,7 +26,7 @@ function Item({ isIncluded, price, serviceImg, serviceName, serviceIntroduction 
         </S.ServiceIntroContainer>
       </S.ServiceInnerContainer>
       <S.ServicePriceContainer>
-        <S.ServicePriceInput type="number" value={price} disabled />
+        <S.ServicePriceInput type="number" value={price || 0} disabled />
       </S.ServicePriceContainer>
     </S.AddedServiceContainer>
   );
