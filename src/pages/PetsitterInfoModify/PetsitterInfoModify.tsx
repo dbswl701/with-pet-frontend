@@ -6,9 +6,10 @@ import PetsitterInfoModifyIntro from "./Components/PetsitterInfoModifyIntro";
 import PetsitterInfoModifyService from "./Components/PetsitterInfoModifyService";
 import PetsitterInfoModifyCritical from "./Components/PetsitterInfoModifyCritical";
 import { getPetsitterMyInfo } from "../../services/petsitter";
+import { IPetSitterHashTags } from "./types/petsitter.types";
 
 function PetsitterInfoModify() {
-  const [hashTags, setHashTags] = useState([]);
+  const [hashTags, setHashTags] = useState<IPetSitterHashTags[]>([]);
   const [introduction, setIntroduction] = useState("");
   const [houseImgList, setHouseImgList] = useState([]);
   const [petSitterLicenseImg, setPetSitterLicenseImg] = useState("");
@@ -34,20 +35,47 @@ function PetsitterInfoModify() {
     };
     fetchData();
   }, []);
+  console.log("hashTag:", hashTags);
   const licenseComponent = (
     <>
       <p>자격증</p>
-      <img src={petSitterLicenseImg} alt="자격증 이미지" style={{ width: "300px", height: "auto" }} />
+      <img
+        src={petSitterLicenseImg}
+        alt="자격증 이미지"
+        style={{ width: "300px", height: "auto" }}
+      />
     </>
   );
 
-  let print = <PetsitterInfoModifyHouse />;
-  if (menu === "house") {
-    print = <PetsitterInfoModifyHouse houseImgList={houseImgList} setHouseImgList={setHouseImgList} />;
-  } else if (menu === "hashtag") {
-    print = <PetsitterInfoModifyHashTag hashTags={hashTags} setHashTags={setHashTags} />;
+  console.log("houseImgList:", houseImgList);
+  // let print = <PetsitterInfoModifyHouse />;
+  // if (menu === "house") {
+  //   print = (
+  //     <PetsitterInfoModifyHouse
+  //       houseImgList={houseImgList}
+  //       setHouseImgList={setHouseImgList}
+  //     />
+  //   );
+  let print = (
+    <PetsitterInfoModifyHouse
+      houseImgList={houseImgList}
+      // setHouseImgList={setHouseImgList}
+    />
+  );
+  if (menu === "hashtag") {
+    print = (
+      <PetsitterInfoModifyHashTag
+        hashTags={hashTags}
+        // setHashTags={setHashTags}
+      />
+    );
   } else if (menu === "intro") {
-    print = <PetsitterInfoModifyIntro introduction={introduction} setIntroduction={setIntroduction} />;
+    print = (
+      <PetsitterInfoModifyIntro
+        introduction={introduction}
+        setIntroduction={setIntroduction}
+      />
+    );
   } else if (menu === "license") {
     print = licenseComponent;
   } else if (menu === "service") {

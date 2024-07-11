@@ -1,38 +1,12 @@
 import axios from "axios";
 import baseUrl from "./api";
-
-// 펫시터 집 사진 수정
-interface IPetSitterHousesRequests {
-  petSitterHouseImg: string;
-  petSitterHouseRepresentative: boolean;
-}
-
-// 펫시터 정보 초기 등록
-interface IPetSitterCriticalServices {
-  criticalServiceId: number;
-  petSitterCriticalServicePrice: number;
-}
-interface IPetSitterHashTags {
-  petSitterHashTagName: string;
-}
-interface IPetSitterHouses {
-  petSitterHouseImg: string;
-  petSitterHouseRepresentative: boolean;
-}
-interface IPetSitterWithPetServices {
-  petSitterWithPetServicePrice: number;
-  withPetServiceId: number;
-}
-interface IUpdatedInfo {
-  petSitterCriticalServices: IPetSitterCriticalServices[];
-  petSitterHashTags: IPetSitterHashTags[];
-  petSitterHouses: IPetSitterHouses[];
-  petSitterIntroduction: string;
-  petSitterWithPetServices: IPetSitterWithPetServices[];
-}
-
-// 펫시터 해시태그 수정
-interface IPetSitterHashTagRequests {}
+import {
+  IUpdatedInfo,
+  IPetSitterWithPetServices,
+  IPetSitterCriticalServices,
+  IPetSitterHashTags,
+  IPetSitterHouses,
+} from "../pages/PetsitterInfoModify/types/petsitter.types";
 
 // 펫시터 자기 정보 불러오기
 export const getPetsitterMyInfo = async () => {
@@ -43,7 +17,7 @@ export const getPetsitterMyInfo = async () => {
 
 // 펫시터 집 사진 수정
 export const putPetsitterHouseImg = async (
-  petSitterHousesRequests: IPetSitterHousesRequests,
+  petSitterHousesRequests: IPetSitterHouses[],
 ) => {
   return axios.put(
     `${baseUrl}/v2/pet-sitters/houses`,
@@ -61,7 +35,7 @@ export const postPetsitterRegisterInfo = async (updatedInfo: IUpdatedInfo) => {
 
 // 펫시터 해시태그 수정
 export const putPetsitterHashTag = async (
-  petSitterHashTagRequests: IPetSitterHashTags,
+  petSitterHashTagRequests: IPetSitterHashTags[],
 ) => {
   return axios.put(
     `${baseUrl}/v2/pet-sitters/hashtags`,
