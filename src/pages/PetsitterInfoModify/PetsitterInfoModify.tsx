@@ -73,7 +73,7 @@ function PetsitterInfoModify() {
     print = (
       <PetsitterInfoModifyIntro
         introduction={introduction}
-        setIntroduction={setIntroduction}
+        // setIntroduction={setIntroduction}
       />
     );
   } else if (menu === "license") {
