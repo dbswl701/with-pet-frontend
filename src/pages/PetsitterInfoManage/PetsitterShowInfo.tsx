@@ -6,6 +6,7 @@ import * as S from "./PetsitterInfoManage.styles";
 import Item from "./Components/Item";
 import InitPage from "./Components/InitPage";
 import { getPetsitterMyInfo } from "../../services/petsitter";
+import { useGetPetsitterInfoQuery } from "../../hooks/usePetsitterInfoMutation";
 // import ServiceItem from './Components/ServiceItem';
 
 interface IWithPetService {
@@ -81,31 +82,36 @@ interface IInfo {
 }
 
 function PetsitterShowInfo() {
-  const [info, setInfo] = useState<IInfo | null>(null);
+  // const [info, setInfo] = useState<IInfo | null>(null);
   const navigate = useNavigate();
   console.log(111);
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await getPetsitterMyInfo();
-      setInfo(res.data.result);
-    };
+  // useQuery
+  const { data, isLoading, error } = useGetPetsitterInfoQuery();
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const res = await getPetsitterMyInfo();
+  //     setInfo(res.data.result);
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   const onModify = () => {
     navigate("../petsitterInfoModify");
   };
 
+  if (error) return <div>에러</div>;
+  if (isLoading) return <div>로딩중</div>;
+
   const isServiceIdIncluded: IWithPetService[] =
-    info?.withPetServices.map((service) => {
-      const selected = info.petSitterWithPetServices.find(
+    data?.withPetServices.map((service) => {
+      const selected = data.petSitterWithPetServices.find(
         (sitterService) =>
           sitterService.withPetServiceId === service.withPetServiceId,
       );
       return {
         ...service,
-        isIncluded: info.petSitterWithPetServices.some(
+        isIncluded: data.petSitterWithPetServices.some(
           (sitterService) =>
             sitterService.withPetServiceId === service.withPetServiceId,
         ),
@@ -114,14 +120,14 @@ function PetsitterShowInfo() {
     }) || [];
 
   const isCriticalServiceIdIncluded: ICriticalService[] =
-    info?.criticalServices.map((service) => {
-      const selected = info.petSitterCriticalServices.find(
+    data?.criticalServices.map((service) => {
+      const selected = data.petSitterCriticalServices.find(
         (sitterService) =>
           sitterService.criticalServiceId === service.criticalServiceId,
       );
       return {
         ...service,
-        isIncluded: info.petSitterCriticalServices.some(
+        isIncluded: data.petSitterCriticalServices.some(
           (sitterService) =>
             sitterService.criticalServiceId === service.criticalServiceId,
         ),
@@ -129,7 +135,7 @@ function PetsitterShowInfo() {
       };
     }) || [];
 
-  console.log("info: ", info);
+  console.log("info: ", data);
   console.log("isServiceIdIncluded:", isServiceIdIncluded);
   console.log("isCriticalServiceIdIncluded:", isCriticalServiceIdIncluded);
 
@@ -139,7 +145,7 @@ function PetsitterShowInfo() {
       <S.DivContainer>
         <S.Title>집사진</S.Title>
         <S.HouseImgList>
-          {info?.petSitterHouses.map((img) => (
+          {data?.petSitterHouses.map((img) => (
             <S.HouseImgContainer key={img.petSitterHouseId}>
               <S.HouseImg
                 key={img.petSitterHouseId}
@@ -155,7 +161,7 @@ function PetsitterShowInfo() {
       <S.DivContainer>
         <S.Title>해시태그</S.Title>
         <S.HashTagList>
-          {info?.petSitterHashTags.map((tag) => (
+          {data?.petSitterHashTags.map((tag) => (
             <S.HashTagItem className="list" key={tag.petSitterHashTagId}>
               <S.HashTag># {tag.petSitterHashTagName}</S.HashTag>
             </S.HashTagItem>
@@ -164,13 +170,13 @@ function PetsitterShowInfo() {
       </S.DivContainer>
       <S.DivContainer>
         <S.Title>소개글</S.Title>
-        <p>{info?.petSitterIntroduction}</p>
+        <p>{data?.petSitterIntroduction}</p>
       </S.DivContainer>
 
       <S.DivContainer>
         <S.Title>자격증</S.Title>
         <img
-          src={info?.petSitterLicenseImg}
+          src={data?.petSitterLicenseImg}
           alt="자격증 사진"
           style={{ width: "180px", height: "150px" }}
         />
@@ -212,7 +218,7 @@ function PetsitterShowInfo() {
     </S.Container>
   );
 
-  return <>{info?.petSitterIntroduction ? showInfo : <InitPage />}</>;
+  return <>{data?.petSitterIntroduction ? showInfo : <InitPage />}</>;
 }
 
 export default PetsitterShowInfo;
