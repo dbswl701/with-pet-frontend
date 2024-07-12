@@ -71,7 +71,7 @@ export const putPetsitterService = async (
 
 // 펫시터 필수 서비스 수정
 export const putPetsitterCriticalService = async (
-  petSitterCriticalServiceRequests: IPetSitterCriticalServices,
+  petSitterCriticalServiceRequests: IPetSitterCriticalServices[],
 ) => {
   return axios.put(
     `${baseUrl}/v2/pet-sitters/critical-service`,

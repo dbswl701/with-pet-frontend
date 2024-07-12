@@ -12,6 +12,7 @@ import {
   IPetSitterCriticalServicesRes,
   IUpdatedInfo,
 } from "../types/petsitter.types";
+import { usePostCriticalService } from "../../../hooks/usePetsitterInfoMutation";
 
 interface IProps {
   criticalServices: ICriticalServicesRes[];
@@ -33,6 +34,8 @@ function PetsitterInfoModifyCritical({
     useState<IIncludedCriticalServices[]>([]);
   const [localCriticalServiceSelectList, setLocalCriticalServiceSelectList] =
     useState<IPetSitterCriticalServicesRes[]>(criticalSelectList);
+
+  const { mutate } = usePostCriticalService();
 
   useEffect(() => {
     const includedServices: IIncludedCriticalServices[] = criticalServices?.map(
@@ -87,11 +90,12 @@ function PetsitterInfoModifyCritical({
         criticalServiceId: item.criticalServiceId,
       }),
     );
-    const res = await putPetsitterCriticalService(
-      petSitterCriticalServiceRequests,
-    );
+    mutate(petSitterCriticalServiceRequests);
+    // const res = await putPetsitterCriticalService(
+    //   petSitterCriticalServiceRequests,
+    // );
     // eslint-disable-next-line no-alert
-    alert(res.data.result);
+    // alert(res.data.result);
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

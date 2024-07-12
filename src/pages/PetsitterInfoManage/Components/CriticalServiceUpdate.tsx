@@ -20,6 +20,7 @@ function CriticalServiceUpdate({
   onRemoveCriticalService,
   onAddCriticalService,
 }: IProps) {
+  console.log("errror: ", errors);
   return (
     <div>
       <S.Title>필수 서비스</S.Title>
