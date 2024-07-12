@@ -6,13 +6,18 @@ import {
   IPetSitterCriticalServices,
   IPetSitterHashTags,
   IPetSitterHouses,
+  IPetSitterInfoRes,
 } from "../pages/PetsitterInfoModify/types/petsitter.types";
 
 // 펫시터 자기 정보 불러오기
 export const getPetsitterMyInfo = async () => {
-  return axios.get(`${baseUrl}/v2/pet-sitters/my-info`, {
+  const res = await axios.get(`${baseUrl}/v2/pet-sitters/my-info`, {
     withCredentials: true,
   });
+  // return axios.get(`${baseUrl}/v2/pet-sitters/my-info`, {
+  //   withCredentials: true,
+  // });
+  return res.data.result as unknown as IPetSitterInfoRes;
 };
 
 // 펫시터 집 사진 수정
@@ -55,7 +60,7 @@ export const putPetsitterIntro = async (petSitterIntroduction: string) => {
 
 // 펫시터 이용 가능 서비스 수정
 export const putPetsitterService = async (
-  petSitterServiceRequests: IPetSitterWithPetServices,
+  petSitterServiceRequests: IPetSitterWithPetServices[],
 ) => {
   return axios.put(
     `${baseUrl}/v2/pet-sitters/services`,

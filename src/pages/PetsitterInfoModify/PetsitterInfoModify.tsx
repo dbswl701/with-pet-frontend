@@ -6,84 +6,72 @@ import PetsitterInfoModifyIntro from "./Components/PetsitterInfoModifyIntro";
 import PetsitterInfoModifyService from "./Components/PetsitterInfoModifyService";
 import PetsitterInfoModifyCritical from "./Components/PetsitterInfoModifyCritical";
 import { getPetsitterMyInfo } from "../../services/petsitter";
-import { IPetSitterHashTags } from "./types/petsitter.types";
+import {
+  IPetSitterHashTags,
+  IPetSitterWithPetServices,
+} from "./types/petsitter.types";
+import { useGetPetsitterInfoQuery } from "../../hooks/usePetsitterInfoMutation";
 
 function PetsitterInfoModify() {
   const [hashTags, setHashTags] = useState<IPetSitterHashTags[]>([]);
   const [introduction, setIntroduction] = useState("");
   const [houseImgList, setHouseImgList] = useState([]);
   const [petSitterLicenseImg, setPetSitterLicenseImg] = useState("");
-  const [serviceSelectList, setServiceSelectList] = useState([]);
+  const [serviceSelectList, setServiceSelectList] = useState<
+    IPetSitterWithPetServices[]
+  >([]);
   const [withPetServices, setWithPetServices] = useState([]);
   const [criticalServices, setCriticalServices] = useState([]);
   const [criticalSelectList, setCriticalSelectList] = useState([]);
   const [menu, setMenu] = useState("house");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await getPetsitterMyInfo();
-      setHouseImgList(res.data.result.petSitterHouses);
-      setHashTags(res.data.result.petSitterHashTags);
-      setIntroduction(res.data.result.petSitterIntroduction);
-      setPetSitterLicenseImg(res.data.result.petSitterLicenseImg);
+  // get -> useQuery
+  const { data, isLoading, error } = useGetPetsitterInfoQuery();
 
-      setServiceSelectList(res.data.result.petSitterWithPetServices);
-      setWithPetServices(res.data.result.withPetServices);
+  if (error) return <div>에러</div>;
+  if (isLoading) return <div>로딩중</div>;
+  console.log("data 확인:", data);
 
-      setCriticalServices(res.data.result.criticalServices);
-      setCriticalSelectList(res.data.result.petSitterCriticalServices);
-    };
-    fetchData();
-  }, []);
   console.log("hashTag:", hashTags);
-  const licenseComponent = (
-    <>
-      <p>자격증</p>
-      <img
-        src={petSitterLicenseImg}
-        alt="자격증 이미지"
-        style={{ width: "300px", height: "auto" }}
-      />
-    </>
-  );
+  console.log("houseImgList:", data?.petSitterHouses);
 
-  console.log("houseImgList:", houseImgList);
-  // let print = <PetsitterInfoModifyHouse />;
-  // if (menu === "house") {
-  //   print = (
-  //     <PetsitterInfoModifyHouse
-  //       houseImgList={houseImgList}
-  //       setHouseImgList={setHouseImgList}
-  //     />
-  //   );
   let print = (
     <PetsitterInfoModifyHouse
-      houseImgList={houseImgList}
+      houseImgList={data!.petSitterHouses}
       // setHouseImgList={setHouseImgList}
     />
   );
   if (menu === "hashtag") {
     print = (
       <PetsitterInfoModifyHashTag
-        hashTags={hashTags}
+        hashTags={data!.petSitterHashTags}
         // setHashTags={setHashTags}
       />
     );
   } else if (menu === "intro") {
     print = (
       <PetsitterInfoModifyIntro
-        introduction={introduction}
+        introduction={data!.petSitterIntroduction}
         // setIntroduction={setIntroduction}
       />
     );
   } else if (menu === "license") {
-    print = licenseComponent;
+    print = (
+      <>
+        <p>자격증</p>
+        <img
+          src={data!.petSitterLicenseImg}
+          alt="자격증 이미지"
+          style={{ width: "300px", height: "auto" }}
+        />
+      </>
+    );
   } else if (menu === "service") {
     print = (
       <PetsitterInfoModifyService
-        serviceSelectList={serviceSelectList}
-        setServiceSelectList={setServiceSelectList}
-        withPetServices={withPetServices}
+        serviceSelectList={data!.petSitterWithPetServices}
+        // setServiceSelectList={setServiceSelectList}
+        withPetServices={data!.withPetServices}
       />
     );
   } else if (menu === "criticalService") {
@@ -95,6 +83,7 @@ function PetsitterInfoModify() {
       />
     );
   }
+
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <PetsitterInfoModifySidebar setMenu={setMenu} menu={menu} />
