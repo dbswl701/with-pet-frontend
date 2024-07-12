@@ -18,6 +18,7 @@ interface IProps {
   serviceSelectList: IPetSitterWithPetServicesRes[];
   withPetServices: IWithPetServicesRes[];
 }
+
 function PetsitterInfoModifyService({
   serviceSelectList,
   withPetServices,

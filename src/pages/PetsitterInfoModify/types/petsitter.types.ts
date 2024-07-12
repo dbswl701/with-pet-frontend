@@ -76,3 +76,12 @@ export interface IIncludedServices {
   withPetServiceIntroduction: string;
   withPetServiceName: string;
 }
+
+export interface IIncludedCriticalServices {
+  isIncluded: boolean;
+  petSitterCriticalServicePrice: number | null;
+  criticalServiceId: number;
+  criticalServiceImg: string;
+  criticalServiceIntroduction: string;
+  criticalServiceName: string;
+}

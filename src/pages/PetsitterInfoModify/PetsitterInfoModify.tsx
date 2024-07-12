@@ -77,13 +77,24 @@ function PetsitterInfoModify() {
   } else if (menu === "criticalService") {
     print = (
       <PetsitterInfoModifyCritical
-        criticalServices={criticalServices}
-        criticalSelectList={criticalSelectList}
-        setCriticalSelectList={setCriticalSelectList}
+        criticalServices={data!.criticalServices}
+        criticalSelectList={data!.petSitterCriticalServices}
+        // setCriticalSelectList={setCriticalSelectList}
       />
     );
   }
 
+  // useEffect(() => {
+  //   console.log("data 확인:", data);
+  //   // setHouseImgList(data.petSitterHouses);
+  //   // setHashTags(res.data.result.petSitterHashTags);
+  //   // setIntroduction(res.data.result.petSitterIntroduction);
+  //   // setPetSitterLicenseImg(res.data.result.petSitterLicenseImg);
+  //   // setServiceSelectList(res.data.result.petSitterWithPetServices);
+  //   // setWithPetServices(res.data.result.withPetServices);
+  //   // setCriticalServices(res.data.result.criticalServices);
+  //   // setCriticalSelectList(res.data.result.petSitterCriticalServices);
+  // }, []);
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <PetsitterInfoModifySidebar setMenu={setMenu} menu={menu} />
