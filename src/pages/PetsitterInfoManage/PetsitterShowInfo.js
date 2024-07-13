@@ -1,39 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import {
-  Container, DivContainer, Title, Button,
-} from './InfoStyle';
-
-function Item({ service }) {
-  return (
-    <div style={{
-      backgroundColor: `${service.isIncluded === true ? '#FAF6F0' : '#F2F2F2'}`, color: `${service.isIncluded === true ? '#CAA969' : 'gray'}`, width: '130px', height: '150px', marginRight: '5px', borderRadius: '20px', padding: '10px', fontSize: '12px',
-    }}
-    >
-      <div style={{ textAlign: 'center' }}>
-        <img src={service.serviceImg} alt="서비스 이미지" style={{ width: '30px', height: '30px', marginTop: '5px' }} />
-      </div>
-      <div style={{ paddingLeft: '5px' }}>
-        <p>{service.serviceName}</p>
-        <p>{service.serviceIntroduction}</p>
-        <p>{service.price ? `가격 : ${service.price}원` : null}</p>
-      </div>
-    </div>
-  );
-}
+import * as S from './PetsitterInfoManage.styles';
+import { getPetsitterMyInfo } from '../../services/petsitter';
+import Item from './Components/Item';
+import InitPage from './Components/InitPage';
+// import ServiceItem from './Components/ServiceItem';
 
 function PetsitterShowInfo() {
   const [info, setInfo] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('https://withpet.site/api/v1/petsitter/show-myinfo', { withCredentials: true })
-      .then((res) => {
-        setInfo(res.data.result);
-      })
-      .catch(() => {
-      });
+    const fetchData = async () => {
+      const res = await getPetsitterMyInfo();
+      setInfo(res.data.result);
+    };
+
+    fetchData();
   }, []);
 
   const onModify = () => {
@@ -41,13 +24,13 @@ function PetsitterShowInfo() {
   };
 
   const isServiceIdIncluded = info.withPetServices && info.withPetServices.map((service) => {
-    const selected = info.petSitterServices.find((sitterService) => sitterService.serviceId === service.serviceId);
+    const selected = info.petSitterWithPetServices.find((sitterService) => sitterService.withPetServiceId === service.withPetServiceId);
     return {
       ...service,
-      isIncluded: info.petSitterServices.some(
-        (sitterService) => sitterService.serviceId === service.serviceId,
+      isIncluded: info.petSitterWithPetServices.some(
+        (sitterService) => sitterService.withPetServiceId === service.withPetServiceId,
       ),
-      price: selected ? selected.price : null,
+      price: selected ? selected.petSitterWithPetServicePrice : null,
     };
   });
 
@@ -58,92 +41,75 @@ function PetsitterShowInfo() {
       isIncluded: info.petSitterCriticalServices.some(
         (sitterService) => sitterService.serviceId === service.serviceId,
       ),
-      price: selected ? selected.price : null,
+      price: selected ? selected.petSitterCriticalServicePrice : null,
     };
   });
 
+  console.log('isServiceIdIncluded:', isServiceIdIncluded);
+  console.log('isCriticalServiceIdIncluded:', isCriticalServiceIdIncluded);
+
   const showInfo = (
-    <Container>
-      <Title className="page">펫시터 정보 관리 페이지</Title>
-      <DivContainer>
-        <div style={{ flexDirection: 'row' }}>
-          <Title>집사진</Title>
+    <S.Container>
+      <S.MainTitle className="page">펫시터 정보 관리 페이지</S.MainTitle>
+      <S.DivContainer>
+        <S.Title>집사진</S.Title>
+        <S.HouseImgList>
           {
-            info.petSitterHouses && info.petSitterHouses.map((img) => {
-              return <img key={img.houseId} src={img.houseImg} alt="집사진" style={{ width: '200px', height: '200px' }} />;
-            })
+            info.petSitterHouses && info.petSitterHouses.map((img) => (
+              <S.HouseImgContainer key={img}>
+                <S.HouseImg key={img.petSitterHouseId} src={img.petSitterHouseImg} alt="집사진" isRepresentative={img.petSitterHouseRepresentative} isModify={false} />
+              </S.HouseImgContainer>
+            ))
           }
-        </div>
-      </DivContainer>
-      <DivContainer>
-        <Title>해시태그</Title>
-        <div style={{ display: 'flex' }}>
-          {
-          info.petSitterHashTags && info.petSitterHashTags.map((tag) => {
-            return <p style={{ textAlign: 'left' }} key={tag.petSitterHashTagId}>#{tag.hashTagName}&ensp;</p>;
-          })
-        }
-        </div>
-      </DivContainer>
-      <DivContainer>
-        <Title>소개글</Title>
-        <p>{info.introduction}</p>
-      </DivContainer>
+        </S.HouseImgList>
+      </S.DivContainer>
+      <S.DivContainer>
+        <S.Title>해시태그</S.Title>
+        <S.HashTagList>
+          {info.petSitterHashTags && info.petSitterHashTags.map((tag) => (
+            <S.HashTagItem className="list" key={tag.petSitterHashTagId}>
+              <S.HashTag># {tag.petSitterHashTagName}</S.HashTag>
+            </S.HashTagItem>
+          ))}
+        </S.HashTagList>
+      </S.DivContainer>
+      <S.DivContainer>
+        <S.Title>소개글</S.Title>
+        <p>{info.petSitterIntroduction}</p>
+      </S.DivContainer>
 
-      <DivContainer>
-        <Title>자격증</Title>
+      <S.DivContainer>
+        <S.Title>자격증</S.Title>
         <img src={info.petSitterLicenseImg} alt="자격증 사진" style={{ width: '180px', height: '150px' }} />
-      </DivContainer>
+      </S.DivContainer>
 
-      <DivContainer>
-        <Title>이용 가능 서비스</Title>
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
+      <S.DivContainer>
+        <S.Title>이용 가능 서비스</S.Title>
+        <S.ServiceList>
           {
-            isServiceIdIncluded && isServiceIdIncluded.map((service) => {
-              return <Item key={service.serviceId} service={service} />;
-            })
+            isServiceIdIncluded && isServiceIdIncluded.map((service) => (
+              <Item key={service.withPetServiceId} price={service.price} isIncluded={service.isIncluded} serviceImg={service.withPetServiceImg} serviceName={service.withPetServiceName} serviceIntroduction={service.withPetServiceIntroduction} serviceId={service.withPetServiceId} />
+            ))
           }
-        </div>
-      </DivContainer>
-      <DivContainer>
-        <Title>필수 서비스</Title>
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
+        </S.ServiceList>
+      </S.DivContainer>
+      <S.DivContainer>
+        <S.Title>필수 서비스</S.Title>
+        <S.ServiceList>
           {
-            isCriticalServiceIdIncluded && isCriticalServiceIdIncluded.map((service) => {
-              return <Item key={service.serviceId} service={service} />;
-            })
+            isCriticalServiceIdIncluded && isCriticalServiceIdIncluded.map((service) => (
+              <Item key={service.criticalServiceId} price={service.price} isIncluded={service.isIncluded} serviceImg={service.criticalServiceImg} serviceName={service.criticalServiceName} serviceIntroduction={service.criticalServiceIntroduction} serviceId={service.criticalServiceId} />
+            ))
           }
-        </div>
-      </DivContainer>
-      <Button onClick={onModify}>수정</Button>
-    </Container>
+        </S.ServiceList>
+      </S.DivContainer>
+      <S.Button onClick={onModify}>수정</S.Button>
+    </S.Container>
   );
-
-  const initPrint = (
-    <div style={{
-      width: '500px', height: '200px', border: '1px solid gray', margin: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '150px', borderRadius: '5px',
-    }}
-    >
-      <div style={{ alignItems: 'center', textAlign: 'center' }}>
-        <p>등록된 정보가 없습니다.</p>
-        <p>등록하기를 눌러 정보를 등록해주세요.</p>
-      </div>
-      <div>
-        <Button style={{ margin: 'auto' }} className="init" onClick={() => navigate('../petsitterInfoManage')}>등록하기</Button>
-      </div>
-    </div>
-  );
-
-  let print = '';
-  if (info.introduction === null) {
-    print = initPrint;
-  } else {
-    print = showInfo;
-  }
 
   return (
     <>
-      { print }
+      { info.petSitterIntroduction ? showInfo : <InitPage /> }
     </>
   );
 }

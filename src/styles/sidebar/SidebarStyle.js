@@ -180,12 +180,14 @@ export const Content = styled.div`
 export const Button = styled.button`
   width: 190px;
   height: 40px;
-  background-color: white;
+  cursor: pointer;
   border: 1px solid #CAA969;
   border-radius: 5px;
   justify-content: center;
   align-items: center;
   margin: 10px 0px 10px 0px;
+  background-color: ${(props) => (props.check ? '#CAA969' : '')};
+  color: ${(props) => (props.check ? 'white' : '')};
 `;
 
 export const Container = styled.div`

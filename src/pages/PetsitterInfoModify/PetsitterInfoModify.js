@@ -1,47 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import PetsitterInfoModifySidebar from './PetsitterInfoModifySidebar';
-import PetsitterInfoModifyHouse from './PetsitterInfoModifyHouse';
-import PetsitterInfoModifyHashTag from './PetsitterInfoModifyHashTag';
-import PetsitterInfoModifyIntro from './PetsitterInfoModifyIntro';
-import PetsitterInfoModifyService from './PetsitterInfoModifyService';
-import PetsitterInfoModifyCritical from './PetsitterInfoModifyCritical';
+import PetsitterInfoModifySidebar from './Components/PetsitterInfoModifySidebar';
+import PetsitterInfoModifyHouse from './Components/PetsitterInfoModifyHouse';
+import PetsitterInfoModifyHashTag from './Components/PetsitterInfoModifyHashTag';
+import PetsitterInfoModifyIntro from './Components/PetsitterInfoModifyIntro';
+import PetsitterInfoModifyService from './Components/PetsitterInfoModifyService';
+import PetsitterInfoModifyCritical from './Components/PetsitterInfoModifyCritical';
+import { getPetsitterMyInfo } from '../../services/petsitter';
 
 function PetsitterInfoModify() {
   const [hashTags, setHashTags] = useState([]);
-
   const [introduction, setIntroduction] = useState('');
-
   const [houseImgList, setHouseImgList] = useState([]);
-
   const [petSitterLicenseImg, setPetSitterLicenseImg] = useState('');
-
   const [serviceSelectList, setServiceSelectList] = useState([]);
   const [withPetServices, setWithPetServices] = useState([]);
-
   const [criticalServices, setCriticalServices] = useState([]);
   const [criticalSelectList, setCriticalSelectList] = useState([]);
-
   const [menu, setMenu] = useState('house');
 
   useEffect(() => {
-    axios.get('https://withpet.site/api/v1/petsitter/show-myinfo', { withCredentials: true })
-      .then((res) => {
-        setHouseImgList(res.data.result.petSitterHouses);
-        setHashTags(res.data.result.petSitterHashTags);
-        setIntroduction(res.data.result.introduction);
-        setPetSitterLicenseImg(res.data.result.petSitterLicenseImg);
+    const fetchData = async () => {
+      const res = await getPetsitterMyInfo();
+      setHouseImgList(res.data.result.petSitterHouses);
+      setHashTags(res.data.result.petSitterHashTags);
+      setIntroduction(res.data.result.petSitterIntroduction);
+      setPetSitterLicenseImg(res.data.result.petSitterLicenseImg);
 
-        setServiceSelectList(res.data.result.petSitterServices);
-        setWithPetServices(res.data.result.withPetServices);
+      setServiceSelectList(res.data.result.petSitterWithPetServices);
+      setWithPetServices(res.data.result.withPetServices);
 
-        setCriticalServices(res.data.result.criticalServices);
-        setCriticalSelectList(res.data.result.petSitterCriticalServices);
-      })
-      .catch(() => {
-      });
+      setCriticalServices(res.data.result.criticalServices);
+      setCriticalSelectList(res.data.result.petSitterCriticalServices);
+    };
+    fetchData();
   }, []);
-
   const licenseComponent = (
     <>
       <p>자격증</p>
@@ -65,7 +57,7 @@ function PetsitterInfoModify() {
   }
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
-      <PetsitterInfoModifySidebar setMenu={setMenu} />
+      <PetsitterInfoModifySidebar setMenu={setMenu} menu={menu} />
       <div style={{ margin: 'auto' }}>
         { print }
       </div>

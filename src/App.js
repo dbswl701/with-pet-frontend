@@ -23,7 +23,7 @@ import PetsitterShowInfo from './pages/PetsitterInfoManage/PetsitterShowInfo';
 import UserDiaryList from './pages/UserDiary/UserDiaryList';
 import UserEvaluation from './pages/UserEvaluation/UserEvaluation';
 import PetsitterDiaries from './pages/PetsitterDiaries/PetsitterDiaries';
-import PetsitterInfoModify from './pages/PetsitterInfoManage/PetsitterInfoModify';
+import PetsitterInfoModify from './pages/PetsitterInfoModify/PetsitterInfoModify';
 import Chat from './pages/Chat/Chat';
 // import Notification from './pages/Notification/Notification';
 import NotificationPage from './pages/Notification/NotificationPage';
