@@ -46,3 +46,28 @@ export const putAdminCriticalService = async (modifyPetInfo) => {
   };
   return axios.put(`${baseUrl}/v2/admins/critical-service/${modifyPetInfo.serviceId}`, body, { withCredentials: true });
 };
+
+// 관리자 펫시터 리스트 조회
+export const getPetsitterList = async () => {
+  return axios.get(`${baseUrl}/v2/admins/pet-sitters`, { withCredentials: true });
+};
+
+// 관리자 펫시터 지원자 리스트 조회
+export const getPetsitterApplicantList = async () => {
+  return axios.get(`${baseUrl}/v2/admins/applicants`, { withCredentials: true });
+};
+
+// 관리자 펫시터 지원자 상세 조회
+export const getAdminApplicantDetail = async (userId) => {
+  return axios.get(`${baseUrl}/v2/admins/applicants/${userId}`, { withCredentials: true });
+};
+
+// 관리자 펫시터 지원자 수락
+export const postAdminApplicantApprove = async (userId) => {
+  return axios.patch(`${baseUrl}/v2/admins/accept-applicants/${userId}`, {}, { withCredentials: true });
+};
+
+// 관리자 펫시터 지원자 거절
+export const postAdminApplicantRefuse = async (userId) => {
+  return axios.patch(`${baseUrl}/v2/admins/refuse-applicant/${userId}`, {}, { withCredentials: true });
+};

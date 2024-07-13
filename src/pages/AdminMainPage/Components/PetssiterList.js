@@ -6,7 +6,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 
-export default function Orders({ rows }) {
+export default function PetssiterList({ rows }) {
   return (
     <>
       <Typography component="h2" variant="h6" color="primary" gutterBottom>펫시터 리스트</Typography>
@@ -22,13 +22,13 @@ export default function Orders({ rows }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {rows.map((row, idx) => (
             <TableRow key={row.petSitterId}>
-              <TableCell>{row.petSitterId}</TableCell>
-              <TableCell><img src={row.userProfileImg} alt="img" style={{ width: '50px', borderRadius: '50%' }} /></TableCell>
-              <TableCell>{row.userName}</TableCell>
-              <TableCell>{row.userId}</TableCell>
-              <TableCell>{row.userPhone}</TableCell>
+              <TableCell>{idx + 1}</TableCell>
+              <TableCell><img src={row.petSitterImg} alt="img" style={{ width: '50px', borderRadius: '50%' }} /></TableCell>
+              <TableCell>{row.petSitterName}</TableCell>
+              <TableCell>{row.petSitterEmail}</TableCell>
+              <TableCell>{row.petSitterPhone}</TableCell>
               <TableCell align="right">
                 <button>x</button>
               </TableCell>
