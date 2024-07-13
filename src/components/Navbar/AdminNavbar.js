@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo_withpet.png';
 import useUserStore from '../../store/user';
-import { PostSignOut } from '../../services/user';
+import { PostSignOut } from '../../services/auth';
 
 function AdminNavbar() {
   const navigate = useNavigate();

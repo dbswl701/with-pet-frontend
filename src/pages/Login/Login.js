@@ -7,7 +7,7 @@ import logo from '../../assets/logo.png';
 import logoName from '../../assets/logo_name.png';
 import googleSininImg from '../../assets/btn_google_signin_light_normal_web.png';
 import useUserStore from '../../store/user';
-import { PostSignIn } from '../../services/user';
+import { PostSignIn } from '../../services/auth';
 import useIdStore from '../../store/id';
 
 function Login() {

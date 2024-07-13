@@ -28,6 +28,7 @@ import Chat from './pages/Chat/Chat';
 // import Notification from './pages/Notification/Notification';
 import NotificationPage from './pages/Notification/NotificationPage';
 import ApplicantDetail from './pages/AdminMainPage/ApplicantDetail';
+import PetsitterApply2 from './pages/PetsitterApply/PetsitterApply2';
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
 
           {/* 펫시터 페이지 */}
           <Route path="/petsitterapply" element={<PetsitterApply />} />
+          <Route path="/petsitterapply2" element={<PetsitterApply2 />} />
           <Route path="/petsittercalendar" element={<PetsitterCalendar />} />
           <Route path="/petsittersdoginfo" element={<PetsittersDogInfo />} />
           <Route path="/petsitternewdog" element={<PetsitterNewDog />} />
