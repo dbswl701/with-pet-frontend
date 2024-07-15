@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import dogimgdefault from '../../assets/dogProfileImage.png';
-import { InputButton } from '../PetsitterInfoManage/InfoStyle';
+import { InputButton } from '../PetsitterInfoManage/PetsitterInfoManage.styles';
 
 function DiaryAdd({
   onSubmit, onChange, petInfo, onCancle, categories,
