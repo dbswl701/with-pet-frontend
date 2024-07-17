@@ -1,13 +1,22 @@
 import React, { useState } from "react";
 import axios from "axios";
 import crown from "../../assets/crown.png";
+import { IPartiesRes, IPartyMemberList } from "./types/parties";
+import * as S from "./Pet.styles";
 
-function UserItem({ user, isLeader, handleExpelMember, noneDisplay }) {
+interface IProps {
+  user: IPartyMemberList;
+  isLeader: boolean;
+  handleExpelMember: (userId: number) => void;
+  noneDisplay: any;
+}
+
+function UserItem({ user, isLeader, handleExpelMember, noneDisplay }: IProps) {
   const [showDiv, setShowDiv] = useState(false);
   const content = (
     <>
       <img
-        src={user.profileImg}
+        src={user.memberProfileImg}
         alt="유저 이미지"
         style={{
           border: "1px solid black",
@@ -17,18 +26,18 @@ function UserItem({ user, isLeader, handleExpelMember, noneDisplay }) {
           marginRight: "10px",
         }}
       />
-      <p>{user.userName}</p>
+      <p>{user.memberName}</p>
     </>
   );
   return (
     <div
       onMouseEnter={() => setShowDiv(true)}
       onMouseLeave={() => setShowDiv(false)}
-      onClick={() => handleExpelMember(user.userId)}
+      onClick={() => handleExpelMember(user.memberId)}
       style={{
         width: "120px",
         backgroundColor: showDiv && isLeader ? "red" : "white",
-        display: noneDisplay[user.userId] ? "none" : "flex",
+        display: noneDisplay[user.memberId] ? "none" : "flex",
         marginLeft: "30px",
         alignItems: "center",
         border: "1px solid rgb(200, 200, 200)",
@@ -43,17 +52,24 @@ function UserItem({ user, isLeader, handleExpelMember, noneDisplay }) {
   );
 }
 
-function Party({ group, isLeader, handleLeaveParty }) {
+interface IProps2 {
+  party: IPartiesRes;
+  isLeader: boolean;
+  handleLeaveParty: (partyId: number) => void;
+}
+
+function Party({ party, isLeader, handleLeaveParty }: IProps2) {
   const [noneDisplay, setNoneDisplay] = useState({});
-  const handleExpelMember = (userId) => {
+  const handleExpelMember = (userId: number) => {
     if (isLeader) {
       axios
-        .delete(`https://withpet.site/api/v1/groups/${group.partyId}/members/${userId}`, { withCredentials: true })
+        .delete(`https://withpet.site/api/v1/groups/${party.partyId}/members/${userId}`, { withCredentials: true })
         .then(() => {
           setNoneDisplay((prevState) => ({ ...prevState, [userId]: true }));
         });
     }
   };
+  console.log("noneDisplay:", noneDisplay);
 
   return (
     <>
@@ -70,7 +86,7 @@ function Party({ group, isLeader, handleLeaveParty }) {
       >
         <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <h1>{group.partyName}</h1>
+            <h1>{party.partyName}</h1>
             <div
               style={{
                 display: "flex",
@@ -83,7 +99,7 @@ function Party({ group, isLeader, handleLeaveParty }) {
               }}
             >
               <img
-                src={group.leaderImg}
+                src={party.partyLeaderImg}
                 alt="유저 이미지"
                 style={{
                   border: "1px solid black",
@@ -93,14 +109,14 @@ function Party({ group, isLeader, handleLeaveParty }) {
                   marginRight: "10px",
                 }}
               />
-              <p>{group.leaderName}</p>
+              <p>{party.partyLeaderName}</p>
               <img src={crown} alt="왕관" style={{ width: "20px", height: "20px" }} />
             </div>
           </div>
-          {group.userPartyList &&
-            group.userPartyList.map((user) => (
+          {party.partyMemberList &&
+            party.partyMemberList.map((user) => (
               <UserItem
-                key={user.userId}
+                key={user.memberId}
                 user={user}
                 isLeader={isLeader}
                 handleExpelMember={handleExpelMember}
@@ -117,29 +133,9 @@ function Party({ group, isLeader, handleLeaveParty }) {
           }}
         >
           <p style={{ margin: "0px", fontSize: "13px" }}>
-            그룹 코드: <b>{group.partyIsbn}</b>
+            그룹 코드: <b>{party.partyIsbn}</b>
           </p>
-          <button
-            onClick={() => handleLeaveParty(group.partyId)}
-            onMouseEnter={(e) => {
-              e.target.style.backgroundColor = "red";
-              e.target.style.color = "white";
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.backgroundColor = "white";
-              e.target.style.color = "black";
-            }}
-            style={{
-              border: "1px solid red",
-              backgroundColor: "white",
-              color: "black",
-              marginTop: "10px",
-              width: "100px",
-              height: "25px",
-            }}
-          >
-            그룹 탈퇴
-          </button>
+          <S.LeavePartyButton onClick={() => handleLeaveParty(party.partyId)}>그룹 탈퇴</S.LeavePartyButton>
         </div>
       </div>
     </>

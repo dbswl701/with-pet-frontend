@@ -272,7 +272,7 @@ function PetList() {
               <Party
                 party={party}
                 isLeader={party.partyLeaderName === userName}
-                setPartyList={setPartyList}
+                // setPartyList={setPartyList}
                 handleLeaveParty={handleLeaveParty}
               />
               {party.partyDogList.map((pet) => {
