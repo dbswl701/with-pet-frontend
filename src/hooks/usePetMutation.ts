@@ -3,9 +3,14 @@ import {
   getPetPartiesInfo,
   postDogIntoParty,
   postPetPartyCreate,
+  putModifyDog,
 } from "../services/pet";
 import { toast } from "react-toastify";
-import { IAddPetReq, IPartyReq } from "../pages/PetList/types/parties";
+import {
+  IAddPetReq,
+  IModifyPetReq,
+  IPartyReq,
+} from "../pages/PetList/types/parties";
 
 // 반려견 파티 정보 불러오기
 export const useGetPetPartiesInfo = () => {
@@ -43,6 +48,21 @@ export const usePostAddDogIntoParty = () => {
       partyId: number;
       petInfo: IAddPetReq;
     }) => postDogIntoParty(partyId, petInfo),
+    onError: () => {},
+    onSuccess: () => {},
+  });
+};
+
+// 반려견 정보 수정
+export const usePutModifyDog = () => {
+  return useMutation({
+    mutationFn: ({
+      dogId,
+      dogInfo,
+    }: {
+      dogId: number;
+      dogInfo: IModifyPetReq;
+    }) => putModifyDog(dogId, dogInfo),
     onError: () => {},
     onSuccess: () => {},
   });

@@ -14,8 +14,14 @@ import {
   useGetPetPartiesInfo,
   usePostAddDogIntoParty,
   usePostPetPartyCreate,
+  usePutModifyDog,
 } from "../../hooks/usePetMutation";
-import { IAddPetReq, IPartiesRes, IPartyReq } from "./types/parties";
+import {
+  IAddPetReq,
+  IModifyPetReq,
+  IPartiesRes,
+  IPartyReq,
+} from "./types/parties";
 import useUserStore from "../../store/user";
 import PostFileUpload from "../../services/upload";
 
@@ -30,7 +36,7 @@ const Button = styled.button`
 
 function PetList() {
   const [pets, setPets] = useState([]);
-  const [groupList, setGroupList] = useState<IPartiesRes[] | []>([]); // 그룹 정보 리스트 전체 저장
+  const [partyList, setPartyList] = useState<IPartiesRes[] | []>([]); // 그룹 정보 리스트 전체 저장
   const [openParty, setOpenParty] = useState(false);
   const [openCreate, setOpenCreate] = useState(false);
   const dateNow = new Date();
@@ -74,7 +80,7 @@ function PetList() {
   //       withCredentials: true,
   //     })
   //     .then((res) => {
-  //       setGroupList(res.data.result);
+  //       setPartyList(res.data.result);
   //     })
   //     .catch(() => {});
   // }, []);
@@ -89,7 +95,7 @@ function PetList() {
   const { mutate: createPartyMutate } = usePostPetPartyCreate();
 
   useEffect(() => {
-    if (partiesData) setGroupList(partiesData);
+    if (partiesData) setPartyList(partiesData);
   }, [partiesData]);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,7 +122,7 @@ function PetList() {
     //     });
     //   });
   };
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       handleImageUpload(e);
     } else {
@@ -128,7 +134,7 @@ function PetList() {
     }
   };
 
-  const onSubmitCreateGroup = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitCreateParty = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // axios
@@ -136,7 +142,7 @@ function PetList() {
     //     withCredentials: true,
     //   })
     //   .then((res) => {
-    //     setGroupList(groupList.concat(res.data.result));
+    //     setPartyList(partyList.concat(res.data.result));
     //   })
     //   .catch(() => {});
     createPartyMutate(partyInfo);
@@ -162,15 +168,15 @@ function PetList() {
     if (img === "") {
       img = dogimgdefault;
     }
-    const pet = {
-      partyDogName: partyInfo.partyDogName,
-      partyDogBreed: partyInfo.partyDogBreed,
-      partyDogBirth: partyInfo.partyDogBirth,
-      partyDogGender: partyInfo.partyDogGender,
-      partyDogNeutralization: partyInfo.partyDogNeutralization,
-      partyDogWeight: partyInfo.partyDogWeight,
-      partyDogImg: img,
-      partyDogIsbn: partyInfo.partyDogIsbn,
+    const pet: IAddPetReq = {
+      dogName: partyInfo.partyDogName,
+      dogBreed: partyInfo.partyDogBreed,
+      dogBirth: partyInfo.partyDogBirth,
+      dogGender: partyInfo.partyDogGender,
+      dogNeutralization: partyInfo.partyDogNeutralization,
+      dogWeight: partyInfo.partyDogWeight,
+      dogImg: img,
+      dogIsbn: partyInfo.partyDogIsbn,
     };
     postAddDogMutate({ partyId, petInfo: pet });
     // axios
@@ -178,18 +184,18 @@ function PetList() {
     //     withCredentials: true,
     //   })
     //   .then((res) => {
-    //     const updatedResult = groupList.map((item) => {
+    //     const updatedResult = partyList.map((item) => {
     //       if (item.partyId === partyId) {
     //         return {
     //           ...item,
-    //           dogInfoResponseList: item.dogInfoResponseList.concat(
+    //           partyDogList: item.partyDogList.concat(
     //             res.data.result,
     //           ),
     //         };
     //       }
     //       return item;
     //     });
-    //     setGroupList(updatedResult);
+    //     setPartyList(updatedResult);
     //   })
     //   .catch(() => {});
     setPartyInfo({
@@ -205,28 +211,37 @@ function PetList() {
     });
   };
 
-  const onSubmitModify = (partyId, id, modifyPetInfo) => {
-    axios
-      .put(`https://withpet.site/api/v1/dogs/${id}`, modifyPetInfo, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        const updatedResult = groupList.map((item) => {
-          if (item.partyId === partyId) {
-            const updatedPets = item.dogInfoResponseList.map((pet) => {
-              if (pet.dog_id === id) {
-                return res.data.result;
-              }
-              return pet;
-            });
+  // put -> mutate
+  const { mutate: putModifyDogInfoMutate } = usePutModifyDog();
+  const onSubmitModify = (
+    partyId: number,
+    dogId: number,
+    modifyPetInfo: IModifyPetReq,
+  ) => {
+    // 반려견 정보 수정
+    //   axios
+    //     .put(`https://withpet.site/api/v1/dogs/${id}`, modifyPetInfo, {
+    //       withCredentials: true,
+    //     })
+    //     .then((res) => {
+    //       const updatedResult = partyList.map((item) => {
+    //         if (item.partyId === partyId) {
+    //           const updatedPets = item.partyDogList.map((pet) => {
+    //             if (pet.dog_id === id) {
+    //               return res.data.result;
+    //             }
+    //             return pet;
+    //           });
 
-            return { ...item, dogInfoResponseList: updatedPets };
-          }
-          return item;
-        });
-        setGroupList(updatedResult);
-      })
-      .catch(() => {});
+    //           return { ...item, partyDogList: updatedPets };
+    //         }
+    //         return item;
+    //       });
+    //       setPartyList(updatedResult);
+    //     })
+    //     .catch(() => {});
+
+    putModifyDogInfoMutate({ dogId, dogInfo: modifyPetInfo });
   };
 
   const onCancle = () => {
@@ -250,8 +265,8 @@ function PetList() {
       })
       .then(() => {
         // 자신의 groupList에서 해당 그룹 삭제
-        setGroupList((prev) =>
-          prev.filter((group) => group.partyId !== partyId),
+        setPartyList((prev) =>
+          prev.filter((party) => party.partyId !== partyId),
         );
       })
       .catch((err) => {
@@ -265,34 +280,32 @@ function PetList() {
   return (
     <>
       <div className="list_container">
-        {groupList[0] &&
-          groupList?.map((group) => (
-            <div key={group.partyId}>
+        {partyList[0] &&
+          partyList?.map((party) => (
+            <div key={party.partyId}>
               <Party
-                group={group}
-                isLeader={group.leaderName === userName}
-                setGroupList={setGroupList}
+                party={party}
+                isLeader={party.partyLeaderName === userName}
+                setPartyList={setPartyList}
                 handleLeaveParty={handleLeaveParty}
               />
-              {group.dogInfoResponseList.map((pet) => {
+              {party.partyDogList.map((pet) => {
                 return (
                   <Pet
-                    isLeader={group.leaderName === userName}
-                    partyId={group.partyId}
+                    isLeader={party.partyLeaderName === userName}
+                    partyId={party.partyId}
                     pet={pet}
-                    key={pet.dog_id}
+                    key={pet.dogId}
                     onSubmitModify={onSubmitModify}
-                    setGroupList={setGroupList}
+                    setPartyList={setPartyList}
                   />
                 );
               })}
               <PetAdd
-                partyId={group.partyId}
-                pets={pets}
-                setPets={setPets}
+                partyId={party.partyId}
                 onSubmit={onSubmit}
                 onChange={onChange}
-                petInfo={partyInfo}
+                petInfo={petInfo}
                 onCancle={onCancle}
               />
             </div>
@@ -313,11 +326,11 @@ function PetList() {
           setOpen={setOpenCreate}
           open={openCreate}
           onChange={onChange}
-          onSubmit={onSubmitCreateGroup}
+          onSubmit={onSubmitCreateParty}
         />
         <JoinParty
-          setGroupList={setGroupList}
-          groupList={groupList}
+          setPartyList={setPartyList}
+          partyList={partyList}
           setOpen={setOpenParty}
           open={openParty}
         />

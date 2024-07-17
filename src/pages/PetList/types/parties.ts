@@ -57,6 +57,7 @@ export interface IAddPetReq {
   dogWeight: number;
 }
 export interface IAddPetRes {
+  // 반려견 정보
   dogId: number;
   dogImg: string;
   dogName: string;
@@ -70,4 +71,15 @@ export interface IAddPetRes {
   dogSocializationDegree: number;
   dogAffectionTemperature: number;
   dogSize: string;
+}
+
+// // 반려견 정보 수정 req
+export interface IModifyPetReq {
+  dogBirth: string;
+  dogBreed: string;
+  dogGender: string;
+  dogImg: string;
+  dogName: string;
+  dogNeutralization: boolean;
+  dogWeight: number;
 }

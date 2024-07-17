@@ -3,6 +3,7 @@ import baseUrl from "./api";
 import {
   IAddPetReq,
   IAddPetRes,
+  IModifyPetReq,
   IPartiesRes,
   IPartyReq,
 } from "../pages/PetList/types/parties";
@@ -31,6 +32,14 @@ export const postDogIntoParty = async (
   dogInfo: IAddPetReq,
 ) => {
   const res = await axios.post(`${baseUrl}/v2/dogs/${partyId}`, dogInfo, {
+    withCredentials: true,
+  });
+  return res.data.result as unknown as IAddPetRes;
+};
+
+// 반려견 정보 수정
+export const putModifyDog = async (dogId: number, dogInfo: IModifyPetReq) => {
+  const res = await axios.post(`${baseUrl}/v2/dogs/${dogId}`, dogInfo, {
     withCredentials: true,
   });
   return res.data.result as unknown as IAddPetRes;
