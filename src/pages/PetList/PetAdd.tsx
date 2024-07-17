@@ -3,7 +3,7 @@ import "./Pets.css";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -26,11 +26,12 @@ function PetAdd({ onSubmit, onChange, petInfo, onCancle, partyId }: IProps) {
     setisClick(false);
   };
 
-  const onChangeCalendar = (date: Date | null) => {
+  const onChangeCalendar = (date: Dayjs | null) => {
     const e = {
       target: {
         name: "dog_birth",
-        value: dayjs(date).format("YYYY-MM-DD"),
+        // value: dayjs(date).format("YYYY-MM-DD"),
+        value: date,
       },
     };
     onChange(e);
@@ -101,7 +102,6 @@ function PetAdd({ onSubmit, onChange, petInfo, onCancle, partyId }: IProps) {
             label="생일"
             value={petInfo.dogBirth}
             onChange={onChangeCalendar}
-            name="dog_birth"
             format="YYYY/MM/DD"
           />
         </LocalizationProvider>

@@ -7,7 +7,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import dogimgdefault from "../../assets/dogProfileImage.png";
 import { IPartyReq } from "./types/parties";
 
@@ -20,19 +20,13 @@ interface IProps {
   setPartyInfo: React.Dispatch<React.SetStateAction<IPartyReq>>;
 }
 
-function CreateParty({
-  open,
-  setOpen,
-  onChange,
-  onSubmit,
-  partyInfo,
-  setPartyInfo,
-}: IProps) {
-  const onChangeCalendar = (date: Date) => {
+function CreateParty({ open, setOpen, onChange, onSubmit, partyInfo, setPartyInfo }: IProps) {
+  const onChangeCalendar = (date: Dayjs) => {
     const e = {
       target: {
-        name: "dog_birth",
+        name: "partyDogBirth",
         value: dayjs(date).format("YYYY-MM-DD"),
+        // value: date,
       },
     };
     onChange(e);
@@ -53,8 +47,8 @@ function CreateParty({
     });
     setOpen(false);
   };
-  const checkDay = dayjs(partyInfo.partyDogBirth).toDate();
-  console.log("checkDay: ", checkDay, "date: ", new Date());
+  // const checkDay = dayjs(partyInfo.partyDogBirth).toDate();
+  // console.log("checkDay: ", checkDay, "date: ", new Date());
   const addinfo = (
     <form onSubmit={onSubmit}>
       <div style={{ display: "flex", flexDirection: "row" }}>
@@ -65,13 +59,7 @@ function CreateParty({
             src={!partyInfo.partyDogImg ? dogimgdefault : partyInfo.partyDogImg}
           />
           <label htmlFor="image-select">프로필 이미지 선택</label>
-          <input
-            type="file"
-            accept="image/*"
-            id="image-select"
-            style={{ display: "none" }}
-            onChange={onChange}
-          />
+          <input type="file" accept="image/*" id="image-select" style={{ display: "none" }} onChange={onChange} />
         </div>
         <div className="pet-info-regist">
           <TextField
@@ -79,7 +67,7 @@ function CreateParty({
             label="이름"
             variant="outlined"
             size="small"
-            name="dog_name"
+            name="partyDogName"
             onChange={onChange}
             value={partyInfo.partyDogName}
             required
@@ -90,7 +78,7 @@ function CreateParty({
             select
             label="견종"
             variant="outlined"
-            name="dog_breed"
+            name="partyDogBreed"
             onChange={onChange}
             value={partyInfo.partyDogBreed}
             size="small"
@@ -113,10 +101,8 @@ function CreateParty({
             <DatePicker
               sx={{ m: 1 }}
               label="생일"
-              value={dayjs(partyInfo.partyDogBirth).toDate()}
-              onChange={() =>
-                onChangeCalendar(dayjs(partyInfo.partyDogBirth).toDate())
-              }
+              value={partyInfo.partyDogBirth}
+              onChange={() => onChangeCalendar(partyInfo.partyDogBirth)}
               // name="partyDogBirth"
               format="YYYY/MM/DD"
               slotProps={{ textField: { size: "small" } }}
@@ -127,30 +113,30 @@ function CreateParty({
             <p>성별 선택</p>
             <input
               type="radio"
-              name="dog_gender"
-              id="male"
-              value="male"
+              name="partyDogGender"
+              id="MALE"
+              value="MALE"
               onChange={onChange}
-              checked={partyInfo.partyDogGender === "male"}
+              checked={partyInfo.partyDogGender === "MALE"}
               required
             />
-            <label htmlFor="male">수컷</label>
+            <label htmlFor="MALE">수컷</label>
             <input
               type="radio"
-              name="dog_gender"
-              id="female"
-              value="female"
+              name="partyDogGender"
+              id="FEMALE"
+              value="FEMALE"
               onChange={onChange}
-              checked={partyInfo.partyDogGender === "female"}
+              checked={partyInfo.partyDogGender === "FEMALE"}
             />
-            <label htmlFor="female">암컷</label>
+            <label htmlFor="FEMALE">암컷</label>
           </div>
 
           <div className="select">
             <p>중성화 여부 선택</p>
             <input
               type="radio"
-              name="neutralization"
+              name="partyDogNeutralization"
               id="O"
               value="true"
               onChange={onChange}
@@ -159,7 +145,7 @@ function CreateParty({
             <label htmlFor="O">O</label>
             <input
               type="radio"
-              name="neutralization"
+              name="partyDogNeutralization"
               id="X"
               value="false"
               onChange={onChange}
@@ -174,7 +160,7 @@ function CreateParty({
             type="number"
             variant="outlined"
             size="small"
-            name="dog_weight"
+            name="partyDogWeight"
             onChange={onChange}
             value={partyInfo.partyDogWeight}
             required
@@ -186,7 +172,7 @@ function CreateParty({
             type="number"
             variant="outlined"
             size="small"
-            name="dog_isbn"
+            name="partyDogIsbn"
             onChange={onChange}
             value={partyInfo.partyDogIsbn}
             required
@@ -211,11 +197,7 @@ function CreateParty({
 
   return (
     <div>
-      <Modal
-        open={open}
-        onClose={() => setOpen(false)}
-        style={{ margin: "40px" }}
-      >
+      <Modal open={open} onClose={() => setOpen(false)} style={{ margin: "40px" }}>
         <Box
           sx={{
             width: 800,

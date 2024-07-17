@@ -16,12 +16,7 @@ import {
   usePostPetPartyCreate,
   usePutModifyDog,
 } from "../../hooks/usePetMutation";
-import {
-  IAddPetReq,
-  IModifyPetReq,
-  IPartiesRes,
-  IPartyReq,
-} from "./types/parties";
+import { IAddPetReq, IModifyPetReq, IPartiesRes, IPartyReq } from "./types/parties";
 import useUserStore from "../../store/user";
 import PostFileUpload from "../../services/upload";
 
@@ -85,11 +80,7 @@ function PetList() {
   //     .catch(() => {});
   // }, []);
   // 반려견 그룹 정보 불러오기
-  const {
-    data: partiesData,
-    isLoading: partiesIsLoading,
-    error: partiesError,
-  } = useGetPetPartiesInfo();
+  const { data: partiesData, isLoading: partiesIsLoading, error: partiesError } = useGetPetPartiesInfo();
 
   // 파티 생성
   const { mutate: createPartyMutate } = usePostPetPartyCreate();
@@ -129,11 +120,11 @@ function PetList() {
       const { value, name } = e.target;
       setPartyInfo({
         ...partyInfo,
-        [name]: value,
+        [name]: name === "partyDogWeight" ? parseInt(value) : value,
       });
     }
   };
-
+  console.log("partyInfo:", partyInfo);
   const onSubmitCreateParty = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -145,6 +136,7 @@ function PetList() {
     //     setPartyList(partyList.concat(res.data.result));
     //   })
     //   .catch(() => {});
+    console.log("partyDogWeight: ", partyInfo.partyDogWeight, typeof partyInfo.partyDogWeight);
     createPartyMutate(partyInfo);
     setPartyInfo({
       partyDogName: "",
@@ -213,11 +205,7 @@ function PetList() {
 
   // put -> mutate
   const { mutate: putModifyDogInfoMutate } = usePutModifyDog();
-  const onSubmitModify = (
-    partyId: number,
-    dogId: number,
-    modifyPetInfo: IModifyPetReq,
-  ) => {
+  const onSubmitModify = (partyId: number, dogId: number, modifyPetInfo: IModifyPetReq) => {
     // 반려견 정보 수정
     //   axios
     //     .put(`https://withpet.site/api/v1/dogs/${id}`, modifyPetInfo, {
@@ -265,9 +253,7 @@ function PetList() {
       })
       .then(() => {
         // 자신의 groupList에서 해당 그룹 삭제
-        setPartyList((prev) =>
-          prev.filter((party) => party.partyId !== partyId),
-        );
+        setPartyList((prev) => prev.filter((party) => party.partyId !== partyId));
       })
       .catch((err) => {
         if (err.response && err.response.status === 400) {
@@ -328,12 +314,7 @@ function PetList() {
           onChange={onChange}
           onSubmit={onSubmitCreateParty}
         />
-        <JoinParty
-          setPartyList={setPartyList}
-          partyList={partyList}
-          setOpen={setOpenParty}
-          open={openParty}
-        />
+        <JoinParty setPartyList={setPartyList} partyList={partyList} setOpen={setOpenParty} open={openParty} />
       </div>
     </>
   );

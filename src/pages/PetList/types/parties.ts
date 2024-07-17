@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 export interface IPartiesRes {
   partyId: number;
@@ -47,7 +47,7 @@ export interface IPartyReq {
 
 // 파티에 반려견 추가 req, res
 export interface IAddPetReq {
-  dogBirth: dayjs.ConfigType;
+  dogBirth: Dayjs | null; // 날짜
   dogBreed: string;
   dogGender: string;
   dogImg: string;

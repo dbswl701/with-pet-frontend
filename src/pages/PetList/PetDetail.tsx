@@ -70,30 +70,16 @@ function PetDetail({ pet, onToggle, handleRemoveDog, isLeader }: IProps) {
       <div style={{ display: "flex", flexDirection: "column" }}>
         <div className="pet-first">
           <div className="pet-img-group">
-            <img
-              className="pet-img"
-              src={pet.dogImg}
-              alt="반려견 프로필 사진"
-            />
+            <img className="pet-img" src={pet.dogImg} alt="반려견 프로필 사진" />
             <div style={{ display: "flex", flexDirection: "column" }}>
               <div style={{ display: "flex", flexDirection: "row" }}>
-                <img
-                  src={heart}
-                  alt="heart"
-                  style={{ width: "16px", height: "16px" }}
-                />
+                <img src={heart} alt="heart" style={{ width: "16px", height: "16px" }} />
                 <Progress>
                   <Dealt dealt={pet.dogAffectionTemperature} />
                 </Progress>
-                <p
-                  style={{ fontSize: "11px", margin: "0px", color: "#CAA969" }}
-                >
-                  {pet.dogAffectionTemperature}%
-                </p>
+                <p style={{ fontSize: "11px", margin: "0px", color: "#CAA969" }}>{pet.dogAffectionTemperature}%</p>
               </div>
-              <Button onClick={() => navigate("../calendar")}>
-                애정도 올리러 가기
-              </Button>
+              <Button onClick={() => navigate("../calendar")}>애정도 올리러 가기</Button>
             </div>
             <div
               style={{
@@ -103,24 +89,16 @@ function PetDetail({ pet, onToggle, handleRemoveDog, isLeader }: IProps) {
               }}
             >
               <div style={{ display: "flex", flexDirection: "row" }}>
-                <img
-                  src={social}
-                  alt="social"
-                  style={{ width: "16px", height: "16px" }}
-                />
+                <img src={social} alt="social" style={{ width: "16px", height: "16px" }} />
                 <Progress>
                   <Dealt dealt={pet.dogSocializationDegree} />
                 </Progress>
-                <p
-                  style={{ fontSize: "11px", margin: "0px", color: "#CAA969" }}
-                >
-                  {pet.dogSocializationDegree}%
-                </p>
+                <p style={{ fontSize: "11px", margin: "0px", color: "#CAA969" }}>{pet.dogSocializationDegree}%</p>
               </div>
               <Button onClick={onClickSocilization}>반려견 사회성 등록</Button>
             </div>
             <div>
-              <button
+              {/* <button
                 onClick={() => handleRemoveDog(pet.dogId)}
                 onMouseEnter={(e) => {
                   e.target.style.backgroundColor = "red";
@@ -141,7 +119,7 @@ function PetDetail({ pet, onToggle, handleRemoveDog, isLeader }: IProps) {
                 }}
               >
                 반려견 삭제하기
-              </button>
+              </button> */}
             </div>
           </div>
           <div className="pet-info">
@@ -167,11 +145,7 @@ function PetDetail({ pet, onToggle, handleRemoveDog, isLeader }: IProps) {
         </div>
       </div>
       <div>
-        <ChevronLeftOutlinedIcon
-          className="up-icon"
-          fontSize="large"
-          onClick={() => onToggle("simple")}
-        />
+        <ChevronLeftOutlinedIcon className="up-icon" fontSize="large" onClick={() => onToggle("simple")} />
       </div>
     </>
   );
