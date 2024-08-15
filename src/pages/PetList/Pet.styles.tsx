@@ -13,3 +13,18 @@ export const LeavePartyButton = styled.button`
     color: white;
   }
 `;
+
+// 반려견 삭제하기 버튼
+export const DeleteDogButton = styled.button`
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  border: none;
+  margin-top: 20px;
+  width: 120px;
+  height: 30px;
+  &:hover {
+    background-color: red;
+    color: white;
+  }
+`;

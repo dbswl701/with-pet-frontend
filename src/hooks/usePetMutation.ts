@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  deleteDog,
   deleteParty,
   getPetPartiesInfo,
   postDogIntoParty,
@@ -113,6 +114,38 @@ export const useDeleteParty = () => {
     },
     onError: () => {
       toast.error("그룹 탈퇴에 실패했습니다.");
+    },
+  });
+};
+
+// 반려견 삭제
+export const useDeleteDogMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ dogId, partyId }: { dogId: number; partyId: number }) =>
+      deleteDog(dogId),
+    onSuccess: (data, variables) => {
+      toast.success("반려견을 삭제하였습니다.");
+      queryClient.setQueryData<IPartiesRes[]>(["parties"], (prev) => {
+        if (!prev) return prev;
+        const updatedParties = prev
+          .filter(() => !data.isDeletedParty) // 그룹의 마지막 개라면, 그룹 삭제
+          .map((party) => {
+            if (party.partyId === variables.partyId) {
+              return {
+                ...party,
+                partyDogList: party.partyDogList.filter(
+                  (dog) => dog.dogId !== variables.dogId
+                ),
+              };
+            }
+            return party;
+          });
+        return updatedParties;
+      });
+    },
+    onError: () => {
+      toast.error("반려견 삭제에 실패하였습니다.");
     },
   });
 };

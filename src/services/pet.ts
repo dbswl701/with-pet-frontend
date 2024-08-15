@@ -55,3 +55,11 @@ export const deleteParty = async (partyId: number) => {
   });
   return res.data.result;
 };
+
+// 반려견 삭제
+export const deleteDog = async (dogId: number) => {
+  const res = await axios.delete(`${baseUrl}/v2/dogs/${dogId}`, {
+    withCredentials: true,
+  });
+  return res.data.result;
+};

@@ -5,13 +5,14 @@ import ChevronLeftOutlinedIcon from "@mui/icons-material/ChevronLeftOutlined";
 import PetModify from "./PetModify";
 import PetDetail from "./PetDetail";
 import { IModifyPetReq, IPartiesRes, IPartyDogList } from "./types/parties";
+import { useDeleteDogMutation } from "../../hooks/usePetMutation";
 
 interface IProps {
   pet: IPartyDogList;
   onSubmitModify: (
     partyId: number,
     dogId: number,
-    modifyPetInfo: IModifyPetReq,
+    modifyPetInfo: IModifyPetReq
   ) => void;
   partyId: number;
   setPartyList: React.Dispatch<React.SetStateAction<[] | IPartiesRes[]>>;
@@ -39,27 +40,29 @@ function Pet({ pet, onSubmitModify, partyId, setPartyList, isLeader }: IProps) {
     setToggle(state);
   };
 
-  const handleRemoveDog = (dogId: number) => {
-    axios
-      .delete(`https://withpet.site/api/v1/dogs/${dogId}`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        setRemoveDog(true);
+  const { mutate: deleteDogMutate } = useDeleteDogMutation();
+  const handleRemoveDog = (dogId: number, partyId: number) => {
+    deleteDogMutate({ dogId, partyId });
+    // axios
+    //   .delete(`https://withpet.site/api/v1/dogs/${dogId}`, {
+    //     withCredentials: true,
+    //   })
+    //   .then((res) => {
+    //     setRemoveDog(true);
 
-        // 만약 그룹의 마지막 개라면, 그룹 삭제
-        if (res.data.result) {
-          setPartyList((prev) =>
-            prev.filter((party) => party.partyId !== partyId),
-          );
-        }
-      })
-      .catch((err) => {
-        if (err.response && err.response.status === 400) {
-          // eslint-disable-next-line no-alert
-          alert(err.response.data.message);
-        }
-      });
+    //     // 만약 그룹의 마지막 개라면, 그룹 삭제
+    //     if (res.data.result) {
+    //       setPartyList((prev) =>
+    //         prev.filter((party) => party.partyId !== partyId),
+    //       );
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     if (err.response && err.response.status === 400) {
+    //       // eslint-disable-next-line no-alert
+    //       alert(err.response.data.message);
+    //     }
+    //   });
   };
 
   let print = simple;
@@ -72,6 +75,7 @@ function Pet({ pet, onSubmitModify, partyId, setPartyList, isLeader }: IProps) {
           onToggle={onToggle}
           handleRemoveDog={handleRemoveDog}
           isLeader={isLeader}
+          partyId={partyId}
         />
       );
       break;
