@@ -11,12 +11,18 @@ import Party from "./Party";
 import dogimgdefault from "../../assets/dogProfileImage.png";
 import baseUrl from "../../services/api";
 import {
+  useDeleteParty,
   useGetPetPartiesInfo,
   usePostAddDogIntoParty,
   usePostPetPartyCreate,
   usePutModifyDog,
 } from "../../hooks/usePetMutation";
-import { IAddPetReq, IModifyPetReq, IPartiesRes, IPartyReq } from "./types/parties";
+import {
+  IAddPetReq,
+  IModifyPetReq,
+  IPartiesRes,
+  IPartyReq,
+} from "./types/parties";
 import useUserStore from "../../store/user";
 import PostFileUpload from "../../services/upload";
 
@@ -31,7 +37,7 @@ const Button = styled.button`
 
 function PetList() {
   const [pets, setPets] = useState([]);
-  const [partyList, setPartyList] = useState<IPartiesRes[] | []>([]); // 그룹 정보 리스트 전체 저장
+  const [partyList, setPartyList] = useState<IPartiesRes[]>([]); // 그룹 정보 리스트 전체 저장
   const [openParty, setOpenParty] = useState(false);
   const [openCreate, setOpenCreate] = useState(false);
   const dateNow = new Date();
@@ -80,15 +86,20 @@ function PetList() {
   //     .catch(() => {});
   // }, []);
   // 반려견 그룹 정보 불러오기
-  const { data: partiesData, isLoading: partiesIsLoading, error: partiesError } = useGetPetPartiesInfo();
+  const {
+    data: partiesData,
+    isLoading: partiesIsLoading,
+    error: partiesError,
+  } = useGetPetPartiesInfo();
 
   // 파티 생성
   const { mutate: createPartyMutate } = usePostPetPartyCreate();
 
   useEffect(() => {
+    console.log("partiesData: ", partiesData);
     if (partiesData) setPartyList(partiesData);
   }, [partiesData]);
-
+  console.log("partyList 확인!!!!! 업데이트 해야함!!!!", partyList);
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files === null) return;
     const img = e.target.files[0];
@@ -136,7 +147,11 @@ function PetList() {
     //     setPartyList(partyList.concat(res.data.result));
     //   })
     //   .catch(() => {});
-    console.log("partyDogWeight: ", partyInfo.partyDogWeight, typeof partyInfo.partyDogWeight);
+    console.log(
+      "partyDogWeight: ",
+      partyInfo.partyDogWeight,
+      typeof partyInfo.partyDogWeight
+    );
     createPartyMutate(partyInfo);
     setPartyInfo({
       partyDogName: "",
@@ -205,7 +220,11 @@ function PetList() {
 
   // put -> mutate
   const { mutate: putModifyDogInfoMutate } = usePutModifyDog();
-  const onSubmitModify = (partyId: number, dogId: number, modifyPetInfo: IModifyPetReq) => {
+  const onSubmitModify = (
+    partyId: number,
+    dogId: number,
+    modifyPetInfo: IModifyPetReq
+  ) => {
     // 반려견 정보 수정
     //   axios
     //     .put(`https://withpet.site/api/v1/dogs/${id}`, modifyPetInfo, {
@@ -246,56 +265,59 @@ function PetList() {
     });
   };
 
+  const { mutate: deletePartyMutate } = useDeleteParty();
   const handleLeaveParty = (partyId: number) => {
-    axios
-      .delete(`https://withpet.site/api/v1/groups/${partyId}`, {
-        withCredentials: true,
-      })
-      .then(() => {
-        // 자신의 groupList에서 해당 그룹 삭제
-        setPartyList((prev) => prev.filter((party) => party.partyId !== partyId));
-      })
-      .catch((err) => {
-        if (err.response && err.response.status === 400) {
-          // eslint-disable-next-line no-alert
-          alert(err.response.data.message);
-        }
-      });
+    deletePartyMutate(partyId);
+    // axios
+    //   .delete(`https://withpet.site/api/v1/groups/${partyId}`, {
+    //     withCredentials: true,
+    //   })
+    //   .then(() => {
+    //     // 자신의 groupList에서 해당 그룹 삭제
+    //     setPartyList((prev) =>
+    //       prev.filter((party) => party.partyId !== partyId)
+    //     );
+    //   })
+    //   .catch((err) => {
+    //     if (err.response && err.response.status === 400) {
+    //       // eslint-disable-next-line no-alert
+    //       alert(err.response.data.message);
+    //     }
+    //   });
   };
 
   return (
     <>
       <div className="list_container">
-        {partyList[0] &&
-          partyList?.map((party) => (
-            <div key={party.partyId}>
-              <Party
-                party={party}
-                isLeader={party.partyLeaderName === userName}
-                // setPartyList={setPartyList}
-                handleLeaveParty={handleLeaveParty}
-              />
-              {party.partyDogList.map((pet) => {
-                return (
-                  <Pet
-                    isLeader={party.partyLeaderName === userName}
-                    partyId={party.partyId}
-                    pet={pet}
-                    key={pet.dogId}
-                    onSubmitModify={onSubmitModify}
-                    setPartyList={setPartyList}
-                  />
-                );
-              })}
-              <PetAdd
-                partyId={party.partyId}
-                onSubmit={onSubmit}
-                onChange={onChange}
-                petInfo={petInfo}
-                onCancle={onCancle}
-              />
-            </div>
-          ))}
+        {partyList?.map((party) => (
+          <div key={party.partyId}>
+            <Party
+              party={party}
+              isLeader={party.partyLeaderName === userName}
+              handleLeaveParty={handleLeaveParty}
+            />
+            {party.partyDogList.map((pet) => {
+              return (
+                <Pet
+                  isLeader={party.partyLeaderName === userName}
+                  partyId={party.partyId}
+                  pet={pet}
+                  key={pet.dogId}
+                  onSubmitModify={onSubmitModify}
+                  setPartyList={setPartyList}
+                />
+              );
+            })}
+            <PetAdd
+              partyId={party.partyId}
+              onSubmit={onSubmit}
+              onChange={onChange}
+              petInfo={petInfo}
+              setPetInfo={setPetInfo}
+              onCancle={onCancle}
+            />
+          </div>
+        ))}
         <div
           style={{
             display: "flex",
@@ -314,7 +336,12 @@ function PetList() {
           onChange={onChange}
           onSubmit={onSubmitCreateParty}
         />
-        <JoinParty setPartyList={setPartyList} partyList={partyList} setOpen={setOpenParty} open={openParty} />
+        <JoinParty
+          setPartyList={setPartyList}
+          partyList={partyList}
+          setOpen={setOpenParty}
+          open={openParty}
+        />
       </div>
     </>
   );

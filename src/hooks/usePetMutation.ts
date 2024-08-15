@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  deleteParty,
   getPetPartiesInfo,
   postDogIntoParty,
   postPetPartyCreate,
@@ -8,7 +9,9 @@ import {
 import { toast } from "react-toastify";
 import {
   IAddPetReq,
+  IAddPetRes,
   IModifyPetReq,
+  IPartiesRes,
   IPartyReq,
 } from "../pages/PetList/types/parties";
 
@@ -17,6 +20,7 @@ export const useGetPetPartiesInfo = () => {
   const { data, isLoading, error } = useQuery({
     queryKey: ["parties"],
     queryFn: getPetPartiesInfo,
+    staleTime: 5 * 60 * 1000,
   });
   return { data, isLoading, error };
 };
@@ -34,12 +38,24 @@ export const usePostPetPartyCreate = () => {
       // toast.success(data);
       console.log("성공", "data:", data, "variables: ", variables);
       // queryClient.setQueryData()
+      console.log("반려견 등록 데이터 확인: ", data);
+      // IAddPetRes가 아니라 파티 정보 다 불러와야 함.
+      queryClient.setQueryData<IPartiesRes[]>(["parties"], (prev) => {
+        console.log("파티 생성, prev 확인:", prev, "data: ", data);
+        if (!prev) return prev;
+        // 여기다가 붙이는게 아니라, 해당 파티의 목록에다가 추가.
+        // return [data, ...prev];
+        // 오... 이거 partyLeaderId, partyLeaderEmail 혼용때문에 map을 못도는 문제였다.
+        return [...prev, data];
+      });
     },
   });
 };
 
 // 파티에 반려견 추가
 export const usePostAddDogIntoParty = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: ({
       partyId,
@@ -49,7 +65,22 @@ export const usePostAddDogIntoParty = () => {
       petInfo: IAddPetReq;
     }) => postDogIntoParty(partyId, petInfo),
     onError: () => {},
-    onSuccess: () => {},
+    onSuccess: (data, variables) => {
+      console.log("반려견 등록 데이터 확인: ", data);
+      queryClient.setQueryData<IPartiesRes>(["parties"], (prev) => {
+        console.log("prev:", prev);
+        if (!prev) return prev;
+        // 여기다가 붙이는게 아니라, 해당 파티의 목록에다가 추가.
+        console.log(
+          "<<<>>>, partyDogList",
+          prev.partyDogList,
+          "variables:",
+          variables
+        );
+        // return [data, ...prev];
+      });
+      // 성공해서 받아온 data를 queryClient를 이용해서 저장하자.
+    },
   });
 };
 
@@ -65,5 +96,23 @@ export const usePutModifyDog = () => {
     }) => putModifyDog(dogId, dogInfo),
     onError: () => {},
     onSuccess: () => {},
+  });
+};
+
+// 파티 탈퇴
+export const useDeleteParty = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (partyId: number) => deleteParty(partyId),
+    onSuccess: (data, variables) => {
+      toast.success(data);
+      queryClient.setQueryData<IPartiesRes[]>(["parties"], (prev) => {
+        if (!prev) return prev;
+        return prev.filter((party) => party.partyId !== variables);
+      });
+    },
+    onError: () => {
+      toast.error("그룹 탈퇴에 실패했습니다.");
+    },
   });
 };
