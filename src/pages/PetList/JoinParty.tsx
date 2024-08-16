@@ -4,24 +4,43 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
+import { IPartiesRes } from "./types/parties";
+import { usePostJoinPartyMutation } from "../../hooks/usePetMutation";
 
-function JoinParty({ open, setOpen, setGroupList, groupList }) {
+interface IProps {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setPartyList: React.Dispatch<React.SetStateAction<IPartiesRes[]>>;
+  partyList: IPartiesRes[];
+}
+
+function JoinParty({ open, setOpen, setPartyList, partyList }: IProps) {
   const [partyCode, setPartyCode] = useState("");
 
+  const { mutate: postJoinPartyMutate } = usePostJoinPartyMutation();
   const onJoinParty = () => {
-    axios
-      .post("https://withpet.site/api/v1/groups/member", { partyIsbn: partyCode }, { withCredentials: true })
-      .then((res) => {
-        setGroupList(groupList.concat(res.data.result));
-        setOpen(false);
-        setPartyCode("");
-      })
-      .catch(() => {});
+    postJoinPartyMutate({ partyIsbn: partyCode });
+    // axios
+    //   .post(
+    //     "https://withpet.site/api/v1/groups/member",
+    //     { partyIsbn: partyCode },
+    //     { withCredentials: true }
+    //   )
+    //   .then((res) => {
+    //     setPartyList(partyList.concat(res.data.result));
+    //     setOpen(false);
+    //     setPartyCode("");
+    //   })
+    //   .catch(() => {});
   };
 
   return (
     <div>
-      <Modal open={open} onClose={() => setOpen(false)} style={{ margin: "40px" }}>
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        style={{ margin: "40px" }}
+      >
         <Box
           sx={{
             width: 500,

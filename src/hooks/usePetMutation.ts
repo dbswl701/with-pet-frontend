@@ -4,6 +4,7 @@ import {
   deleteParty,
   getPetPartiesInfo,
   postDogIntoParty,
+  postIntoParty,
   postPetPartyCreate,
   putModifyDog,
 } from "../services/pet";
@@ -11,6 +12,7 @@ import { toast } from "react-toastify";
 import {
   IAddPetReq,
   IAddPetRes,
+  IJoinPartyReq,
   IModifyPetReq,
   IPartiesRes,
   IPartyReq,
@@ -147,5 +149,22 @@ export const useDeleteDogMutation = () => {
     onError: () => {
       toast.error("반려견 삭제에 실패하였습니다.");
     },
+  });
+};
+
+// 파티에 참여하기
+export const usePostJoinPartyMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (partyIsbn: IJoinPartyReq) => postIntoParty(partyIsbn),
+    onSuccess: (data) => {
+      // 파티에 들어가보자
+      queryClient.setQueryData<IPartiesRes[]>(["parties"], (prev) => {
+        if (!prev) return prev;
+        // 그냥 파티에 추가하면 된다.
+        return [...prev, data];
+      });
+    },
+    onError: () => {},
   });
 };

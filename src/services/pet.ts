@@ -3,6 +3,7 @@ import baseUrl from "./api";
 import {
   IAddPetReq,
   IAddPetRes,
+  IJoinPartyReq,
   IModifyPetReq,
   IPartiesRes,
   IPartyReq,
@@ -59,6 +60,14 @@ export const deleteParty = async (partyId: number) => {
 // 반려견 삭제
 export const deleteDog = async (dogId: number) => {
   const res = await axios.delete(`${baseUrl}/v2/dogs/${dogId}`, {
+    withCredentials: true,
+  });
+  return res.data.result;
+};
+
+// 그룹 가입
+export const postIntoParty = async (partyIsbn: IJoinPartyReq) => {
+  const res = await axios.post(`${baseUrl}/v2/parties/members`, partyIsbn, {
     withCredentials: true,
   });
   return res.data.result;

@@ -83,3 +83,8 @@ export interface IModifyPetReq {
   dogNeutralization: boolean;
   dogWeight: number;
 }
+
+// 그룹 가입 req
+export interface IJoinPartyReq {
+  partyIsbn: string;
+}
