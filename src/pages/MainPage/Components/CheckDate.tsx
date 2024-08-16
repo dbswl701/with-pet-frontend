@@ -9,7 +9,7 @@ import { DateRangePicker } from "react-dates";
 // import TextField from '@mui/material/TextField';
 // import "./datePicker.css";
 import FormControl from "@mui/material/FormControl/FormControl";
-import { SelectWrapper } from "../../styles/main/MainPageStyle";
+import { SelectWrapper } from "../../../styles/main/MainPageStyle";
 
 export default function CheckDate({ options, setOptions }: any) {
   // const [open, setOpen] = React.useState(false);

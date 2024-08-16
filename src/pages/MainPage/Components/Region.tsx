@@ -2,7 +2,7 @@
 import React from "react";
 import TextField from "@mui/material/TextField";
 import FormControl from "@mui/material/FormControl/FormControl";
-import { SelectWrapper } from "../../styles/main/MainPageStyle";
+import { SelectWrapper } from "../../../styles/main/MainPageStyle";
 
 export default function Asynchronous({ options, setOptions }: any) {
   // const [open, setOpen] = React.useState(false);
@@ -19,7 +19,12 @@ export default function Asynchronous({ options, setOptions }: any) {
     <SelectWrapper>
       <FormControl sx={{ m: 1, width: 4 / 5, display: "flex" }}>
         <p style={{ fontWeight: "bold" }}>지역</p>
-        <TextField sx={{ width: 1 }} onChange={onChange} value={options.region} style={{ width: "250px" }} />
+        <TextField
+          sx={{ width: 1 }}
+          onChange={onChange}
+          value={options.region}
+          style={{ width: "250px" }}
+        />
       </FormControl>
     </SelectWrapper>
   );
