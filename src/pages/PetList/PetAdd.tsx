@@ -1,29 +1,90 @@
-import React, { useState } from 'react';
-import './Pets.css';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import dayjs from 'dayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dogimgdefault from '../../assets/dogProfileImage.png';
+import React, { useState } from "react";
+import "./Pets.css";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
+import dayjs, { Dayjs } from "dayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dogimgdefault from "../../assets/dogProfileImage.png";
+import { IAddPetReq } from "./types/parties";
+import PostFileUpload from "../../services/upload";
+import { usePostAddDogIntoParty } from "../../hooks/usePetMutation";
 
-function PetAdd({
-  onSubmit, onChange, petInfo, onCancle, partyId,
-}) {
+interface IProps {
+  onSubmit: (e: React.FormEvent<HTMLFormElement>, partyId: number) => void;
+  onChange: (e: any) => void;
+  petInfo: IAddPetReq;
+  onCancle: () => void;
+  partyId: number;
+  setPetInfo: React.Dispatch<React.SetStateAction<IAddPetReq>>;
+}
+
+function PetAdd({ onSubmit, petInfo, onCancle, partyId, setPetInfo }: IProps) {
   const [isClick, setisClick] = useState(false);
+  const [pet, setPet] = useState<IAddPetReq>(petInfo);
 
-  const onLocalSubmit = (e) => {
-    onSubmit(e, partyId);
+  const { mutate: postAddDogMutate } = usePostAddDogIntoParty();
+
+  const onLocalSubmit = (e: any) => {
+    // onSubmit(e, partyId);
+    e.preventDefault();
+    let img = pet.dogImg;
+    if (img === "") {
+      img = dogimgdefault;
+    }
+    postAddDogMutate({ partyId, petInfo: pet });
+    const today = new Date().toISOString().slice(0, 10);
+    setPet({
+      dogBirth: dayjs(today),
+      dogBreed: "",
+      dogGender: "",
+      dogImg: "",
+      dogIsbn: "",
+      dogName: "",
+      dogNeutralization: false,
+      dogWeight: 0,
+    });
     setisClick(false);
   };
 
-  const onChangeCalendar = (date) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files === null) return;
+    const img = e.target.files[0];
+    const formData = new FormData();
+    formData.append("file", img);
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    const res = await PostFileUpload(formData);
+    setPet({
+      ...pet,
+      dogImg: res.data.result[0],
+    });
+  };
+
+  const onChange = (e: any) => {
+    if (e.target.files) {
+      handleImageUpload(e);
+    } else {
+      const { value, name } = e.target;
+      console.log("name:", name, "value:", value);
+      setPet({
+        ...pet,
+        [name]: name === "dogWeight" ? parseInt(value) : value,
+      });
+    }
+  };
+
+  const onChangeCalendar = (date: Dayjs | null) => {
     const e = {
       target: {
-        name: 'dog_birth',
-        value: dayjs(date).format('YYYY-MM-DD'),
+        name: "dogBirth",
+        value: dayjs(date).format("YYYY-MM-DD"),
+        // value: date,
       },
     };
     onChange(e);
@@ -40,14 +101,14 @@ function PetAdd({
         <img
           id="preview-image"
           alt="이미지 미리보기"
-          src={!petInfo.dog_img ? dogimgdefault : petInfo.dog_img}
+          src={!pet.dogImg ? dogimgdefault : pet.dogImg}
         />
         <label htmlFor="image-select">프로필 이미지 선택</label>
         <input
           type="file"
           accept="image/*"
           id="image-select"
-          style={{ display: 'none' }}
+          style={{ display: "none" }}
           onChange={onChange}
           required
         />
@@ -58,9 +119,9 @@ function PetAdd({
           label="이름"
           variant="outlined"
           size="small"
-          name="dog_name"
+          name="dogName"
           onChange={onChange}
-          value={petInfo.dog_name}
+          value={pet.dogName}
           required
         />
 
@@ -69,9 +130,9 @@ function PetAdd({
           select
           label="견종"
           variant="outlined"
-          name="dog_breed"
+          name="dogBreed"
           onChange={onChange}
-          value={petInfo.dog_breed}
+          value={pet.dogBreed}
           size="small"
           required
         >
@@ -92,9 +153,8 @@ function PetAdd({
           <DatePicker
             sx={{ m: 1 }}
             label="생일"
-            value={petInfo.dog_birth}
+            value={pet.dogBirth}
             onChange={onChangeCalendar}
-            name="dog_birth"
             format="YYYY/MM/DD"
           />
         </LocalizationProvider>
@@ -103,43 +163,43 @@ function PetAdd({
           <p>성별 선택</p>
           <input
             type="radio"
-            name="dog_gender"
-            id="male"
-            value="male"
+            name="dogGender"
+            id="MALE"
+            value="MALE"
             onChange={onChange}
-            checked={petInfo.dog_gender === 'male'}
+            checked={pet.dogGender === "MALE"}
             required
           />
-          <label htmlFor="male">수컷</label>
+          <label htmlFor="MALE">수컷</label>
           <input
             type="radio"
-            name="dog_gender"
-            id="female"
-            value="female"
+            name="dogGender"
+            id="FEMALE"
+            value="FEMALE"
             onChange={onChange}
-            checked={petInfo.dog_gender === 'female'}
+            checked={pet.dogGender === "FEMALE"}
           />
-          <label htmlFor="female">암컷</label>
+          <label htmlFor="FEMALE">암컷</label>
         </div>
 
         <div className="select">
           <p>중성화 여부 선택</p>
           <input
             type="radio"
-            name="neutralization"
+            name="dogNeutralization"
             id="O"
             value="true"
             onChange={onChange}
-            checked={petInfo.neutralization === 'true'}
+            checked={pet.dogNeutralization === true}
           />
           <label htmlFor="O">O</label>
           <input
             type="radio"
-            name="neutralization"
+            name="dogNeutralization"
             id="X"
             value="false"
             onChange={onChange}
-            checked={petInfo.neutralization === 'false'}
+            checked={pet.dogNeutralization === false}
           />
           <label htmlFor="X">X</label>
         </div>
@@ -150,9 +210,9 @@ function PetAdd({
           type="number"
           variant="outlined"
           size="small"
-          name="dog_weight"
+          name="dogWeight"
           onChange={onChange}
-          value={petInfo.dog_weight}
+          value={pet.dogWeight}
           required
         />
 
@@ -162,9 +222,9 @@ function PetAdd({
           type="number"
           variant="outlined"
           size="small"
-          name="dog_isbn"
+          name="dogIsbn"
           onChange={onChange}
-          value={petInfo.dog_isbn}
+          value={pet.dogIsbn}
           required
         />
 
@@ -180,14 +240,14 @@ function PetAdd({
   );
 
   return (
-    <div className={`${!isClick ? 'pet-add' : 'pet-detail'}`}>
+    <div className={`${!isClick ? "pet-add" : "pet-detail"}`}>
       {isClick !== true ? (
         <AddCircleOutlineIcon
           fontSize="large"
           onClick={() => {
             setisClick(true);
           }}
-          style={{ color: 'rgb(181, 181, 181)' }}
+          style={{ color: "rgb(181, 181, 181)" }}
         />
       ) : (
         addinfo

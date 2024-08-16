@@ -8,6 +8,8 @@ import {
   IPetSitterHouses,
   IPetSitterInfoRes,
 } from "../pages/PetsitterInfoModify/types/petsitter.types";
+import { IPetsitterList } from "../pages/PetList/types/petsitter";
+import { IOptions } from "../pages/PetList/types/main";
 
 // 펫시터 자기 정보 불러오기
 export const getPetsitterMyInfo = async () => {
@@ -22,12 +24,12 @@ export const getPetsitterMyInfo = async () => {
 
 // 펫시터 집 사진 수정
 export const putPetsitterHouseImg = async (
-  petSitterHousesRequests: IPetSitterHouses[],
+  petSitterHousesRequests: IPetSitterHouses[]
 ) => {
   return axios.put(
     `${baseUrl}/v2/pet-sitters/houses`,
     { petSitterHousesRequests },
-    { withCredentials: true },
+    { withCredentials: true }
   );
 };
 
@@ -40,12 +42,12 @@ export const postPetsitterRegisterInfo = async (updatedInfo: IUpdatedInfo) => {
 
 // 펫시터 해시태그 수정
 export const putPetsitterHashTag = async (
-  petSitterHashTagRequests: IPetSitterHashTags[],
+  petSitterHashTagRequests: IPetSitterHashTags[]
 ) => {
   return axios.put(
     `${baseUrl}/v2/pet-sitters/hashtags`,
     { petSitterHashTagRequests },
-    { withCredentials: true },
+    { withCredentials: true }
   );
 };
 
@@ -54,28 +56,40 @@ export const putPetsitterIntro = async (petSitterIntroduction: string) => {
   return axios.put(
     `${baseUrl}/v2/pet-sitters/intro`,
     { petSitterIntroduction },
-    { withCredentials: true },
+    { withCredentials: true }
   );
 };
 
 // 펫시터 이용 가능 서비스 수정
 export const putPetsitterService = async (
-  petSitterServiceRequests: IPetSitterWithPetServices[],
+  petSitterServiceRequests: IPetSitterWithPetServices[]
 ) => {
   return axios.put(
     `${baseUrl}/v2/pet-sitters/services`,
     { petSitterServiceRequests },
-    { withCredentials: true },
+    { withCredentials: true }
   );
 };
 
 // 펫시터 필수 서비스 수정
 export const putPetsitterCriticalService = async (
-  petSitterCriticalServiceRequests: IPetSitterCriticalServices[],
+  petSitterCriticalServiceRequests: IPetSitterCriticalServices[]
 ) => {
   return axios.put(
     `${baseUrl}/v2/pet-sitters/critical-service`,
     { petSitterCriticalServiceRequests },
-    { withCredentials: true },
+    { withCredentials: true }
   );
+};
+
+// 메인페이지 펫시터 목록 불러오기
+export const getPetsitters = async (options: IOptions, currentPage: number) => {
+  const res = await axios.get(
+    `${baseUrl}/v2/pet-sitters?address=${options.region}&dogSize=${options.size}&service=${options.services !== undefined ? options.services : ""}&page=${currentPage}`,
+    {
+      withCredentials: true,
+    }
+  );
+
+  return res.data.result as unknown as IPetsitterList;
 };

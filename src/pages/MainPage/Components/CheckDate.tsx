@@ -1,15 +1,15 @@
 // any
 import React, { useState, useEffect } from "react";
 import { DateRangePicker } from "react-dates";
-import "react-dates/lib/css/_datepicker.css";
-import "react-dates/initialize";
+// import "react-dates/lib/css/_datepicker.css";
+// import "react-dates/initialize";
 // import moment from 'moment';
 // import axios from 'axios';
 // import dayjs from 'dayjs';
 // import TextField from '@mui/material/TextField';
-import "./datePicker.css";
+// import "./datePicker.css";
 import FormControl from "@mui/material/FormControl/FormControl";
-import { SelectWrapper } from "../../styles/main/MainPageStyle";
+import { SelectWrapper } from "../../../styles/main/MainPageStyle";
 
 export default function CheckDate({ options, setOptions }: any) {
   // const [open, setOpen] = React.useState(false);
@@ -97,7 +97,7 @@ export default function CheckDate({ options, setOptions }: any) {
 
   return (
     <SelectWrapper>
-      <FormControl sx={{ m: 1, width: 4 / 5, display: "flex" }}>
+      {/* <FormControl sx={{ m: 1, width: 4 / 5, display: "flex" }}>
         <p style={{ fontWeight: "bold" }}>체크인 / 체크아웃</p>
         <DateRangePicker
           required
@@ -119,7 +119,7 @@ export default function CheckDate({ options, setOptions }: any) {
           //   || blockBeforeStartDate(day)
           //   || blockAfterStartDate(day)}
         />
-      </FormControl>
+      </FormControl> */}
     </SelectWrapper>
   );
 }
