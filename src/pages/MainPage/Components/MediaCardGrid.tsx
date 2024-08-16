@@ -49,17 +49,4 @@ function MediaCard({ data }: any) {
   );
 }
 
-interface IProps {
-  cards: IContent[];
-}
-
-function MediaCardGrid({ cards }: IProps) {
-  console.log("메인페이지 content 출력 :", cards);
-  return (
-    <S.ContentWrapper>
-      {cards?.map((card) => <MediaCard key={card.petSitterId} data={card} />)}
-    </S.ContentWrapper>
-  );
-}
-
 export default MediaCard;
