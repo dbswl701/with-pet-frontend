@@ -248,7 +248,7 @@ function PetList() {
     //     })
     //     .catch(() => {});
 
-    putModifyDogInfoMutate({ dogId, dogInfo: modifyPetInfo });
+    putModifyDogInfoMutate({ dogId, dogInfo: modifyPetInfo, partyId });
   };
 
   const onCancle = () => {

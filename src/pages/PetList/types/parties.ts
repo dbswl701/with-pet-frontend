@@ -82,6 +82,7 @@ export interface IModifyPetReq {
   dogName: string;
   dogNeutralization: boolean;
   dogWeight: number;
+  // dogIsbn: string; // 이거 필요없음
 }
 
 // 그룹 가입 req

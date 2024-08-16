@@ -89,16 +89,42 @@ export const usePostAddDogIntoParty = () => {
 
 // 반려견 정보 수정
 export const usePutModifyDog = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({
       dogId,
       dogInfo,
+      partyId,
     }: {
       dogId: number;
       dogInfo: IModifyPetReq;
+      partyId: number;
     }) => putModifyDog(dogId, dogInfo),
     onError: () => {},
-    onSuccess: () => {},
+    onSuccess: (data, variables) => {
+      // 유저 데이터 업데이트
+      queryClient.setQueryData<IPartiesRes[]>(["parties"], (prev) => {
+        if (!prev) return prev;
+        // 아 partyId도 필요하네
+        // 먼저 수정이 필요한 파티 찾기
+        const updatedParties = prev.map((party) => {
+          if (party.partyId === variables.partyId) {
+            // 만약 이 파티에서 수정해야 한다면,
+            return {
+              ...party,
+              partyDogList: party.partyDogList.map((dog) => {
+                // dogid가 일치하는거 찾아서 그거 수정하기
+                if (dog.dogId === variables.dogId) {
+                  return data;
+                } else return dog;
+              }),
+            };
+          }
+          return party;
+        });
+        return updatedParties;
+      });
+    },
   });
 };
 

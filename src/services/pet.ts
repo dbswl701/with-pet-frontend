@@ -6,6 +6,7 @@ import {
   IJoinPartyReq,
   IModifyPetReq,
   IPartiesRes,
+  IPartyDogList,
   IPartyReq,
 } from "../pages/PetList/types/parties";
 
@@ -43,10 +44,10 @@ export const postDogIntoParty = async (
 
 // 반려견 정보 수정
 export const putModifyDog = async (dogId: number, dogInfo: IModifyPetReq) => {
-  const res = await axios.post(`${baseUrl}/v2/dogs/${dogId}`, dogInfo, {
+  const res = await axios.put(`${baseUrl}/v2/dogs/${dogId}`, dogInfo, {
     withCredentials: true,
   });
-  return res.data.result as unknown as IAddPetRes;
+  return res.data.result as unknown as IPartyDogList;
 };
 
 // 그룹 탈퇴

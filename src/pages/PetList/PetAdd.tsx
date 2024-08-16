@@ -9,6 +9,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dogimgdefault from "../../assets/dogProfileImage.png";
 import { IAddPetReq } from "./types/parties";
+import PostFileUpload from "../../services/upload";
+import { usePostAddDogIntoParty } from "../../hooks/usePetMutation";
 
 interface IProps {
   onSubmit: (e: React.FormEvent<HTMLFormElement>, partyId: number) => void;
@@ -16,22 +18,73 @@ interface IProps {
   petInfo: IAddPetReq;
   onCancle: () => void;
   partyId: number;
+  setPetInfo: React.Dispatch<React.SetStateAction<IAddPetReq>>;
 }
 
-function PetAdd({ onSubmit, onChange, petInfo, onCancle, partyId }: IProps) {
+function PetAdd({ onSubmit, petInfo, onCancle, partyId, setPetInfo }: IProps) {
   const [isClick, setisClick] = useState(false);
+  const [pet, setPet] = useState<IAddPetReq>(petInfo);
+
+  const { mutate: postAddDogMutate } = usePostAddDogIntoParty();
 
   const onLocalSubmit = (e: any) => {
-    onSubmit(e, partyId);
+    // onSubmit(e, partyId);
+    e.preventDefault();
+    let img = pet.dogImg;
+    if (img === "") {
+      img = dogimgdefault;
+    }
+    postAddDogMutate({ partyId, petInfo: pet });
+    const today = new Date().toISOString().slice(0, 10);
+    setPet({
+      dogBirth: dayjs(today),
+      dogBreed: "",
+      dogGender: "",
+      dogImg: "",
+      dogIsbn: "",
+      dogName: "",
+      dogNeutralization: false,
+      dogWeight: 0,
+    });
     setisClick(false);
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files === null) return;
+    const img = e.target.files[0];
+    const formData = new FormData();
+    formData.append("file", img);
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    const res = await PostFileUpload(formData);
+    setPet({
+      ...pet,
+      dogImg: res.data.result[0],
+    });
+  };
+
+  const onChange = (e: any) => {
+    if (e.target.files) {
+      handleImageUpload(e);
+    } else {
+      const { value, name } = e.target;
+      console.log("name:", name, "value:", value);
+      setPet({
+        ...pet,
+        [name]: name === "dogWeight" ? parseInt(value) : value,
+      });
+    }
   };
 
   const onChangeCalendar = (date: Dayjs | null) => {
     const e = {
       target: {
-        name: "dog_birth",
-        // value: dayjs(date).format("YYYY-MM-DD"),
-        value: date,
+        name: "dogBirth",
+        value: dayjs(date).format("YYYY-MM-DD"),
+        // value: date,
       },
     };
     onChange(e);
@@ -48,7 +101,7 @@ function PetAdd({ onSubmit, onChange, petInfo, onCancle, partyId }: IProps) {
         <img
           id="preview-image"
           alt="이미지 미리보기"
-          src={!petInfo.dogImg ? dogimgdefault : petInfo.dogImg}
+          src={!pet.dogImg ? dogimgdefault : pet.dogImg}
         />
         <label htmlFor="image-select">프로필 이미지 선택</label>
         <input
@@ -66,9 +119,9 @@ function PetAdd({ onSubmit, onChange, petInfo, onCancle, partyId }: IProps) {
           label="이름"
           variant="outlined"
           size="small"
-          name="dog_name"
+          name="dogName"
           onChange={onChange}
-          value={petInfo.dogName}
+          value={pet.dogName}
           required
         />
 
@@ -77,9 +130,9 @@ function PetAdd({ onSubmit, onChange, petInfo, onCancle, partyId }: IProps) {
           select
           label="견종"
           variant="outlined"
-          name="dog_breed"
+          name="dogBreed"
           onChange={onChange}
-          value={petInfo.dogBreed}
+          value={pet.dogBreed}
           size="small"
           required
         >
@@ -100,7 +153,7 @@ function PetAdd({ onSubmit, onChange, petInfo, onCancle, partyId }: IProps) {
           <DatePicker
             sx={{ m: 1 }}
             label="생일"
-            value={petInfo.dogBirth}
+            value={pet.dogBirth}
             onChange={onChangeCalendar}
             format="YYYY/MM/DD"
           />
@@ -110,43 +163,43 @@ function PetAdd({ onSubmit, onChange, petInfo, onCancle, partyId }: IProps) {
           <p>성별 선택</p>
           <input
             type="radio"
-            name="dog_gender"
-            id="male"
-            value="male"
+            name="dogGender"
+            id="MALE"
+            value="MALE"
             onChange={onChange}
-            checked={petInfo.dogGender === "male"}
+            checked={pet.dogGender === "MALE"}
             required
           />
-          <label htmlFor="male">수컷</label>
+          <label htmlFor="MALE">수컷</label>
           <input
             type="radio"
-            name="dog_gender"
-            id="female"
-            value="female"
+            name="dogGender"
+            id="FEMALE"
+            value="FEMALE"
             onChange={onChange}
-            checked={petInfo.dogGender === "female"}
+            checked={pet.dogGender === "FEMALE"}
           />
-          <label htmlFor="female">암컷</label>
+          <label htmlFor="FEMALE">암컷</label>
         </div>
 
         <div className="select">
           <p>중성화 여부 선택</p>
           <input
             type="radio"
-            name="neutralization"
+            name="dogNeutralization"
             id="O"
             value="true"
             onChange={onChange}
-            checked={petInfo.dogNeutralization === true}
+            checked={pet.dogNeutralization === true}
           />
           <label htmlFor="O">O</label>
           <input
             type="radio"
-            name="neutralization"
+            name="dogNeutralization"
             id="X"
             value="false"
             onChange={onChange}
-            checked={petInfo.dogNeutralization === false}
+            checked={pet.dogNeutralization === false}
           />
           <label htmlFor="X">X</label>
         </div>
@@ -157,9 +210,9 @@ function PetAdd({ onSubmit, onChange, petInfo, onCancle, partyId }: IProps) {
           type="number"
           variant="outlined"
           size="small"
-          name="dog_weight"
+          name="dogWeight"
           onChange={onChange}
-          value={petInfo.dogWeight}
+          value={pet.dogWeight}
           required
         />
 
@@ -169,9 +222,9 @@ function PetAdd({ onSubmit, onChange, petInfo, onCancle, partyId }: IProps) {
           type="number"
           variant="outlined"
           size="small"
-          name="dog_isbn"
+          name="dogIsbn"
           onChange={onChange}
-          value={petInfo.dogIsbn}
+          value={pet.dogIsbn}
           required
         />
 

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -12,7 +12,7 @@ interface IProps {
   onSubmit: (
     partyId: number,
     dogId: number,
-    modifyPetInfo: IModifyPetReq,
+    modifyPetInfo: IModifyPetReq
   ) => void;
   petInfo: IPartyDogList;
   onToggle: (str: string) => void;
@@ -30,7 +30,12 @@ function PetModify({ onSubmit, petInfo, onToggle, partyId }: IProps) {
     dogImg: petInfo.dogImg,
     // dogIsbn: petInfo.dogIsbn,
   });
+  console.log("수정수정! modifyPetInfo: ", modifyPetInfo);
 
+  // 생일 임시 저장
+  const [birth, setBirth] = useState(petInfo.dogBirth);
+  // const birth = dayjs(modifyPetInfo.dogBirth);
+  useEffect(() => {}, [birth]);
   const handleImageUpload = async (e: any) => {
     const img = e.target.files[0];
     const formData = new FormData();
@@ -55,6 +60,7 @@ function PetModify({ onSubmit, petInfo, onToggle, partyId }: IProps) {
       handleImageUpload(e);
     } else {
       const { value, name } = e.target;
+      console.log("?????? value:", value, "name:", name);
       setModifyPetInfo({
         ...modifyPetInfo,
         [name]: value,
@@ -72,14 +78,19 @@ function PetModify({ onSubmit, petInfo, onToggle, partyId }: IProps) {
     onSubmit(partyId, petInfo.dogId, modifyPetInfo);
   };
 
-  const onChangeCalendar = (date: Date | null) => {
-    const e = {
-      target: {
-        name: "dog_birth",
-        value: dayjs(date).format("YYYY-MM-DD"),
-      },
-    };
-    onChange(e);
+  const onChangeCalendar = (date: Dayjs | null) => {
+    // const e = {
+    //   target: {
+    //     name: "dogBirth",
+    //     value: dayjs(date).format("YYYY-MM-DD"),
+    //   },
+    // };
+    console.log("날짜 좀 나와라", dayjs(date).format("YYYY-MM-DD"));
+    setModifyPetInfo({
+      ...modifyPetInfo,
+      dogBirth: dayjs(date).format("YYYY-MM-DD"),
+    });
+    // onChange(e);
   };
 
   const modify = (
@@ -105,7 +116,7 @@ function PetModify({ onSubmit, petInfo, onToggle, partyId }: IProps) {
           label="이름"
           variant="outlined"
           size="small"
-          name="dog_name"
+          name="dogName"
           onChange={onChange}
           value={modifyPetInfo.dogName}
           required
@@ -116,7 +127,7 @@ function PetModify({ onSubmit, petInfo, onToggle, partyId }: IProps) {
           select
           label="견종"
           variant="outlined"
-          name="dog_breed"
+          name="dogBreed"
           onChange={onChange}
           value={modifyPetInfo.dogBreed}
           size="small"
@@ -140,9 +151,10 @@ function PetModify({ onSubmit, petInfo, onToggle, partyId }: IProps) {
           <DatePicker
             sx={{ m: 1 }}
             label="생일"
+            // value={new Date(modifyPetInfo.dogBirth)}
             value={dayjs(modifyPetInfo.dogBirth)}
             onChange={onChangeCalendar}
-            name="dog_birth"
+            // onChange={() => onChangeCalendar(dayjs(modifyPetInfo.dogBirth))}
             format="YYYY/MM/DD"
           />
         </LocalizationProvider>
@@ -151,29 +163,29 @@ function PetModify({ onSubmit, petInfo, onToggle, partyId }: IProps) {
           <p>성별 선택</p>
           <input
             type="radio"
-            name="dog_gender"
-            id="male"
-            value="male"
+            name="dogGender"
+            id="MALE"
+            value="MALE"
             onChange={onChange}
-            checked={modifyPetInfo.dogGender === "male"}
+            checked={modifyPetInfo.dogGender === "MALE"}
           />
-          <label htmlFor="male">남자</label>
+          <label htmlFor="MALE">남자</label>
           <input
             type="radio"
-            name="dog_gender"
-            id="female"
-            value="female"
+            name="dogGender"
+            id="FEMALE"
+            value="FEMALE"
             onChange={onChange}
-            checked={modifyPetInfo.dogGender === "female"}
+            checked={modifyPetInfo.dogGender === "FEMALE"}
           />
-          <label htmlFor="female">여자</label>
+          <label htmlFor="FEMALE">여자</label>
         </div>
 
         <div className="select">
           <p>중성화 여부 선택</p>
           <input
             type="radio"
-            name="neutralization"
+            name="dogNeutralization"
             id="O"
             value="true"
             onChange={onChange}
@@ -182,7 +194,7 @@ function PetModify({ onSubmit, petInfo, onToggle, partyId }: IProps) {
           <label htmlFor="O">O</label>
           <input
             type="radio"
-            name="neutralization"
+            name="dogNeutralization"
             id="X"
             value="false"
             onChange={onChange}
@@ -196,7 +208,7 @@ function PetModify({ onSubmit, petInfo, onToggle, partyId }: IProps) {
           type="number"
           variant="outlined"
           size="small"
-          name="dog_weight"
+          name="dogWeight"
           onChange={onChange}
           value={modifyPetInfo.dogWeight}
           required
@@ -208,9 +220,10 @@ function PetModify({ onSubmit, petInfo, onToggle, partyId }: IProps) {
           type="number"
           variant="outlined"
           size="small"
-          name="dog_isbn"
-          onChange={onChange}
-          // value={modifyPetInfo.dog_isbn}
+          name="dogIsbn"
+          // onChange={onChange}
+          value={petInfo.dogIsbn}
+          disabled
           required
         />
         <input className="pet-add-btn" type="submit" value="수정" />
