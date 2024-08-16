@@ -1,60 +1,65 @@
-import React from 'react';
-import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs from 'dayjs';
-import dogimgdefault from '../../assets/dogProfileImage.png';
+import React from "react";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs, { Dayjs } from "dayjs";
+import dogimgdefault from "../../assets/dogProfileImage.png";
+import { IPartyReq } from "./types/parties";
 
-function CreateParty({
-  open, setOpen, onChange, onSubmit, petInfo, setPetInfo,
-}) {
-  const onChangeCalendar = (date) => {
+interface IProps {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onChange: (date: any) => void;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  partyInfo: IPartyReq;
+  setPartyInfo: React.Dispatch<React.SetStateAction<IPartyReq>>;
+}
+
+function CreateParty({ open, setOpen, onChange, onSubmit, partyInfo, setPartyInfo }: IProps) {
+  const onChangeCalendar = (date: Dayjs) => {
     const e = {
       target: {
-        name: 'dog_birth',
-        value: dayjs(date).format('YYYY-MM-DD'),
+        name: "partyDogBirth",
+        value: dayjs(date).format("YYYY-MM-DD"),
+        // value: date,
       },
     };
     onChange(e);
   };
-
+  const dateNow = new Date();
+  const today = dateNow.toISOString().slice(0, 10);
   const onLocalCancle = () => {
-    setPetInfo({
-      dog_name: '',
-      dog_breed: '',
-      dog_birth: '',
-      dog_gender: '',
-      neutralization: '',
-      dog_weight: '',
-      dog_img: '',
-      dog_isbn: '',
-      partyName: '',
+    setPartyInfo({
+      partyDogName: "",
+      partyDogBreed: "",
+      partyDogBirth: dayjs(today),
+      partyDogGender: "",
+      partyDogNeutralization: false,
+      partyDogWeight: 0,
+      partyDogImg: "",
+      partyDogIsbn: "",
+      partyName: "",
     });
     setOpen(false);
   };
-
+  // const checkDay = dayjs(partyInfo.partyDogBirth).toDate();
+  // console.log("checkDay: ", checkDay, "date: ", new Date());
   const addinfo = (
     <form onSubmit={onSubmit}>
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
+      <div style={{ display: "flex", flexDirection: "row" }}>
         <div className="pet-img-regist">
           <img
             id="preview-image"
             alt="이미지 미리보기"
-            src={!petInfo.dog_img ? dogimgdefault : petInfo.dog_img}
+            src={!partyInfo.partyDogImg ? dogimgdefault : partyInfo.partyDogImg}
           />
           <label htmlFor="image-select">프로필 이미지 선택</label>
-          <input
-            type="file"
-            accept="image/*"
-            id="image-select"
-            style={{ display: 'none' }}
-            onChange={onChange}
-          />
+          <input type="file" accept="image/*" id="image-select" style={{ display: "none" }} onChange={onChange} />
         </div>
         <div className="pet-info-regist">
           <TextField
@@ -62,9 +67,9 @@ function CreateParty({
             label="이름"
             variant="outlined"
             size="small"
-            name="dog_name"
+            name="partyDogName"
             onChange={onChange}
-            value={petInfo.dog_name}
+            value={partyInfo.partyDogName}
             required
           />
 
@@ -73,9 +78,9 @@ function CreateParty({
             select
             label="견종"
             variant="outlined"
-            name="dog_breed"
+            name="partyDogBreed"
             onChange={onChange}
-            value={petInfo.dog_breed}
+            value={partyInfo.partyDogBreed}
             size="small"
             required
           >
@@ -96,11 +101,11 @@ function CreateParty({
             <DatePicker
               sx={{ m: 1 }}
               label="생일"
-              value={petInfo.dog_birth}
-              onChange={onChangeCalendar}
-              name="dog_birth"
+              value={partyInfo.partyDogBirth}
+              onChange={() => onChangeCalendar(partyInfo.partyDogBirth)}
+              // name="partyDogBirth"
               format="YYYY/MM/DD"
-              slotProps={{ textField: { size: 'small' } }}
+              slotProps={{ textField: { size: "small" } }}
             />
           </LocalizationProvider>
 
@@ -108,43 +113,43 @@ function CreateParty({
             <p>성별 선택</p>
             <input
               type="radio"
-              name="dog_gender"
-              id="male"
-              value="male"
+              name="partyDogGender"
+              id="MALE"
+              value="MALE"
               onChange={onChange}
-              checked={petInfo.dog_gender === 'male'}
+              checked={partyInfo.partyDogGender === "MALE"}
               required
             />
-            <label htmlFor="male">수컷</label>
+            <label htmlFor="MALE">수컷</label>
             <input
               type="radio"
-              name="dog_gender"
-              id="female"
-              value="female"
+              name="partyDogGender"
+              id="FEMALE"
+              value="FEMALE"
               onChange={onChange}
-              checked={petInfo.dog_gender === 'female'}
+              checked={partyInfo.partyDogGender === "FEMALE"}
             />
-            <label htmlFor="female">암컷</label>
+            <label htmlFor="FEMALE">암컷</label>
           </div>
 
           <div className="select">
             <p>중성화 여부 선택</p>
             <input
               type="radio"
-              name="neutralization"
+              name="partyDogNeutralization"
               id="O"
               value="true"
               onChange={onChange}
-              checked={petInfo.neutralization === 'true'}
+              checked={partyInfo.partyDogNeutralization === true}
             />
             <label htmlFor="O">O</label>
             <input
               type="radio"
-              name="neutralization"
+              name="partyDogNeutralization"
               id="X"
               value="false"
               onChange={onChange}
-              checked={petInfo.neutralization === 'false'}
+              checked={partyInfo.partyDogNeutralization === false}
             />
             <label htmlFor="X">X</label>
           </div>
@@ -155,9 +160,9 @@ function CreateParty({
             type="number"
             variant="outlined"
             size="small"
-            name="dog_weight"
+            name="partyDogWeight"
             onChange={onChange}
-            value={petInfo.dog_weight}
+            value={partyInfo.partyDogWeight}
             required
           />
 
@@ -167,9 +172,9 @@ function CreateParty({
             type="number"
             variant="outlined"
             size="small"
-            name="dog_isbn"
+            name="partyDogIsbn"
             onChange={onChange}
-            value={petInfo.dog_isbn}
+            value={partyInfo.partyDogIsbn}
             required
           />
 
@@ -180,34 +185,33 @@ function CreateParty({
             size="small"
             name="partyName"
             onChange={onChange}
-            value={petInfo.partyName}
+            value={partyInfo.partyName}
             required
           />
 
           <input className="pet-add-btn" type="submit" value="submit" />
         </div>
       </div>
-
     </form>
   );
 
   return (
     <div>
-      <Modal open={open} onClose={() => setOpen(false)} style={{ margin: '40px' }}>
+      <Modal open={open} onClose={() => setOpen(false)} style={{ margin: "40px" }}>
         <Box
           sx={{
             width: 800,
             height: 550,
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'top',
-            alignItems: 'center',
-            bgcolor: 'background.paper',
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "top",
+            alignItems: "center",
+            bgcolor: "background.paper",
             boxShadow: 24,
-            margin: 'auto',
-            overflowY: 'scroll',
+            margin: "auto",
+            overflowY: "scroll",
             p: 2,
-            backgroundColor: '#FAF6F0',
+            backgroundColor: "#FAF6F0",
           }}
         >
           {addinfo}
