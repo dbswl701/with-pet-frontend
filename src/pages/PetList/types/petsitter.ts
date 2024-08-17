@@ -69,3 +69,13 @@ export interface IReservationDogs {
   name: string;
   petReservationAvailable: boolean;
 }
+
+// 유저의 펫시터 예약 정보 (유저 데이터)
+export interface IReservationInfo {
+  startDate: string;
+  endDate: string;
+  checkinTime: string;
+  checkoutTime: string;
+  dogId: string;
+  optionId: string[];
+}

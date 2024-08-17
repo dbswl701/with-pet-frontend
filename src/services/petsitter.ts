@@ -116,3 +116,16 @@ export const getReservationDogs = async (petsitterId: string | undefined) => {
 
   return res.data.result as unknown as IReservationDogs[];
 };
+
+// 펫시터 예약 불가능한 날짜
+export const getPetsitterUnvailableDates = async (
+  petSitterId: string | undefined,
+  month: string
+) => {
+  const res = await axios.get(
+    `${baseUrl}/v2/pet-sitters/reservations/${petSitterId}/unavailable-dates?month=${month}`,
+    { withCredentials: true }
+  );
+
+  return res.data.result as unknown as string[];
+};

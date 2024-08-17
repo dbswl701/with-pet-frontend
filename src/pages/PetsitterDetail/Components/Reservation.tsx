@@ -7,8 +7,10 @@ import Options from "./Options";
 import {
   IPetsitterDetail,
   IReservationDogs,
+  IReservationInfo,
 } from "../../PetList/types/petsitter";
-// import CheckCalendar from './CheckCalendar';
+import CheckCalendar from "./CheckCalendar";
+import DateRangePicker from "./DateRangePicker";
 // import AvailableCalendar from './AvailableCalendar';
 
 const Container = styled.div`
@@ -48,13 +50,14 @@ function Reservation({
   setOpen,
   setPayInfo,
 }: IProps) {
-  const [info, setInfo] = useState({
+  const [reservationInfo, setReservationInfo] = useState<IReservationInfo>({
     startDate: "",
     endDate: "",
     checkinTime: "",
     checkoutTime: "",
     dogId: "",
     optionId: [],
+    // petSitterId: 0,
   });
 
   const [reset, setReset] = useState(false);
@@ -62,15 +65,15 @@ function Reservation({
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setInfo({
-      ...info,
+    setReservationInfo({
+      ...reservationInfo,
       [name]: value,
     });
   };
 
   const onChangeOption = (list: any) => {
-    setInfo({
-      ...info,
+    setReservationInfo({
+      ...reservationInfo,
       optionId: list,
     });
   };
@@ -78,13 +81,13 @@ function Reservation({
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const temp = {
-      checkIn: `${info.startDate}T${info.checkinTime}:00:00`,
-      checkOut: `${info.endDate}T${info.checkoutTime}:00:00`,
-      dogId: info.dogId,
-      optionId: info.optionId,
+      checkIn: `${reservationInfo.startDate}T${reservationInfo.checkinTime}:00:00`,
+      checkOut: `${reservationInfo.endDate}T${reservationInfo.checkoutTime}:00:00`,
+      dogId: reservationInfo.dogId,
+      optionId: reservationInfo.optionId,
       petsitterId: Number(petsitterId),
     };
-    if (!info.startDate || !info.endDate) {
+    if (!reservationInfo.startDate || !reservationInfo.endDate) {
       // eslint-disable-next-line no-alert
       alert("체크인 체크아웃 날짜를 선택해주세요.");
       return;
@@ -94,7 +97,7 @@ function Reservation({
         withCredentials: true,
       })
       .then((res) => {
-        setInfo({
+        setReservationInfo({
           startDate: "",
           endDate: "",
           checkinTime: "",
@@ -108,7 +111,7 @@ function Reservation({
       })
       .catch((err) => {
         if (err.response && err.response.status === 409) {
-          setInfo({
+          setReservationInfo({
             startDate: "",
             endDate: "",
             checkinTime: "",
@@ -122,27 +125,17 @@ function Reservation({
         }
       });
   };
-  // 다시 살려야 함.
-  // const onChangeCalender = (start, end) => {
-  //   if (start && end) {
-  //     setInfo({
-  //       ...info,
-  //       startDate: start.format("YYYY-MM-DD"),
-  //       endDate: end.format("YYYY-MM-DD"),
-  //     });
-  //   }
-  // };
 
+  console.log("예약 정보 확인: ", reservationInfo);
   return (
     <>
       <Container>
         <Wrapper1>
           <Title>체크인 / 체크아웃 날짜</Title>
-          {/* <CheckCalendar
-            onChange={onChangeCalender}
+          <DateRangePicker
             petsitterId={petsitterId}
-            reset={reset}
-          /> */}
+            setReservationInfo={setReservationInfo}
+          />
           <form onSubmit={onSubmit}>
             <div>
               <Title>체크인 / 체크아웃 시간</Title>
@@ -154,7 +147,7 @@ function Reservation({
                 name="checkinTime"
                 style={{ width: "138px", height: "40px" }}
                 onChange={onChange}
-                value={info.checkinTime}
+                value={reservationInfo.checkinTime}
                 required
               >
                 <MenuItem value="00">오전 12:00</MenuItem>
@@ -191,7 +184,7 @@ function Reservation({
                 name="checkoutTime"
                 style={{ width: "138px", height: "40px" }}
                 onChange={onChange}
-                value={info.checkoutTime}
+                value={reservationInfo.checkoutTime}
                 required
               >
                 <MenuItem value="00">오전 12:00</MenuItem>
@@ -229,7 +222,7 @@ function Reservation({
                 name="dogId"
                 style={{ width: "300px" }}
                 onChange={onChange}
-                value={info.dogId}
+                value={reservationInfo.dogId}
                 required
               >
                 {dogList.map((dog) => (

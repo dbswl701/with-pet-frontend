@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   getPetsitterDetail,
   getPetsitterMyInfo,
+  getPetsitterUnvailableDates,
   getReservationDogs,
   putPetsitterCriticalService,
 } from "../services/petsitter";
@@ -51,6 +52,19 @@ export const useGetReservationDogs = (petsitterId: string | undefined) => {
   const { data, isLoading, error } = useQuery({
     queryKey: ["reservationDogs", petsitterId],
     queryFn: () => getReservationDogs(petsitterId),
+    staleTime: 5 * 60 * 1000,
+  });
+  return { data, isLoading, error };
+};
+
+// 펫시터 예약 불가능한 날짜
+export const useGetPetsitterUnvailableDates = (
+  petsitterId: string | undefined,
+  month: string
+) => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["petsitter", "unvaliable-dates", petsitterId],
+    queryFn: () => getPetsitterUnvailableDates(petsitterId, month),
     staleTime: 5 * 60 * 1000,
   });
   return { data, isLoading, error };
