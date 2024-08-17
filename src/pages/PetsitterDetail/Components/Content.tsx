@@ -3,6 +3,8 @@ import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom/dist";
 import Review from "./Review";
+import { IPetsitterDetail } from "../../PetList/types/petsitter";
+import { IPetSitterWithPetServicesRes } from "../../PetsitterInfoModify/types/petsitter.types";
 
 const Container = styled.div`
   width: 620px;
@@ -30,29 +32,39 @@ const ServiceItem = styled.div`
   align-items: center;
   margin-bottom: 10px;
 `;
-function Item({ service }) {
+
+interface IProps2 {
+  service: IPetSitterWithPetServicesRes;
+}
+function Item({ service }: IProps2) {
   return (
     <ServiceItem>
       <div style={{ width: "30px", height: "30px" }}>
         <img
-          src={service.serviceImg}
+          src={service.withPetServiceImg}
           alt="사진"
           style={{ width: "30px", height: "30px" }}
         />
       </div>
       <div style={{ marginLeft: "10px" }}>
         <p style={{ fontSize: "13px", margin: "0px" }}>
-          {service.serviceName} ({service.price}원)
+          {service.withPetServiceName} ({service.petSitterWithPetServicePrice}
+          원)
         </p>
         <p style={{ fontSize: "11px", margin: "0px", color: "gray" }}>
-          {service.serviceIntroduction}
+          {service.withPetServiceIntroduction}
         </p>
       </div>
     </ServiceItem>
   );
 }
 
-function Content({ data, petsitterUserId, reviews }) {
+interface IProps {
+  data: IPetsitterDetail | undefined;
+  petsitterUserId: number | undefined;
+  reviews: any;
+}
+function Content({ data, petsitterUserId, reviews }: IProps) {
   const navigate = useNavigate();
 
   const moveChatPage = () => {
@@ -89,15 +101,14 @@ function Content({ data, petsitterUserId, reviews }) {
               <h2 style={{ marginRight: "10px" }}>
                 {data && data.petSitterName}
               </h2>
-              <p>{data.petSitterAddress && data.petSitterAddress}</p>
+              <p>{data?.petSitterAddress}</p>
             </div>
 
-            {data.petSitterHashTags &&
-              data.petSitterHashTags.map((tag) => (
-                <span key={tag.petSitterHashTagId} style={{ color: "#CAA969" }}>
-                  #{tag.hashTagName}{" "}
-                </span>
-              ))}
+            {data?.petSitterHashTags.map((tag) => (
+              <span key={tag.petSitterHashTagId} style={{ color: "#CAA969" }}>
+                #{tag.petSitterHashTagName}{" "}
+              </span>
+            ))}
           </div>
           <div>
             <button
@@ -120,7 +131,7 @@ function Content({ data, petsitterUserId, reviews }) {
 
         <div>
           <h3 style={{ marginTop: "60px" }}>소개글</h3>
-          <p>{data && data.introduction}</p>
+          <p>{data?.petSitterIntroduction}</p>
         </div>
 
         <div>
@@ -137,10 +148,9 @@ function Content({ data, petsitterUserId, reviews }) {
           <div
             style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
           >
-            {data.petSitterServices &&
-              data.petSitterServices.map((service) => (
-                <Item key={service.petSitterServiceId} service={service} />
-              ))}
+            {data?.petSitterWithPetServices.map((service) => (
+              <Item key={service.petSitterWithPetServiceId} service={service} />
+            ))}
           </div>
         </div>
 
@@ -154,7 +164,7 @@ function Content({ data, petsitterUserId, reviews }) {
             }}
           >
             {reviews &&
-              reviews.map((review) => (
+              reviews.map((review: any) => (
                 <Review key={review.reviewId} review={review} />
               ))}
           </div>

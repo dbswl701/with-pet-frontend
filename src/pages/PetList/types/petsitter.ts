@@ -1,6 +1,11 @@
 // 메인 페이지 펫시터 목록
 
-import { IPetSitterHashTags } from "../../PetsitterInfoModify/types/petsitter.types";
+import {
+  IPetSitterCriticalServicesRes,
+  IPetSitterHashTags,
+  IPetSitterHouses,
+  IPetSitterWithPetServicesRes,
+} from "../../PetsitterInfoModify/types/petsitter.types";
 
 export interface IPetsitterList {
   content: IContent[];
@@ -40,4 +45,27 @@ export interface IContent {
   petSitterHashTags: IPetSitterHashTags[]; // 다시 확인
   petSitterReviewCount: number;
   petSitterStartRate: null;
+}
+
+// 펫시터 디테일 정보
+export interface IPetsitterDetail {
+  petSitterId: number;
+  petSitterUserId: number;
+  petSitterName: string;
+  petSitterProfileImg: string;
+  petSitterAddress: string;
+  petSitterHashTags: IPetSitterHashTags[]; // 다시 확인
+  petSitterHouses: IPetSitterHouses[];
+  petSitterWithPetServices: IPetSitterWithPetServicesRes[]; // 다시 확인
+  petSitterCriticalServices: IPetSitterCriticalServicesRes[]; // 다시 확인
+  petSitterIntroduction: string;
+  petSitterLicenseImg: string;
+  petSitterReviews: [];
+}
+
+// 예약 페이지 반려견 리스트 조회
+export interface IReservationDogs {
+  dogId: number;
+  name: string;
+  petReservationAvailable: boolean;
 }

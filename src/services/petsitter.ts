@@ -8,7 +8,11 @@ import {
   IPetSitterHouses,
   IPetSitterInfoRes,
 } from "../pages/PetsitterInfoModify/types/petsitter.types";
-import { IPetsitterList } from "../pages/PetList/types/petsitter";
+import {
+  IPetsitterDetail,
+  IPetsitterList,
+  IReservationDogs,
+} from "../pages/PetList/types/petsitter";
 import { IOptions } from "../pages/PetList/types/main";
 
 // 펫시터 자기 정보 불러오기
@@ -92,4 +96,23 @@ export const getPetsitters = async (options: IOptions, currentPage: number) => {
   );
 
   return res.data.result as unknown as IPetsitterList;
+};
+
+// 펫시터 디테일 정보 불러오기
+export const getPetsitterDetail = async (petSitterId: string | undefined) => {
+  const res = await axios.get(`${baseUrl}/v2/pet-sitters/${petSitterId}`, {
+    withCredentials: true,
+  });
+
+  return res.data.result as unknown as IPetsitterDetail;
+};
+
+// 예약 페이지 반려견 리스트 조회
+export const getReservationDogs = async (petsitterId: string | undefined) => {
+  const res = await axios.get(
+    `${baseUrl}/v2/dogs/reservation-dogs?petSitterId=${petsitterId}`,
+    { withCredentials: true }
+  );
+
+  return res.data.result as unknown as IReservationDogs[];
 };

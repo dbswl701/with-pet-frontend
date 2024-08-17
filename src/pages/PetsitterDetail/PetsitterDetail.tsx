@@ -10,9 +10,15 @@ import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import Content from "./Components/Content";
 import Reservation from "./Components/Reservation";
 import paymentIconYellowMedium from "../../assets/paymentIconYellowMedium.png";
+import {
+  useGetPetsitterDetail,
+  useGetReservationDogs,
+} from "../../hooks/usePetsitterInfoMutation";
+import { IPetSitterHouses } from "../PetsitterInfoModify/types/petsitter.types";
+import { IPetsitterDetail, IReservationDogs } from "../PetList/types/petsitter";
+import Content from "./Components/Content";
 
 const Container = styled.div`
   display: flex;
@@ -40,9 +46,9 @@ function PetsitterDetial() {
   const [initPgToken] = useState(localStorage.getItem("pg_token"));
 
   const { id } = useParams();
-  const [info, setInfo] = useState({});
-  const [dogList, setDogList] = useState([]);
-  const [houseImg, setHouseImg] = useState();
+  const [petsitterInfo, setPetsitterInfo] = useState<IPetsitterDetail>();
+  const [dogList, setDogList] = useState<IReservationDogs[]>([]);
+  const [houseImg, setHouseImg] = useState<undefined | string>();
   const [open, setOpen] = useState(false);
   const [payInfo, setPayInfo] = useState([]);
   const [ready, setReady] = useState(false);
@@ -53,32 +59,56 @@ function PetsitterDetial() {
   const left = window.screenX + (window.outerWidth - width) / 2;
   const top = window.screenY + (window.outerHeight - height) / 2;
 
+  // 펫시터 정보 불러오기
+  const { data: petSitterData } = useGetPetsitterDetail(id);
+
+  useEffect(() => {
+    if (petSitterData) {
+      setPetsitterInfo(petSitterData);
+      const representativeImg = petSitterData.petSitterHouses.find((item) => {
+        return item.petSitterHouseRepresentative === true;
+      })?.petSitterHouseImg;
+      setHouseImg(representativeImg);
+    }
+  }, [petSitterData]);
+
+  // 예약 페이지 반려견 리스트 조회
+  const { data: reservationDogsData } = useGetReservationDogs(id);
+  useEffect(() => {
+    if (reservationDogsData) {
+      setDogList(reservationDogsData);
+    }
+  }, [reservationDogsData]);
+
   useEffect(() => {
     if (pgToken !== null) {
       setPopup("complete");
       localStorage.setItem("pg_token", searchParams.get("pg_token"));
       window.close();
     }
-    axios
-      .get(`https://withpet.site/api/v1/petsitter/${id}`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        setInfo(res.data.result);
-        setHouseImg(
-          res.data.result.petSitterHouses.find(
-            (item) => item.representative === true
-          ).houseImg
-        );
-      });
-    axios
-      .get(
-        `https://withpet.site/api/v1/dogs/reservation-dogs?petSitterId=${id}`,
-        { withCredentials: true }
-      )
-      .then((res) => {
-        setDogList(res.data.result);
-      });
+    // 펫시터 정보 불러오기
+    // axios
+    //   .get(`https://withpet.site/api/v1/petsitter/${id}`, {
+    //     withCredentials: true,
+    //   })
+    //   .then((res) => {
+    //     setInfo(res.data.result);
+    //     setHouseImg(
+    //       res.data.result.petSitterHouses.find(
+    //         (item) => item.representative === true
+    //       ).houseImg
+    //     );
+    //   });
+
+    // 예약 페이지 반려견 리스트 조회
+    // axios
+    //   .get(
+    //     `https://withpet.info/api/v2/dogs/reservation-dogs?petSitterId=${id}`,
+    //     { withCredentials: true }
+    //   )
+    //   .then((res) => {
+    //     setDogList(res.data.result);
+    //   });
   }, []);
 
   const onPaying = (reservationId) => {
@@ -277,12 +307,11 @@ function PetsitterDetial() {
         </ListItem>
       </List>
       <div style={{ margin: "auto", marginTop: "20px" }}>
-        <button style={{ backgroundColor: "transparent", border: "none" }}>
-          <img
-            src={paymentIconYellowMedium}
-            alt="대체 텍스트"
-            onClick={() => onPaying(payInfo.reservationId)}
-          />
+        <button
+          style={{ backgroundColor: "transparent", border: "none" }}
+          onClick={() => onPaying(payInfo.reservationId)}
+        >
+          <img src={paymentIconYellowMedium} alt="대체 텍스트" />
         </button>
       </div>
     </div>
@@ -300,12 +329,12 @@ function PetsitterDetial() {
         </HouseImgWrapper>
         <ContentWrapper>
           <Content
-            data={info}
-            petsitterUserId={info.petSitterUserId}
-            reviews={info.reviewResponses}
+            data={petsitterInfo}
+            petsitterUserId={petsitterInfo?.petSitterUserId}
+            reviews={petsitterInfo?.petSitterReviews}
           />
           <Reservation
-            data={info}
+            data={petsitterInfo}
             dogList={dogList}
             petsitterId={id}
             setOpen={setOpen}
