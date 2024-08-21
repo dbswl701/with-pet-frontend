@@ -1,13 +1,15 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   getPetsitterDetail,
   getPetsitterMyInfo,
   getPetsitterUnvailableDates,
   getReservationDogs,
+  postReservation,
   putPetsitterCriticalService,
 } from "../services/petsitter";
 import { IPetSitterCriticalServices } from "../pages/PetsitterInfoModify/types/petsitter.types";
 import { toast } from "react-toastify";
+import { IReservationInfoReq } from "../pages/PetList/types/petsitter";
 
 // 펫시터 자기 정보 확인
 export const useGetPetsitterInfoQuery = () => {
@@ -68,4 +70,27 @@ export const useGetPetsitterUnvailableDates = (
     staleTime: 5 * 60 * 1000,
   });
   return { data, isLoading, error };
+};
+
+// 유저의 펫시터 예약
+export const usePostReservation = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (req: IReservationInfoReq) => postReservation(req),
+    onSuccess: (data, variables, context) => {
+      toast.success("예약 성공");
+      // 엥 예약 정보가 query로 관리되어야 하나?
+      // const { setPayInfo, setOpen } = context;
+      // console.log("variables 확인", variables);
+      queryClient.setQueryData<boolean>(["isOpenPayModal"], () => {
+        return true;
+      });
+      queryClient.setQueryData(["payInfo"], () => {
+        return data;
+      });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 };

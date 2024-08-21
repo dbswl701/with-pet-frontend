@@ -77,5 +77,14 @@ export interface IReservationInfo {
   checkinTime: string;
   checkoutTime: string;
   dogId: string;
-  optionId: string[];
+  optionId: number[];
+}
+
+// 유저의 펫시터 예약 정보 (서버에 데이터)
+export interface IReservationInfoReq {
+  dogId: number;
+  petSitterId: number;
+  reservationCheckIn: string;
+  reservationCheckOut: string;
+  reservationOptionIdList: number[];
 }

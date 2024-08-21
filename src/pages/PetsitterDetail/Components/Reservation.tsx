@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
@@ -8,9 +8,12 @@ import {
   IPetsitterDetail,
   IReservationDogs,
   IReservationInfo,
+  IReservationInfoReq,
 } from "../../PetList/types/petsitter";
 import CheckCalendar from "./CheckCalendar";
 import DateRangePicker from "./DateRangePicker";
+import { usePostReservation } from "../../../hooks/usePetsitterInfoMutation";
+import { useQueryClient } from "@tanstack/react-query";
 // import AvailableCalendar from './AvailableCalendar';
 
 const Container = styled.div`
@@ -40,7 +43,7 @@ interface IProps {
   dogList: IReservationDogs[];
   petsitterId: string | undefined;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setPayInfo: any;
+  setPayInfo: React.Dispatch<React.SetStateAction<never[]>>; // never 변경 필요
 }
 
 function Reservation({
@@ -77,53 +80,80 @@ function Reservation({
       optionId: list,
     });
   };
+  const { mutate: postReservationMutate } = usePostReservation();
+  const queryClient = useQueryClient();
+  const payInfoQuery = queryClient.getQueryData(["payInfo"]);
+  const isOpenPayModalQuery = queryClient.getQueryData<boolean>([
+    "isOpenPayModal",
+  ]);
 
+  console.log(
+    "payInfoQuery:",
+    payInfoQuery,
+    "isOpenPayModalQuery: ",
+    isOpenPayModalQuery
+  );
+  useEffect(() => {
+    if (isOpenPayModalQuery) {
+      setPayInfo(payInfoQuery);
+      setOpen(isOpenPayModalQuery);
+    }
+  }, [isOpenPayModalQuery]);
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const temp = {
-      checkIn: `${reservationInfo.startDate}T${reservationInfo.checkinTime}:00:00`,
-      checkOut: `${reservationInfo.endDate}T${reservationInfo.checkoutTime}:00:00`,
-      dogId: reservationInfo.dogId,
-      optionId: reservationInfo.optionId,
-      petsitterId: Number(petsitterId),
+    // 이제 서버로 데이터를 보내보자
+    const req: IReservationInfoReq = {
+      reservationCheckIn: `${reservationInfo.startDate}T${reservationInfo.checkinTime}:00:00`,
+      reservationCheckOut: `${reservationInfo.endDate}T${reservationInfo.checkoutTime}:00:00`,
+      dogId: Number(reservationInfo.dogId),
+      reservationOptionIdList: reservationInfo.optionId,
+      petSitterId: Number(petsitterId),
     };
     if (!reservationInfo.startDate || !reservationInfo.endDate) {
       // eslint-disable-next-line no-alert
       alert("체크인 체크아웃 날짜를 선택해주세요.");
       return;
     }
-    axios
-      .post("https://withpet.site/api/v1/reservation", temp, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        setReservationInfo({
-          startDate: "",
-          endDate: "",
-          checkinTime: "",
-          checkoutTime: "",
-          dogId: "",
-          optionId: [],
-        });
-        setReset((prev) => !prev);
-        setPayInfo(res.data.result);
-        setOpen(true);
-      })
-      .catch((err) => {
-        if (err.response && err.response.status === 409) {
-          setReservationInfo({
-            startDate: "",
-            endDate: "",
-            checkinTime: "",
-            checkoutTime: "",
-            dogId: "",
-            optionId: [],
-          });
-          setReset((prev) => !prev);
-          // eslint-disable-next-line no-alert
-          alert(err.response.data.message);
-        }
-      });
+    // useMutate 훅에 콜백 함수 넣어주기.
+    postReservationMutate(req);
+    setReset((prev) => !prev);
+
+    // 이거 두개를 어떻게 처리하지...
+    //     setPayInfo(res.data.result);
+    //     setOpen(true);
+
+    // axios
+    //   .post("https://withpet.site/api/v1/reservation", req, {
+    //     withCredentials: true,
+    //   })
+    //   .then((res) => {
+    //     setReservationInfo({
+    //       startDate: "",
+    //       endDate: "",
+    //       checkinTime: "",
+    //       checkoutTime: "",
+    //       dogId: "",
+    //       optionId: [],
+    //     });
+    //     setReset((prev) => !prev);
+    //     setPayInfo(res.data.result);
+    //     setOpen(true);
+    //   })
+    //   .catch((err) => {
+    //     if (err.response && err.response.status === 409) {
+    //       setReservationInfo({
+    //         startDate: "",
+    //         endDate: "",
+    //         checkinTime: "",
+    //         checkoutTime: "",
+    //         dogId: "",
+    //         optionId: [],
+    //       });
+    //       setReset((prev) => !prev);
+    //       // eslint-disable-next-line no-alert
+    //       alert(err.response.data.message);
+    //     }
+    //   });
   };
 
   console.log("예약 정보 확인: ", reservationInfo);

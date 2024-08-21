@@ -12,6 +12,7 @@ import {
   IPetsitterDetail,
   IPetsitterList,
   IReservationDogs,
+  IReservationInfoReq,
 } from "../pages/PetList/types/petsitter";
 import { IOptions } from "../pages/PetList/types/main";
 
@@ -128,4 +129,13 @@ export const getPetsitterUnvailableDates = async (
   );
 
   return res.data.result as unknown as string[];
+};
+
+// 유저의 펫시터 예약
+export const postReservation = async (req: IReservationInfoReq) => {
+  const res = await axios.post(`${baseUrl}/v2/users/reservations`, req, {
+    withCredentials: true,
+  });
+
+  return res.data.result;
 };
