@@ -51,8 +51,8 @@ function PetsitterSidebar({ setPrintBody, selectedMonth }: IProps) {
   //     });
   // }, [selectedMonth]);
 
-  const handleApprove = (id: number, data) => {
-    setUseReservations(useReservations.concat(data));
+  const handleApprove = (id: number, reservation: IDogInfo) => {
+    setUseReservations(useReservations.concat(reservation));
   };
 
   const handleRemoveNew = (id: number) => {

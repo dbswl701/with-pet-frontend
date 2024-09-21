@@ -1,31 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import dayjs from 'dayjs';
-import DiaryAdd from './DiaryAdd';
-import Diary from './Diary';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import dayjs from "dayjs";
+import DiaryAdd from "./DiaryAdd";
+import Diary from "./Diary";
 
 function PetList({ id }) {
   const [diaries, setDiaries] = useState([]);
   const [categories, setCategories] = useState([]);
 
   const [petInfo, setPetInfo] = useState({
-    categoryId: '',
-    contentBody: '',
-    createdAt: dayjs(new Date()).format('YYYY-MM-DD'),
-    dogImgToday: '',
-    title: '',
+    categoryId: "",
+    contentBody: "",
+    createdAt: dayjs(new Date()).format("YYYY-MM-DD"),
+    dogImgToday: "",
+    title: "",
   });
 
   const handleImageUpload = async (e) => {
     const img = e.target.files[0];
     const formData = new FormData();
-    formData.append('file', img);
+    formData.append("file", img);
     const config = {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        "Content-Type": "multipart/form-data",
       },
     };
-    axios.post('https://withpet.site/api/v1/file/upload', formData, config)
+    axios
+      .post("https://withpet.site/api/v1/file/upload", formData, config)
       .then((res) => {
         setPetInfo({
           ...petInfo,
@@ -52,32 +53,44 @@ function PetList({ id }) {
       dogId: id,
     };
 
-    axios.post('https://withpet.site/api/v1/petsitter-diaries', pet, { withCredentials: true })
+    axios
+      .post("https://withpet.site/api/v1/petsitter-diaries", pet, {
+        withCredentials: true,
+      })
       .then((res) => {
         setDiaries({
           ...diaries,
-          petSitterDiaryResponses: diaries.petSitterDiaryResponses.concat(res.data.result),
+          petSitterDiaryResponses: diaries.petSitterDiaryResponses.concat(
+            res.data.result
+          ),
         });
       })
-      .catch(() => {
-      });
+      .catch(() => {});
   };
 
   useEffect(() => {
-    axios.get(`https://withpet.site/api/v1/petsitter-diaries?dogId=${id}`, { withCredentials: true })
+    axios
+      .get(`https://withpet.site/api/v1/petsitter-diaries?dogId=${id}`, {
+        withCredentials: true,
+      })
       .then((res) => {
         setDiaries(res.data.result);
       })
-      .catch(() => {
-      });
-    axios.get('https://withpet.site/api/v1/category', { withCredentials: true })
+      .catch(() => {});
+    axios
+      .get("https://withpet.site/api/v1/category", { withCredentials: true })
       .then((res) => {
         setCategories(res.data.result);
       });
   }, []);
 
   const onSubmitModify = (id2, modifyPetInfo) => {
-    axios.put(`https://withpet.site/api/v1/petsitter-diaries/${id2}`, modifyPetInfo, { withCredentials: true })
+    axios
+      .put(
+        `https://withpet.site/api/v1/petsitter-diaries/${id2}`,
+        modifyPetInfo,
+        { withCredentials: true }
+      )
       .then((res) => {
         const updatedPets = diaries.petSitterDiaryResponses.map((pet) => {
           if (pet.petSitterDiaryId === res.data.result.petSitterDiaryId) {
@@ -87,36 +100,62 @@ function PetList({ id }) {
         });
         setDiaries(updatedPets);
       })
-      .catch(() => {
-      });
+      .catch(() => {});
   };
 
   const onCancle = () => {
     setPetInfo({
-      categoryId: '',
-      contentBody: '',
-      createdAt: dayjs(new Date()).format('YYYY-MM-DD'),
-      dogImgToday: '',
-      title: '',
+      categoryId: "",
+      contentBody: "",
+      createdAt: dayjs(new Date()).format("YYYY-MM-DD"),
+      dogImgToday: "",
+      title: "",
     });
   };
   return (
     <>
-      <div style={{
-        margin: '0px auto',
-      }}
-      >
-        <div style={{
-          display: 'flex', flexDirection: 'row', marginTop: '20px', borderBottom: '1.5px solid gray',
+      <div
+        style={{
+          margin: "0px auto",
         }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            marginTop: "20px",
+            borderBottom: "1.5px solid gray",
+          }}
         >
-          <img src={diaries.dogImg} alt="강아지 이미지" style={{ width: '60px', height: '60px' }} />
-          <p style={{ fontSize: '20px', marginLeft: '20px' }}>{diaries.dogName}</p>
+          <img
+            src={diaries.dogImg}
+            alt="강아지 이미지"
+            style={{ width: "60px", height: "60px" }}
+          />
+          <p style={{ fontSize: "20px", marginLeft: "20px" }}>
+            {diaries.dogName}
+          </p>
         </div>
-        <DiaryAdd pets={diaries} setPets={setDiaries} onSubmit={onSubmit} onChange={onChange} petInfo={petInfo} onCancle={onCancle} categories={categories} />
-        {diaries.petSitterDiaryResponses && diaries.petSitterDiaryResponses.map((pet) => {
-          return <Diary pet={pet} key={pet.petSitterDiaryId} onSubmitModify={onSubmitModify} categories={categories} />;
-        })}
+        <DiaryAdd
+          pets={diaries}
+          setPets={setDiaries}
+          onSubmit={onSubmit}
+          onChange={onChange}
+          petInfo={petInfo}
+          onCancle={onCancle}
+          categories={categories}
+        />
+        {diaries.petSitterDiaryResponses &&
+          diaries.petSitterDiaryResponses.map((pet) => {
+            return (
+              <Diary
+                pet={pet}
+                key={pet.petSitterDiaryId}
+                onSubmitModify={onSubmitModify}
+                categories={categories}
+              />
+            );
+          })}
       </div>
     </>
   );
