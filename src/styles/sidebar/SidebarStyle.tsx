@@ -150,7 +150,7 @@ export const CardContainer = styled.div`
 `;
 
 interface IDealt {
-  dealt: boolean;
+  dealt: number;
 }
 export const Dealt = styled.div<IDealt>`
   width: ${(props) => `${props.dealt}%`};
@@ -183,11 +183,7 @@ export const Content = styled.div`
   margin-bottom: 5px;
 `;
 
-interface IButton {
-  check: boolean;
-}
-
-export const Button = styled.button<IButton>`
+export const Button = styled.button`
   width: 190px;
   height: 40px;
   cursor: pointer;
@@ -196,8 +192,8 @@ export const Button = styled.button<IButton>`
   justify-content: center;
   align-items: center;
   margin: 10px 0px 10px 0px;
-  background-color: ${(props) => (props.check ? "#CAA969" : "")};
-  color: ${(props) => (props.check ? "white" : "")};
+  background-color: #caa969;
+  color: white;
 `;
 
 export const Container = styled.div`
