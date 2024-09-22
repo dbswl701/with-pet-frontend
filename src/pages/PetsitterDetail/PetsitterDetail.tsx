@@ -19,6 +19,7 @@ import {
 import { IPetSitterHouses } from "../PetsitterInfoModify/types/petsitter.types";
 import { IPetsitterDetail, IReservationDogs } from "../PetList/types/petsitter";
 import Content from "./Components/Content";
+import baseUrl from "../../services/api";
 
 const Container = styled.div`
   display: flex;
@@ -111,10 +112,10 @@ function PetsitterDetial() {
     //   });
   }, []);
 
-  const onPaying = (reservationId) => {
+  const onPaying = (reservationId: number) => {
     axios
       .post(
-        "https://withpet.site/payment/ready",
+        `https://withpet.info/payment/ready`,
         { reservationId },
         { withCredentials: true }
       )
@@ -146,15 +147,17 @@ function PetsitterDetial() {
       }
     }, 500);
   }, [popup]);
+  console.log("kakao pay info: ", kakaoPay);
 
   useEffect(() => {
     if (!ready) {
       return;
     }
 
+    console.log("kakao pay info222222: ", kakaoPay);
     axios
       .get(
-        `https://withpet.site/payment/success?pg_token=${kakaoPay.pg_token}&tid=${kakaoPay.tid}`,
+        `https://withpet.info/payment/success?pg_token=${kakaoPay.pg_token}&tid=${kakaoPay.tid}`,
         { withCredentials: true }
       )
       .then(() => {
@@ -174,7 +177,7 @@ function PetsitterDetial() {
         height: "300px",
         display: "flex",
         flexDirection: "column",
-        alignTtems: "center",
+        alignItems: "center",
         marginTop: "30%",
         textAlign: "center",
       }}

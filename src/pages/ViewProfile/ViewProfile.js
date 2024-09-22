@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
 const Container = styled.div`
   display: flex;
@@ -59,7 +59,7 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const url = 'https://withpet.site/api/v1/users/my-info';
+const url = "https://withpet.site/api/v1/users/my-info";
 
 function ViewProfile() {
   const [userInfo, setUserInfo] = useState(null);
@@ -104,7 +104,7 @@ function ViewProfile() {
                 <Button
                   type="submit"
                   className="btn"
-                  onClick={() => navigate('../editProfile')}
+                  onClick={() => navigate("../editProfile")}
                 >
                   수정하기
                 </Button>
