@@ -1,7 +1,7 @@
 import React from "react";
 import { ListContainer, Items, Title } from "../../styles/sidebar/SidebarStyle";
-import NewListItem from "./NewListItem";
 import { IDogInfo } from "../../services/petsitterReservation";
+import NewListItem from "./NewListItem";
 
 interface IProps {
   newReservations: IDogInfo[];

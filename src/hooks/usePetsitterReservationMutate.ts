@@ -4,7 +4,7 @@ import {
   getPetsitterReservation,
   IDogInfo,
   patchPetsitterReservationAccept,
-  postPetsitterReservationRefuse,
+  patchPetsitterReservationRefuse,
 } from "../services/petsitterReservation";
 import { toast } from "react-toastify";
 
@@ -30,7 +30,7 @@ export const useGetPetsitterCalendar = (date: string) => {
 };
 
 // 펫시터 캘린더 사이드바 예약 거절
-export const usePostPetsitterReservationRefuse = () => {
+export const usePatchPetsitterReservationRefuse = () => {
   return useMutation({
     mutationFn: ({
       reservationId,
@@ -40,7 +40,7 @@ export const usePostPetsitterReservationRefuse = () => {
       reservationId: number;
       handleRemoveNew: (id: number) => void;
       handleApprove: (id: number, reservation: IDogInfo) => void;
-    }) => postPetsitterReservationRefuse(reservationId),
+    }) => patchPetsitterReservationRefuse(reservationId),
     onError: (error) => {
       console.log("예약 거절 에러", error);
       // toast.error("로그인 실패");
@@ -50,7 +50,7 @@ export const usePostPetsitterReservationRefuse = () => {
       // toast.success(data.data.result);
       toast.success("해당 예약을 거절하였습니다.");
       variables.handleRemoveNew(variables.reservationId);
-      variables.handleApprove(variables.reservationId, data);
+      // variables.handleApprove(variables.reservationId, data);
     },
   });
 };

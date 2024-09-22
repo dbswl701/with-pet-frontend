@@ -17,7 +17,7 @@ import {
 import { IDogInfo } from "../../services/petsitterReservation";
 import {
   usePatchPetsitterReservationAccept,
-  usePostPetsitterReservationRefuse,
+  usePatchPetsitterReservationRefuse,
 } from "../../hooks";
 
 interface IProps {
@@ -26,8 +26,8 @@ interface IProps {
   handleApprove: (id: number, reservation: IDogInfo) => void;
 }
 
-function CurrentListItem({ item, handleRemoveNew, handleApprove }: IProps) {
-  const { mutate: refuseMutate } = usePostPetsitterReservationRefuse();
+function NewListItem({ item, handleRemoveNew, handleApprove }: IProps) {
+  const { mutate: refuseMutate } = usePatchPetsitterReservationRefuse();
   const { mutate: acceptMutate } = usePatchPetsitterReservationAccept();
   const onAccept = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     const reservationStatus = {
@@ -142,4 +142,4 @@ function CurrentListItem({ item, handleRemoveNew, handleApprove }: IProps) {
   );
 }
 
-export default CurrentListItem;
+export default NewListItem;

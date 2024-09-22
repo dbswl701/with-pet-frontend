@@ -61,12 +61,13 @@ function PetsitterSidebar({ setPrintBody, selectedMonth }: IProps) {
     );
   };
 
+  console.log("monthProfit: ", monthProfit);
+
   return (
     <>
       <SideBar>
         <CurrentList
           useReservations={useReservations}
-          setUseReservations={setUseReservations}
           setPrintBody={setPrintBody}
         />
         <NewList
@@ -76,7 +77,6 @@ function PetsitterSidebar({ setPrintBody, selectedMonth }: IProps) {
         />
         <DoneList
           doneReservations={doneReservations}
-          setDoneReservations={setDoneReservations}
           setPrintBody={setPrintBody}
         />
         <Profit monthProfit={monthProfit} />

@@ -54,14 +54,16 @@ export const getPetsitterCalendar = async (date: string) => {
 };
 
 // 펫시터 캘린더 사이드바 예약 거절
-export const postPetsitterReservationRefuse = async (reservationId: number) => {
-  const res = await axios.post(
-    `${baseUrl}/v2/pet-sitters/reservations/reservation-refuse`,
-    reservationId,
+export const patchPetsitterReservationRefuse = async (
+  reservationId: number
+) => {
+  const res = await axios.patch(
+    `${baseUrl}/v2/pet-sitters/reservations/refuse/${reservationId}`,
+    {},
     { withCredentials: true }
   );
 
-  return res.data.result as unknown as IDogInfo;
+  return res.data.result as string;
 };
 
 // 펫시터 캘린더 사이드바 예약 승인
