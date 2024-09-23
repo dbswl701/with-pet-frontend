@@ -44,34 +44,34 @@ function PetsitterCalendar() {
     }
   }, [petsitterReservationData]);
 
-  useEffect(() => {
-    axios
-      .get(
-        `https://withpet.site/api/v1/reservation/petsitter/reservations?month=${selectedMonth}`,
-        { withCredentials: true }
-      )
-      .then((res) => {
-        const { result } = res.data;
-        const filtered = result.filter(
-          (item) => item.reservationStatus !== "CANCEL"
-        );
-        const temp = filtered.map((item) => ({
-          start: new Date(item.checkIn),
-          end: new Date(item.checkOut),
-          color: colorList[(item.dogId % colorList.length) - 1],
-          title: item.dogName,
-          reservationId: item.reservationId,
-        }));
-        setEventsData(temp);
-      })
-      .catch((err) => {
-        if (err.response && err.response.status === 401) {
-          // eslint-disable-next-line no-alert
-          alert("로그인이 필요한 서비스입니다.");
-          navigate("/login");
-        }
-      });
-  }, [selectedMonth]);
+  // useEffect(() => {
+  //   axios
+  //     .get(
+  //       `https://withpet.site/api/v1/reservation/petsitter/reservations?month=${selectedMonth}`,
+  //       { withCredentials: true }
+  //     )
+  //     .then((res) => {
+  //       const { result } = res.data;
+  //       const filtered = result.filter(
+  //         (item) => item.reservationStatus !== "CANCEL"
+  //       );
+  //       const temp = filtered.map((item) => ({
+  //         start: new Date(item.checkIn),
+  //         end: new Date(item.checkOut),
+  //         color: colorList[(item.dogId % colorList.length) - 1],
+  //         title: item.dogName,
+  //         reservationId: item.reservationId,
+  //       }));
+  //       setEventsData(temp);
+  //     })
+  //     .catch((err) => {
+  //       if (err.response && err.response.status === 401) {
+  //         // eslint-disable-next-line no-alert
+  //         alert("로그인이 필요한 서비스입니다.");
+  //         navigate("/login");
+  //       }
+  //     });
+  // }, [selectedMonth]);
 
   let print = <CalendarView />;
   if (printBody[0] === "main") {

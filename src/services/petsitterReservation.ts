@@ -12,8 +12,9 @@ export interface IPetSitterReservationRes {
 
 export interface IPetsitterCalendar {
   doneReservations: IDogInfo[];
-  newReservations: IDogInfo[];
+  payedReservations: IDogInfo[];
   useReservations: IDogInfo[];
+  approvalReservations: IDogInfo[];
   reservationMonthProfit: number;
 }
 

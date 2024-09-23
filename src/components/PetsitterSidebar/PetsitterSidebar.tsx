@@ -7,6 +7,7 @@ import Profit from "./Profit";
 import { SideBar } from "../../styles/sidebar/SidebarStyle";
 import { useGetPetsitterCalendar } from "../../hooks";
 import { IDogInfo } from "../../services/petsitterReservation";
+import ApprovalList from "./ApprovalList";
 
 interface IProps {
   setPrintBody: React.Dispatch<React.SetStateAction<(string | number)[]>>;
@@ -15,8 +16,11 @@ interface IProps {
 
 function PetsitterSidebar({ setPrintBody, selectedMonth }: IProps) {
   const [useReservations, setUseReservations] = useState<IDogInfo[]>([]);
-  const [newReservations, setNewReservations] = useState<IDogInfo[]>([]);
+  const [payedReservations, setPayedReservations] = useState<IDogInfo[]>([]); // new -> payed
   const [doneReservations, setDoneReservations] = useState<IDogInfo[]>([]);
+  const [approvalReservations, setApprovalReservations] = useState<IDogInfo[]>(
+    []
+  );
   const [monthProfit, setMonthProfit] = useState<number>(0);
 
   const { data: petsitterCalendarData } =
@@ -24,8 +28,9 @@ function PetsitterSidebar({ setPrintBody, selectedMonth }: IProps) {
   useEffect(() => {
     if (petsitterCalendarData) {
       setUseReservations(petsitterCalendarData.useReservations);
-      setNewReservations(petsitterCalendarData.newReservations);
+      setPayedReservations(petsitterCalendarData.payedReservations);
       setDoneReservations(petsitterCalendarData.doneReservations);
+      setApprovalReservations(petsitterCalendarData.payedReservations);
       setMonthProfit(petsitterCalendarData.reservationMonthProfit);
     }
   }, [petsitterCalendarData]);
@@ -56,8 +61,8 @@ function PetsitterSidebar({ setPrintBody, selectedMonth }: IProps) {
   };
 
   const handleRemoveNew = (id: number) => {
-    setNewReservations(
-      newReservations.filter((temp) => temp.reservationId !== id)
+    setPayedReservations(
+      payedReservations.filter((temp) => temp.reservationId !== id)
     );
   };
 
@@ -70,8 +75,12 @@ function PetsitterSidebar({ setPrintBody, selectedMonth }: IProps) {
           useReservations={useReservations}
           setPrintBody={setPrintBody}
         />
+        <ApprovalList
+          approvalReservations={approvalReservations}
+          setPrintBody={setPrintBody}
+        />
         <NewList
-          newReservations={newReservations}
+          payedReservations={payedReservations}
           handleRemoveNew={handleRemoveNew}
           handleApprove={handleApprove}
         />

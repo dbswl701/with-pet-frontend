@@ -4,17 +4,21 @@ import { IDogInfo } from "../../services/petsitterReservation";
 import NewListItem from "./NewListItem";
 
 interface IProps {
-  newReservations: IDogInfo[];
+  payedReservations: IDogInfo[];
   handleRemoveNew: (id: number) => void;
   handleApprove: (id: number, reservation: IDogInfo) => void;
 }
 
-function NewList({ newReservations, handleRemoveNew, handleApprove }: IProps) {
+function NewList({
+  payedReservations,
+  handleRemoveNew,
+  handleApprove,
+}: IProps) {
   return (
     <ListContainer className="list">
       <Title>신규 요청 목록</Title>
       <Items>
-        {newReservations.map((currentItem) => {
+        {payedReservations.map((currentItem) => {
           return (
             <NewListItem
               key={currentItem.reservationId}
