@@ -30,7 +30,7 @@ function PetsitterSidebar({ setPrintBody, selectedMonth }: IProps) {
       setUseReservations(petsitterCalendarData.useReservations);
       setPayedReservations(petsitterCalendarData.payedReservations);
       setDoneReservations(petsitterCalendarData.doneReservations);
-      setApprovalReservations(petsitterCalendarData.payedReservations);
+      setApprovalReservations(petsitterCalendarData.approvalReservations);
       setMonthProfit(petsitterCalendarData.reservationMonthProfit);
     }
   }, [petsitterCalendarData]);

@@ -2,6 +2,7 @@ import React from "react";
 import { ListContainer, Items, Title } from "../../styles/sidebar/SidebarStyle";
 import { IDogInfo } from "../../services/petsitterReservation";
 import NewListItem from "./NewListItem";
+import DogListItem from "./DogListItem";
 
 interface IProps {
   payedReservations: IDogInfo[];
@@ -26,6 +27,20 @@ function NewList({
               handleRemoveNew={handleRemoveNew}
               handleApprove={handleApprove}
             />
+            //   <div key={currentItem.reservationId}>
+            //   <DogListItem item={currentItem} setPrintBody={setPrintBody} />
+            //   <button
+            //     style={{
+            //       backgroundColor: "white",
+            //       border: "1px solid #CAA969",
+            //       borderRadius: "10PX",
+            //       cursor: "pointer",
+            //     }}
+            //     onClick={() => setPrintBody(["diary", currentItem.dogId])}
+            //   >
+            //     일지
+            //   </button>
+            // </div>
           );
         })}
       </Items>

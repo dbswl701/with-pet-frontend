@@ -18,6 +18,7 @@ export const SideBar = styled.div`
     background-color: #caa969;
     color: white;
   }
+  // overflow-y: auto;
 `;
 
 export const Title = styled.div`

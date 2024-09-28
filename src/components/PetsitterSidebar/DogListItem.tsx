@@ -18,7 +18,7 @@ interface IProps {
   item: IDogInfo;
   setPrintBody: React.Dispatch<React.SetStateAction<(string | number)[]>>;
 }
-function CurrentListItem({ item, setPrintBody }: IProps) {
+function DogListItem({ item, setPrintBody }: IProps) {
   return (
     <>
       <ItemContainer>
@@ -59,17 +59,6 @@ function CurrentListItem({ item, setPrintBody }: IProps) {
               </Progress>
               <p className="social">{item.dogSocializationDegree}%</p>
             </EvalContainer>
-            <button
-              style={{
-                backgroundColor: "white",
-                border: "1px solid #CAA969",
-                borderRadius: "10PX",
-                cursor: "pointer",
-              }}
-              onClick={() => setPrintBody(["diary", item.dogId])}
-            >
-              일지
-            </button>
           </BarContainer>
         </div>
       </ItemContainer>
@@ -77,4 +66,4 @@ function CurrentListItem({ item, setPrintBody }: IProps) {
   );
 }
 
-export default CurrentListItem;
+export default DogListItem;
