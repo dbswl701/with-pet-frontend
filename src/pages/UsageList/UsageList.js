@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import WaitList from "./WaitList";
-
+import baseUrl from "../../services/api";
 function UsageList() {
   const [waitList, setWaitList] = useState([]);
   const [payedList, setPayedList] = useState([]);
@@ -104,15 +104,16 @@ function UsageList() {
       window.close();
     }
     axios
-      .get("https://withpet.site/api/v1/reservation/user/show-reservations", {
+      // .get("https://withpet.site/api/v1/reservation/user/show-reservations", {
+      .get(`${baseUrl}/v2/users/reservations`, {
         withCredentials: true,
       })
       .then((res) => {
-        setWaitList(res.data.result.waitReservations);
-        setPayedList(res.data.result.payedReservations);
-        setApproveList(res.data.result.approveReservations);
-        setUseList(res.data.result.useReservations);
-        setDoneList(res.data.result.doneReservations);
+        setWaitList(res.data.result.reservationWaitStatusList);
+        setPayedList(res.data.result.reservationPayedStatusList);
+        setApproveList(res.data.result.reservationApproveStatusList);
+        setUseList(res.data.result.reservationUseStatusList);
+        setDoneList(res.data.result.reservationDoneStatusList);
       });
   }, []);
 
